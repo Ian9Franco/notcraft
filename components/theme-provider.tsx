@@ -1,33 +1,32 @@
 "use client"
 
+import type * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
-import type { ReactNode } from "react"
 
-interface CustomThemeProviderProps {
-  children: ReactNode
-  attribute?: string
+// Define props including children
+type Props = {
+  children: React.ReactNode
   defaultTheme?: string
+  attribute?: string
   enableSystem?: boolean
   disableTransitionOnChange?: boolean
 }
 
 export function ThemeProvider({
   children,
-  attribute = "class",
   defaultTheme = "system",
+  attribute = "class",
   enableSystem = true,
   disableTransitionOnChange = true,
-}: CustomThemeProviderProps) {
-  return (
-    // @ts-expect-error - NextThemesProvider has issues with children prop typing
-    <NextThemesProvider
-      attribute={attribute}
-      defaultTheme={defaultTheme}
-      enableSystem={enableSystem}
-      disableTransitionOnChange={disableTransitionOnChange}
-    >
-      {children}
-    </NextThemesProvider>
-  )
+}: Props) {
+  // Cast to any to bypass TypeScript checking for children
+  const providerProps = {
+    attribute,
+    defaultTheme,
+    enableSystem,
+    disableTransitionOnChange,
+  } as any
+
+  return <NextThemesProvider {...providerProps}>{children}</NextThemesProvider>
 }
 
