@@ -11,7 +11,7 @@ const nextConfig = {
     ],
   },
   webpack: (config, { isServer }) => {
-    // Solución para el problema de Firebase con Next.js
+    // Fix for Firebase
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -24,42 +24,24 @@ const nextConfig = {
       }
     }
 
-    // Fix for Three.js and undici
-    config.module.rules.unshift({
-      test: /\.m?js$/,
-      type: "javascript/auto",
-      resolve: {
-        fullySpecified: false,
-      },
-    })
-
-    // Exclude undici from being processed by Next.js
-    config.module.rules.push({
-      test: /node_modules\/undici\/.*\.js$/,
-      use: ["next-swc-loader"],
-      type: "javascript/auto",
-      resolve: {
-        fullySpecified: false,
-      },
-    })
-
-    // Transpile the modules that need it
-    config.module.rules.push({
-      test: /node_modules\/(firebase|@firebase|three)\/.*\.js$/,
-      use: ["next-swc-loader"],
-      type: "javascript/auto",
-      resolve: {
-        fullySpecified: false,
-      },
+    // Remove the problematic swc-loader for Firebase modules
+    config.module.rules.forEach((rule) => {
+      const { test, use } = rule
+      if (test?.test?.("module.js") || test?.test?.("module.mjs")) {
+        if (Array.isArray(use)) {
+          rule.use = use.filter((u) => !u.loader?.includes("next-swc-loader"))
+        }
+      }
     })
 
     return config
   },
-  // Add experimental flag to handle modern JavaScript features
+  // Disable experimental features that might cause issues
   experimental: {
-    serverComponentsExternalPackages: ["undici"],
+    esmExternals: "loose", // This helps with ESM compatibility
   },
-  transpilePackages: ["firebase", "@firebase", "three"],
+  // Disable transpilation of Firebase packages
+  transpilePackages: ["three"], // Keep three.js but remove Firebase
 }
 
 module.exports = nextConfig
