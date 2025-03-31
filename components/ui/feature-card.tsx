@@ -12,17 +12,12 @@ export function FeatureCard({ title, description, imageSrc, className }: Feature
   return (
     <div
       className={cn(
-        "group bg-secondary/80 border border-border rounded-md overflow-hidden transition-all duration-300 hover:border-accent hover-effect container-reflection",
+        "group bg-secondary/80 border border-border rounded-md overflow-hidden transition-all duration-300",
         className,
       )}
     >
       <div className="relative h-48 overflow-hidden">
-        <Image
-          src={imageSrc || "/placeholder.svg"}
-          alt={title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-        />
+        <Image src={imageSrc || "/placeholder.svg"} alt={title} fill className="object-cover" />
       </div>
       <div className="p-4">
         <h3 className="font-title text-xl text-accent mb-2">{title}</h3>

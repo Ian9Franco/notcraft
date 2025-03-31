@@ -9,6 +9,7 @@ const nextConfig = {
         hostname: "**",
       },
     ],
+    unoptimized: true, // Esto es importante para la exportación estática
   },
   webpack: (config, { isServer }) => {
     // Fix for Firebase
@@ -24,16 +25,6 @@ const nextConfig = {
       }
     }
 
-    // Remove the problematic swc-loader for Firebase modules
-    config.module.rules.forEach((rule) => {
-      const { test, use } = rule
-      if (test?.test?.("module.js") || test?.test?.("module.mjs")) {
-        if (Array.isArray(use)) {
-          rule.use = use.filter((u) => !u.loader?.includes("next-swc-loader"))
-        }
-      }
-    })
-
     return config
   },
   // Disable experimental features that might cause issues
@@ -42,6 +33,13 @@ const nextConfig = {
   },
   // Disable transpilation of Firebase packages
   transpilePackages: ["three"], // Keep three.js but remove Firebase
+
+  // Configuración para output estático
+  output: "export",
+  distDir: "out",
+
+  // Desactivar la generación estática incremental
+  staticPageGenerationTimeout: 120,
 }
 
 module.exports = nextConfig

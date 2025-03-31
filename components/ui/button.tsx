@@ -40,10 +40,14 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, leftIcon, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+
+    // Asegurarse de que children sea un elemento válido
+    const validChildren = children || null
+
     return (
       <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
         {leftIcon && <span className="mr-2">{leftIcon}</span>}
-        {children}
+        {validChildren}
       </Comp>
     )
   },
