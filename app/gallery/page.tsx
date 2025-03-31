@@ -3,17 +3,19 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import { useUser } from "@/context/user-context"
 import { collection, addDoc, getDocs, query, orderBy, limit, Timestamp } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { db, storage } from "@/lib/firebase"
 import { SectionHeader } from "@/components/ui/section-header"
-import { Button } from "@/components/ui/button"
+import { GameButton } from "@/components/ui/game-button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Card } from "@/components/ui/card"
-import { Loader2, Upload, Camera } from "lucide-react"
+import { GameCard } from "@/components/ui/game-card"
+import ScrollReveal from "@/components/scroll-reveal"
+import { Loader2, Upload, Camera, X, LogIn } from "lucide-react"
 
 interface GalleryImage {
   id: string
@@ -32,6 +34,7 @@ export default function GalleryPage() {
   const [isUploading, setIsUploading] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
 
   // Fetch gallery images
   useEffect(() => {
@@ -72,6 +75,12 @@ export default function GalleryPage() {
       }
       reader.readAsDataURL(file)
     }
+  }
+
+  // Clear selected file
+  const clearSelectedFile = () => {
+    setSelectedFile(null)
+    setPreviewUrl(null)
   }
 
   // Handle upload
@@ -150,97 +159,103 @@ export default function GalleryPage() {
 
   return (
     <div className="space-y-12 py-6">
-      <SectionHeader
-        title="Galería"
-        subtitle="Comparte y descubre impresionantes capturas de nuestro servidor de Minecraft."
-      />
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <SectionHeader
+          title="Galería"
+          subtitle="Comparte y descubre impresionantes capturas de nuestro servidor de Minecraft."
+        />
+      </motion.div>
 
       {/* Upload Section */}
-      <section className="bg-secondary/50 border border-border rounded-lg p-6 max-w-3xl mx-auto fade-in-section hover-effect glass-effect">
-        <h3 className="font-minecraft text-xl text-accent mb-4">Subir Imagen</h3>
+      <ScrollReveal>
+        <GameCard className="max-w-3xl mx-auto" borderGlow>
+          <h3 className="font-minecraft text-xl text-accent mb-4">Subir Imagen</h3>
 
-        {!user ? (
-          <div className="text-center">
-            <p className="text-muted-foreground mb-4">Inicia sesión para subir tus capturas de pantalla</p>
-            <Button onClick={signInWithGoogle} className="minecraft-style button-glow">
-              <span>Iniciar Sesión con Google</span>
-            </Button>
-          </div>
-        ) : (
-          <form onSubmit={handleUpload} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Imagen (PNG, JPG)</label>
-                  <div className="relative">
-                    <Input
-                      type="file"
-                      accept="image/png, image/jpeg"
-                      onChange={handleFileChange}
-                      disabled={isUploading}
-                      className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10"
-                    />
-                    <Button
-                      variant="outline"
-                      className="w-full flex items-center justify-center"
-                      disabled={isUploading}
-                    >
-                      <Camera className="mr-2 h-4 w-4" />
-                      <span>{selectedFile ? "Cambiar imagen" : "Seleccionar imagen"}</span>
-                    </Button>
+          {!user ? (
+            <div className="text-center py-6">
+              <p className="text-muted-foreground mb-4">Inicia sesión para subir tus capturas de pantalla</p>
+              <GameButton onClick={signInWithGoogle} variant="accent" icon={<LogIn className="h-5 w-5" />}>
+                Iniciar Sesión con Google
+              </GameButton>
+            </div>
+          ) : (
+            <form onSubmit={handleUpload} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Imagen (PNG, JPG)</label>
+                    <div className="relative">
+                      <Input
+                        type="file"
+                        accept="image/png, image/jpeg"
+                        onChange={handleFileChange}
+                        disabled={isUploading}
+                        className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10"
+                      />
+                      <GameButton
+                        variant="outline"
+                        fullWidth
+                        disabled={isUploading}
+                        icon={<Camera className="h-5 w-5" />}
+                      >
+                        {selectedFile ? "Cambiar imagen" : "Seleccionar imagen"}
+                      </GameButton>
+                    </div>
                   </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Descripción <span className="text-xs text-muted-foreground">(máx. 50 caracteres)</span>
+                    </label>
+                    <Textarea
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      maxLength={50}
+                      placeholder="Describe tu imagen"
+                      disabled={isUploading}
+                      className="resize-none"
+                    />
+                    <div className="text-right text-xs text-muted-foreground mt-1">{description.length}/50</div>
+                  </div>
+
+                  <button type="submit" className="w-full">
+                    <GameButton
+                      variant="accent"
+                      fullWidth
+                      disabled={!selectedFile || isUploading}
+                      icon={isUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Upload className="h-5 w-5" />}
+                    >
+                      {isUploading ? "Subiendo..." : "Subir Imagen"}
+                    </GameButton>
+                  </button>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Descripción <span className="text-xs text-muted-foreground">(máx. 50 caracteres)</span>
-                  </label>
-                  <Textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    maxLength={50}
-                    placeholder="Describe tu imagen"
-                    disabled={isUploading}
-                    className="resize-none"
-                  />
-                  <div className="text-right text-xs text-muted-foreground mt-1">{description.length}/50</div>
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full minecraft-style button-glow"
-                  disabled={!selectedFile || isUploading}
-                >
-                  {isUploading ? (
+                <div className="flex items-center justify-center border border-border rounded-md bg-background/50 p-2 h-[200px] relative">
+                  {previewUrl ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      <span>Subiendo...</span>
+                      <div className="relative w-full h-full">
+                        <Image src={previewUrl || "/placeholder.svg"} alt="Preview" fill className="object-contain" />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={clearSelectedFile}
+                        className="absolute top-2 right-2 bg-background/80 p-1 rounded-full hover:bg-background"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
                     </>
                   ) : (
-                    <>
-                      <Upload className="mr-2 h-4 w-4" />
-                      <span>Subir Imagen</span>
-                    </>
+                    <p className="text-sm text-muted-foreground">Vista previa de la imagen</p>
                   )}
-                </Button>
+                </div>
               </div>
-
-              <div className="flex items-center justify-center border border-border rounded-md bg-background/50 p-2 h-[200px]">
-                {previewUrl ? (
-                  <div className="relative w-full h-full">
-                    <Image src={previewUrl || "/placeholder.svg"} alt="Preview" fill className="object-contain" />
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">Vista previa de la imagen</p>
-                )}
-              </div>
-            </div>
-          </form>
-        )}
-      </section>
+            </form>
+          )}
+        </GameCard>
+      </ScrollReveal>
 
       {/* Gallery Grid */}
-      <section className="fade-in-section">
+      <ScrollReveal direction="up">
         {isLoading ? (
           <div className="flex justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-accent" />
@@ -252,27 +267,71 @@ export default function GalleryPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {images.map((image, index) => (
-              <Card
+              <motion.div
                 key={image.id}
-                className="polaroid overflow-hidden bg-white border-0 hover-effect"
-                style={{ animationDelay: `${index * 100}ms` }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+                onClick={() => setSelectedImage(image)}
               >
-                <figure>
-                  <div className="relative h-48 md:h-56">
+                <GameCard className="overflow-hidden cursor-pointer h-full">
+                  <div className="relative h-48 md:h-56 mb-2">
                     <Image
                       src={image.imageUrl || "/placeholder.svg"}
                       alt={image.description}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-500 hover:scale-105"
                     />
                   </div>
-                  <figcaption>{image.description || "Sin descripción"}</figcaption>
-                </figure>
-              </Card>
+                  <p className="text-center font-minecraft text-sm">{image.description || "Sin descripción"}</p>
+                </GameCard>
+              </motion.div>
             ))}
           </div>
         )}
-      </section>
+      </ScrollReveal>
+
+      {/* Image Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+          >
+            <motion.div
+              className="relative max-w-4xl max-h-[90vh] w-full bg-background rounded-lg overflow-hidden"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="absolute top-4 right-4 z-10 bg-background/80 p-2 rounded-full"
+                onClick={() => setSelectedImage(null)}
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="relative h-[70vh]">
+                <Image
+                  src={selectedImage.imageUrl || "/placeholder.svg"}
+                  alt={selectedImage.description}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+
+              <div className="p-4 bg-background">
+                <p className="font-minecraft text-lg text-accent">{selectedImage.description || "Sin descripción"}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

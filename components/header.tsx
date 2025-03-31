@@ -1,34 +1,21 @@
 "use client"
-
-import type React from "react"
-
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, CuboidIcon as Cube } from "lucide-react"
+import { motion } from "framer-motion"
+import { Menu, X, CuboidIcon as Cube, Sun, Moon } from "lucide-react"
+import { useTheme } from "next-themes"
 import AnimatedLogo from "./animated-logo"
-
-const NavLink = ({ href, children, isActive }: { href: string; children: React.ReactNode; isActive: boolean }) => (
-  <Link
-    href={href}
-    className={`relative font-title text-foreground hover:text-accent transition-colors duration-200 py-2 px-4 group ${
-      isActive ? "text-accent" : ""
-    }`}
-  >
-    <span>{children}</span>
-    <span
-      className={`absolute bottom-0 left-1/2 w-0 h-0.5 bg-accent transition-all duration-300 transform -translate-x-1/2 group-hover:w-full ${
-        isActive ? "w-full" : ""
-      }`}
-    ></span>
-  </Link>
-)
+import { useUser } from "@/context/user-context"
+import { Button } from "@/components/ui/button"
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const pathname = usePathname()
+  const { theme, setTheme } = useTheme()
+  const { user, signInWithGoogle, logout } = useUser()
 
   useEffect(() => {
     setIsMounted(true)
@@ -51,16 +38,21 @@ export default function Header() {
     setIsOpen(!isOpen)
   }
 
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
+
   return (
     <header
-      className={`bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50 transition-all duration-300 ${
+      className={`bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-40 transition-all duration-300 ${
         scrolled ? "py-2 shadow-md" : "py-3"
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 md:w-12 md:h-12 relative flex items-center justify-center">
+          {/* Logo - visible only on mobile */}
+          <Link href="/" className="md:hidden flex items-center space-x-2">
+            <div className="w-10 h-10 relative flex items-center justify-center">
               {isMounted ? (
                 <AnimatedLogo />
               ) : (
@@ -69,62 +61,102 @@ export default function Header() {
                 </div>
               )}
             </div>
-            <span className="font-title text-xl md:text-2xl text-accent tracking-wider">Netherious</span>
+            <span className="font-title text-xl text-accent tracking-wider">Netherious</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
-            <NavLink href="/" isActive={pathname === "/"}>
-              Inicio
-            </NavLink>
-            <NavLink href="/modpack" isActive={pathname === "/modpack"}>
-              Modpack
-            </NavLink>
-            <NavLink href="/resource-packs" isActive={pathname === "/resource-packs"}>
-              Resource Packs
-            </NavLink>
-            <NavLink href="/server-info" isActive={pathname === "/server-info"}>
-              Server Info
-            </NavLink>
-            <NavLink href="/gallery" isActive={pathname === "/gallery"}>
-              Galería
-            </NavLink>
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMenu}
-            className="md:hidden text-foreground hover:text-accent transition-colors"
-            aria-label={isOpen ? "Close Menu" : "Open Menu"}
+          {/* Page title - visible on all devices */}
+          <motion.h1
+            className="text-xl font-title text-foreground hidden md:block"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {pathname === "/"
+              ? "Inicio"
+              : pathname === "/modpack"
+                ? "Modpack"
+                : pathname === "/resource-packs"
+                  ? "Resource Packs"
+                  : pathname === "/server-info"
+                    ? "Server Info"
+                    : pathname === "/gallery"
+                      ? "Galería"
+                      : "Netherious"}
+          </motion.h1>
+
+          {/* Right side controls */}
+          <div className="flex items-center gap-2">
+            {/* Theme toggle */}
+            <motion.button
+              onClick={toggleTheme}
+              className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            </motion.button>
+
+            {/* User login/profile */}
+            {user ? (
+              <div className="flex items-center gap-2">
+                <img
+                  src={user.photoURL || "/placeholder.svg?height=32&width=32"}
+                  alt={user.displayName || "Usuario"}
+                  className="w-8 h-8 rounded-full border border-border"
+                />
+                <Button variant="ghost" size="sm" onClick={logout} className="hidden md:inline-flex">
+                  Cerrar sesión
+                </Button>
+              </div>
+            ) : (
+              <Button variant="outline" size="sm" onClick={signInWithGoogle} className="hidden md:inline-flex">
+                Iniciar sesión
+              </Button>
+            )}
+
+            {/* Mobile menu button - only visible on mobile */}
+            <button
+              onClick={toggleMenu}
+              className="md:hidden text-foreground hover:text-accent transition-colors"
+              aria-label={isOpen ? "Close Menu" : "Open Menu"}
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - only visible when menu is open */}
       {isOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-sm border-t border-border/30 animate-in slide-in-from-top">
-          <div className="container mx-auto px-4 py-2">
-            <nav className="flex flex-col">
-              <NavLink href="/" isActive={pathname === "/"}>
-                Inicio
-              </NavLink>
-              <NavLink href="/modpack" isActive={pathname === "/modpack"}>
-                Modpack
-              </NavLink>
-              <NavLink href="/resource-packs" isActive={pathname === "/resource-packs"}>
-                Resource Packs
-              </NavLink>
-              <NavLink href="/server-info" isActive={pathname === "/server-info"}>
-                Server Info
-              </NavLink>
-              <NavLink href="/gallery" isActive={pathname === "/gallery"}>
-                Galería
-              </NavLink>
-            </nav>
+        <motion.div
+          className="md:hidden bg-background/95 backdrop-blur-sm border-t border-border/30"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="container mx-auto px-4 py-4">
+            {!user ? (
+              <Button variant="outline" size="sm" onClick={signInWithGoogle} className="w-full mb-4">
+                Iniciar sesión con Google
+              </Button>
+            ) : (
+              <div className="flex items-center justify-between mb-4 p-2 bg-secondary/30 rounded-md">
+                <div className="flex items-center gap-2">
+                  <img
+                    src={user.photoURL || "/placeholder.svg?height=32&width=32"}
+                    alt={user.displayName || "Usuario"}
+                    className="w-8 h-8 rounded-full border border-border"
+                  />
+                  <span className="text-sm">{user.displayName}</span>
+                </div>
+                <Button variant="ghost" size="sm" onClick={logout}>
+                  Salir
+                </Button>
+              </div>
+            )}
           </div>
-        </div>
+        </motion.div>
       )}
     </header>
   )

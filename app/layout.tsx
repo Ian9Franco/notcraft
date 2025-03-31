@@ -6,7 +6,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { UserProvider } from "@/context/user-context"
-import ScrollAnimation from "@/components/scroll-animation"
+import SidebarNavigation from "@/components/sidebar-navigation"
+import MobileNavigation from "@/components/mobile-navigation"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -28,12 +30,17 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <UserProvider>
-            <div className="min-h-screen flex flex-col">
-              <Header />
-              <main className="flex-1 container mx-auto p-4 md:p-6 page-transition-wrapper">{validChildren}</main>
-              <Footer />
-            </div>
-            <ScrollAnimation />
+            <TooltipProvider>
+              <div className="flex min-h-screen">
+                <SidebarNavigation />
+                <div className="flex-1 flex flex-col min-h-screen">
+                  <Header />
+                  <main className="flex-1 container mx-auto p-4 md:p-6 pb-20 md:pb-6">{validChildren}</main>
+                  <Footer />
+                  <MobileNavigation />
+                </div>
+              </div>
+            </TooltipProvider>
           </UserProvider>
         </ThemeProvider>
       </body>
