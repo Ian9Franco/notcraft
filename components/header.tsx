@@ -2,46 +2,90 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
+import AnimatedLogo from "./animated-logo"
 
-const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <Link href={href} className="text-foreground hover:text-accent transition-colors duration-200 font-pixel py-2 px-4">
-    {children}
+const NavLink = ({ href, children, isActive }: { href: string; children: React.ReactNode; isActive: boolean }) => (
+  <Link
+    href={href}
+    className={`relative font-title text-foreground hover:text-accent transition-colors duration-200 py-2 px-4 group ${
+      isActive ? "text-accent" : ""
+    }`}
+  >
+    <span>{children}</span>
+    <span
+      className={`absolute bottom-0 left-1/2 w-0 h-0.5 bg-accent transition-all duration-300 transform -translate-x-1/2 group-hover:w-full ${
+        isActive ? "w-full" : ""
+      }`}
+    ></span>
   </Link>
 )
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
   }
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true)
+      } else {
+        setScrolled(false)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+
   return (
-    <header className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-3">
+    <header
+      className={`bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50 transition-all duration-300 ${
+        scrolled ? "py-2 shadow-md" : "py-3"
+      }`}
+    >
+      <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center space-x-2">
-            <Image src="/images/logo.png" alt="Minecraft Server Logo" width={40} height={40} className="pixelated" />
-            <span className="minecraft-style text-xl md:text-2xl text-accent">Minecraft Server</span>
+            <div className="w-10 h-10 md:w-12 md:h-12">
+              <AnimatedLogo />
+            </div>
+            <span className="font-title text-xl md:text-2xl text-accent tracking-wider">Netherious</span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
-            <NavLink href="/">Inicio</NavLink>
-            <NavLink href="/modpack">Modpack</NavLink>
-            <NavLink href="/resource-packs">Resource Packs</NavLink>
-            <NavLink href="/server-info">Server Info</NavLink>
-            <NavLink href="/gallery">Galería</NavLink>
+            <NavLink href="/" isActive={pathname === "/"}>
+              Inicio
+            </NavLink>
+            <NavLink href="/modpack" isActive={pathname === "/modpack"}>
+              Modpack
+            </NavLink>
+            <NavLink href="/resource-packs" isActive={pathname === "/resource-packs"}>
+              Resource Packs
+            </NavLink>
+            <NavLink href="/server-info" isActive={pathname === "/server-info"}>
+              Server Info
+            </NavLink>
+            <NavLink href="/gallery" isActive={pathname === "/gallery"}>
+              Galería
+            </NavLink>
           </nav>
 
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="md:hidden text-foreground hover:text-accent"
+            className="md:hidden text-foreground hover:text-accent transition-colors"
             aria-label={isOpen ? "Close Menu" : "Open Menu"}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -51,14 +95,24 @@ export default function Header() {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-sm">
+        <div className="md:hidden bg-background/95 backdrop-blur-sm border-t border-border/30 animate-in slide-in-from-top">
           <div className="container mx-auto px-4 py-2">
             <nav className="flex flex-col">
-              <NavLink href="/">Inicio</NavLink>
-              <NavLink href="/modpack">Modpack</NavLink>
-              <NavLink href="/resource-packs">Resource Packs</NavLink>
-              <NavLink href="/server-info">Server Info</NavLink>
-              <NavLink href="/gallery">Galería</NavLink>
+              <NavLink href="/" isActive={pathname === "/"}>
+                Inicio
+              </NavLink>
+              <NavLink href="/modpack" isActive={pathname === "/modpack"}>
+                Modpack
+              </NavLink>
+              <NavLink href="/resource-packs" isActive={pathname === "/resource-packs"}>
+                Resource Packs
+              </NavLink>
+              <NavLink href="/server-info" isActive={pathname === "/server-info"}>
+                Server Info
+              </NavLink>
+              <NavLink href="/gallery" isActive={pathname === "/gallery"}>
+                Galería
+              </NavLink>
             </nav>
           </div>
         </div>

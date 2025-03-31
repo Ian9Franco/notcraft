@@ -2,9 +2,9 @@
 
 import { SectionHeader } from "@/components/ui/section-header"
 import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/client-tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Copy } from "lucide-react"
+import ClientCopyButton from "@/components/client-copy-button"
 
 // Seasons data
 const seasons = [
@@ -36,30 +36,19 @@ export default function ServerInfoPage() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <Card className="bg-secondary/70 border-border hover-effect">
+          <Card className="bg-secondary/70 border-border hover-effect glass-effect">
             <CardHeader>
-              <CardTitle className="font-minecraft text-xl text-accent">IP del Servidor</CardTitle>
+              <CardTitle className="font-title text-xl text-accent">IP del Servidor</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="bg-background p-3 rounded-md font-minecraft text-center flex items-center justify-between">
-                <span>play.minecraftserver.com</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0"
-                  onClick={() => {
-                    navigator.clipboard.writeText("play.minecraftserver.com")
-                    alert("IP copiada al portapapeles")
-                  }}
-                >
-                  <span className="sr-only">Copiar</span>
-                  <Copy className="h-4 w-4" />
-                </Button>
+                <span>play.netherious.com</span>
+                <ClientCopyButton text="play.netherious.com" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-secondary/70 border-border hover-effect">
+          <Card className="bg-secondary/70 border-border hover-effect glass-effect">
             <CardHeader>
               <CardTitle className="font-minecraft text-xl text-accent">Versión</CardTitle>
             </CardHeader>
@@ -71,7 +60,7 @@ export default function ServerInfoPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-secondary/70 border-border hover-effect">
+          <Card className="bg-secondary/70 border-border hover-effect glass-effect">
             <CardHeader>
               <CardTitle className="font-minecraft text-xl text-accent">Estado</CardTitle>
             </CardHeader>
@@ -88,7 +77,7 @@ export default function ServerInfoPage() {
       <section className="fade-in-section">
         <SectionHeader title="Anuncios" />
 
-        <Card className="bg-secondary/70 border-border max-w-4xl mx-auto hover-effect">
+        <Card className="bg-secondary/70 border-border max-w-4xl mx-auto hover-effect glass-effect">
           <CardHeader>
             <CardTitle className="font-minecraft text-xl text-accent">Mantenimiento Programado</CardTitle>
             <CardDescription>28 de Marzo, 2025</CardDescription>
@@ -104,7 +93,7 @@ export default function ServerInfoPage() {
 
       <section className="fade-in-section">
         <SectionHeader
-          title="Temporadas"
+          title="Temporadas de Netherious"
           subtitle="Nuestro servidor está dividido en temporadas, cada una con su propia historia y temática."
         />
 
@@ -124,7 +113,7 @@ export default function ServerInfoPage() {
 
           {seasons.map((season) => (
             <TabsContent key={season.number} value={`season${season.number}`} className="fade-in">
-              <Card className="bg-secondary/70 border-border hover-effect">
+              <Card className="bg-secondary/70 border-border hover-effect glass-effect">
                 <CardHeader>
                   <CardTitle className="font-minecraft text-2xl text-accent">
                     Temporada {season.number}: {season.title}
@@ -136,9 +125,7 @@ export default function ServerInfoPage() {
                 <CardContent>
                   <p className="text-muted-foreground mb-4">{season.description}</p>
                   {season.playerCount > 0 && (
-                    <Button className="minecraft-style button-glow">
-                      <span>Unirse a Temporada {season.number}</span>
-                    </Button>
+                    <Button className="font-minecraft button-glow">Unirse a Temporada {season.number}</Button>
                   )}
                 </CardContent>
               </Card>

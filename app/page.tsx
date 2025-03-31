@@ -67,7 +67,7 @@ export default function Home() {
       </section>
 
       {/* Server Promo Section */}
-      <section className="bg-secondary/50 border border-border rounded-lg p-6 md:p-8 fade-in-section hover-effect">
+      <section className="bg-secondary/50 border border-border rounded-lg p-6 md:p-8 fade-in-section hover-effect glass-effect">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
             <SectionHeader
@@ -97,4 +97,3 @@ export default function Home() {
     </div>
   )
 }
-

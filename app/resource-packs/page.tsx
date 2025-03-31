@@ -42,11 +42,11 @@ export default function ResourcePacksPage() {
         subtitle="Estos resource packs están recomendados para mejorar tu experiencia visual en nuestro servidor."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in-section">
         {resourcePacks.map((pack, index) => (
           <Card
             key={index}
-            className="bg-secondary/70 overflow-hidden border-border hover:border-accent transition-colors duration-300"
+            className="bg-secondary/70 overflow-hidden border-border hover:border-accent transition-colors duration-300 glass-effect hover-effect"
           >
             <div className="relative h-48">
               <Image
@@ -61,7 +61,6 @@ export default function ResourcePacksPage() {
               <CardDescription>{pack.description}</CardDescription>
             </CardHeader>
             <CardFooter>
-              {/* Botón corregido */}
               <Button variant="outline" className="w-full minecraft-style">
                 <a
                   href={pack.downloadUrl}
@@ -78,7 +77,7 @@ export default function ResourcePacksPage() {
         ))}
       </div>
 
-      <div className="mt-8 p-6 bg-secondary/50 border border-border rounded-lg">
+      <div className="mt-8 p-6 bg-secondary/50 border border-border rounded-lg fade-in-section glass-effect">
         <h3 className="font-minecraft text-xl text-primary mb-4">Cómo Instalar Resource Packs</h3>
         <ol className="space-y-4 text-muted-foreground">
           <li className="flex gap-2">

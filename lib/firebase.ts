@@ -1,7 +1,8 @@
 import { initializeApp, getApps } from "firebase/app"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
-import { getStorage } from "firebase/storage"
+// Importación de getStorage comentada para evitar problemas en tiempo de compilación
+// import { getStorage } from "firebase/storage"
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -19,5 +20,14 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0
 // Exportar servicios de Firebase
 export const auth = getAuth(app)
 export const db = getFirestore(app)
-export const storage = getStorage(app)
 
+// Exportar storage solo si estamos en el cliente
+let storage: any = null;
+if (typeof window !== 'undefined') {
+  const initStorage = async () => {
+    const { getStorage } = await import('firebase/storage');
+    storage = getStorage(app);
+  };
+  initStorage();
+}
+export { storage };

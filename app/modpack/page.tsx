@@ -2,9 +2,9 @@
 
 import { SectionHeader } from "@/components/ui/section-header"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/client-tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Download, ExternalLink } from "lucide-react"
+import { Download, ExternalLink, Check } from "lucide-react"
 
 // Required mods data
 const requiredMods = [
@@ -37,6 +37,13 @@ const optionalMods = {
   ],
 }
 
+// Modpack versions
+const modpackVersions = [
+  { name: "Forge", version: "1.20.1", available: true },
+  { name: "Fabric", version: "1.20.1", available: false },
+  { name: "NeoForge", version: "1.20.1", available: false },
+]
+
 export default function ModpackPage() {
   return (
     <div className="space-y-12 py-6">
@@ -47,23 +54,24 @@ export default function ModpackPage() {
       />
 
       <div className="max-w-3xl mx-auto">
-        <Card className="bg-secondary/70 border-border">
+        <Card className="bg-secondary/70 border-border glass-effect border-glow">
           <CardHeader>
             <CardTitle className="minecraft-style text-2xl text-accent">Cómo Instalar</CardTitle>
             <CardDescription>Sigue estos pasos para instalar nuestro modpack</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6">
             <div className="space-y-2">
-              <h3 className="font-minecraft text-lg text-primary">1. Descarga CurseForge</h3>
+              <h3 className="font-minecraft text-lg text-primary">1. Instala Forge</h3>
               <p className="text-sm text-muted-foreground">
-                CurseForge te permitirá instalar el modpack con un solo clic.
+                Primero necesitas instalar Forge 1.20.1 en tu Minecraft. Descárgalo desde el sitio oficial y sigue las
+                instrucciones de instalación.
                 <a
-                  href="https://download.curseforge.com/"
+                  href="https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.1.html"
                   className="text-primary hover:text-accent ml-2 underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Descargar CurseForge
+                  Descargar Forge
                 </a>
               </p>
             </div>
@@ -71,30 +79,69 @@ export default function ModpackPage() {
             <div className="space-y-2">
               <h3 className="font-minecraft text-lg text-primary">2. Descarga el Modpack</h3>
               <p className="text-sm text-muted-foreground">
-                Descarga el archivo ZIP del modpack completo desde nuestro Google Drive.
+                Descarga el archivo ZIP del modpack completo desde nuestro servidor. Actualmente solo está disponible la
+                versión para Forge 1.20.1.
               </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                {modpackVersions.map((version, index) => (
+                  <Card
+                    key={index}
+                    className={`bg-secondary/30 border-border ${version.available ? "hover-effect" : "opacity-60"}`}
+                  >
+                    <CardHeader className="p-4">
+                      <CardTitle className="font-minecraft text-lg text-accent flex items-center justify-between">
+                        {version.name}
+                        {version.available && <Check className="h-4 w-4 text-green-500" />}
+                      </CardTitle>
+                      <CardDescription>{version.version}</CardDescription>
+                    </CardHeader>
+                    <CardFooter className="p-4 pt-0">
+                      <Button
+                        variant={version.available ? "default" : "outline"}
+                        size="sm"
+                        className="w-full minecraft-style"
+                        disabled={!version.available}
+                      >
+                        <a
+                          href={
+                            version.available
+                              ? `https://drive.google.com/uc?export=download&id=${version.name.toUpperCase()}_MODPACK_ID`
+                              : "#"
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center w-full"
+                        >
+                          <Download className="mr-2 h-4 w-4" />
+                          <span>Descargar</span>
+                        </a>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-minecraft text-lg text-primary">3. Instala el Modpack</h3>
+              <h3 className="font-minecraft text-lg text-primary">3. Instala los Mods</h3>
               <p className="text-sm text-muted-foreground">
-                Abre CurseForge, haz clic en &quot;Minecraft&quot; y luego en &quot;Crear Perfil Personalizado&quot;.
-                Importa el archivo ZIP descargado.
+                Descomprime el archivo ZIP descargado y coloca todos los archivos .jar en la carpeta{" "}
+                <code className="bg-background/70 px-2 py-1 rounded">.minecraft/mods</code>.
               </p>
             </div>
 
             <div className="space-y-2">
               <h3 className="font-minecraft text-lg text-primary">4. ¡Juega!</h3>
               <p className="text-sm text-muted-foreground">
-                Una vez instalado, inicia el juego desde CurseForge y conéctate a nuestro servidor.
+                Inicia Minecraft con el perfil de Forge 1.20.1 y conéctate a nuestro servidor.
               </p>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col sm:flex-row gap-4">
-            {/* Botones corregidos */}
             <Button size="lg" className="w-full minecraft-style button-glow">
               <a
-                href="https://drive.google.com/uc?export=download&id=MODPACK_ID"
+                href="https://drive.google.com/uc?export=download&id=FORGE_MODPACK_ID"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center w-full"
@@ -123,7 +170,7 @@ export default function ModpackPage() {
       <div className="max-w-4xl mx-auto">
         <h3 className="font-minecraft text-xl text-accent mb-4">Mods Requeridos</h3>
         <div className="grid gap-4 mb-8">
-          <Card className="bg-secondary/50 border-border">
+          <Card className="bg-secondary/50 border-border glass-effect">
             <CardContent className="p-0">
               <div className="grid grid-cols-1 divide-y divide-border">
                 {requiredMods.map((mod, index) => (
@@ -164,7 +211,7 @@ export default function ModpackPage() {
 
           {Object.entries(optionalMods).map(([category, mods]) => (
             <TabsContent key={category} value={category}>
-              <Card className="bg-secondary/50 border-border">
+              <Card className="bg-secondary/50 border-border glass-effect">
                 <CardHeader>
                   <CardTitle className="font-minecraft text-lg text-primary">
                     Mods de{" "}
@@ -177,7 +224,6 @@ export default function ModpackPage() {
                           : "Shaders"}
                   </CardTitle>
                   <CardDescription>
-                    {/* Botón corregido */}
                     <Button variant="outline" size="sm" className="minecraft-style">
                       <a
                         href={`https://drive.google.com/drive/folders/${category.toUpperCase()}_FOLDER_ID`}
@@ -206,7 +252,6 @@ export default function ModpackPage() {
                           <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
                             v{mod.version}
                           </span>
-                          {/* Botón corregido */}
                           <Button variant="ghost" size="icon" className="h-8 w-8">
                             <a
                               href={`https://drive.google.com/uc?export=download&id=${mod.name.replace(/\s+/g, "_").toUpperCase()}_ID`}

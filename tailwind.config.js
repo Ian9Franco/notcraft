@@ -1,7 +1,5 @@
-import tailwindcssAnimate from "tailwindcss-animate";
-
 /** @type {import('tailwindcss').Config} */
-const config = {
+module.exports = {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -76,12 +74,12 @@ const config = {
       fontFamily: {
         minecraft: ["MinecraftFont", "monospace"],
         pixel: ["MinecraftFont", "monospace"],
-        title: ["ITC Avant Garde Gothic", "sans-serif"],
-        body: ["IA Writer Mono", "monospace"],
+        title: ["Aboreto", "sans-serif"],
+        body: ["Nunito", "sans-serif"],
+        bytesized: ["Bytesized", "monospace"],
       },
     },
   },
-  plugins: [tailwindcssAnimate],
-};
+  plugins: [require("tailwindcss-animate")],
+}
 
-export default config;

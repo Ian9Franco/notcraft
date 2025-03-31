@@ -11,7 +11,7 @@ import ScrollAnimation from "@/components/scroll-animation"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Minecraft Server & Modpack",
+  title: "Netherious - Minecraft Server & Modpack",
   description: "Custom Minecraft server and modpack website",
 }
 
@@ -25,12 +25,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <UserProvider>
+            <ScrollAnimation />
             <div className="min-h-screen flex flex-col">
               <Header />
-              <main className="flex-1 container mx-auto p-4 md:p-6">{children}</main>
+              <main className="flex-1 container mx-auto p-4 md:p-6 page-transition-wrapper">{children}</main>
               <Footer />
             </div>
-            <ScrollAnimation />
           </UserProvider>
         </ThemeProvider>
       </body>
