@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { SectionHeader } from "@/components/ui/section-header"
@@ -33,17 +35,18 @@ export default function Home() {
     <div className="space-y-16 py-8">
       {/* Hero Section */}
       <section className="fade-in-section">
-        <h1 className="font-title text-4xl md:text-5xl lg:text-6xl text-accent text-center text-glow mb-4">
-          Netherious
+        <h1 className="minecraft-style text-4xl md:text-5xl lg:text-6xl text-accent text-center text-glow mb-4">
+          Minecraft Server
         </h1>
-        <p className="font-bytesized text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 text-center server-description">
+        <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 text-center">
           Una experiencia de Minecraft con mods increíbles, terrenos épicos y comunidad amigable.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
-          <Button asChild size="lg" className="font-minecraft button-glow container-reflection">
+          {/* Botones corregidos */}
+          <Button size="lg" className="minecraft-style button-glow">
             <Link href="/modpack">Descargar Modpack</Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="font-minecraft hover-effect container-reflection">
+          <Button variant="outline" size="lg" className="minecraft-style hover-effect">
             <Link href="/server-info">Info del Servidor</Link>
           </Button>
         </div>
@@ -64,7 +67,7 @@ export default function Home() {
       </section>
 
       {/* Server Promo Section */}
-      <section className="bg-secondary/50 border border-border rounded-lg p-6 md:p-8 fade-in-section hover-effect container-reflection">
+      <section className="bg-secondary/50 border border-border rounded-lg p-6 md:p-8 fade-in-section hover-effect glass-effect">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
             <SectionHeader
@@ -72,11 +75,12 @@ export default function Home() {
               subtitle="Explora, construye y sobrevive en un mundo lleno de aventuras y posibilidades."
               accent
             />
-            <p className="text-muted-foreground mb-6 font-body font-light">
+            <p className="text-muted-foreground mb-6">
               Nuestro servidor ofrece una experiencia única con temporadas temáticas, mods cuidadosamente seleccionados
               y una comunidad amigable.
             </p>
-            <Button asChild className="font-minecraft button-glow container-reflection">
+            {/* Botón corregido */}
+            <Button className="minecraft-style button-glow">
               <Link href="/server-info">Conectarse al Servidor</Link>
             </Button>
           </div>

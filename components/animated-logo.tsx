@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
+import { CuboidIcon as Cube } from "lucide-react"
 
 // Dynamically import Three.js components with no SSR
 const AnimatedCube = dynamic(() => import("./animated-cube"), { ssr: false })
@@ -19,8 +20,8 @@ export default function AnimatedLogo() {
         <AnimatedCube />
       ) : (
         // Fallback for SSR
-        <div className="w-full h-full bg-background/50 rounded-md flex items-center justify-center">
-          <div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-full h-full flex items-center justify-center">
+          <Cube className="text-accent" />
         </div>
       )}
     </div>

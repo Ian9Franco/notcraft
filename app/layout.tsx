@@ -17,20 +17,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
+  // Asegurarse de que children sea un elemento válido
+  const validChildren = children || null
+
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <UserProvider>
-            <ScrollAnimation />
             <div className="min-h-screen flex flex-col">
               <Header />
-              <main className="flex-1 container mx-auto p-4 md:p-6 page-transition-wrapper">{children}</main>
+              <main className="flex-1 container mx-auto p-4 md:p-6 page-transition-wrapper">{validChildren}</main>
               <Footer />
             </div>
+            <ScrollAnimation />
           </UserProvider>
         </ThemeProvider>
       </body>
