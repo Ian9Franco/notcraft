@@ -86,6 +86,15 @@ h3 {
   @apply font-title uppercase;
 }
 
+.server-description {
+  @apply font-bytesized;
+}
+
+.header-text,
+.footer-text {
+  @apply font-title;
+}
+
 .minecraft-style {
   @apply font-minecraft uppercase tracking-wider;
 }
@@ -254,5 +263,35 @@ h3 {
 .page-transition-wrapper {
   opacity: 1 !important;
   transform: none !important;
+}
+
+/* Aplicar el efecto de reflejo a todos los contenedores con hover */
+.hover-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-effect::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.hover-effect:hover::after {
+  opacity: 1;
+  animation: reflection 1.5s ease-in-out;
 }
 

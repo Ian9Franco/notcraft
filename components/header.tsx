@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X } from "lucide-react"
+import { Menu, X, CuboidIcon as Cube } from "lucide-react"
 import AnimatedLogo from "./animated-logo"
 
 const NavLink = ({ href, children, isActive }: { href: string; children: React.ReactNode; isActive: boolean }) => (
@@ -27,13 +27,12 @@ const NavLink = ({ href, children, isActive }: { href: string; children: React.R
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   const pathname = usePathname()
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen)
-  }
-
   useEffect(() => {
+    setIsMounted(true)
+
     const handleScroll = () => {
       if (window.scrollY > 20) {
         setScrolled(true)
@@ -48,6 +47,10 @@ export default function Header() {
     }
   }, [])
 
+  const toggleMenu = () => {
+    setIsOpen(!isOpen)
+  }
+
   return (
     <header
       className={`bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50 transition-all duration-300 ${
@@ -57,8 +60,14 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 md:w-12 md:h-12">
-              <AnimatedLogo />
+            <div className="w-10 h-10 md:w-12 md:h-12 relative flex items-center justify-center">
+              {isMounted ? (
+                <AnimatedLogo />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center rounded-md">
+                  <Cube className="text-accent" />
+                </div>
+              )}
             </div>
             <span className="font-title text-xl md:text-2xl text-accent tracking-wider">Netherious</span>
           </Link>
