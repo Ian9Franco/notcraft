@@ -1,10 +1,12 @@
 "use client"
 
+import { motion } from "framer-motion"
 import Image from "next/image"
 import { SectionHeader } from "@/components/ui/section-header"
-import { Button } from "@/components/ui/button"
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Download } from "lucide-react"
+import { GameButton } from "@/components/ui/game-button"
+import { GameCard } from "@/components/ui/game-card"
+import ScrollReveal from "@/components/scroll-reveal"
+import { Download, Palette, Settings } from "lucide-react"
 
 // Resource packs data
 const resourcePacks = [
@@ -37,70 +39,100 @@ const resourcePacks = [
 export default function ResourcePacksPage() {
   return (
     <div className="space-y-12 py-6">
-      <SectionHeader
-        title="Resource Packs"
-        subtitle="Estos resource packs están recomendados para mejorar tu experiencia visual en nuestro servidor."
-      />
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <SectionHeader
+          title="Resource Packs"
+          subtitle="Estos resource packs están recomendados para mejorar tu experiencia visual en nuestro servidor."
+        />
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in-section">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {resourcePacks.map((pack, index) => (
-          <Card
-            key={index}
-            className="bg-secondary/70 overflow-hidden border-border hover:border-accent transition-colors duration-300 glass-effect hover-effect"
-          >
-            <div className="relative h-48">
-              <Image
-                src={pack.imageSrc || "/placeholder.svg"}
-                alt={pack.name}
-                fill
-                className="object-cover transition-transform duration-500 hover:scale-105"
-              />
-            </div>
-            <CardHeader>
-              <CardTitle className="font-minecraft text-xl text-accent">{pack.name}</CardTitle>
-              <CardDescription>{pack.description}</CardDescription>
-            </CardHeader>
-            <CardFooter>
-              <Button variant="outline" className="w-full minecraft-style">
-                <a
-                  href={pack.downloadUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-full"
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  <span>Descargar</span>
+          <ScrollReveal key={index} delay={index * 0.1}>
+            <GameCard className="p-0 overflow-hidden h-full" hoverEffect>
+              <div className="relative h-48">
+                <Image
+                  src={pack.imageSrc || "/placeholder.svg"}
+                  alt={pack.name}
+                  fill
+                  className="object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="p-4">
+                <h3 className="font-minecraft text-xl text-accent mb-2">{pack.name}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{pack.description}</p>
+                <a href={pack.downloadUrl} target="_blank" rel="noopener noreferrer">
+                  <GameButton variant="outline" fullWidth icon={<Download className="h-5 w-5" />}>
+                    Descargar
+                  </GameButton>
                 </a>
-              </Button>
-            </CardFooter>
-          </Card>
+              </div>
+            </GameCard>
+          </ScrollReveal>
         ))}
       </div>
 
-      <div className="mt-8 p-6 bg-secondary/50 border border-border rounded-lg fade-in-section glass-effect">
-        <h3 className="font-minecraft text-xl text-primary mb-4">Cómo Instalar Resource Packs</h3>
-        <ol className="space-y-4 text-muted-foreground">
-          <li className="flex gap-2">
-            <span className="font-minecraft text-accent">1.</span>
-            <span>Descarga el resource pack que prefieras.</span>
-          </li>
-          <li className="flex gap-2">
-            <span className="font-minecraft text-accent">2.</span>
-            <span>
-              Coloca el archivo .zip en la carpeta{" "}
-              <code className="bg-background/70 px-2 py-1 rounded">.minecraft/resourcepacks</code>.
-            </span>
-          </li>
-          <li className="flex gap-2">
-            <span className="font-minecraft text-accent">3.</span>
-            <span>Inicia Minecraft, ve a Opciones → Resource Packs y activa el pack descargado.</span>
-          </li>
-          <li className="flex gap-2">
-            <span className="font-minecraft text-accent">4.</span>
-            <span>¡Disfruta de tu experiencia visual mejorada en nuestro servidor!</span>
-          </li>
-        </ol>
-      </div>
+      <ScrollReveal direction="up">
+        <GameCard borderGlow>
+          <div className="flex items-center gap-2 mb-4">
+            <Settings className="h-5 w-5 text-accent" />
+            <h3 className="font-minecraft text-xl text-accent">Cómo Instalar Resource Packs</h3>
+          </div>
+
+          <ol className="space-y-4 text-muted-foreground">
+            <motion.li
+              className="flex gap-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+            >
+              <span className="font-minecraft text-accent">1.</span>
+              <span>Descarga el resource pack que prefieras.</span>
+            </motion.li>
+            <motion.li
+              className="flex gap-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
+              <span className="font-minecraft text-accent">2.</span>
+              <span>
+                Coloca el archivo .zip en la carpeta{" "}
+                <code className="bg-background/70 px-2 py-1 rounded">.minecraft/resourcepacks</code>.
+              </span>
+            </motion.li>
+            <motion.li
+              className="flex gap-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.3 }}
+            >
+              <span className="font-minecraft text-accent">3.</span>
+              <span>Inicia Minecraft, ve a Opciones → Resource Packs y activa el pack descargado.</span>
+            </motion.li>
+            <motion.li
+              className="flex gap-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.4 }}
+            >
+              <span className="font-minecraft text-accent">4.</span>
+              <span>¡Disfruta de tu experiencia visual mejorada en nuestro servidor!</span>
+            </motion.li>
+          </ol>
+
+          <div className="mt-6 p-4 bg-accent/10 border border-accent/30 rounded-md">
+            <div className="flex items-start gap-2">
+              <Palette className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+              <p className="text-sm">
+                <span className="font-medium">Consejo:</span> Algunos resource packs pueden requerir más recursos de tu
+                computadora. Si experimentas problemas de rendimiento, prueba con un pack de menor resolución o
+                desactívalo.
+              </p>
+            </div>
+          </div>
+        </GameCard>
+      </ScrollReveal>
     </div>
   )
 }
