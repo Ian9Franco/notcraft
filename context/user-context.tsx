@@ -1,11 +1,24 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import { onAuthStateChanged, signInWithPopup, signOut, GoogleAuthProvider, type User } from "firebase/auth"
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signOut,
+  type User as FirebaseUser,
+} from "firebase/auth"
 import { auth } from "@/lib/firebase"
 
+type User = {
+  uid: string
+  displayName: string | null
+  email: string | null
+  photoURL: string | null
+} | null
+
 type UserContextType = {
-  user: User | null
+  user: User
   loading: boolean
   signInWithGoogle: () => Promise<void>
   logout: () => Promise<void>
@@ -14,12 +27,21 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user)
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser: FirebaseUser | null) => {
+      if (firebaseUser) {
+        setUser({
+          uid: firebaseUser.uid,
+          displayName: firebaseUser.displayName,
+          email: firebaseUser.email,
+          photoURL: firebaseUser.photoURL,
+        })
+      } else {
+        setUser(null)
+      }
       setLoading(false)
     })
 
@@ -27,11 +49,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider()
     try {
+      const provider = new GoogleAuthProvider()
       await signInWithPopup(auth, provider)
     } catch (error) {
-      console.error("Error signing in with Google", error)
+      console.error("Error signing in with Google:", error)
     }
   }
 
@@ -39,7 +61,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
       await signOut(auth)
     } catch (error) {
-      console.error("Error signing out", error)
+      console.error("Error signing out:", error)
     }
   }
 
