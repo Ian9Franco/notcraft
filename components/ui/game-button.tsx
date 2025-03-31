@@ -1,12 +1,10 @@
 "use client"
 
-import type { ReactNode } from "react"
-import { motion } from "framer-motion"
+import { type ReactNode, type ButtonHTMLAttributes, useState } from "react"
 import { cn } from "@/lib/utils"
 
-interface GameButtonProps {
+interface GameButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
-  onClick?: () => void
   variant?: "primary" | "secondary" | "accent" | "outline"
   size?: "sm" | "md" | "lg"
   className?: string
@@ -24,9 +22,12 @@ export function GameButton({
   disabled = false,
   icon,
   fullWidth = false,
+  ...props
 }: GameButtonProps) {
+  const [isHovered, setIsHovered] = useState(false)
+
   const baseStyles =
-    "relative font-minecraft uppercase tracking-wider flex items-center justify-center rounded-md transition-colors"
+    "relative font-minecraft uppercase tracking-wider flex items-center justify-center rounded-md transition-all duration-300"
 
   const variantStyles = {
     primary: "bg-primary text-primary-foreground hover:bg-primary/90 border-2 border-primary/50",
@@ -41,8 +42,22 @@ export function GameButton({
     lg: "text-base py-3 px-6",
   }
 
+  // Colores para los efectos según la variante
+  const getEffectColor = () => {
+    switch (variant) {
+      case "primary":
+        return "hsl(var(--primary))"
+      case "secondary":
+        return "hsl(var(--secondary))"
+      case "accent":
+        return "hsl(var(--accent))"
+      default:
+        return "hsl(var(--accent))"
+    }
+  }
+
   return (
-    <motion.button
+    <button
       onClick={onClick}
       disabled={disabled}
       className={cn(
@@ -51,38 +66,44 @@ export function GameButton({
         sizeStyles[size],
         fullWidth ? "w-full" : "",
         disabled ? "opacity-50 cursor-not-allowed" : "",
+        "group",
         className,
       )}
-      whileHover={!disabled ? { scale: 1.03 } : {}}
-      whileTap={!disabled ? { scale: 0.97 } : {}}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      {...props}
     >
-      {/* Glow effect */}
+      {/* Partículas animadas (solo visibles al hacer hover) */}
+      {isHovered && !disabled && (
+        <>
+          {[...Array(8)].map((_, i) => (
+            <span
+              key={i}
+              className={`absolute w-1 h-1 rounded-full pointer-events-none animate-particle-${(i % 4) + 1}`}
+              style={{
+                background: getEffectColor(),
+                boxShadow: `0 0 6px ${getEffectColor()}`,
+                top: "50%",
+                left: "50%",
+                opacity: 0.8,
+              }}
+            />
+          ))}
+        </>
+      )}
+
+      {/* Efecto de resplandor interno */}
       <span
-        className={cn(
-          "absolute inset-0 rounded-md opacity-0 transition-opacity group-hover:opacity-100",
-          variant === "primary"
-            ? "bg-primary/20"
-            : variant === "accent"
-              ? "bg-accent/20"
-              : variant === "secondary"
-                ? "bg-secondary/20"
-                : "bg-accent/10",
-        )}
+        className={`absolute inset-0 rounded-md opacity-0 pointer-events-none bg-radial-glow transition-opacity duration-300 ${isHovered && !disabled ? "opacity-30" : ""}`}
+        style={{
+          background: `radial-gradient(circle, ${getEffectColor()}20 0%, transparent 70%)`,
+        }}
       />
 
-      {/* Button content */}
-      <span className="flex items-center justify-center gap-2 z-10">
-        {icon && <span className="mr-1">{icon}</span>}
-        {children}
-      </span>
-
-      {/* Border glow animation */}
-      <motion.span
+      {/* Efecto de borde pulsante */}
+      <span
         className={cn(
-          "absolute inset-0 rounded-md border-2",
+          "absolute inset-0 rounded-md border-2 pointer-events-none transition-all duration-300",
           variant === "primary"
             ? "border-primary/50"
             : variant === "accent"
@@ -90,45 +111,25 @@ export function GameButton({
               : variant === "secondary"
                 ? "border-secondary/50"
                 : "border-accent/30",
+          isHovered && !disabled ? "shadow-glow" : "",
         )}
-        animate={{
-          boxShadow: [
-            `0 0 0px ${
-              variant === "primary"
-                ? "hsl(var(--primary))"
-                : variant === "accent"
-                  ? "hsl(var(--accent))"
-                  : variant === "secondary"
-                    ? "hsl(var(--secondary))"
-                    : "hsl(var(--accent))"
-            }`,
-            `0 0 8px ${
-              variant === "primary"
-                ? "hsl(var(--primary))"
-                : variant === "accent"
-                  ? "hsl(var(--accent))"
-                  : variant === "secondary"
-                    ? "hsl(var(--secondary))"
-                    : "hsl(var(--accent))"
-            }`,
-            `0 0 0px ${
-              variant === "primary"
-                ? "hsl(var(--primary))"
-                : variant === "accent"
-                  ? "hsl(var(--accent))"
-                  : variant === "secondary"
-                    ? "hsl(var(--secondary))"
-                    : "hsl(var(--accent))"
-            }`,
-          ],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Number.POSITIVE_INFINITY,
-          repeatType: "reverse",
+        style={{
+          boxShadow: isHovered && !disabled ? `0 0 10px ${getEffectColor()}` : "none",
         }}
       />
-    </motion.button>
+
+      {/* Contenido del botón */}
+      <span className="flex items-center justify-center gap-2 z-10 relative">
+        {icon && (
+          <span className={`mr-1 transition-transform duration-300 ${isHovered && !disabled ? "animate-wiggle" : ""}`}>
+            {icon}
+          </span>
+        )}
+        <span className={`transition-transform duration-300 ${isHovered && !disabled ? "animate-float-text" : ""}`}>
+          {children}
+        </span>
+      </span>
+    </button>
   )
 }
 
