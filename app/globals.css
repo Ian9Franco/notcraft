@@ -3,25 +3,49 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'MinecraftFont';
-  src: url('/fonts/MinecraftFont.woff2') format('woff2');
+  font-family: "MinecraftFont";
+  src: url("/fonts/MinecraftFont.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'ITC Avant Garde Gothic';
-  src: url('/fonts/ITCAvantGardeGothic.woff2') format('woff2');
+  font-family: "Bytesized";
+  src: url("/fonts/Bytesized.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'IA Writer Mono';
-  src: url('/fonts/IAWriterMono.woff2') format('woff2');
+  font-family: "Aboreto";
+  src: url("/fonts/Aboreto-Regular.woff2") format("woff2");
   font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("/fonts/Nunito-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("/fonts/Nunito-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("/fonts/Nunito-Light.woff2") format("woff2");
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
@@ -51,12 +75,14 @@
 
 body {
   @apply bg-background text-foreground font-body;
-  background-image: url('/images/dirt-background.png');
+  background-image: url("/images/dirt-background.png");
   background-repeat: repeat;
   background-attachment: fixed;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   @apply font-title uppercase;
 }
 
@@ -82,8 +108,14 @@ h1, h2, h3 {
 
 /* Animaciones y efectos */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .fade-in {
@@ -94,6 +126,7 @@ h1, h2, h3 {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
 }
 
 .fade-in-section.is-visible {
@@ -118,7 +151,7 @@ h1, h2, h3 {
 }
 
 .button-glow::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
@@ -166,7 +199,8 @@ h1, h2, h3 {
 
 /* Animación para títulos */
 @keyframes textGlow {
-  0%, 100% {
+  0%,
+  100% {
     text-shadow: 0 0 5px rgba(var(--accent), 0.5);
   }
   50% {
@@ -176,5 +210,49 @@ h1, h2, h3 {
 
 .text-glow {
   animation: textGlow 3s infinite;
+}
+
+/* Reflection effect for containers */
+.container-reflection {
+  position: relative;
+  overflow: hidden;
+}
+
+.container-reflection::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  transition: transform 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.container-reflection:hover::after {
+  opacity: 1;
+  animation: reflection 1.5s ease-in-out;
+}
+
+@keyframes reflection {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+/* Fix for navigation issues */
+.page-transition-wrapper {
+  opacity: 1 !important;
+  transform: none !important;
 }
 

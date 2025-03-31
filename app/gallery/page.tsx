@@ -156,7 +156,7 @@ export default function GalleryPage() {
       />
 
       {/* Upload Section */}
-      <section className="bg-secondary/50 border border-border rounded-lg p-6 max-w-3xl mx-auto fade-in-section hover-effect">
+      <section className="bg-secondary/50 border border-border rounded-lg p-6 max-w-3xl mx-auto fade-in-section hover-effect glass-effect">
         <h3 className="font-minecraft text-xl text-accent mb-4">Subir Imagen</h3>
 
         {!user ? (
