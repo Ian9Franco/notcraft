@@ -29,7 +29,8 @@ export default function AnimatedCube() {
     // Scene
     const scene = new THREE.Scene()
     sceneRef.current = scene
-    scene.background = new THREE.Color(0x121212)
+    // Usar un fondo transparente en lugar de negro
+    scene.background = null
 
     // Camera
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
@@ -40,6 +41,7 @@ export default function AnimatedCube() {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     rendererRef.current = renderer
     renderer.setSize(width, height)
+    // Asegurar que el fondo sea transparente
     renderer.setClearColor(0x000000, 0)
     container.appendChild(renderer.domElement)
 
