@@ -9,8 +9,9 @@ import { InteractiveAccordion } from "@/components/ui/interactive-accordion"
 import ScrollReveal from "@/components/scroll-reveal"
 import { Download, ExternalLink, Check, HelpCircle, Package, Wrench, Cog, Zap, Server } from "lucide-react"
 
-// Required mods data
-const requiredMods = [
+// Featured mods data - Marcado con ID para facilitar actualizaciones por temporada
+const FEATURED_MODS_ID = "featured-mods-season-1"
+const featuredMods = [
   { name: "Create", version: "0.5.1", description: "Automatización y maquinaria" },
   { name: "Terralith", version: "2.3.0", description: "Generación de terreno mejorada" },
   { name: "Oh The Biomes You'll Go", version: "1.4.0", description: "Nuevos biomas" },
@@ -40,7 +41,8 @@ const optionalMods = {
   ],
 }
 
-// Modpack versions
+// Modpack versions - Marcado con ID para facilitar actualizaciones
+const MODPACK_VERSIONS_ID = "modpack-versions-season-1"
 const modpackVersions = [
   { name: "Forge", version: "1.20.1", available: true },
   { name: "Fabric", version: "1.20.1", available: false },
@@ -228,28 +230,34 @@ export default function ModpackPage() {
         <SectionHeader title="Mods Incluidos" />
 
         <div className="max-w-4xl mx-auto">
-          <h3 className="font-minecraft text-xl text-accent mb-4">Mods Requeridos</h3>
-          <GameCard>
-            <div className="grid grid-cols-1 divide-y divide-border">
-              {requiredMods.map((mod, index) => (
-                <motion.div
-                  key={index}
-                  className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                >
-                  <div>
-                    <h4 className="font-minecraft text-lg text-primary">{mod.name}</h4>
-                    <p className="text-sm text-muted-foreground">{mod.description}</p>
-                  </div>
-                  <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
-                    v{mod.version}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </GameCard>
+          {/* Contenedor de Mods Destacados con ID para facilitar actualizaciones */}
+          <div id={FEATURED_MODS_ID}>
+            <h3 className="font-minecraft text-xl text-accent mb-4 flex items-center">
+              <span className="inline-block w-3 h-3 bg-accent rounded-full mr-2 animate-pulse"></span>
+              Mods Destacados
+            </h3>
+            <GameCard className="border-2 border-accent/30">
+              <div className="grid grid-cols-1 divide-y divide-border">
+                {featuredMods.map((mod, index) => (
+                  <motion.div
+                    key={index}
+                    className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                  >
+                    <div>
+                      <h4 className="font-minecraft text-lg text-primary">{mod.name}</h4>
+                      <p className="text-sm text-muted-foreground">{mod.description}</p>
+                    </div>
+                    <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
+                      v{mod.version}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </GameCard>
+          </div>
         </div>
       </ScrollReveal>
 

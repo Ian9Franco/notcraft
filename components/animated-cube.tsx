@@ -63,6 +63,11 @@ export default function AnimatedCube() {
     directionalLight.shadow.mapSize.height = 1024
     scene.add(directionalLight)
 
+    // Add point light for more dramatic lighting
+    const pointLight = new THREE.PointLight(0xb4ff3a, 1, 10)
+    pointLight.position.set(0, 0, 3)
+    scene.add(pointLight)
+
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.enableZoom = false
@@ -124,6 +129,7 @@ export default function AnimatedCube() {
         map: texture,
         roughness: 0.7,
         metalness: 0.2,
+        emissive: new THREE.Color(color).multiplyScalar(0.1), // Añadir emisión para un efecto de brillo
       })
     }
 
@@ -196,16 +202,32 @@ export default function AnimatedCube() {
 
     particlesGeometry.setAttribute("position", new THREE.BufferAttribute(posArray, 3))
 
+    // Crear un sprite para las partículas
+    const particleTexture = new THREE.TextureLoader().load("/placeholder.svg?height=32&width=32")
+
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.02,
+      size: 0.05,
       color: 0xb4ff3a,
       transparent: true,
       opacity: 0.8,
       blending: THREE.AdditiveBlending,
+      map: particleTexture,
+      depthWrite: false,
     })
 
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial)
     scene.add(particlesMesh)
+
+    // Añadir un halo alrededor del cubo
+    const haloGeometry = new THREE.SphereGeometry(2, 32, 32)
+    const haloMaterial = new THREE.MeshBasicMaterial({
+      color: 0xb4ff3a,
+      transparent: true,
+      opacity: 0.1,
+      side: THREE.BackSide,
+    })
+    const halo = new THREE.Mesh(haloGeometry, haloMaterial)
+    scene.add(halo)
 
     // Enhanced animation loop with more dynamic effects
     const animate = () => {
@@ -217,6 +239,11 @@ export default function AnimatedCube() {
       // Animate particles
       particlesMesh.rotation.y += 0.002
       particlesMesh.rotation.x += 0.001
+
+      // Animar el halo
+      halo.scale.x = 1 + Math.sin(Date.now() * 0.001) * 0.1
+      halo.scale.y = 1 + Math.sin(Date.now() * 0.001) * 0.1
+      halo.scale.z = 1 + Math.sin(Date.now() * 0.001) * 0.1
 
       // State machine for animation with enhanced transitions
       switch (state.state) {
@@ -260,6 +287,26 @@ export default function AnimatedCube() {
             // Pulsate size slightly
             const pulseFactor = 1 + Math.sin(state.timer * 0.05) * 0.05
             cube.scale.set(pulseFactor, pulseFactor, pulseFactor)
+
+            // Añadir efecto de estela
+            if (index % 3 === 0) {
+              const trailGeometry = new THREE.SphereGeometry(0.05, 8, 8)
+              const trailMaterial = new THREE.MeshBasicMaterial({
+                color: 0xb4ff3a,
+                transparent: true,
+                opacity: 0.3,
+              })
+              const trail = new THREE.Mesh(trailGeometry, trailMaterial)
+              trail.position.copy(cube.position)
+              scene.add(trail)
+
+              // Eliminar la estela después de un tiempo
+              setTimeout(() => {
+                scene.remove(trail)
+                trail.geometry.dispose()
+                trail.material.dispose()
+              }, 1000)
+            }
           })
 
           if (state.timer > 180) {

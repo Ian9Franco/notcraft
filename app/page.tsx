@@ -8,7 +8,7 @@ import { GameButton } from "@/components/ui/game-button"
 import { GameCard } from "@/components/ui/game-card"
 import ParallaxSection from "@/components/parallax-section"
 import ScrollReveal from "@/components/scroll-reveal"
-import { Server, Package } from "lucide-react"
+import { Server, Package, DiscIcon as Discord } from "lucide-react"
 
 // Featured mods data
 const featuredMods = [
@@ -49,7 +49,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Minecraft Server
+            Netherious
           </motion.h1>
 
           <motion.p
@@ -72,9 +72,9 @@ export default function Home() {
                 Descargar Modpack
               </GameButton>
             </Link>
-            <Link href="/server-info">
-              <GameButton variant="outline" size="lg" icon={<Server />}>
-                Info del Servidor
+            <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
+              <GameButton variant="outline" size="lg" icon={<Discord />}>
+                Unirse al Discord
               </GameButton>
             </Link>
           </motion.div>
@@ -127,11 +127,18 @@ export default function Home() {
                 Nuestro servidor ofrece una experiencia única con temporadas temáticas, mods cuidadosamente
                 seleccionados y una comunidad amigable.
               </p>
-              <Link href="/server-info">
-                <GameButton variant="primary" icon={<Server />}>
-                  Conectarse al Servidor
-                </GameButton>
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/server-info">
+                  <GameButton variant="primary" icon={<Server />}>
+                    Conectarse al Servidor
+                  </GameButton>
+                </Link>
+                <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
+                  <GameButton variant="secondary" icon={<Discord />}>
+                    Discord
+                  </GameButton>
+                </Link>
+              </div>
             </div>
             <div className="relative h-64 md:h-full min-h-[300px]">
               <Image

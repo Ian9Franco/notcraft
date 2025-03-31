@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
-import { Menu, X, CuboidIcon as Cube, Sun, Moon } from "lucide-react"
+import { Menu, X, CuboidIcon as Cube, Sun, Moon, Axe } from "lucide-react"
 import { useTheme } from "next-themes"
 import AnimatedLogo from "./animated-logo"
 import { useUser } from "@/context/user-context"
@@ -42,6 +42,36 @@ export default function Header() {
     setTheme(theme === "dark" ? "light" : "dark")
   }
 
+  // Función para obtener el título de la página actual
+  const getPageTitle = () => {
+    switch (pathname) {
+      case "/":
+        return "Inicio"
+      case "/modpack":
+        return "Modpack"
+      case "/resource-packs":
+        return "Resource Packs"
+      case "/server-info":
+        return "Server Info"
+      case "/gallery":
+        return "Galería"
+      default:
+        return "Netherious"
+    }
+  }
+
+  // Función para obtener el icono de la página actual
+  const getPageIcon = () => {
+    switch (pathname) {
+      case "/":
+        return <Axe className="h-5 w-5 text-accent" />
+      case "/modpack":
+        return <Cube className="h-5 w-5 text-accent" />
+      default:
+        return null
+    }
+  }
+
   return (
     <header
       className={`bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-40 transition-all duration-300 ${
@@ -65,24 +95,33 @@ export default function Header() {
           </Link>
 
           {/* Page title - visible on all devices */}
-          <motion.h1
-            className="text-xl font-title text-foreground hidden md:block"
+          <motion.div
+            className="hidden md:flex items-center gap-2"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {pathname === "/"
-              ? "Inicio"
-              : pathname === "/modpack"
-                ? "Modpack"
-                : pathname === "/resource-packs"
-                  ? "Resource Packs"
-                  : pathname === "/server-info"
-                    ? "Server Info"
-                    : pathname === "/gallery"
-                      ? "Galería"
-                      : "Netherious"}
-          </motion.h1>
+            {/* Estilo Minecraft para el título de la página */}
+            <div className="relative">
+              {getPageIcon()}
+              <motion.h1
+                className="text-xl font-minecraft text-foreground bg-secondary/50 px-4 py-1 rounded border-2 border-border relative z-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                {getPageTitle()}
+              </motion.h1>
+
+              {/* Efecto de sombra estilo Minecraft */}
+              <motion.div
+                className="absolute inset-0 bg-accent/10 rounded border-2 border-accent/20 translate-x-1 translate-y-1"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              />
+            </div>
+          </motion.div>
 
           {/* Right side controls */}
           <div className="flex items-center gap-2">
@@ -90,7 +129,7 @@ export default function Header() {
             <motion.button
               onClick={toggleTheme}
               className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.1, rotate: theme === "dark" ? 180 : 0 }}
               whileTap={{ scale: 0.9 }}
             >
               {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
@@ -99,10 +138,11 @@ export default function Header() {
             {/* User login/profile */}
             {user ? (
               <div className="flex items-center gap-2">
-                <img
+                <motion.img
                   src={user.photoURL || "/placeholder.svg?height=32&width=32"}
                   alt={user.displayName || "Usuario"}
                   className="w-8 h-8 rounded-full border border-border"
+                  whileHover={{ scale: 1.1 }}
                 />
                 <Button variant="ghost" size="sm" onClick={logout} className="hidden md:inline-flex">
                   Cerrar sesión
