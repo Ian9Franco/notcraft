@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
-import { Menu, X, CuboidIcon as Cube, Sun, Moon, Axe } from "lucide-react"
+import { Menu, X, CuboidIcon as Cube, Sun, Moon, Axe, Package, Palette, Server, ImageIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 import AnimatedLogo from "./animated-logo"
 import { useUser } from "@/context/user-context"
@@ -66,9 +66,15 @@ export default function Header() {
       case "/":
         return <Axe className="h-5 w-5 text-accent" />
       case "/modpack":
-        return <Cube className="h-5 w-5 text-accent" />
+        return <Package className="h-5 w-5 text-accent" />
+      case "/resource-packs":
+        return <Palette className="h-5 w-5 text-accent" />
+      case "/server-info":
+        return <Server className="h-5 w-5 text-accent" />
+      case "/gallery":
+        return <ImageIcon className="h-5 w-5 text-accent" />
       default:
-        return null
+        return <Cube className="h-5 w-5 text-accent" />
     }
   }
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { SectionHeader } from "@/components/ui/section-header"
 import { GameButton } from "@/components/ui/game-button"
 import { GameCard } from "@/components/ui/game-card"
@@ -44,9 +45,9 @@ const optionalMods = {
 // Modpack versions - Marcado con ID para facilitar actualizaciones
 const MODPACK_VERSIONS_ID = "modpack-versions-season-1"
 const modpackVersions = [
-  { name: "Forge", version: "1.20.1", available: true },
-  { name: "Fabric", version: "1.20.1", available: false },
-  { name: "NeoForge", version: "1.20.1", available: false },
+  { name: "Forge", version: "1.20.1", available: true, logo: "/images/logos/forge-logo.png" },
+  { name: "Fabric", version: "1.20.1", available: false, logo: "/images/logos/fabric-logo.png" },
+  { name: "NeoForge", version: "1.20.1", available: false, logo: "/images/logos/neoforge-logo.png" },
 ]
 
 // Tutorial steps
@@ -95,8 +96,18 @@ const tutorialSteps = [
               className={`${version.available ? "" : "opacity-60"}`}
               hoverEffect={version.available}
             >
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-minecraft text-lg text-accent">{version.name}</h3>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="relative w-8 h-8">
+                    <Image
+                      src={version.logo || "/placeholder.svg?height=32&width=32"}
+                      alt={version.name}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <h3 className="font-minecraft text-lg text-accent">{version.name}</h3>
+                </div>
                 {version.available && <Check className="h-4 w-4 text-green-500" />}
               </div>
               <p className="text-xs text-muted-foreground mb-4">{version.version}</p>

@@ -16,7 +16,7 @@ export default function AnimatedLogo() {
   }, [])
 
   return (
-    <div className="w-full h-full min-h-[120px] relative" style={{ aspectRatio: "1/1" }}>
+    <div className="w-full h-full min-h-[120px] relative overflow-hidden" style={{ aspectRatio: "1/1" }}>
       {/* Partículas de fondo */}
       {isMounted && (
         <>

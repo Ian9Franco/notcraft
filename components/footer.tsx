@@ -20,7 +20,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="relative bg-secondary pt-8 pb-6 border-t border-border overflow-hidden">
+    <footer className="relative bg-secondary pt-8 pb-20 md:pb-6 border-t border-border overflow-hidden">
       {/* Partículas de fondo */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(20)].map((_, i) => (
@@ -96,8 +96,8 @@ export default function Footer() {
               {[
                 { href: "/", label: "Inicio" },
                 { href: "/modpack", label: "Modpack" },
-                { href: "/server-info", label: "Información del Servidor" },
                 { href: "/resource-packs", label: "Resource Packs" },
+                { href: "/server-info", label: "Información del Servidor" },
                 { href: "/gallery", label: "Galería" },
               ].map((link, index) => (
                 <motion.li key={index} variants={linkVariants} initial="initial" whileHover="hover">
