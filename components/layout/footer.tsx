@@ -1,4 +1,5 @@
 "use client"
+
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Github, DiscIcon as Discord, Heart } from "lucide-react"

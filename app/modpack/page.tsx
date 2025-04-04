@@ -2,15 +2,15 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { SectionHeader } from "@/components/ui/section-header"
-import { GameButton } from "@/components/ui/game-button"
-import { GameCard } from "@/components/ui/game-card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/client-tabs"
-import { InteractiveAccordion } from "@/components/ui/interactive-accordion"
-import ScrollReveal from "@/components/scroll-reveal"
 import { Download, ExternalLink, Check, HelpCircle, Package, Wrench, Cog, Zap, Server } from "lucide-react"
+import { ScrollReveal } from "@/components/animations"
+import { GameButton } from "@/components/ui/button"
+import { GameCard, SectionHeader } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger, InteractiveAccordion } from "@/components/ui/interactive"
 
-// Featured mods data - Marcado con ID para facilitar actualizaciones por temporada
+/**
+ * Datos de mods destacados - Marcado con ID para facilitar actualizaciones por temporada
+ */
 const FEATURED_MODS_ID = "featured-mods-season-1"
 const featuredMods = [
   { name: "Create", version: "0.5.1", description: "Automatización y maquinaria" },
@@ -22,7 +22,9 @@ const featuredMods = [
   { name: "Grim & Bleak", version: "0.8.5", description: "Mazmorras y estructuras" },
 ]
 
-// Optional mods by category
+/**
+ * Mods opcionales por categoría
+ */
 const optionalMods = {
   particles: [
     { name: "Enhanced Visuals", version: "1.2.0", description: "Efectos visuales mejorados" },
@@ -42,7 +44,9 @@ const optionalMods = {
   ],
 }
 
-// Modpack versions - Marcado con ID para facilitar actualizaciones
+/**
+ * Versiones del modpack - Marcado con ID para facilitar actualizaciones
+ */
 const MODPACK_VERSIONS_ID = "modpack-versions-season-1"
 const modpackVersions = [
   { name: "Forge", version: "1.20.1", available: true, logo: "/images/logos/forge-logo.png" },
@@ -50,7 +54,9 @@ const modpackVersions = [
   { name: "NeoForge", version: "1.20.1", available: false, logo: "/images/logos/neoforge-logo.png" },
 ]
 
-// Tutorial steps
+/**
+ * Pasos del tutorial de instalación
+ */
 const tutorialSteps = [
   {
     title: "Instalar Forge",
@@ -196,6 +202,9 @@ const tutorialSteps = [
   },
 ]
 
+/**
+ * Página del modpack
+ */
 export default function ModpackPage() {
   return (
     <div className="space-y-12 py-6">
@@ -337,7 +346,6 @@ export default function ModpackPage() {
                             href={`https://drive.google.com/uc?export=download&id=${mod.name.replace(/\s+/g, "_").toUpperCase()}_ID`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center"
                           >
                             <GameButton variant="outline" size="sm" icon={<Download className="h-4 w-4" />}>
                               Descargar

@@ -1,11 +1,14 @@
 "use client"
 
+import { Suspense } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
-// Seasons data
-const seasons = [
+/**
+ * Datos de las temporadas
+ */
+const SEASONS_DATA = [
   {
     number: 1,
     title: "El Comienzo",
@@ -23,11 +26,14 @@ const seasons = [
   },
 ]
 
-export default function SeasonsTabs() {
+/**
+ * Componente principal de pestañas de temporadas
+ */
+function SeasonsTabsContent() {
   return (
     <Tabs defaultValue="season1" className="max-w-4xl mx-auto">
       <TabsList className="grid grid-cols-2 mb-6">
-        {seasons.map((season) => (
+        {SEASONS_DATA.map((season) => (
           <TabsTrigger
             key={season.number}
             value={`season${season.number}`}
@@ -39,7 +45,7 @@ export default function SeasonsTabs() {
         ))}
       </TabsList>
 
-      {seasons.map((season) => (
+      {SEASONS_DATA.map((season) => (
         <TabsContent key={season.number} value={`season${season.number}`} className="fade-in">
           <Card className="bg-secondary/70 border-border hover-effect">
             <CardHeader>
@@ -60,6 +66,18 @@ export default function SeasonsTabs() {
         </TabsContent>
       ))}
     </Tabs>
+  )
+}
+
+/**
+ * Componente wrapper que carga perezosamente el componente de pestañas
+ * para mejorar el rendimiento inicial de la página
+ */
+export default function SeasonsTabs() {
+  return (
+    <Suspense fallback={<div className="h-64 bg-secondary/30 rounded-md animate-pulse"></div>}>
+      <SeasonsTabsContent />
+    </Suspense>
   )
 }
 

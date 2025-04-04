@@ -1,17 +1,23 @@
 "use client"
 
-import type { ReactNode } from "react"
+import type * as React from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
+/**
+ * Props para GameCard
+ */
 interface GameCardProps {
-  children: ReactNode
+  children: React.ReactNode
   className?: string
   hoverEffect?: boolean
   glassEffect?: boolean
   borderGlow?: boolean
 }
 
+/**
+ * Tarjeta con estilo de juego
+ */
 export function GameCard({
   children,
   className = "",

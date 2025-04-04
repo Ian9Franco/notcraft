@@ -10,6 +10,9 @@ import {
 } from "firebase/auth"
 import { auth } from "@/lib/firebase"
 
+/**
+ * Tipo de usuario simplificado con propiedades esenciales
+ */
 type User = {
   uid: string
   displayName: string | null
@@ -17,22 +20,32 @@ type User = {
   photoURL: string | null
 } | null
 
-type UserContextType = {
+/**
+ * Tipo del contexto de usuario con métodos de autenticación
+ */
+interface UserContextType {
   user: User
   loading: boolean
   signInWithGoogle: () => Promise<void>
   logout: () => Promise<void>
 }
 
+// Contexto con valor inicial undefined
 const UserContext = createContext<UserContextType | undefined>(undefined)
 
-export function UserProvider({ children }: { children: ReactNode }) {
+/**
+ * Proveedor de contexto de usuario que gestiona la autenticación
+ * @param children - Componentes hijos que tendrán acceso al contexto
+ */
+export function AuthContextProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>(null)
   const [loading, setLoading] = useState(true)
 
+  // Efecto para observar cambios en el estado de autenticación
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
+        // Extraer solo las propiedades necesarias del usuario de Firebase
         setUser({
           uid: firebaseUser.uid,
           displayName: firebaseUser.displayName,
@@ -45,9 +58,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
       setLoading(false)
     })
 
+    // Limpiar el observador al desmontar
     return () => unsubscribe()
   }, [])
 
+  /**
+   * Inicia sesión con Google
+   */
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider()
@@ -57,6 +74,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  /**
+   * Cierra la sesión del usuario actual
+   */
   const logout = async () => {
     try {
       await signOut(auth)
@@ -65,9 +85,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  return <UserContext.Provider value={{ user, loading, signInWithGoogle, logout }}>{children}</UserContext.Provider>
+  // Valor del contexto con usuario y métodos de autenticación
+  const value = { user, loading, signInWithGoogle, logout }
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
 
+/**
+ * Hook personalizado para acceder al contexto de usuario
+ * @throws Error si se usa fuera de un UserProvider
+ */
 export function useUser() {
   const context = useContext(UserContext)
   if (context === undefined) {

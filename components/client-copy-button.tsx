@@ -1,22 +1,12 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Copy, Check } from "lucide-react"
+import { CopyButton } from "@/components/ui/form-elements"
 
-export default function ClientCopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false)
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  return (
-    <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={handleCopy}>
-      {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
-    </Button>
-  )
+/**
+ * Componente de botón para copiar texto
+ * Versión cliente para usar en páginas
+ */
+export default function ClientCopyButton({ text, className = "" }: { text: string; className?: string }) {
+  return <CopyButton text={text} className={className} />
 }
 

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import { Menu, X, CuboidIcon as Cube, Sun, Moon, Axe, Package, Palette, Server, ImageIcon } from "lucide-react"
 import { useTheme } from "next-themes"
-import AnimatedLogo from "./ui/animated-logo"
+import AnimatedLogo from "../ui/animated-logo"
 import { useUser } from "@/context/user-context"
 import { Button } from "@/components/ui/button"
 

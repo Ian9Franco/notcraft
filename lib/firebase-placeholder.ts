@@ -1,9 +1,12 @@
-// This is a placeholder file that will be used if Firebase isn't properly configured
-// It provides mock implementations of Firebase services
-
+/**
+ * Implementaciones simuladas de servicios Firebase
+ * Se utilizan cuando Firebase no está configurado correctamente
+ */
 import type { User } from "firebase/auth"
 
-// Mock Auth
+/**
+ * Autenticación simulada
+ */
 const mockAuth = {
   currentUser: null,
   onAuthStateChanged: (callback: (user: User | null) => void) => {
@@ -14,7 +17,9 @@ const mockAuth = {
   signOut: async () => {},
 }
 
-// Mock Firestore
+/**
+ * Firestore simulado con métodos comunes
+ */
 const mockFirestore = {
   collection: () => ({
     add: async () => ({ id: "mock-id" }),
@@ -26,6 +31,13 @@ const mockFirestore = {
       set: async () => {},
       update: async () => {},
       delete: async () => {},
+    }),
+    where: () => mockFirestore.collection(),
+    orderBy: () => mockFirestore.collection(),
+    limit: () => mockFirestore.collection(),
+    get: async () => ({
+      docs: [],
+      forEach: () => {},
     }),
   }),
   doc: () => ({
@@ -39,7 +51,9 @@ const mockFirestore = {
   }),
 }
 
-// Mock Storage
+/**
+ * Storage simulado
+ */
 const mockStorage = {
   ref: () => ({
     put: async () => ({
@@ -48,10 +62,18 @@ const mockStorage = {
       },
     }),
     getDownloadURL: async () => "https://placeholder.com/image.jpg",
+    uploadBytes: async () => ({}),
   }),
 }
 
+/**
+ * Proveedor de autenticación de Google simulado
+ */
+const mockGoogleAuthProvider = {}
+
+// Exportar servicios simulados
 export const auth = mockAuth
 export const db = mockFirestore
 export const storage = mockStorage
+export const googleAuthProvider = mockGoogleAuthProvider
 

@@ -1,16 +1,17 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { SectionHeader } from "@/components/ui/section-header"
-import { GameButton } from "@/components/ui/game-button"
-import { GameCard } from "@/components/ui/game-card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/client-tabs"
-import ClientCopyButton from "@/components/client-copy-button"
-import ScrollReveal from "@/components/scroll-reveal"
-import DiscordWidget from "@/components/discord-widget"
 import { Server, Calendar } from "lucide-react"
+import { ScrollReveal } from "@/components/animations"
+import { GameButton } from "@/components/ui/button"
+import { GameCard, SectionHeader } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/interactive"
+import { CopyButton } from "@/components/ui/form-elements"
+import DiscordWidget from "@/components/widgets/discord-widget"
 
-// Seasons data
+/**
+ * Datos de temporadas
+ */
 const seasons = [
   {
     number: 1,
@@ -29,6 +30,9 @@ const seasons = [
   },
 ]
 
+/**
+ * Página de información del servidor
+ */
 export default function ServerInfoPage() {
   return (
     <div className="space-y-12 py-6">
@@ -46,7 +50,7 @@ export default function ServerInfoPage() {
             <h3 className="font-title text-xl text-accent mb-4">IP del Servidor</h3>
             <div className="bg-background p-3 rounded-md font-minecraft text-center flex items-center justify-between">
               <span>play.netherious.com</span>
-              <ClientCopyButton text="play.netherious.com" />
+              <CopyButton text="play.netherious.com" />
             </div>
           </GameCard>
 

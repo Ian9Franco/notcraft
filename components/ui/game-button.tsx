@@ -1,18 +1,24 @@
 "use client"
 
-import { type ReactNode, type ButtonHTMLAttributes, useState } from "react"
+import * as React from "react"
 import { cn } from "@/lib/utils"
 
-interface GameButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode
+/**
+ * Props para el botón de juego
+ */
+interface GameButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode
   variant?: "primary" | "secondary" | "accent" | "outline"
   size?: "sm" | "md" | "lg"
   className?: string
   disabled?: boolean
-  icon?: ReactNode
+  icon?: React.ReactNode
   fullWidth?: boolean
 }
 
+/**
+ * Componente de botón con estilo de juego
+ */
 export function GameButton({
   children,
   onClick,
@@ -24,7 +30,7 @@ export function GameButton({
   fullWidth = false,
   ...props
 }: GameButtonProps) {
-  const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = React.useState(false)
 
   const baseStyles =
     "relative font-minecraft uppercase tracking-wider flex items-center justify-center rounded-md transition-all duration-300"
@@ -42,7 +48,9 @@ export function GameButton({
     lg: "text-base py-3 px-6",
   }
 
-  // Colores para los efectos según la variante
+  /**
+   * Obtiene el color para los efectos según la variante
+   */
   const getEffectColor = () => {
     switch (variant) {
       case "primary":

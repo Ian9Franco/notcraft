@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { SectionHeader } from "@/components/ui/section-header"
-import { GameButton } from "@/components/ui/game-button"
-import { GameCard } from "@/components/ui/game-card"
-import ScrollReveal from "@/components/scroll-reveal"
 import { Download, Palette, Settings } from "lucide-react"
+import { ScrollReveal } from "@/components/animations"
+import { GameButton } from "@/components/ui/button"
+import { GameCard, SectionHeader } from "@/components/ui/card"
 
-// Resource packs data
+/**
+ * Datos de resource packs
+ */
 const resourcePacks = [
   {
     name: "Faithful 32x",
@@ -36,6 +37,9 @@ const resourcePacks = [
   },
 ]
 
+/**
+ * Página de resource packs
+ */
 export default function ResourcePacksPage() {
   return (
     <div className="space-y-12 py-6">
