@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 
 /**
- * Componente que muestra el logo animado
+ * Componente que muestra el logo animado simple
  */
 export default function AnimatedLogo() {
   return (

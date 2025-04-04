@@ -2,40 +2,8 @@
 
 import { useEffect, useRef } from "react"
 import * as THREE from "three"
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { motion } from "framer-motion"
-
-// Definición de tipos para OrbitControls ya que no podemos importarlo directamente
-interface OrbitControlsType {
-  enableZoom: boolean
-  enablePan: boolean
-  enableRotate: boolean
-  autoRotate: boolean
-  autoRotateSpeed: number
-  rotateSpeed: number
-  update: () => void
-}
-
-// Función para crear OrbitControls dinámicamente
-const createOrbitControls = async (camera: THREE.Camera, domElement: HTMLElement): Promise<OrbitControlsType> => {
-  // Importar dinámicamente OrbitControls
-  try {
-    const OrbitControlsModule = await import("three/examples/jsm/controls/OrbitControls")
-    return new OrbitControlsModule.OrbitControls(camera, domElement) as OrbitControlsType
-  } catch (error) {
-    console.error("Error loading OrbitControls:", error)
-
-    // Implementación básica de fallback si no se puede cargar el módulo
-    return {
-      enableZoom: false,
-      enablePan: false,
-      enableRotate: true,
-      autoRotate: true,
-      autoRotateSpeed: 1,
-      rotateSpeed: 0.5,
-      update: () => {},
-    }
-  }
-}
 
 /**
  * Componente de cubo 3D animado usando Three.js
@@ -48,7 +16,6 @@ export default function AnimatedCube() {
   const rendererRef = useRef<THREE.WebGLRenderer>()
   const cubesRef = useRef<THREE.Mesh[]>([])
   const mainCubeRef = useRef<THREE.Group>()
-  const controlsRef = useRef<OrbitControlsType>()
   const animationStateRef = useRef({
     state: "assembled", // 'assembled', 'disassembling', 'rotating', 'assembling'
     timer: 0,
@@ -103,6 +70,15 @@ export default function AnimatedCube() {
     const pointLight = new THREE.PointLight(0xb4ff3a, 1, 10)
     pointLight.position.set(0, 0, 3)
     scene.add(pointLight)
+
+    // Controls
+    const controls = new OrbitControls(camera, renderer.domElement)
+    controls.enableZoom = false
+    controls.enablePan = false
+    controls.enableRotate = true
+    controls.autoRotate = true
+    controls.autoRotateSpeed = 1
+    controls.rotateSpeed = 0.5
 
     // Create main cube group
     const mainCube = new THREE.Group()
@@ -265,17 +241,6 @@ export default function AnimatedCube() {
       return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
     }
 
-    // Inicializar OrbitControls
-    createOrbitControls(camera, renderer.domElement).then((controls) => {
-      controls.enableZoom = false
-      controls.enablePan = false
-      controls.enableRotate = true
-      controls.autoRotate = true
-      controls.autoRotateSpeed = 1
-      controls.rotateSpeed = 0.5
-      controlsRef.current = controls
-    })
-
     // Enhanced animation loop with more dynamic effects
     const animate = () => {
       const state = animationStateRef.current
@@ -404,10 +369,8 @@ export default function AnimatedCube() {
         mainCubeRef.current.rotation.z = Math.cos(Date.now() * 0.0015) * 0.05
       }
 
-      // Update controls if available
-      if (controlsRef.current) {
-        controlsRef.current.update()
-      }
+      // Update controls
+      controls.update()
 
       renderer.render(scene, camera)
       animationRef.current = requestAnimationFrame(animate)

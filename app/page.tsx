@@ -3,14 +3,14 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { SectionHeader } from "@/components/ui/section-header"
-import { GameButton } from "@/components/ui/game-button"
-import { GameCard } from "@/components/ui/game-card"
-import ParallaxSection from "@/components/parallax-section"
-import ScrollReveal from "@/components/scroll-reveal"
 import { Server, Package, DiscIcon as Discord } from "lucide-react"
+import { ParallaxSection, ScrollReveal } from "@/components/animations"
+import { GameButton } from "@/components/ui/button"
+import { GameCard, SectionHeader } from "@/components/ui/card"
 
-// Featured mods data
+/**
+ * Datos de mods destacados
+ */
 const featuredMods = [
   {
     title: "Create",
@@ -34,6 +34,9 @@ const featuredMods = [
   },
 ]
 
+/**
+ * Página principal
+ */
 export default function Home() {
   return (
     <div className="space-y-16 py-8">

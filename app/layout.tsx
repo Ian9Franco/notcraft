@@ -3,12 +3,11 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
-import { UserProvider } from "@/context/user-context"
-import SidebarNavigation from "@/components/sidebar-navigation"
-import MobileNavigation from "@/components/mobile-navigation"
-import { TooltipProvider } from "@/components/ui/tooltip"
+import { SidebarNavigation, MobileNavigation } from "@/components/navigation"
+import { TooltipProvider } from "@/components/ui/interactive"
+import { AuthContextProvider } from "@/context/user-context"
+import Header from "@/components/layout/header"
+import Footer from "@/components/layout/footer"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -17,6 +16,10 @@ export const metadata: Metadata = {
   description: "Custom Minecraft server and modpack website",
 }
 
+/**
+ * Layout principal de la aplicación
+ * Estructura la aplicación con barra lateral, encabezado, contenido principal y pie de página
+ */
 export default function RootLayout({
   children,
 }: {
@@ -29,7 +32,7 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <UserProvider>
+          <AuthContextProvider>
             <TooltipProvider>
               <div className="flex min-h-screen">
                 <SidebarNavigation />
@@ -41,7 +44,7 @@ export default function RootLayout({
                 </div>
               </div>
             </TooltipProvider>
-          </UserProvider>
+          </AuthContextProvider>
         </ThemeProvider>
       </body>
     </html>

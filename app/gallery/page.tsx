@@ -5,18 +5,19 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import { useUser } from "@/context/user-context"
+import { Loader2, Upload, Camera, X, LogIn } from "lucide-react"
 import { collection, addDoc, getDocs, query, orderBy, limit, Timestamp } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { db, storage } from "@/lib/firebase"
-import { SectionHeader } from "@/components/ui/section-header"
-import { GameButton } from "@/components/ui/game-button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { GameCard } from "@/components/ui/game-card"
-import ScrollReveal from "@/components/scroll-reveal"
-import { Loader2, Upload, Camera, X, LogIn } from "lucide-react"
+import { useUser } from "@/context/user-context"
+import { ScrollReveal } from "@/components/animations"
+import { GameButton } from "@/components/ui/button"
+import { GameCard, SectionHeader } from "@/components/ui/card"
+import { Input, Textarea } from "@/components/ui/form-elements"
 
+/**
+ * Interfaz para imágenes de la galería
+ */
 interface GalleryImage {
   id: string
   imageUrl: string
@@ -25,6 +26,10 @@ interface GalleryImage {
   uploadedAt: Timestamp
 }
 
+/**
+ * Página de galería
+ * Permite a los usuarios ver y subir imágenes
+ */
 export default function GalleryPage() {
   const { user, signInWithGoogle } = useUser()
 
