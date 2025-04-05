@@ -51,62 +51,64 @@
 }
 
 :root {
-  /* Dark mode colors (default) */
-  --background: 255 10% 22%; /* Raisin Black: #2E2A47 */
-  --foreground: 0 0% 98%;
-  --card: 255 10% 15%;
-  --card-foreground: 0 0% 98%;
-  --popover: 255 10% 15%;
-  --popover-foreground: 0 0% 98%;
-  --primary: 267 30% 60%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 255 10% 18%;
-  --secondary-foreground: 0 0% 98%;
-  --muted: 255 10% 18%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 84 65% 53%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 255 10% 25%;
-  --input: 255 10% 25%;
-  --ring: 142.1 70.6% 45.3%;
-  --radius: 0.5rem;
+  /* 🌑 Dark mode (default) */
+  --background: 216 29% 19%; /* Crown Black */
+  --foreground: 241 100% 92%; /* Pale Lavender Blue */
+  --card: 300 4% 13%; /* Raisin Black */
+  --card-foreground: 241 100% 92%;
+  --popover: 300 4% 13%;
+  --popover-foreground: 241 100% 92%;
 
-  /* Colores adicionales para más variedad */
-  --accent-purple: 267 70% 60%;
-  --accent-blue: 210 100% 60%;
-  --accent-orange: 30 100% 60%;
-  --accent-red: 0 100% 65%;
+  --primary: 241 27% 43%; /* Twilight Blue */
+  --primary-foreground: 241 100% 92%;
+
+  --secondary: 66 64% 56%; /* Rainforest Glow */
+  --secondary-foreground: 300 4% 13%;
+
+  --muted: 216 20% 25%;
+  --muted-foreground: 241 50% 70%;
+
+  --accent: 66 64% 56%;
+  --accent-foreground: 300 4% 13%;
+
+  --destructive: 0 70% 45%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 300 4% 18%;
+  --input: 300 4% 18%;
+  --ring: 241 27% 43%;
+  --radius: 0.5rem;
 }
 
 .light {
-  /* Colores invertidos para el modo claro */
-  --background: 0 0% 98%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 267 70% 45%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 84 80% 40%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 142.1 76.2% 36.3%;
+  /* ☀️ Light mode */
+  --background: 180 21% 94%; /* Frosted Glass */
+  --foreground: 196 13% 40%; /* Darker Celestra Grey for contrast */
 
-  /* Colores adicionales para más variedad en modo claro */
-  --accent-purple: 267 70% 45%;
-  --accent-blue: 210 100% 45%;
-  --accent-orange: 30 100% 45%;
-  --accent-red: 0 100% 50%;
+  --card: 180 13% 83%; /* Offshore Mist */
+  --card-foreground: 186 27% 30%; /* Rhythmic Blue (darkened) */
+
+  --popover: 180 13% 83%;
+  --popover-foreground: 186 27% 30%;
+
+  --primary: 186 27% 79%; /* Rhythmic Blue */
+  --primary-foreground: 0 0% 15%;
+
+  --secondary: 196 13% 66%; /* Celestra Grey */
+  --secondary-foreground: 0 0% 15%;
+
+  --muted: 180 13% 88%;
+  --muted-foreground: 196 13% 45%;
+
+  --accent: 196 13% 66%;
+  --accent-foreground: 0 0% 15%;
+
+  --destructive: 0 84% 55%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 180 13% 80%;
+  --input: 180 13% 80%;
+  --ring: 186 27% 79%;
 }
 
 body {
