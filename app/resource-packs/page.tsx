@@ -16,8 +16,8 @@ const resourcePacks = [
   {
     name: "Fresh Animations",
     description: "Añade animaciones fluidas y realistas a todos los mobs y entidades del juego.",
-    imageSrc: "/images/fresh.png", // Banner
-    logoSrc: "/images/freshlogo.png", // Logo
+    imageSrc: "/images/logos/fresh.png", // Banner
+    logoSrc: "/images/logos/freshlogo.png", // Logo
     files: [
       {
         id: "142AdH8Bm0JyV-8awTmyidOsi__UfIJlv",
@@ -29,8 +29,8 @@ const resourcePacks = [
   {
     name: "Whimscape Combo",
     description: "Un combo de texturas que mejora la experiencia visual manteniendo el estilo vanilla.",
-    imageSrc: "/images/whim.png", // Banner
-    logoSrc: "/images/whimlogo.png", // Logo
+    imageSrc: "/images/logos/whim.png", // Banner
+    logoSrc: "/images/logos/whimlogo.png", // Logo
     files: [
       {
         id: "1EFpr2xuYh94EjSg8WjqGhFuAcWKhywD5",
