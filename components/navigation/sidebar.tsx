@@ -8,7 +8,7 @@ import { motion } from "framer-motion"
 import { Home, Package, Palette, Server, ImageIcon, ChevronRight, ChevronLeft } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import AnimatedLogo from "../animated-logo"
+import { NetheriousLogo } from "../icons/netherious-logo"
 
 /**
  * Definición de un elemento de navegación
@@ -40,9 +40,7 @@ const NavItem = ({ href, icon, label, isActive, isCollapsed }: NavItemProps) => 
               className={cn(
                 "flex items-center gap-2 px-3 py-2 rounded-md transition-colors",
                 isCollapsed ? "justify-center" : "justify-start",
-                isActive
-                  ? "bg-accent/20 text-accent"
-                  : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+                isActive ? "bg-accent/20 text-accent" : "text-sidebar-fg hover:bg-accent/10 hover:text-accent",
               )}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -110,7 +108,7 @@ export default function SidebarNavigation() {
   return (
     <motion.aside
       className={cn(
-        "hidden md:flex flex-col h-screen bg-background/95 backdrop-blur-sm border-r border-border sticky top-0 z-40 transition-all duration-300",
+        "hidden md:flex flex-col h-screen sidebar border-r border-border sticky top-0 z-40 transition-all duration-300",
         isCollapsed ? "w-16" : "w-56",
       )}
       initial={{ x: -50, opacity: 0 }}
@@ -122,7 +120,7 @@ export default function SidebarNavigation() {
         <div className="p-4 flex items-center justify-center">
           <Link href="/" className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-start gap-2")}>
             <div className="w-10 h-10 relative flex items-center justify-center">
-              <AnimatedLogo />
+              <NetheriousLogo />
             </div>
             {!isCollapsed && (
               <motion.span
@@ -148,7 +146,8 @@ export default function SidebarNavigation() {
         <div className="p-4 border-t border-border/30">
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-full flex items-center justify-center p-2 rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+            className="w-full flex items-center justify-center p-2 rounded-md text-sidebar-fg hover:bg-accent/10 hover:text-accent transition-colors"
+            aria-label={isCollapsed ? "Expandir menú" : "Colapsar menú"}
           >
             {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
           </button>

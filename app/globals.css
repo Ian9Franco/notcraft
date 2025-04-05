@@ -78,6 +78,13 @@
   --input: 300 4% 18%;
   --ring: 241 27% 43%;
   --radius: 0.5rem;
+
+  /* Nuevos colores para el sidebar */
+  --sidebar-bg: 300 4% 10%;
+  --sidebar-fg: 241 100% 92%;
+
+  /* Colores para títulos con mejor contraste */
+  --title-color: 66 64% 65%;
 }
 
 .light {
@@ -109,6 +116,13 @@
   --border: 180 13% 80%;
   --input: 180 13% 80%;
   --ring: 186 27% 79%;
+
+  /* Nuevos colores para el sidebar */
+  --sidebar-bg: 186 27% 70%;
+  --sidebar-fg: 0 0% 15%;
+
+  /* Colores para títulos con mejor contraste */
+  --title-color: 196 13% 30%;
 }
 
 body {
@@ -127,6 +141,7 @@ h1,
 h2,
 h3 {
   @apply font-title uppercase;
+  color: hsl(var(--title-color));
 }
 
 .server-description {
@@ -156,6 +171,12 @@ h3 {
 
 .polaroid figcaption {
   @apply text-center font-body text-black;
+}
+
+/* Sidebar personalizado */
+.sidebar {
+  background-color: hsl(var(--sidebar-bg));
+  color: hsl(var(--sidebar-fg));
 }
 
 /* Animaciones y efectos mejorados */
@@ -578,6 +599,51 @@ h3 {
   }
   100% {
     box-shadow: 0 0 15px currentColor;
+  }
+}
+
+/* Estilos para el carrusel */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+}
+
+.carousel-controls {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-dot.active {
+  background-color: hsl(var(--accent));
+}
+
+@media (min-width: 768px) {
+  .carousel-item {
+    flex: 0 0 33.333%;
   }
 }
 
