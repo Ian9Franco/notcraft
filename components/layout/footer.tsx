@@ -1,7 +1,8 @@
 "use client"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Github, DiscIcon as Discord, Heart } from "lucide-react"
+import { Github, Heart } from "lucide-react"
+import { DiscordLogo } from "../icons/discord-logo"
 
 /**
  * Componente de pie de página
@@ -31,7 +32,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="relative bg-secondary pt-8 pb-20 md:pb-6 border-t border-border overflow-hidden">
+    <footer className="relative bg-card pt-8 pb-20 md:pb-6 border-t border-border overflow-hidden">
       {/* Partículas de fondo */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -68,7 +69,7 @@ export default function Footer() {
             <h3 className="font-title text-lg mb-4 text-accent border-b border-accent/30 pb-2 inline-block">
               Netherious
             </h3>
-            <p className="text-sm text-muted-foreground font-body font-light">
+            <p className="text-sm text-foreground font-body font-light">
               Un servidor personalizado de Minecraft con mods increíbles para una experiencia única.
             </p>
             <div className="mt-4 flex space-x-4">
@@ -76,19 +77,19 @@ export default function Footer() {
                 href="https://discord.gg/VgHGz5RJ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-accent transition-colors"
+                className="text-foreground hover:text-accent transition-colors"
                 variants={iconVariants}
                 initial="initial"
                 whileHover="hover"
                 aria-label="Discord"
               >
-                <Discord size={20} />
+                <DiscordLogo size={20} />
               </motion.a>
               <motion.a
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-accent transition-colors"
+                className="text-foreground hover:text-accent transition-colors"
                 variants={iconVariants}
                 initial="initial"
                 whileHover="hover"
@@ -112,7 +113,7 @@ export default function Footer() {
                 <motion.li key={index} variants={linkVariants} initial="initial" whileHover="hover">
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-accent transition-colors font-body flex items-center"
+                    className="text-sm text-foreground hover:text-accent transition-colors font-body flex items-center"
                   >
                     <span className="w-1 h-1 bg-accent/50 rounded-full mr-2"></span>
                     {link.label}
@@ -132,18 +133,18 @@ export default function Footer() {
             <h3 className="font-title text-lg mb-4 text-accent border-b border-accent/30 pb-2 inline-block">
               Comunidad
             </h3>
-            <p className="text-sm text-muted-foreground mb-2 font-body font-light">
+            <p className="text-sm text-foreground mb-2 font-body font-light">
               ¡Únete a nuestro Discord para estar al día!
             </p>
             <motion.a
               href="https://discord.gg/VgHGz5RJ"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm bg-accent/20 hover:bg-accent/30 text-accent py-2 px-4 rounded-md inline-flex items-center transition-all duration-300 border border-accent/30"
+              className="text-sm bg-accent/20 hover:bg-accent/30 text-accent-foreground py-2 px-4 rounded-md inline-flex items-center transition-all duration-300 border border-accent/30"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              <Discord className="mr-2 h-4 w-4" />
+              <DiscordLogo className="mr-2 h-4 w-4" />
               Unirse al Discord
             </motion.a>
           </motion.div>
@@ -157,19 +158,19 @@ export default function Footer() {
           transition={{ duration: 0.5, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="text-sm text-muted-foreground font-body">
+          <p className="text-sm text-foreground font-body">
             &copy; {currentYear} Netherious. Todos los derechos reservados.
           </p>
-          <p className="text-xs text-muted-foreground/70 mt-1 font-body font-light">
+          <p className="text-xs text-foreground/70 mt-1 font-body font-light">
             Minecraft es una marca registrada de Mojang Studios. Este sitio no está afiliado con Mojang.
           </p>
-          <p className="text-xs text-muted-foreground mt-3 font-body flex items-center justify-center">
+          <p className="text-xs text-foreground mt-3 font-body flex items-center justify-center">
             Creado con <Heart className="h-3 w-3 mx-1 text-red-500" /> por{" "}
             <a
               href="https://ian9franco.github.io/Portfolio/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-accent hover:underline ml-1"
+              className="text-primary hover:underline ml-1"
             >
               Notorious
             </a>

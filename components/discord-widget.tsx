@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { GameCard } from "./ui/card"
 import { Loader2 } from "lucide-react"
+import { DiscordLogo } from "./icons/discord-logo"
 
 /**
  * Interfaz para un miembro de Discord
@@ -104,7 +105,10 @@ export default function DiscordWidget({ serverId = "1234567890", className = "" 
     <GameCard className={`p-0 overflow-hidden ${className}`}>
       <div className="bg-[#36393f] text-white">
         <div className="p-4 bg-[#2f3136] flex items-center justify-between">
-          <h3 className="font-minecraft text-lg">{widgetData.name}</h3>
+          <h3 className="font-minecraft text-lg flex items-center">
+            <DiscordLogo className="mr-2 h-5 w-5" />
+            {widgetData.name}
+          </h3>
           <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
             {widgetData.presence_count} online
           </span>
@@ -148,8 +152,9 @@ export default function DiscordWidget({ serverId = "1234567890", className = "" 
             href={widgetData.instant_invite}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#5865f2] hover:bg-[#4752c4] text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            className="bg-[#5865f2] hover:bg-[#4752c4] text-white px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center"
           >
+            <DiscordLogo className="mr-2 h-4 w-4" />
             Unirse al servidor
           </a>
         </div>
