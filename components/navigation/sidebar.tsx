@@ -40,6 +40,7 @@ const NavItem = ({ href, icon, label, isActive, isCollapsed }: NavItemProps) => 
               className={cn(
                 "flex items-center gap-2 px-3 py-2 rounded-md transition-colors",
                 isCollapsed ? "justify-center" : "justify-start",
+                // SIDEBAR: Colores de texto e interacción para elementos de la sidebar
                 isActive ? "bg-accent/20 text-accent" : "text-sidebar-fg hover:bg-accent/10 hover:text-accent",
               )}
               whileHover={{ scale: 1.03 }}
@@ -110,7 +111,7 @@ export default function SidebarNavigation() {
       className={cn(
         "hidden md:flex flex-col h-screen sticky top-0 z-40 border-r border-border",
         isCollapsed ? "w-16" : "w-56",
-        // Aplicamos directamente las clases de color de fondo más oscuro y efecto de sombra
+        // SIDEBAR: Aplicamos directamente las clases de color de fondo más oscuro y efecto de sombra
         "bg-[hsl(var(--sidebar-bg))] text-[hsl(var(--sidebar-fg))]",
         "shadow-lg shadow-black/20 dark:shadow-black/40",
       )}

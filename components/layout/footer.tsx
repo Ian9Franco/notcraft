@@ -1,5 +1,6 @@
 "use client"
 import Link from "next/link"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { Github, Heart } from "lucide-react"
 import { DiscordLogo } from "../icons/discord-logo"
@@ -66,9 +67,12 @@ export default function Footer() {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <h3 className="font-title text-lg mb-4 text-accent border-b border-accent/30 pb-2 inline-block">
-              Netherious
-            </h3>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="relative w-10 h-10">
+                <Image src="/images/netherious.png" alt="Netherious Logo" fill className="object-contain" />
+              </div>
+              <h3 className="font-title text-lg text-accent border-b border-accent/30 pb-2 inline-block">Netherious</h3>
+            </div>
             <p className="text-sm text-foreground font-body font-light">
               Un servidor personalizado de Minecraft con mods increíbles para una experiencia única.
             </p>
