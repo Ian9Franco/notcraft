@@ -2,15 +2,15 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { Download, Palette, Settings } from "lucide-react"
+import { Palette, Settings } from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
-import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
+import DownloadButton from "@/components/resource-packs/download-button"
 
 /**
  * Datos de resource packs
  * Para agregar nuevos packs, simplemente añade un nuevo objeto a este array
- * con los campos: name, description, imageSrc, logoSrc, downloadUrl y specialNote (opcional)
+ * con los campos: name, description, imageSrc, logoSrc, files y specialNote (opcional)
  */
 const resourcePacks = [
   {
@@ -18,31 +18,52 @@ const resourcePacks = [
     description: "Añade animaciones fluidas y realistas a todos los mobs y entidades del juego.",
     imageSrc: "/images/fresh.png", // Banner
     logoSrc: "/images/freshlogo.png", // Logo
-    // URL para descarga directa en lugar de carpeta
-    downloadUrl: "https://drive.google.com/uc?export=download&id=1GBmSHkB--Fzct18Hj-SSaVtBHIo3nmCD",
+    files: [
+      {
+        id: "142AdH8Bm0JyV-8awTmyidOsi__UfIJlv",
+        name: "Fresh Animations",
+      },
+    ],
     specialNote: "Requiere la descarga del pack de animaciones de los mods no esenciales.",
   },
   {
-    name: "Whimscape",
+    name: "Whimscape Combo",
     description: "Un combo de texturas que mejora la experiencia visual manteniendo el estilo vanilla.",
     imageSrc: "/images/whim.png", // Banner
     logoSrc: "/images/whimlogo.png", // Logo
-    // URL para descarga directa en lugar de carpeta
-    downloadUrl: "https://drive.google.com/uc?export=download&id=1GdbO6zAF2yCTwr90SFxcWVpLNbPnrU7l",
+    files: [
+      {
+        id: "1EFpr2xuYh94EjSg8WjqGhFuAcWKhywD5",
+        name: "Whimscape Combo",
+      },
+    ],
     specialNote: "Combo completo de texturas para una experiencia visual mejorada.",
   },
   {
     name: "Faithful 32x",
     description: "Una versión mejorada de las texturas vanilla con resolución 32x32.",
     imageSrc: "/placeholder.svg?height=200&width=400",
-    downloadUrl: "#",
+    files: [], // Pack no disponible aún
   },
   {
     name: "Stay True",
     description: "Mantiene el estilo vanilla mientras mejora los detalles y la atmósfera.",
     imageSrc: "/placeholder.svg?height=200&width=400",
-    downloadUrl: "#",
+    files: [], // Pack no disponible aún
   },
+  // Ejemplo de pack con múltiples archivos
+  // {
+  //   name: "Ultimate Texture Pack",
+  //   description: "Colección completa de texturas para una experiencia inmersiva.",
+  //   imageSrc: "/placeholder.svg?height=200&width=400",
+  //   logoSrc: "/placeholder.svg?height=64&width=64",
+  //   files: [
+  //     { id: "ID_ARCHIVO_1", name: "Base Textures" },
+  //     { id: "ID_ARCHIVO_2", name: "HD Models" },
+  //     { id: "ID_ARCHIVO_3", name: "Environment Pack" }
+  //   ],
+  //   specialNote: "Incluye 3 archivos que deben instalarse juntos."
+  // }
 ]
 
 /**
@@ -50,6 +71,8 @@ const resourcePacks = [
  * ESTILOS: El logo se posiciona en la esquina inferior izquierda con efecto 3D
  */
 function ResourcePackCard({ pack, index }: { pack: (typeof resourcePacks)[0]; index: number }) {
+  const isAvailable = pack.files && pack.files.length > 0
+
   return (
     <ScrollReveal key={index} delay={index * 0.1}>
       <GameCard className="p-0 overflow-hidden h-full" hoverEffect>
@@ -104,28 +127,18 @@ function ResourcePackCard({ pack, index }: { pack: (typeof resourcePacks)[0]; in
             </div>
           )}
 
-          <a
-            href={pack.downloadUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full"
-            onClick={(e) => {
-              // Prevenir comportamiento por defecto para URLs que son "#"
-              if (pack.downloadUrl === "#") {
-                e.preventDefault()
-                alert("Este pack aún no está disponible para descarga.")
-              }
-            }}
-          >
-            <GameButton
+          {/* Botón de descarga con nuevo componente */}
+          {isAvailable ? (
+            <DownloadButton files={pack.files} variant="outline" fullWidth />
+          ) : (
+            <DownloadButton
+              files={{ id: "", name: "" }}
               variant="outline"
               fullWidth
-              icon={<Download className="h-5 w-5" />}
-              disabled={pack.downloadUrl === "#"}
-            >
-              Descargar
-            </GameButton>
-          </a>
+              className="opacity-50 cursor-not-allowed"
+              onComplete={() => {}}
+            />
+          )}
         </div>
       </GameCard>
     </ScrollReveal>
