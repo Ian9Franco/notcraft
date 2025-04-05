@@ -19,7 +19,7 @@ export default function MobileNavigation() {
 
   return (
     <motion.nav
-      className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-t border-border"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-t border-border"
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.3 }}
@@ -34,7 +34,7 @@ export default function MobileNavigation() {
                 <div
                   className={cn(
                     "flex flex-col items-center justify-center",
-                    isActive ? "text-accent" : "text-muted-foreground",
+                    isActive ? "text-accent" : "text-foreground",
                   )}
                 >
                   {item.icon}
