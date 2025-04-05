@@ -4,11 +4,11 @@ import type { ReactNode } from "react"
 import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Home, Package, Palette, Server, ImageIcon, ChevronRight, ChevronLeft } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { NetheriousLogo } from "../icons/netherious-logo"
+import { NetheriousLogo } from "@/components/icons/netherious-logo"
 
 /**
  * Definición de un elemento de navegación
@@ -108,30 +108,36 @@ export default function SidebarNavigation() {
   return (
     <motion.aside
       className={cn(
-        "hidden md:flex flex-col h-screen sidebar border-r border-border sticky top-0 z-40 transition-all duration-300",
+        "hidden md:flex flex-col h-screen sticky top-0 z-40 border-r border-border",
         isCollapsed ? "w-16" : "w-56",
+        // Aplicamos directamente las clases de color de fondo y texto en lugar de usar la clase "sidebar"
+        "bg-[hsl(var(--sidebar-bg))] text-[hsl(var(--sidebar-fg))]",
       )}
       initial={{ x: -50, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      layout
     >
       <div className="flex flex-col h-full">
         {/* Logo y título */}
         <div className="p-4 flex items-center justify-center">
           <Link href="/" className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-start gap-2")}>
             <div className="w-10 h-10 relative flex items-center justify-center">
-              <NetheriousLogo />
+              <NetheriousLogo size={40} />
             </div>
-            {!isCollapsed && (
-              <motion.span
-                className="font-title text-xl text-accent tracking-wider"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-              >
-                Netherious
-              </motion.span>
-            )}
+            <AnimatePresence>
+              {!isCollapsed && (
+                <motion.span
+                  className="font-title text-xl text-accent tracking-wider"
+                  initial={{ opacity: 0, x: -10, width: 0 }}
+                  animate={{ opacity: 1, x: 0, width: "auto" }}
+                  exit={{ opacity: 0, x: -10, width: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  Netherious
+                </motion.span>
+              )}
+            </AnimatePresence>
           </Link>
         </div>
 
@@ -142,15 +148,23 @@ export default function SidebarNavigation() {
           ))}
         </div>
 
-        {/* Botón para colapsar/expandir */}
+        {/* Botón para colapsar/expandir con animación mejorada */}
         <div className="p-4 border-t border-border/30">
-          <button
+          <motion.button
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="w-full flex items-center justify-center p-2 rounded-md text-sidebar-fg hover:bg-accent/10 hover:text-accent transition-colors"
-            aria-label={isCollapsed ? "Expandir menú" : "Colapsar menú"}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
           >
-            {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
-          </button>
+            <motion.div
+              initial={false}
+              animate={{ rotate: isCollapsed ? 0 : 180 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
+            </motion.div>
+          </motion.button>
         </div>
       </div>
     </motion.aside>

@@ -7,6 +7,8 @@ import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger, InteractiveAccordion } from "@/components/ui/interactive"
+import { useTheme } from "next-themes"
+import { useState, useEffect } from "react"
 
 /**
  * Datos de mods destacados - Marcado con ID para facilitar actualizaciones por temporada
@@ -206,6 +208,18 @@ const tutorialSteps = [
  * Página del modpack
  */
 export default function ModpackPage() {
+  // Usamos useTheme para detectar el tema actual
+  const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  // Efecto para manejar el montaje del componente
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Determinamos el color del texto según el tema
+  const titleTextColor = mounted ? (theme === "dark" ? "text-white" : "text-black") : "text-primary"
+
   return (
     <div className="space-y-12 py-6">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -267,8 +281,8 @@ export default function ModpackPage() {
                     transition={{ duration: 0.3, delay: index * 0.05 }}
                   >
                     <div>
-                      {/* Cambiamos el color del título para mejorar el contraste */}
-                      <h4 className="font-minecraft text-lg text-accent">{mod.name}</h4>
+                      {/* Usamos el color de texto dinámico basado en el tema */}
+                      <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor}`}>{mod.name}</h4>
                       <p className="text-sm text-muted-foreground">{mod.description}</p>
                     </div>
                     <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
@@ -305,8 +319,7 @@ export default function ModpackPage() {
               <TabsContent key={category} value={category}>
                 <GameCard>
                   <div className="flex items-center justify-between mb-4">
-                    {/* Cambiamos el color del título para mejorar el contraste */}
-                    <h3 className="font-minecraft text-lg text-accent">
+                    <h3 className={`font-minecraft text-lg font-semibold ${titleTextColor}`}>
                       Mods de{" "}
                       {category === "particles"
                         ? "Partículas"
@@ -337,8 +350,8 @@ export default function ModpackPage() {
                         transition={{ duration: 0.3, delay: index * 0.1 }}
                       >
                         <div>
-                          {/* Cambiamos el color del título para mejorar el contraste */}
-                          <h4 className="font-minecraft text-lg text-accent">{mod.name}</h4>
+                          {/* Usamos el color de texto dinámico basado en el tema */}
+                          <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor}`}>{mod.name}</h4>
                           <p className="text-sm text-muted-foreground">{mod.description}</p>
                         </div>
                         <div className="flex items-center gap-2">
