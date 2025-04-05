@@ -3,7 +3,8 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { Server, Package, DiscIcon as Discord } from "lucide-react"
+import { Server, Package } from "lucide-react"
+import { DiscordLogo } from "@/components/icons/discord-logo"
 import { ParallaxSection, ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
@@ -76,7 +77,7 @@ export default function Home() {
               </GameButton>
             </Link>
             <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
-              <GameButton variant="outline" size="lg" icon={<Discord />}>
+              <GameButton variant="outline" size="lg" icon={<DiscordLogo />}>
                 Unirse al Discord
               </GameButton>
             </Link>
@@ -137,7 +138,7 @@ export default function Home() {
                   </GameButton>
                 </Link>
                 <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
-                  <GameButton variant="secondary" icon={<Discord />}>
+                  <GameButton variant="secondary" icon={<DiscordLogo />}>
                     Discord
                   </GameButton>
                 </Link>

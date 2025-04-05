@@ -1,5 +1,4 @@
 "use client"
-
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Github, DiscIcon as Discord, Heart } from "lucide-react"
@@ -34,18 +33,18 @@ export default function Footer() {
   return (
     <footer className="relative bg-secondary pt-8 pb-20 md:pb-6 border-t border-border overflow-hidden">
       {/* Partículas de fondo */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-accent/30 rounded-full"
             initial={{
-              x: Math.random() * 100 + "%",
-              y: Math.random() * 100 + "%",
+              x: `${Math.random() * 90 + 5}%`, // Evitar las esquinas
+              y: `${Math.random() * 90 + 5}%`, // Evitar las esquinas
               opacity: Math.random() * 0.5 + 0.3,
             }}
             animate={{
-              y: [null, Math.random() * 100 + "%"],
+              y: [null, `${Math.random() * 90 + 5}%`], // Evitar las esquinas
               opacity: [null, Math.random() * 0.3 + 0.1],
             }}
             transition={{
