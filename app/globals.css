@@ -173,12 +173,6 @@ h3 {
   @apply text-center font-body text-black;
 }
 
-/* Sidebar personalizado */
-.sidebar {
-  background-color: hsl(var(--sidebar-bg));
-  color: hsl(var(--sidebar-fg));
-}
-
 /* Animaciones y efectos mejorados */
 @keyframes fadeIn {
   from {
