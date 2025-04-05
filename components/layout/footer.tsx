@@ -69,7 +69,7 @@ export default function Footer() {
           >
             <div className="flex items-center gap-2 mb-4">
               <div className="relative w-10 h-10">
-                <Image src="/images/netherious.png" alt="Netherious Logo" fill className="object-contain" />
+                <Image src="/images/logos/netherious.png" alt="Netherious Logo" fill className="object-contain" />
               </div>
               <h3 className="font-title text-lg text-accent border-b border-accent/30 pb-2 inline-block">Netherious</h3>
             </div>
