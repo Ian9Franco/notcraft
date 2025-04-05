@@ -30,6 +30,7 @@ const featuredMods = [
 const optionalMods = {
   particles: [
     { name: "Enhanced Visuals", version: "1.2.0", description: "Efectos visuales mejorados" },
+    { name: "Ambient Sounds", version: "1.2.0", description: "Efectos visuales mejorados" },
     { name: "Ambient Sounds", version: "5.0.3", description: "Sonidos ambientales" },
   ],
   animations: [
@@ -217,7 +218,7 @@ export default function ModpackPage() {
     setMounted(true)
   }, [])
 
-  // Determinamos el color del texto según el tema
+  // TITULOS: Determinamos el color del texto según el tema
   const titleTextColor = mounted ? (theme === "dark" ? "text-white" : "text-black") : "text-primary"
 
   return (
@@ -281,8 +282,10 @@ export default function ModpackPage() {
                     transition={{ duration: 0.3, delay: index * 0.05 }}
                   >
                     <div>
-                      {/* Usamos el color de texto dinámico basado en el tema */}
-                      <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor}`}>{mod.name}</h4>
+                      {/* TITULOS: Usamos el color de texto dinámico basado en el tema */}
+                      <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>
+                        {mod.name}
+                      </h4>
                       <p className="text-sm text-muted-foreground">{mod.description}</p>
                     </div>
                     <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
@@ -330,7 +333,7 @@ export default function ModpackPage() {
                             : "Shaders"}
                     </h3>
                     <a
-                      href={`https://drive.google.com/drive/folders/${category.toUpperCase()}_FOLDER_ID`}
+                      href={`https://drive.google.com/uc?export=download&id=${category.toUpperCase()}_FOLDER_ID`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -350,8 +353,10 @@ export default function ModpackPage() {
                         transition={{ duration: 0.3, delay: index * 0.1 }}
                       >
                         <div>
-                          {/* Usamos el color de texto dinámico basado en el tema */}
-                          <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor}`}>{mod.name}</h4>
+                          {/* TITULOSHOVER: Usamos el color de texto dinámico basado en el tema con hover */}
+                          <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>
+                            {mod.name}
+                          </h4>
                           <p className="text-sm text-muted-foreground">{mod.description}</p>
                         </div>
                         <div className="flex items-center gap-2">

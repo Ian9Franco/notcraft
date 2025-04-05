@@ -79,12 +79,16 @@
   --ring: 241 27% 43%;
   --radius: 0.5rem;
 
-  /* Sidebar más oscuro que el fondo - Oscurecido aún más */
+  /* SIDEBAR: Sidebar más oscuro que el fondo - Oscurecido aún más */
   --sidebar-bg: 300 4% 5%; /* Más oscuro que antes */
   --sidebar-fg: 241 100% 92%;
 
-  /* Colores para títulos con mejor contraste */
+  /* TITULOS: Colores para títulos con mejor contraste */
   --title-color: 66 64% 65%;
+  /* En modo oscuro, los títulos son claros (casi blancos) */
+  --title-text-dark: 0 0% 100%;
+  /* En modo oscuro, el hover de títulos es accent */
+  --title-hover-dark: 66 64% 65%;
 }
 
 .light {
@@ -117,12 +121,16 @@
   --input: 180 13% 80%;
   --ring: 186 27% 79%;
 
-  /* Sidebar más oscuro que el fondo - Oscurecido aún más */
+  /* SIDEBAR: Sidebar más oscuro que el fondo - Oscurecido aún más */
   --sidebar-bg: 186 27% 40%; /* Más oscuro que antes */
   --sidebar-fg: 0 0% 15%;
 
-  /* Colores para títulos con mejor contraste */
+  /* TITULOS: Colores para títulos con mejor contraste */
   --title-color: 196 13% 30%;
+  /* En modo claro, los títulos son oscuros (casi negros) */
+  --title-text-light: 0 0% 0%;
+  /* En modo claro, el hover de títulos es accent */
+  --title-hover-light: 196 13% 30%;
 }
 
 body {
@@ -137,11 +145,21 @@ body {
   background-image: url("/images/light-dirt-background.png");
 }
 
+/* TITULOS: Estilos base para títulos */
 h1,
 h2,
 h3 {
   @apply font-title uppercase;
   color: hsl(var(--title-color));
+}
+
+/* TITULOSHOVER: Estilos para hover en títulos */
+.title-hover:hover {
+  color: hsl(var(--title-hover-dark));
+}
+
+.light .title-hover:hover {
+  color: hsl(var(--title-hover-light));
 }
 
 .server-description {
