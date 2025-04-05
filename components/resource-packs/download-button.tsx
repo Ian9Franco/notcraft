@@ -48,7 +48,7 @@ export default function DownloadButton({
       const link = document.createElement("a")
       link.href = url
       link.download = fileName
-      link.target = "_blank" // Necesario para algunos navegadores
+      // link.target = "_blank" // Necesario para algunos navegadores
 
       // Añadir al DOM, hacer clic y luego eliminar
       document.body.appendChild(link)
