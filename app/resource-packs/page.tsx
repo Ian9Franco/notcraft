@@ -16,17 +16,19 @@ const resourcePacks = [
   {
     name: "Fresh Animations",
     description: "Añade animaciones fluidas y realistas a todos los mobs y entidades del juego.",
-    imageSrc: "../../public/images/logos/fresh.png", // Banner
-    logoSrc: "../../public/images/logos/freshlogo.png", // Logo
-    downloadUrl: "https://drive.google.com/drive/folders/1GBmSHkB--Fzct18Hj-SSaVtBHIo3nmCD?usp=drive_link",
+    imageSrc: "/fresh.png", // Banner
+    logoSrc: "/freshlogo.png", // Logo
+    // URL para descarga directa en lugar de carpeta
+    downloadUrl: "https://drive.google.com/uc?export=download&id=1GBmSHkB--Fzct18Hj-SSaVtBHIo3nmCD",
     specialNote: "Requiere la descarga del pack de animaciones de los mods no esenciales.",
   },
   {
     name: "Whimscape",
     description: "Un combo de texturas que mejora la experiencia visual manteniendo el estilo vanilla.",
-    imageSrc: "../../public/images/logos/whim.png", // Banner
-    logoSrc: "../../public/images/logos/whimlogo.png", // Logo
-    downloadUrl: "https://drive.google.com/drive/folders/1GdbO6zAF2yCTwr90SFxcWVpLNbPnrU7l?usp=drive_link",
+    imageSrc: "/fresh.png", // Banner
+    logoSrc: "/whimlogo.png", // Logo
+    // URL para descarga directa en lugar de carpeta
+    downloadUrl: "https://drive.google.com/uc?export=download&id=1GdbO6zAF2yCTwr90SFxcWVpLNbPnrU7l",
     specialNote: "Combo completo de texturas para una experiencia visual mejorada.",
   },
   {
@@ -89,7 +91,7 @@ function ResourcePackCard({ pack, index }: { pack: (typeof resourcePacks)[0]; in
             </div>
           )}
 
-          <a href={pack.downloadUrl} target="_blank" rel="noopener noreferrer">
+          <a href={pack.downloadUrl} target="_blank" rel="noopener noreferrer" download>
             <GameButton variant="outline" fullWidth icon={<Download className="h-5 w-5" />}>
               Descargar
             </GameButton>

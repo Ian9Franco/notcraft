@@ -6,9 +6,14 @@ import { motion } from "framer-motion"
 import { Home, Package, Palette, Server, ImageIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
+/**
+ * Componente de navegación para dispositivos móviles
+ * Este componente se muestra en la parte inferior de la pantalla en dispositivos móviles
+ */
 export default function MobileNavigation() {
   const pathname = usePathname()
 
+  // Elementos de navegación
   const navItems = [
     { href: "/", icon: <Home size={20} />, label: "Inicio" },
     { href: "/modpack", icon: <Package size={20} />, label: "Modpack" },
