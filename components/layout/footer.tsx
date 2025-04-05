@@ -32,20 +32,20 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="relative bg-card pt-8 pb-20 md:pb-6 border-t border-border overflow-hidden">
-      {/* Partículas de fondo */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+    <footer className="relative bg-card pt-8 pb-20 md:pb-6 border-t border-border">
+      {/* Partículas de fondo - Eliminamos el overflow-hidden para evitar el punto en la esquina */}
+      <div className="absolute inset-0 pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-accent/30 rounded-full"
             initial={{
-              x: `${Math.random() * 90 + 5}%`, // Evitar las esquinas
-              y: `${Math.random() * 90 + 5}%`, // Evitar las esquinas
+              x: `${Math.random() * 80 + 10}%`, // Evitar completamente las esquinas
+              y: `${Math.random() * 80 + 10}%`, // Evitar completamente las esquinas
               opacity: Math.random() * 0.5 + 0.3,
             }}
             animate={{
-              y: [null, `${Math.random() * 90 + 5}%`], // Evitar las esquinas
+              y: [null, `${Math.random() * 80 + 10}%`], // Evitar completamente las esquinas
               opacity: [null, Math.random() * 0.3 + 0.1],
             }}
             transition={{
@@ -170,7 +170,7 @@ export default function Footer() {
               href="https://ian9franco.github.io/Portfolio/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline ml-1"
+              className="text-primary hover:underline ml-1 font-semibold"
             >
               Notorious
             </a>

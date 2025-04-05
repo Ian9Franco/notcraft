@@ -5,9 +5,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { Server, Package } from "lucide-react"
 import { DiscordLogo } from "@/components/icons/discord-logo"
+import { NetheriousLogo } from "@/components/icons/netherious-logo"
 import { ParallaxSection, ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
+import { Carousel } from "@/components/ui/carousel"
 
 /**
  * Datos de mods destacados
@@ -41,20 +43,20 @@ const featuredMods = [
 export default function Home() {
   return (
     <div className="space-y-16 py-8">
-      {/* Hero Section with Parallax */}
+      {/* Hero Section with Parallax and Logo */}
       <ParallaxSection
         bgImage="/placeholder.svg?height=800&width=1600"
         className="min-h-[60vh] flex items-center justify-center rounded-xl overflow-hidden"
       >
         <div className="text-center p-8 bg-background/60 backdrop-blur-md rounded-xl max-w-3xl mx-auto">
-          <motion.h1
-            className="minecraft-style text-4xl md:text-5xl lg:text-6xl text-accent mb-4"
+          <motion.div
+            className="flex justify-center mb-6"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Netherious
-          </motion.h1>
+            <NetheriousLogo showText={true} size={80} className="h-20" />
+          </motion.div>
 
           <motion.p
             className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8"
@@ -85,35 +87,32 @@ export default function Home() {
         </div>
       </ParallaxSection>
 
-      {/* Featured Mods Section */}
+      {/* Featured Mods Section with Carousel */}
       <ScrollReveal>
         <SectionHeader
           title="Mods Destacados"
           subtitle="Nuestro servidor cuenta con una selección de los mejores mods para mejorar tu experiencia de juego."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredMods.map((mod, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <GameCard>
-                <div className="relative h-48 mb-4 rounded-md overflow-hidden">
-                  <Image
-                    src={mod.imageSrc || "/placeholder.svg"}
-                    alt={mod.title}
-                    fill
-                    className="object-cover transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-                <h3 className="font-title text-xl text-accent mb-2">{mod.title}</h3>
-                <p className="text-sm text-muted-foreground">{mod.description}</p>
-              </GameCard>
-            </motion.div>
-          ))}
+        <div className="mt-8">
+          <Carousel>
+            {featuredMods.map((mod, index) => (
+              <div key={index} className="p-4">
+                <GameCard className="h-full">
+                  <div className="relative h-48 mb-4 rounded-md overflow-hidden">
+                    <Image
+                      src={mod.imageSrc || "/placeholder.svg"}
+                      alt={mod.title}
+                      fill
+                      className="object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                  </div>
+                  <h3 className="font-title text-xl text-accent mb-2">{mod.title}</h3>
+                  <p className="text-sm text-foreground">{mod.description}</p>
+                </GameCard>
+              </div>
+            ))}
+          </Carousel>
         </div>
       </ScrollReveal>
 
@@ -127,7 +126,7 @@ export default function Home() {
                 subtitle="Explora, construye y sobrevive en un mundo lleno de aventuras y posibilidades."
                 accent
               />
-              <p className="text-muted-foreground mb-6">
+              <p className="text-foreground mb-6">
                 Nuestro servidor ofrece una experiencia única con temporadas temáticas, mods cuidadosamente
                 seleccionados y una comunidad amigable.
               </p>
