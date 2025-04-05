@@ -51,6 +51,11 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Añadir colores para el sidebar
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-bg))",
+          fg: "hsl(var(--sidebar-fg))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
