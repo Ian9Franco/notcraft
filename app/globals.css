@@ -79,16 +79,20 @@
   --ring: 241 27% 43%;
   --radius: 0.5rem;
 
-  /* SIDEBAR: Sidebar más oscuro que el fondo - Oscurecido aún más */
-  --sidebar-bg: 300 4% 5%; /* Más oscuro que antes */
-  --sidebar-fg: 241 100% 92%;
+ /* SIDEBAR: Sidebar más oscuro que el fondo - Oscurecido aún más */
+ --sidebar-bg: hsla(300, 4%, 5%, 0.85); /* Más oscuro que antes */
+ --sidebar-fg: 241 100% 92%;
 
-  /* TITULOS: Colores para títulos con mejor contraste */
-  --title-color: 66 64% 65%;
-  /* En modo oscuro, los títulos son claros (casi blancos) */
-  --title-text-dark: 0 0% 100%;
-  /* En modo oscuro, el hover de títulos es accent */
-  --title-hover-dark: 66 64% 65%;
+ /* TITULOS: Colores para títulos con mejor contraste */
+ --title-color: 66 64% 65%;
+ /* En modo oscuro, los títulos son claros (casi blancos) */
+ --title-text-dark: 0 0% 100%;
+ /* En modo oscuro, el hover de títulos es accent */
+ --title-hover-dark: 66 64% 65%;
+
+ /* Variables generales para texto y hover de títulos */
+ --title-text: hsl(241, 27%, 43%);
+ --title-hover: hsla(241, 27%, 43%, 0.6); /* mismo color, menos opaco */
 }
 
 .light {
@@ -121,7 +125,6 @@
   --input: 180 13% 80%;
   --ring: 186 27% 79%;
 
-  /* SIDEBAR: Sidebar más oscuro que el fondo - Oscurecido aún más */
   --sidebar-bg: 186 27% 40%; /* Más oscuro que antes */
   --sidebar-fg: 0 0% 15%;
 
@@ -131,6 +134,10 @@
   --title-text-light: 0 0% 0%;
   /* En modo claro, el hover de títulos es accent */
   --title-hover-light: 196 13% 30%;
+
+  /* Variables generales para texto y hover de títulos */
+  --title-text: hsl(216, 29%, 19%);
+  --title-hover: hsl(216, 29%, 30%);
 }
 
 body {
@@ -467,7 +474,7 @@ h3 {
 }
 
 .light .glass-card {
-  background: rgba(240, 240, 240, 0.7);
+  background: rgba(255, 0, 0, 0.7);
 }
 
 /* Nuevos efectos de partículas */

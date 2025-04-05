@@ -16,8 +16,8 @@ const resourcePacks = [
   {
     name: "Fresh Animations",
     description: "Añade animaciones fluidas y realistas a todos los mobs y entidades del juego.",
-    imageSrc: "/images/logos/fresh.png", // Banner
-    logoSrc: "/images/logos/freshlogo.png", // Logo
+    imageSrc: "/images/fresh.png", // Banner
+    logoSrc: "/images/freshlogo.png", // Logo
     // URL para descarga directa en lugar de carpeta
     downloadUrl: "https://drive.google.com/uc?export=download&id=1GBmSHkB--Fzct18Hj-SSaVtBHIo3nmCD",
     specialNote: "Requiere la descarga del pack de animaciones de los mods no esenciales.",
@@ -25,8 +25,8 @@ const resourcePacks = [
   {
     name: "Whimscape",
     description: "Un combo de texturas que mejora la experiencia visual manteniendo el estilo vanilla.",
-    imageSrc: "/images/logos/whim.png", // Banner
-    logoSrc: "/images/logos/whimlogo.png", // Logo
+    imageSrc: "/images/whim.png", // Banner
+    logoSrc: "/images/whimlogo.png", // Logo
     // URL para descarga directa en lugar de carpeta
     downloadUrl: "https://drive.google.com/uc?export=download&id=1GdbO6zAF2yCTwr90SFxcWVpLNbPnrU7l",
     specialNote: "Combo completo de texturas para una experiencia visual mejorada.",
@@ -47,6 +47,7 @@ const resourcePacks = [
 
 /**
  * Componente para mostrar un resource pack con logo superpuesto
+ * ESTILOS: El logo se posiciona en la esquina inferior izquierda con efecto 3D
  */
 function ResourcePackCard({ pack, index }: { pack: (typeof resourcePacks)[0]; index: number }) {
   return (
@@ -62,16 +63,28 @@ function ResourcePackCard({ pack, index }: { pack: (typeof resourcePacks)[0]; in
             className="object-cover transition-transform duration-500 hover:scale-105"
           />
 
-          {/* Logo superpuesto (si existe) */}
+          {/* Logo superpuesto (si existe) - Posicionado en esquina inferior izquierda con efecto 3D */}
           {pack.logoSrc && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-32 h-32">
-                <Image
-                  src={pack.logoSrc || "/placeholder.svg"}
-                  alt={`${pack.name} logo`}
-                  fill
-                  className="object-contain drop-shadow-lg"
-                />
+            <div className="absolute left-4 bottom-4 z-10">
+              <div className="relative w-16 h-16 transform transition-transform hover:scale-110">
+                {/* Sombra para efecto 3D */}
+                <div
+                  className="absolute -right-2 -bottom-2 w-16 h-16 bg-black/30 rounded-md blur-sm z-0"
+                  style={{ transform: "perspective(500px) rotateX(10deg) rotateY(-10deg)" }}
+                ></div>
+
+                {/* Logo con efecto de elevación */}
+                <div
+                  className="relative z-10 w-16 h-16 bg-white/10 backdrop-blur-sm rounded-md p-1 border border-white/20"
+                  style={{ transform: "perspective(500px) rotateX(-5deg) rotateY(5deg)" }}
+                >
+                  <Image
+                    src={pack.logoSrc || "/placeholder.svg"}
+                    alt={`${pack.name} logo`}
+                    fill
+                    className="object-contain drop-shadow-lg"
+                  />
+                </div>
               </div>
             </div>
           )}
@@ -91,8 +104,25 @@ function ResourcePackCard({ pack, index }: { pack: (typeof resourcePacks)[0]; in
             </div>
           )}
 
-          <a href={pack.downloadUrl} target="_blank" rel="noopener noreferrer" download>
-            <GameButton variant="outline" fullWidth icon={<Download className="h-5 w-5" />}>
+          <a
+            href={pack.downloadUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full"
+            onClick={(e) => {
+              // Prevenir comportamiento por defecto para URLs que son "#"
+              if (pack.downloadUrl === "#") {
+                e.preventDefault()
+                alert("Este pack aún no está disponible para descarga.")
+              }
+            }}
+          >
+            <GameButton
+              variant="outline"
+              fullWidth
+              icon={<Download className="h-5 w-5" />}
+              disabled={pack.downloadUrl === "#"}
+            >
               Descargar
             </GameButton>
           </a>

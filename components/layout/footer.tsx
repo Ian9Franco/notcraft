@@ -1,9 +1,9 @@
 "use client"
 import Link from "next/link"
-import Image from "next/image"
 import { motion } from "framer-motion"
 import { Github, Heart } from "lucide-react"
 import { DiscordLogo } from "../icons/discord-logo"
+import { NetheriousLogo } from "../icons/netherious-logo"
 
 /**
  * Componente de pie de página
@@ -68,9 +68,8 @@ export default function Footer() {
             viewport={{ once: true }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <div className="relative w-10 h-10">
-                <Image src="/images/logos/netherious.png" alt="Netherious Logo" fill className="object-contain" />
-              </div>
+              {/* Reemplazamos la imagen estática por el componente NetheriousLogo */}
+              <NetheriousLogo size={40} animate={true} intensity="low" />
               <h3 className="font-title text-lg text-accent border-b border-accent/30 pb-2 inline-block">Netherious</h3>
             </div>
             <p className="text-sm text-foreground font-body font-light">

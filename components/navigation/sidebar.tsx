@@ -125,7 +125,8 @@ export default function SidebarNavigation() {
         <div className="p-4 flex items-center justify-center">
           <Link href="/" className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-start gap-2")}>
             <div className="w-10 h-10 relative flex items-center justify-center">
-              <NetheriousLogo size={40} />
+              {/* Usamos el componente NetheriousLogo con animaciones mejoradas */}
+              <NetheriousLogo size={40} animate={true} intensity="medium" />
             </div>
             <AnimatePresence>
               {!isCollapsed && (
