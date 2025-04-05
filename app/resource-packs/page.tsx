@@ -16,16 +16,16 @@ const resourcePacks = [
   {
     name: "Fresh Animations",
     description: "Añade animaciones fluidas y realistas a todos los mobs y entidades del juego.",
-    imageSrc: "/fresh.png", // Banner
-    logoSrc: "/freshlogo.png", // Logo
+    imageSrc: "../../public/images/logos/fresh.png", // Banner
+    logoSrc: "../../public/images/logos/freshlogo.png", // Logo
     downloadUrl: "https://drive.google.com/drive/folders/1GBmSHkB--Fzct18Hj-SSaVtBHIo3nmCD?usp=drive_link",
     specialNote: "Requiere la descarga del pack de animaciones de los mods no esenciales.",
   },
   {
     name: "Whimscape",
     description: "Un combo de texturas que mejora la experiencia visual manteniendo el estilo vanilla.",
-    imageSrc: "/fresh.png", // Banner
-    logoSrc: "/whimlogo.png", // Logo
+    imageSrc: "../../public/images/logos/whim.png", // Banner
+    logoSrc: "../../public/images/logos/whimlogo.png", // Logo
     downloadUrl: "https://drive.google.com/drive/folders/1GdbO6zAF2yCTwr90SFxcWVpLNbPnrU7l?usp=drive_link",
     specialNote: "Combo completo de texturas para una experiencia visual mejorada.",
   },
