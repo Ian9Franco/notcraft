@@ -267,7 +267,8 @@ export default function ModpackPage() {
                     transition={{ duration: 0.3, delay: index * 0.05 }}
                   >
                     <div>
-                      <h4 className="font-minecraft text-lg text-primary">{mod.name}</h4>
+                      {/* Cambiamos el color del título para mejorar el contraste */}
+                      <h4 className="font-minecraft text-lg text-accent">{mod.name}</h4>
                       <p className="text-sm text-muted-foreground">{mod.description}</p>
                     </div>
                     <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
@@ -304,7 +305,8 @@ export default function ModpackPage() {
               <TabsContent key={category} value={category}>
                 <GameCard>
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-minecraft text-lg text-primary">
+                    {/* Cambiamos el color del título para mejorar el contraste */}
+                    <h3 className="font-minecraft text-lg text-accent">
                       Mods de{" "}
                       {category === "particles"
                         ? "Partículas"
@@ -335,7 +337,8 @@ export default function ModpackPage() {
                         transition={{ duration: 0.3, delay: index * 0.1 }}
                       >
                         <div>
-                          <h4 className="font-minecraft text-lg text-primary">{mod.name}</h4>
+                          {/* Cambiamos el color del título para mejorar el contraste */}
+                          <h4 className="font-minecraft text-lg text-accent">{mod.name}</h4>
                           <p className="text-sm text-muted-foreground">{mod.description}</p>
                         </div>
                         <div className="flex items-center gap-2">
