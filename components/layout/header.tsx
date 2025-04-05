@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import { Menu, X, CuboidIcon as Cube, Sun, Moon, Axe, Package, Palette, Server, ImageIcon } from "lucide-react"
 import { useTheme } from "next-themes"
-import AnimatedLogo from "../ui/animated-logo"
+import { NetheriousLogo } from "@/components/icons/netherious-logo"
 import { useUser } from "@/context/user-context"
 import { Button } from "@/components/ui/button"
 
@@ -84,7 +84,7 @@ export default function Header() {
           <Link href="/" className="md:hidden flex items-center space-x-2">
             <div className="w-10 h-10 relative flex items-center justify-center">
               {isMounted ? (
-                <AnimatedLogo />
+                <NetheriousLogo size={40} />
               ) : (
                 <div className="w-full h-full flex items-center justify-center rounded-md">
                   <Cube className="text-accent" />

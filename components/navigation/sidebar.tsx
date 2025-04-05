@@ -110,8 +110,9 @@ export default function SidebarNavigation() {
       className={cn(
         "hidden md:flex flex-col h-screen sticky top-0 z-40 border-r border-border",
         isCollapsed ? "w-16" : "w-56",
-        // Aplicamos directamente las clases de color de fondo y texto en lugar de usar la clase "sidebar"
+        // Aplicamos directamente las clases de color de fondo más oscuro y efecto de sombra
         "bg-[hsl(var(--sidebar-bg))] text-[hsl(var(--sidebar-fg))]",
+        "shadow-lg shadow-black/20 dark:shadow-black/40",
       )}
       initial={{ x: -50, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}

@@ -164,13 +164,13 @@ export default function Footer() {
           <p className="text-xs text-foreground/70 mt-1 font-body font-light">
             Minecraft es una marca registrada de Mojang Studios. Este sitio no está afiliado con Mojang.
           </p>
-          <p className="text-xs text-foreground mt-3 font-body flex items-center justify-center">
+          <p className="text-xs mt-3 font-body flex items-center justify-center">
             Creado con <Heart className="h-3 w-3 mx-1 text-red-500" /> por{" "}
             <a
               href="https://ian9franco.github.io/Portfolio/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline ml-1 font-semibold"
+              className="text-accent hover:text-accent/80 hover:underline ml-1 font-semibold bg-background/30 px-2 py-0.5 rounded"
             >
               Notorious
             </a>

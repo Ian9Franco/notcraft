@@ -79,8 +79,8 @@
   --ring: 241 27% 43%;
   --radius: 0.5rem;
 
-  /* Sidebar más oscuro que el fondo */
-  --sidebar-bg: 300 4% 8%;
+  /* Sidebar más oscuro que el fondo - Oscurecido aún más */
+  --sidebar-bg: 300 4% 5%; /* Más oscuro que antes */
   --sidebar-fg: 241 100% 92%;
 
   /* Colores para títulos con mejor contraste */
@@ -117,8 +117,8 @@
   --input: 180 13% 80%;
   --ring: 186 27% 79%;
 
-  /* Sidebar más oscuro que el fondo */
-  --sidebar-bg: 186 27% 60%;
+  /* Sidebar más oscuro que el fondo - Oscurecido aún más */
+  --sidebar-bg: 186 27% 40%; /* Más oscuro que antes */
   --sidebar-fg: 0 0% 15%;
 
   /* Colores para títulos con mejor contraste */
