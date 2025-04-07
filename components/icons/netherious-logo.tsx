@@ -1,8 +1,9 @@
+// app/components/icons/netherious-logo.tsx
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-export default function NetheriousParticlesLogo({ className }: { className?: string }) {
+export function NetheriousLogo({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
