@@ -9,7 +9,7 @@ import { motion } from "framer-motion"
 import { Home, Package, Palette, Server, ImageIcon, ChevronRight, ChevronLeft } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import AnimatedLogo from "../ui/animated-logo"
+import { NetheriousLogo } from "@/components/icons/netherious-logo"
 
 /**
  * Definición de elementos de navegación
@@ -117,7 +117,7 @@ export function SidebarNavigation() {
         <div className="p-4 flex items-center justify-center">
           <Link href="/" className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-start gap-2")}>
             <div className="w-10 h-10 relative flex items-center justify-center">
-              <AnimatedLogo />
+              <NetheriousLogo size={40} animate={true} intensity="medium" />
             </div>
             {!isCollapsed && (
               <motion.span

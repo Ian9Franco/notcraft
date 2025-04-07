@@ -26,21 +26,19 @@ export function NetheriousLogo({
     setMounted(true)
   }, [])
 
-  // Colores según el tema
   const logoColor = mounted ? (theme === "dark" ? "#b4ff3a" : "#3a7aff") : "#b4ff3a"
   const particleColor = mounted ? (theme === "dark" ? "#b4ff3a" : "#3a7aff") : "#b4ff3a"
 
-  // Configuración de intensidad de animación
   const particleCount = intensity === "low" ? 6 : intensity === "medium" ? 12 : 20
   const glowIntensity = intensity === "low" ? 0.3 : intensity === "medium" ? 0.5 : 0.8
   const animationSpeed = intensity === "low" ? 0.7 : intensity === "medium" ? 1 : 1.5
 
   return (
     <div className={`relative ${className}`} style={{ width: size, height: size }}>
-      {/* Logo principal con animación mejorada */}
+      {/* Animated 'N' monogram with spark effect */}
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 384 512"
+        viewBox="0 0 100 100"
         width={size}
         height={size}
         initial={animate ? { scale: 0.9, opacity: 0 } : false}
@@ -54,36 +52,33 @@ export function NetheriousLogo({
         }
         transition={{
           duration: 3 * animationSpeed,
-          repeat: Number.POSITIVE_INFINITY,
+          repeat: Infinity,
           repeatType: "reverse",
           ease: "easeInOut",
         }}
         className="relative z-10"
       >
         <motion.path
-          d="M153.6 29.9l16-21.3C173.6 3.2 180 0 186.7 0C198.4 0 208 9.6 208 21.3V43.5c0 13.1 5.4 25.7 14.9 34.7L307.6 159C356.4 205.6 384 270.2 384 337.7C384 434 306 512 209.7 512H192C86 512 0 426 0 320v-3.8c0-48.8 19.4-95.6 53.9-130.1l3.5-3.5c4.2-4.2 10-6.6 16-6.6C85.9 176 96 186.1 96 198.6V288c0 35.3 28.7 64 64 64s64-28.7 64-64v-3.9c0-18-7.2-35.3-19.9-48l-38.6-38.6c-24-24-37.5-56.7-37.5-90.7c0-27.7 9-54.8 25.6-76.9z"
-          fill={logoColor}
-          initial={animate ? { pathLength: 0, fillOpacity: 0 } : false}
+          d="M10,90 V10 L90,90 V10"
+          fill="none"
+          stroke={logoColor}
+          strokeWidth={6}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={animate ? { pathLength: 0, strokeOpacity: 0 } : false}
           animate={
             animate
               ? {
                   pathLength: 1,
-                  fillOpacity: [0, 1, 0.8, 1],
-                  fill: [logoColor, logoColor, `${logoColor}dd`, logoColor],
+                  strokeOpacity: [0, 1, 0.8, 1],
                 }
               : false
           }
           transition={{
             pathLength: { duration: 1.5 * animationSpeed, ease: "easeInOut" },
-            fillOpacity: {
+            strokeOpacity: {
               duration: 3 * animationSpeed,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            },
-            fill: {
-              duration: 3 * animationSpeed,
-              repeat: Number.POSITIVE_INFINITY,
+              repeat: Infinity,
               repeatType: "reverse",
               ease: "easeInOut",
             },
@@ -91,7 +86,7 @@ export function NetheriousLogo({
         />
       </motion.svg>
 
-      {/* Partículas animadas mejoradas */}
+      {/* Particles */}
       {animate && mounted && (
         <>
           {[...Array(particleCount)].map((_, i) => (
@@ -115,7 +110,7 @@ export function NetheriousLogo({
               }}
               transition={{
                 duration: 2 + Math.random() * 2,
-                repeat: Number.POSITIVE_INFINITY,
+                repeat: Infinity,
                 delay: Math.random() * 2,
                 ease: "easeInOut",
               }}
@@ -124,7 +119,7 @@ export function NetheriousLogo({
         </>
       )}
 
-      {/* Resplandor de fondo mejorado */}
+      {/* Glow */}
       {animate && (
         <motion.div
           className="absolute inset-0 rounded-full -z-10"
@@ -135,7 +130,7 @@ export function NetheriousLogo({
           }}
           transition={{
             duration: 3 * animationSpeed,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: Infinity,
             ease: "easeInOut",
           }}
           style={{
@@ -145,7 +140,7 @@ export function NetheriousLogo({
         />
       )}
 
-      {/* Ondas expansivas */}
+      {/* Waves */}
       {animate && (
         <>
           {[...Array(3)].map((_, i) => (
@@ -159,7 +154,7 @@ export function NetheriousLogo({
               }}
               transition={{
                 duration: 2 * animationSpeed,
-                repeat: Number.POSITIVE_INFINITY,
+                repeat: Infinity,
                 delay: i * 0.6,
                 ease: "easeOut",
               }}
@@ -171,7 +166,7 @@ export function NetheriousLogo({
         </>
       )}
 
-      {/* Texto del logo (opcional) con animación mejorada */}
+      {/* Optional Text */}
       {showText && (
         <motion.div
           className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap"
@@ -192,7 +187,7 @@ export function NetheriousLogo({
             }}
             transition={{
               duration: 2 * animationSpeed,
-              repeat: Number.POSITIVE_INFINITY,
+              repeat: Infinity,
               repeatType: "reverse",
             }}
           >
@@ -203,4 +198,3 @@ export function NetheriousLogo({
     </div>
   )
 }
-
