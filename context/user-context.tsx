@@ -1,14 +1,8 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signOut,
-  type User as FirebaseUser,
-} from "firebase/auth"
-import { auth } from "@/lib/firebase"
+import { supabase } from "@/lib/supabase"
+import type { User as SupabaseUser } from "@supabase/supabase-js"
 
 /**
  * Tipo de usuario simplificado con propiedades esenciales
@@ -41,25 +35,42 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>(null)
   const [loading, setLoading] = useState(true)
 
-  // Efecto para observar cambios en el estado de autenticación
+  // Convertir usuario de Supabase al formato esperado por la aplicación
+  const formatUser = (supabaseUser: SupabaseUser | null): User => {
+    if (!supabaseUser) return null
+
+    // Acceder de forma segura a las propiedades de user_metadata
+    const metadata = supabaseUser.user_metadata || {}
+
+    return {
+      uid: supabaseUser.id,
+      displayName: metadata.full_name || metadata.name || null,
+      email: supabaseUser.email || null, // Asegurarse de que email sea string | null
+      photoURL: metadata.avatar_url || null, // Asegurarse de que photoURL sea string | null
+    }
+  }
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser: FirebaseUser | null) => {
-      if (firebaseUser) {
-        // Extraer solo las propiedades necesarias del usuario de Firebase
-        setUser({
-          uid: firebaseUser.uid,
-          displayName: firebaseUser.displayName,
-          email: firebaseUser.email,
-          photoURL: firebaseUser.photoURL,
-        })
-      } else {
-        setUser(null)
-      }
+    // Establecer sesión inicial
+    const initSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      setUser(formatUser(session?.user || null))
+      setLoading(false)
+    }
+
+    initSession()
+
+    // Suscribirse a cambios de autenticación
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(formatUser(session?.user || null))
       setLoading(false)
     })
 
-    // Limpiar el observador al desmontar
-    return () => unsubscribe()
+    return () => subscription.unsubscribe()
   }, [])
 
   /**
@@ -67,8 +78,13 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
    */
   const signInWithGoogle = async () => {
     try {
-      const provider = new GoogleAuthProvider()
-      await signInWithPopup(auth, provider)
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: typeof window !== "undefined" ? window.location.origin : undefined,
+        },
+      })
+      if (error) throw error
     } catch (error) {
       console.error("Error signing in with Google:", error)
     }
@@ -79,7 +95,8 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
    */
   const logout = async () => {
     try {
-      await signOut(auth)
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
     } catch (error) {
       console.error("Error signing out:", error)
     }

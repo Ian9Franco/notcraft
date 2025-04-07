@@ -6,10 +6,8 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import { Loader2, Upload, Camera, X, LogIn } from "lucide-react"
-import { collection, addDoc, getDocs, query, orderBy, limit, Timestamp } from "firebase/firestore"
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
-import { db, storage } from "@/lib/firebase"
 import { useUser } from "@/context/user-context"
+import { supabase } from "@/lib/supabase"
 import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
@@ -20,10 +18,10 @@ import { Input, Textarea } from "@/components/ui/form-elements"
  */
 interface GalleryImage {
   id: string
-  imageUrl: string
+  image_url: string
   description: string
-  uploadedBy: string
-  uploadedAt: Timestamp
+  uploaded_by: string
+  uploaded_at: string
 }
 
 /**
@@ -45,18 +43,15 @@ export default function GalleryPage() {
   useEffect(() => {
     async function fetchImages() {
       try {
-        const q = query(collection(db, "galleryImages"), orderBy("uploadedAt", "desc"), limit(20))
-        const querySnapshot = await getDocs(q)
+        const { data, error } = await supabase
+          .from("gallery_images")
+          .select("*")
+          .order("uploaded_at", { ascending: false })
+          .limit(20)
 
-        const fetchedImages: GalleryImage[] = []
-        querySnapshot.forEach((doc) => {
-          fetchedImages.push({
-            id: doc.id,
-            ...(doc.data() as Omit<GalleryImage, "id">),
-          })
-        })
+        if (error) throw error
 
-        setImages(fetchedImages)
+        setImages(data || [])
       } catch (error) {
         console.error("Error fetching images:", error)
       } finally {
@@ -110,45 +105,53 @@ export default function GalleryPage() {
     try {
       setIsUploading(true)
 
-      // Check if user has already uploaded 3 images
-      const userImagesQuery = query(
-        collection(db, "galleryImages"),
-        // where("uploadedBy", "==", user.uid)
-      )
-      const userImagesSnapshot = await getDocs(userImagesQuery)
+      // Verificar límite de imágenes por usuario
+      const { count, error: countError } = await supabase
+        .from("gallery_images")
+        .select("*", { count: "exact", head: true })
+        .eq("uploaded_by", user.uid)
 
-      if (userImagesSnapshot.size >= 3) {
+      if (countError) throw countError
+
+      if (count && count >= 3) {
         alert("Has alcanzado el límite de 3 imágenes por usuario")
         setIsUploading(false)
         return
       }
 
-      // Upload image to Firebase Storage
-      const storageRef = ref(storage, `gallery/${Date.now()}_${selectedFile.name}`)
-      await uploadBytes(storageRef, selectedFile)
-      const downloadURL = await getDownloadURL(storageRef)
+      // Generar un nombre de archivo único
+      const fileExt = selectedFile.name.split(".").pop()
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}.${fileExt}`
+      const filePath = `${user.uid}/${fileName}`
 
-      // Add document to Firestore
-      const docRef = await addDoc(collection(db, "galleryImages"), {
-        imageUrl: downloadURL,
-        description: description,
-        uploadedBy: user.uid,
-        uploadedAt: Timestamp.now(),
-      })
+      // Subir imagen a Supabase Storage
+      const { error: uploadError } = await supabase.storage.from("gallery").upload(filePath, selectedFile)
 
-      // Add new image to state
-      setImages([
-        {
-          id: docRef.id,
-          imageUrl: downloadURL,
-          description: description,
-          uploadedBy: user.uid,
-          uploadedAt: Timestamp.now(),
-        },
-        ...images,
-      ])
+      if (uploadError) throw uploadError
 
-      // Reset form
+      // Obtener URL pública
+      const { data } = supabase.storage.from("gallery").getPublicUrl(filePath)
+      const imageUrl = data.publicUrl
+
+      // Guardar metadata en la base de datos
+      const { data: newImage, error: dbError } = await supabase
+        .from("gallery_images")
+        .insert([
+          {
+            image_url: imageUrl,
+            description: description,
+            uploaded_by: user.uid,
+          },
+        ])
+        .select()
+        .single()
+
+      if (dbError) throw dbError
+
+      // Actualizar estado local
+      setImages([newImage, ...images])
+
+      // Resetear formulario
       setSelectedFile(null)
       setPreviewUrl(null)
       setDescription("")
@@ -283,7 +286,7 @@ export default function GalleryPage() {
                 <GameCard className="overflow-hidden cursor-pointer h-full">
                   <div className="relative h-48 md:h-56 mb-2">
                     <Image
-                      src={image.imageUrl || "/placeholder.svg"}
+                      src={image.image_url || "/placeholder.svg"}
                       alt={image.description}
                       fill
                       className="object-cover transition-transform duration-500 hover:scale-105"
@@ -323,7 +326,7 @@ export default function GalleryPage() {
 
               <div className="relative h-[70vh]">
                 <Image
-                  src={selectedImage.imageUrl || "/placeholder.svg"}
+                  src={selectedImage.image_url || "/placeholder.svg"}
                   alt={selectedImage.description}
                   fill
                   className="object-contain"
