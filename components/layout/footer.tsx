@@ -68,8 +68,8 @@ export default function Footer() {
             viewport={{ once: true }}
           >
             <div className="flex items-center gap-2 mb-4">
-              {/* Reemplazamos la imagen estática por el componente NetheriousLogo */}
-              <NetheriousLogo size={40} animate={true} intensity="low" />
+              {/* Usamos el nuevo logo */}
+              <NetheriousLogo size={40} showText={false} />
               <h3 className="font-title text-lg text-accent border-b border-accent/30 pb-2 inline-block">Netherious</h3>
             </div>
             <p className="text-sm text-foreground font-body font-light">

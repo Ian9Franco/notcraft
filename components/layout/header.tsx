@@ -82,11 +82,11 @@ export default function Header() {
         <div className="flex justify-between items-center">
           {/* Logo - visible only on mobile */}
           <Link href="/" className="md:hidden flex items-center space-x-2">
-            <div className="w-10 h-10 relative flex items-center justify-center">
+            <div className="relative flex items-center justify-center">
               {isMounted ? (
-                <NetheriousLogo size={40} />
+                <NetheriousLogo size={40} showText={false} />
               ) : (
-                <div className="w-full h-full flex items-center justify-center rounded-md">
+                <div className="w-10 h-10 flex items-center justify-center rounded-md">
                   <Cube className="text-accent" />
                 </div>
               )}
