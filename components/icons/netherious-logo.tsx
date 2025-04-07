@@ -1,88 +1,28 @@
-import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import type React from "react"
 
 interface NetheriousLogoProps {
-  className?: string;
-  size?: number;
-  showText?: boolean;
-  animate?: boolean;
-  intensity?: 'low' | 'medium' | 'high' | string;
+  showText?: boolean
+  size?: number
+  className?: string
 }
 
-export function NetheriousLogo({
-  className,
-  size = 80,
-  showText = true,
-  animate = true,
-  intensity = 'medium',
-}: NetheriousLogoProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    if (!animate) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const intensityFactor = intensity === 'low' ? 100 : intensity === 'high' ? 300 : 200;
-    const particles: { x: number; y: number; dx: number; dy: number; r: number }[] = [];
-    const numParticles = intensityFactor;
-
-    const width = (canvas.width = size);
-    const height = (canvas.height = size);
-
-    for (let i = 0; i < numParticles; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        dx: (Math.random() - 0.5) * 0.5,
-        dy: (Math.random() - 0.5) * 0.5,
-        r: Math.random() * 1.5 + 0.5,
-      });
-    }
-
-    const draw = () => {
-      ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = 'white';
-      for (const p of particles) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    };
-
-    const update = () => {
-      for (const p of particles) {
-        p.x += p.dx;
-        p.y += p.dy;
-        if (p.x < 0 || p.x > width) p.dx *= -1;
-        if (p.y < 0 || p.y > height) p.dy *= -1;
-      }
-    };
-
-    const animateLoop = () => {
-      draw();
-      update();
-      requestAnimationFrame(animateLoop);
-    };
-    animateLoop();
-  }, [animate, intensity, size]);
-
+export const NetheriousLogo: React.FC<NetheriousLogoProps> = ({ showText = false, size = 40, className = "" }) => {
   return (
-    <div className={cn('relative', className)} style={{ width: size, height: size }}>
-      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
-      {showText && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
-          className="absolute inset-0 flex items-center justify-center text-white text-5xl font-bold"
-        >
-          N
-        </motion.div>
-      )}
+    <div className={`flex items-center ${className}`}>
+      {/* SVG Logo */}
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* This is a placeholder Minecraft-style logo */}
+        <rect x="2" y="2" width="8" height="8" fill="#8B5D33" />
+        <rect x="14" y="2" width="8" height="8" fill="#8B5D33" />
+        <rect x="2" y="14" width="20" height="8" fill="#8B5D33" />
+        <rect x="4" y="4" width="4" height="4" fill="#3D8B37" />
+        <rect x="16" y="4" width="4" height="4" fill="#3D8B37" />
+        <rect x="4" y="16" width="16" height="4" fill="#3D8B37" />
+      </svg>
+
+      {/* Text part of the logo */}
+      {showText && <span className="ml-2 font-title text-xl md:text-2xl text-accent">Netherious</span>}
     </div>
-  );
+  )
 }
+
