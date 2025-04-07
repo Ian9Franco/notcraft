@@ -88,6 +88,7 @@ export default function SidebarNavigation() {
   const pathname = usePathname()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   // Función para verificar si el dispositivo es móvil
   const checkMobile = useCallback(() => {
@@ -151,11 +152,17 @@ export default function SidebarNavigation() {
           ))}
         </div>
 
-        {/* Botón para colapsar/expandir con animación mejorada */}
+        {/* Botón para colapsar/expandir con animación mejorada y colores ajustados */}
         <div className="p-4 border-t border-border/30">
           <motion.button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-full flex items-center justify-center p-2 rounded-md text-sidebar-fg hover:bg-accent/10 hover:text-accent transition-colors"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className={cn(
+              "w-full flex items-center justify-center p-2 rounded-md transition-colors",
+              // Tono más oscuro cuando no está en hover
+              isHovered ? "bg-accent/10 text-sidebar-fg" : "bg-[#1a1a1a] dark:bg-[#0a0a0a] text-accent",
+            )}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.2 }}
