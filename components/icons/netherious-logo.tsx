@@ -32,7 +32,7 @@ export function NetheriousLogo({
         style={{ width: size, height: size }}
       >
         <Image
-          src="/images/netherious.png"
+          src="../../public/images/logos/netherious.png"
           alt="Netherious Logo"
           width={size}
           height={size}
