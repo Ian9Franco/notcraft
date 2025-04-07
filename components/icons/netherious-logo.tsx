@@ -1,22 +1,37 @@
-// app/components/icons/netherious-logo.tsx
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-export function NetheriousLogo({ className }: { className?: string }) {
+interface NetheriousLogoProps {
+  className?: string;
+  size?: number;
+  showText?: boolean;
+  animate?: boolean;
+  intensity?: 'low' | 'medium' | 'high' | string;
+}
+
+export function NetheriousLogo({
+  className,
+  size = 80,
+  showText = true,
+  animate = true,
+  intensity = 'medium',
+}: NetheriousLogoProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (!animate) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const intensityFactor = intensity === 'low' ? 100 : intensity === 'high' ? 300 : 200;
     const particles: { x: number; y: number; dx: number; dy: number; r: number }[] = [];
-    const numParticles = 200;
+    const numParticles = intensityFactor;
 
-    const width = canvas.width = 200;
-    const height = canvas.height = 200;
+    const width = (canvas.width = size);
+    const height = (canvas.height = size);
 
     for (let i = 0; i < numParticles; i++) {
       particles.push({
@@ -24,7 +39,7 @@ export function NetheriousLogo({ className }: { className?: string }) {
         y: Math.random() * height,
         dx: (Math.random() - 0.5) * 0.5,
         dy: (Math.random() - 0.5) * 0.5,
-        r: Math.random() * 1.5 + 0.5
+        r: Math.random() * 1.5 + 0.5,
       });
     }
 
@@ -47,25 +62,27 @@ export function NetheriousLogo({ className }: { className?: string }) {
       }
     };
 
-    const animate = () => {
+    const animateLoop = () => {
       draw();
       update();
-      requestAnimationFrame(animate);
+      requestAnimationFrame(animateLoop);
     };
-    animate();
-  }, []);
+    animateLoop();
+  }, [animate, intensity, size]);
 
   return (
-    <div className={cn('relative w-20 h-20', className)}>
+    <div className={cn('relative', className)} style={{ width: size, height: size }}>
       <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
-        className="absolute inset-0 flex items-center justify-center text-white text-5xl font-bold"
-      >
-        N
-      </motion.div>
+      {showText && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, ease: 'easeOut' }}
+          className="absolute inset-0 flex items-center justify-center text-white text-5xl font-bold"
+        >
+          N
+        </motion.div>
+      )}
     </div>
   );
 }
