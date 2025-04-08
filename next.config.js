@@ -9,10 +9,9 @@ const nextConfig = {
         hostname: "**",
       },
     ],
-    unoptimized: true, // Esto es importante para la exportación estática
+    unoptimized: true, // keep this if you need unoptimized images
   },
   webpack: (config, { isServer }) => {
-    // Fix for Firebase
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -22,25 +21,20 @@ const nextConfig = {
         child_process: false,
         perf_hooks: false,
         async_hooks: false,
-      }
+      };
     }
-
-    return config
+    return config;
   },
-  // Disable experimental features that might cause issues
   experimental: {
-    esmExternals: "loose", // This helps with ESM compatibility
+    esmExternals: "loose",
   },
-  // Disable transpilation of Firebase packages
-  transpilePackages: ["three"], // Keep three.js but remove Firebase
+  transpilePackages: ["three"],
 
-  // Configuración para output estático
-  output: "export",
+  // ❌ REMOVE THIS
+  // output: "export",
+
   distDir: "out",
-
-  // Desactivar la generación estática incremental
   staticPageGenerationTimeout: 120,
-}
+};
 
-module.exports = nextConfig
-
+module.exports = nextConfig;
