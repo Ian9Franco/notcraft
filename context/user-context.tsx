@@ -2,121 +2,131 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import { supabase } from "@/lib/supabase"
-import type { User as SupabaseUser } from "@supabase/supabase-js"
+import type { Session } from "@supabase/supabase-js"
 
-/**
- * Tipo de usuario simplificado con propiedades esenciales
- */
-type User = {
-  uid: string
-  displayName: string | null
-  email: string | null
-  photoURL: string | null
-} | null
+// Define user type
+export interface UserData {
+  id: string
+  email?: string
+  displayName?: string
+  photoURL?: string
+  provider?: string
+}
 
-/**
- * Tipo del contexto de usuario con métodos de autenticación
- */
+// Define context type
 interface UserContextType {
-  user: User
-  loading: boolean
-  signInWithGoogle: () => Promise<void>
+  user: UserData | null
+  session: Session | null
+  isLoading: boolean
+  signInWithDiscord: () => Promise<void>
   logout: () => Promise<void>
 }
 
-// Contexto con valor inicial undefined
-const UserContext = createContext<UserContextType | undefined>(undefined)
+// Create context with default values
+const UserContext = createContext<UserContextType>({
+  user: null,
+  session: null,
+  isLoading: true,
+  signInWithDiscord: async () => {},
+  logout: async () => {},
+})
 
-/**
- * Proveedor de contexto de usuario que gestiona la autenticación
- * @param children - Componentes hijos que tendrán acceso al contexto
- */
-export function AuthContextProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User>(null)
-  const [loading, setLoading] = useState(true)
+// Provider component
+export function UserProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<UserData | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
-  // Convertir usuario de Supabase al formato esperado por la aplicación
-  const formatUser = (supabaseUser: SupabaseUser | null): User => {
-    if (!supabaseUser) return null
-
-    // Acceder de forma segura a las propiedades de user_metadata
-    const metadata = supabaseUser.user_metadata || {}
-
-    return {
-      uid: supabaseUser.id,
-      displayName: metadata.full_name || metadata.name || null,
-      email: supabaseUser.email || null, // Asegurarse de que email sea string | null
-      photoURL: metadata.avatar_url || null, // Asegurarse de que photoURL sea string | null
-    }
-  }
-
+  // Initialize auth state
   useEffect(() => {
-    // Establecer sesión inicial
-    const initSession = async () => {
+    const initAuth = async () => {
+      setIsLoading(true)
+
+      // Get current session
       const {
         data: { session },
       } = await supabase.auth.getSession()
-      setUser(formatUser(session?.user || null))
-      setLoading(false)
+      setSession(session)
+
+      if (session) {
+        // Format user data
+        const userData: UserData = {
+          id: session.user.id,
+          email: session.user.email || undefined,
+          displayName: session.user.user_metadata.full_name || session.user.user_metadata.name,
+          photoURL: session.user.user_metadata.avatar_url,
+          provider: "discord",
+        }
+        setUser(userData)
+      } else {
+        setUser(null)
+      }
+
+      // Set up auth state change listener
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange(async (_event, session) => {
+        setSession(session)
+
+        if (session) {
+          const userData: UserData = {
+            id: session.user.id,
+            email: session.user.email || undefined,
+            displayName: session.user.user_metadata.full_name || session.user.user_metadata.name,
+            photoURL: session.user.user_metadata.avatar_url,
+            provider: "discord",
+          }
+          setUser(userData)
+        } else {
+          setUser(null)
+        }
+        setIsLoading(false)
+      })
+
+      setIsLoading(false)
+
+      // Cleanup subscription
+      return () => {
+        subscription.unsubscribe()
+      }
     }
 
-    initSession()
-
-    // Suscribirse a cambios de autenticación
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(formatUser(session?.user || null))
-      setLoading(false)
-    })
-
-    return () => subscription.unsubscribe()
+    initAuth()
   }, [])
 
-  /**
-   * Inicia sesión con Google
-   */
-  const signInWithGoogle = async () => {
+  // Sign in with Discord
+  const signInWithDiscord = async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
+        provider: "discord",
         options: {
-          redirectTo: typeof window !== "undefined" ? window.location.origin : undefined,
+          redirectTo: `${window.location.origin}/auth/callback`,
         },
       })
       if (error) throw error
     } catch (error) {
-      console.error("Error signing in with Google:", error)
+      console.error("Error signing in with Discord:", error)
     }
   }
 
-  /**
-   * Cierra la sesión del usuario actual
-   */
+  // Logout
   const logout = async () => {
     try {
       const { error } = await supabase.auth.signOut()
       if (error) throw error
+      setUser(null)
+      setSession(null)
     } catch (error) {
       console.error("Error signing out:", error)
     }
   }
 
-  // Valor del contexto con usuario y métodos de autenticación
-  const value = { user, loading, signInWithGoogle, logout }
-
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>
+  return (
+    <UserContext.Provider value={{ user, session, isLoading, signInWithDiscord, logout }}>
+      {children}
+    </UserContext.Provider>
+  )
 }
 
-/**
- * Hook personalizado para acceder al contexto de usuario
- * @throws Error si se usa fuera de un UserProvider
- */
-export function useUser() {
-  const context = useContext(UserContext)
-  if (context === undefined) {
-    throw new Error("useUser must be used within a UserProvider")
-  }
-  return context
-}
-
+// Custom hook to use the context
+export const useUser = () => useContext(UserContext)
