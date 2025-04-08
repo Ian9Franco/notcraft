@@ -9,7 +9,7 @@ const nextConfig = {
         hostname: "**",
       },
     ],
-    unoptimized: true, // keep this if you need unoptimized images
+    unoptimized: true,
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -30,10 +30,7 @@ const nextConfig = {
   },
   transpilePackages: ["three"],
 
-  // ❌ REMOVE THIS
-  // output: "export",
-
-  distDir: "out",
+  // staticPageGenerationTimeout is optional, but you can keep it:
   staticPageGenerationTimeout: 120,
 };
 
