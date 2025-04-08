@@ -26,7 +26,8 @@ export function cn(...inputs: ClassValue[]) {
  * @param locale - Configuración regional (por defecto: 'es-ES')
  * @returns Fecha formateada como string
  */
-export function formatDate(date: Date, locale = "es-ES"): string {
+export function formatDate(date?: Date, locale = "es-ES"): string {
+  if (!date || !(date instanceof Date)) return ""
   return new Intl.DateTimeFormat(locale, {
     day: "numeric",
     month: "long",
@@ -35,11 +36,12 @@ export function formatDate(date: Date, locale = "es-ES"): string {
 }
 
 /**
- * Genera un ID único basado en timestamp y número aleatorio
+ * Genera un ID único basado en timestamp y número aleatorio o UUID si está disponible
  *
  * @returns String con ID único
  */
 export function generateUniqueId(): string {
-  return `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
+  return typeof crypto !== "undefined" && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
 }
-

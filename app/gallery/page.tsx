@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import { Loader2, Upload, Camera, X, LogIn } from "lucide-react"
+import { Loader2, Upload, Camera, X } from "lucide-react"
 import { useUser } from "@/context/user-context"
 import { supabase } from "@/lib/supabase"
 import { ScrollReveal } from "@/components/animations"
@@ -29,7 +29,7 @@ interface GalleryImage {
  * Permite a los usuarios ver y subir imágenes
  */
 export default function GalleryPage() {
-  const { user, signInWithGoogle } = useUser()
+  const { user, signInWithDiscord } = useUser()
 
   const [images, setImages] = useState<GalleryImage[]>([])
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -109,7 +109,7 @@ export default function GalleryPage() {
       const { count, error: countError } = await supabase
         .from("gallery_images")
         .select("*", { count: "exact", head: true })
-        .eq("uploaded_by", user.uid)
+        .eq("uploaded_by", user.id)
 
       if (countError) throw countError
 
@@ -122,7 +122,7 @@ export default function GalleryPage() {
       // Generar un nombre de archivo único
       const fileExt = selectedFile.name.split(".").pop()
       const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}.${fileExt}`
-      const filePath = `${user.uid}/${fileName}`
+      const filePath = `${user.id}/${fileName}`
 
       // Subir imagen a Supabase Storage
       const { error: uploadError } = await supabase.storage.from("gallery").upload(filePath, selectedFile)
@@ -140,7 +140,7 @@ export default function GalleryPage() {
           {
             image_url: imageUrl,
             description: description,
-            uploaded_by: user.uid,
+            uploaded_by: user.id,
           },
         ])
         .select()
@@ -182,8 +182,16 @@ export default function GalleryPage() {
           {!user ? (
             <div className="text-center py-6">
               <p className="text-muted-foreground mb-4">Inicia sesión para subir tus capturas de pantalla</p>
-              <GameButton onClick={signInWithGoogle} variant="accent" icon={<LogIn className="h-5 w-5" />}>
-                Iniciar Sesión con Google
+              <GameButton onClick={signInWithDiscord} variant="accent" className="flex items-center gap-2">
+                <svg
+                  className="w-5 h-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 127.14 96.36"
+                  fill="currentColor"
+                >
+                  <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z" />
+                </svg>
+                Iniciar Sesión con Discord
               </GameButton>
             </div>
           ) : (
@@ -253,7 +261,9 @@ export default function GalleryPage() {
                       </button>
                     </>
                   ) : (
-                    <p className="text-sm text-muted-foreground">Vista previa de la imagen</p>
+                    <>
+                      <p className="text-sm text-muted-foreground">Vista previa de la imagen</p>
+                    </>
                   )}
                 </div>
               </div>
@@ -343,4 +353,3 @@ export default function GalleryPage() {
     </div>
   )
 }
-
