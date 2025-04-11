@@ -20,16 +20,11 @@ interface UserContextType {
   isLoading: boolean
   signInWithDiscord: () => Promise<void>
   logout: () => Promise<void>
+  setUser: React.Dispatch<React.SetStateAction<UserData | null>>
 }
 
 // Create context with default values
-const UserContext = createContext<UserContextType>({
-  user: null,
-  session: null,
-  isLoading: true,
-  signInWithDiscord: async () => {},
-  logout: async () => {},
-})
+const UserContext = createContext<UserContextType | undefined>(undefined)
 
 // Provider component
 export function UserProvider({ children }: { children: ReactNode }) {
@@ -42,14 +37,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const initAuth = async () => {
       setIsLoading(true)
 
-      // Get current session
       const {
         data: { session },
       } = await supabase.auth.getSession()
       setSession(session)
 
       if (session) {
-        // Format user data
         const userData: UserData = {
           id: session.user.id,
           email: session.user.email || undefined,
@@ -62,10 +55,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         setUser(null)
       }
 
-      // Set up auth state change listener
       const {
         data: { subscription },
-      } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      } = supabase.auth.onAuthStateChange((_event, session) => {
         setSession(session)
 
         if (session) {
@@ -85,7 +77,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
       setIsLoading(false)
 
-      // Cleanup subscription
       return () => {
         subscription.unsubscribe()
       }
@@ -94,7 +85,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     initAuth()
   }, [])
 
-  // Sign in with Discord
   const signInWithDiscord = async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
@@ -109,7 +99,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  // Logout
   const logout = async () => {
     try {
       const { error } = await supabase.auth.signOut()
@@ -122,11 +111,15 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <UserContext.Provider value={{ user, session, isLoading, signInWithDiscord, logout }}>
+    <UserContext.Provider value={{ user, session, isLoading, signInWithDiscord, logout, setUser }}>
       {children}
     </UserContext.Provider>
   )
 }
 
 // Custom hook to use the context
-export const useUser = () => useContext(UserContext)
+export const useUser = () => {
+  const context = useContext(UserContext)
+  if (!context) throw new Error("useUser must be used within a UserProvider")
+  return context
+}
