@@ -1,20 +1,6 @@
 import { NextResponse } from "next/server"
 import { getObject, checkObjectExists } from "@/logic/storage/r2"
 
-async function streamToBuffer(stream: ReadableStream<Uint8Array>): Promise<Buffer> {
-    const reader = stream.getReader()
-    const chunks: Uint8Array[] = []
-  
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      if (value) chunks.push(value)
-    }
-  
-    return Buffer.concat(chunks)
-  }
-  
-
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url)
@@ -47,7 +33,7 @@ export async function GET(request: Request) {
     }
 
     // Convertir el cuerpo a un ArrayBuffer
-    const buffer = await streamToBuffer(response.Body)
+    const buffer = await response.Body.transformToByteArray()
 
     // Devolver el archivo como respuesta
     return new NextResponse(buffer, {
