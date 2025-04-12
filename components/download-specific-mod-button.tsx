@@ -4,63 +4,58 @@ import { useState } from "react"
 import { Download } from "lucide-react"
 import { GameButton } from "@/components/ui/button"
 
-interface DownloadModpackButtonProps {
+interface DownloadSpecificModButtonProps {
   className?: string
   variant?: "primary" | "secondary" | "accent" | "outline"
   size?: "sm" | "md" | "lg"
   fullWidth?: boolean
+  modPath?: string
   text?: string
 }
 
-export default function DownloadModpackButton({
+export default function DownloadSpecificModButton({
   className = "",
-  variant = "accent",
-  size = "md",
+  variant = "secondary",
+  size = "sm",
   fullWidth = false,
-  text = "Descargar Modpack Completo",
-}: DownloadModpackButtonProps) {
+  modPath = "mods/create-1.20.1-6.0.4.jar",
+  text = "Descargar Create Mod",
+}: DownloadSpecificModButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [downloadProgress, setDownloadProgress] = useState<string | null>(null)
 
   const handleDownload = async () => {
     try {
       setIsLoading(true)
-      setDownloadProgress("Preparando descarga...")
 
       // Realizar la solicitud a la API
-      const response = await fetch("/api/download-modpack")
+      const response = await fetch(`/api/download-mod?path=${encodeURIComponent(modPath)}`)
 
       if (!response.ok) {
-        throw new Error("Error al descargar el modpack")
+        throw new Error("Error al descargar el mod")
       }
-
-      setDownloadProgress("Descargando archivos...")
 
       // Obtener el blob de la respuesta
       const blob = await response.blob()
 
-      setDownloadProgress("Generando archivo ZIP...")
-
       // Crear un objeto URL para el blob
       const url = window.URL.createObjectURL(blob)
+
+      // Extraer el nombre del archivo de la ruta
+      const fileName = modPath.split("/").pop() || "mod.jar"
 
       // Crear un elemento <a> temporal para descargar el archivo
       const a = document.createElement("a")
       a.href = url
-      a.download = "netherious-modpack.zip"
+      a.download = fileName
       document.body.appendChild(a)
-
-      setDownloadProgress("Iniciando descarga...")
       a.click()
 
       // Limpiar
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
-      setDownloadProgress(null)
     } catch (error) {
-      console.error("Error al descargar el modpack:", error)
-      alert("Hubo un error al descargar el modpack. Por favor, inténtalo de nuevo más tarde.")
-      setDownloadProgress(null)
+      console.error("Error al descargar el mod:", error)
+      alert("Hubo un error al descargar el mod. Por favor, inténtalo de nuevo más tarde.")
     } finally {
       setIsLoading(false)
     }
@@ -72,11 +67,11 @@ export default function DownloadModpackButton({
       size={size}
       fullWidth={fullWidth}
       className={className}
-      icon={<Download className="h-5 w-5" />}
+      icon={<Download className="h-4 w-4" />}
       onClick={handleDownload}
       disabled={isLoading}
     >
-      {isLoading ? downloadProgress || "Generando ZIP..." : text}
+      {isLoading ? "Descargando..." : text}
     </GameButton>
   )
 }

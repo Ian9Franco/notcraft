@@ -10,6 +10,7 @@ const s3 = new AWS.S3({
   region: "auto",
 })
 
+// Aseguramos que el nombre del bucket sea "netherious"
 export const bucketName = process.env.CLOUDFLARE_R2_BUCKET_NAME || "netherious"
 
 export const uploadFile = async ({
@@ -49,6 +50,15 @@ export const getObjectStream = async (key: string) => {
   return s3.getObject(params).createReadStream()
 }
 
+export const getObject = async (key: string) => {
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+  }
+
+  return s3.getObject(params).promise()
+}
+
 export const getObjectUrl = (key: string) => {
   const params = {
     Bucket: bucketName,
@@ -57,6 +67,19 @@ export const getObjectUrl = (key: string) => {
   }
 
   return s3.getSignedUrl("getObject", params)
+}
+
+export const checkObjectExists = async (key: string): Promise<boolean> => {
+  try {
+    const params = {
+      Bucket: bucketName,
+      Key: key,
+    }
+    await s3.headObject(params).promise()
+    return true
+  } catch (error) {
+    return false
+  }
 }
 
 export default s3
