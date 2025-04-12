@@ -1,5 +1,16 @@
 import { NextResponse } from "next/server"
-import { getObject, checkObjectExists } from "@/logic/storage/r2"
+import { getObjectStream, checkObjectExists } from "@/logic/storage/r2"
+import type { Readable } from "stream"
+
+// Helper para convertir un stream a buffer
+async function streamToBuffer(stream: Readable): Promise<Buffer> {
+  return new Promise<Buffer>((resolve, reject) => {
+    const chunks: Buffer[] = []
+    stream.on("data", (chunk) => chunks.push(Buffer.from(chunk)))
+    stream.on("error", (err) => reject(err))
+    stream.on("end", () => resolve(Buffer.concat(chunks)))
+  })
+}
 
 export async function GET(request: Request) {
   try {
@@ -13,12 +24,11 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: `El mod ${modPath} no se encontró en el bucket` }, { status: 404 })
     }
 
-    // Obtener el objeto
-    const response = await getObject(modPath)
+    // Obtener el stream del objeto
+    const stream = await getObjectStream(modPath)
 
-    if (!response.Body) {
-      return NextResponse.json({ error: "No se pudo obtener el contenido del mod" }, { status: 500 })
-    }
+    // Convertir el stream a buffer
+    const buffer = await streamToBuffer(stream)
 
     // Extraer el nombre del archivo de la ruta
     const fileName = modPath.split("/").pop() || "mod.jar"
@@ -27,13 +37,7 @@ export async function GET(request: Request) {
     const headers = new Headers()
     headers.set("Content-Type", "application/java-archive")
     headers.set("Content-Disposition", `attachment; filename="${fileName}"`)
-
-    if (response.ContentLength) {
-      headers.set("Content-Length", response.ContentLength.toString())
-    }
-
-    // Convertir el cuerpo a un ArrayBuffer
-    const buffer = await response.Body.transformToByteArray()
+    headers.set("Content-Length", buffer.length.toString())
 
     // Devolver el archivo como respuesta
     return new NextResponse(buffer, {
