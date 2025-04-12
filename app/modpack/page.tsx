@@ -10,6 +10,8 @@ import { InteractiveAccordion } from "@/components/ui/interactive"
 import { useTheme } from "next-themes"
 import { supabase } from "@/lib/supabase"
 import DownloadModpackButton from "@/components/download-modpack-button"
+// Importar el nuevo componente para descargar mods específicos
+import DownloadSpecificModButton from "@/components/download-specific-mod-button"
 
 /**
  * Interfaz para modpacks
@@ -287,8 +289,63 @@ export default function ModpackPage() {
         </GameCard>
       </ScrollReveal>
 
-      {/* El resto del componente sigue igual */}
-      {/* ... */}
+      <ScrollReveal>
+        <GameCard>
+          <h2 className="minecraft-style text-2xl text-accent mb-6">Mods Destacados</h2>
+          {featuredMods.map((mod, index) => (
+            <motion.div
+              key={index}
+              className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+            >
+              <div>
+                <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>{mod.name}</h4>
+                <p className="text-sm text-muted-foreground">{mod.description}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">v{mod.version}</span>
+                {mod.name.toLowerCase().includes("create") && (
+                  <DownloadSpecificModButton modPath="mods/create-1.20.1-6.0.4.jar" text="Descargar" size="sm" />
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </GameCard>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <GameCard>
+          <h2 className="minecraft-style text-2xl text-accent mb-6">Mods Opcionales</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {Object.entries(optionalMods).map(([category, mods]) => (
+              <div key={category}>
+                <h3 className="font-minecraft text-xl text-accent mb-4">{category}</h3>
+                {mods.map((mod, index) => (
+                  <motion.div
+                    key={index}
+                    className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                  >
+                    <div>
+                      <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>
+                        {mod.name}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">{mod.description}</p>
+                    </div>
+                    <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
+                      v{mod.version}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </GameCard>
+      </ScrollReveal>
     </div>
   )
 }
