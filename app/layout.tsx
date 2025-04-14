@@ -5,7 +5,6 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SidebarNavigation, MobileNavigation } from "@/components/navigation"
 import { TooltipProvider } from "@/components/ui/interactive"
-import { UserProvider } from "@/context/user-context"
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
 
@@ -32,22 +31,19 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <UserProvider>
-            <TooltipProvider>
-              <div className="flex min-h-screen">
-                <SidebarNavigation />
-                <div className="flex-1 flex flex-col min-h-screen">
-                  <Header />
-                  <main className="flex-1 container mx-auto p-4 md:p-6 pb-20 md:pb-6">{validChildren}</main>
-                  <Footer />
-                  <MobileNavigation />
-                </div>
+          <TooltipProvider>
+            <div className="flex min-h-screen">
+              <SidebarNavigation />
+              <div className="flex-1 flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-1 container mx-auto p-4 md:p-6 pb-20 md:pb-6">{validChildren}</main>
+                <Footer />
+                <MobileNavigation />
               </div>
-            </TooltipProvider>
-          </UserProvider>
+            </div>
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>
   )
 }
-

@@ -2,16 +2,12 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { ExternalLink, HelpCircle, Package, Wrench, Cog, Zap, Server } from "lucide-react"
+import { Download, ExternalLink, HelpCircle, Package, Wrench, Cog, Zap, Server } from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
-import { InteractiveAccordion } from "@/components/ui/interactive"
+import { Tabs, TabsContent, TabsList, TabsTrigger, InteractiveAccordion } from "@/components/ui/interactive"
 import { useTheme } from "next-themes"
-import { supabase } from "@/lib/supabase"
-import DownloadModpackButton from "@/components/download-modpack-button"
-// Importar el nuevo componente para descargar mods específicos
-import DownloadSpecificModButton from "@/components/download-specific-mod-button"
 
 /**
  * Interfaz para modpacks
@@ -35,6 +31,72 @@ interface Mod {
   description: string
   category?: string
   file_url?: string
+}
+
+// Datos estáticos para modpacks
+const staticModpacks: Modpack[] = [
+  {
+    id: "1",
+    name: "Netherious Season 1",
+    version: "1.0.5",
+    description: "Modpack oficial de la temporada 1",
+    file_url: "#",
+    logo_url: "/placeholder.svg?height=32&width=32",
+    available: true,
+  },
+  {
+    id: "2",
+    name: "Netherious Lite",
+    version: "1.0.2",
+    description: "Versión ligera del modpack",
+    file_url: "#",
+    logo_url: "/placeholder.svg?height=32&width=32",
+    available: true,
+  },
+  {
+    id: "3",
+    name: "Netherious Season 2",
+    version: "Beta",
+    description: "Próximamente",
+    file_url: "#",
+    logo_url: "/placeholder.svg?height=32&width=32",
+    available: false,
+  },
+]
+
+// Datos estáticos para mods destacados
+const staticFeaturedMods: Mod[] = [
+  { name: "Create", version: "0.5.1", description: "Añade máquinas y mecanismos complejos" },
+  { name: "Biomes O' Plenty", version: "1.20.1-18.0.0.598", description: "Añade nuevos biomas al mundo" },
+  { name: "JEI", version: "15.2.0.27", description: "Interfaz mejorada para recetas e items" },
+  { name: "Waystones", version: "14.0.2", description: "Sistema de teletransporte entre puntos" },
+  { name: "Sophisticated Backpacks", version: "3.18.65", description: "Mochilas avanzadas con mejoras" },
+  { name: "Farmer's Delight", version: "1.2.3", description: "Expansión de comidas y agricultura" },
+  { name: "Supplementaries", version: "2.6.30", description: "Bloques y mecánicas complementarias" },
+]
+
+// Datos estáticos para mods opcionales
+const staticOptionalMods: { [key: string]: Mod[] } = {
+  particles: [
+    { name: "Particle Mod", version: "1.0.0", description: "Efectos de partículas mejorados" },
+    { name: "Enhanced Visuals", version: "2.1.5", description: "Mejora visual de efectos y partículas" },
+    { name: "Ambient Particles", version: "1.3.2", description: "Partículas ambientales en biomas" },
+  ],
+  animations: [
+    { name: "Better Animations", version: "2.0.0", description: "Animaciones mejoradas para jugadores" },
+    { name: "Smooth Animations", version: "1.5.3", description: "Animaciones más fluidas para mobs" },
+    { name: "First Person Model", version: "2.2.1", description: "Modelo en primera persona mejorado" },
+  ],
+  sounds: [
+    { name: "Sound Physics", version: "1.1.0", description: "Física de sonido realista" },
+    { name: "Enhanced Sounds", version: "2.0.5", description: "Sonidos ambientales mejorados" },
+    { name: "Music Expansion", version: "1.3.2", description: "Más música para el juego" },
+  ],
+  shaders: [
+    { name: "BSL Shaders", version: "1.0.0", description: "Shaders de calidad media-alta" },
+    { name: "Complementary", version: "2.1.5", description: "Shaders equilibrados y personalizables" },
+    { name: "Sildur's Vibrant", version: "1.3.2", description: "Shaders vibrantes con buen rendimiento" },
+  ],
 }
 
 /**
@@ -78,11 +140,39 @@ const tutorialSteps = [
         <p className="text-sm text-muted-foreground">
           Descarga el archivo ZIP del modpack completo desde nuestro servidor:
         </p>
-        <div className="flex justify-center mt-4">
-          <DownloadModpackButton size="sm" />
-        </div>
-        <div id="modpack-versions-container" className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {/* Este contenedor se llenará dinámicamente con los modpacks */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          {staticModpacks.map((modpack, index) => (
+            <div key={index} className={`${modpack.available ? "" : "opacity-60"}`}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="relative w-8 h-8">
+                    <img
+                      src={modpack.logo_url || "/placeholder.svg?height=32&width=32"}
+                      alt={modpack.name}
+                      className="object-contain absolute inset-0"
+                    />
+                  </div>
+                  <h3 className="font-minecraft text-lg text-accent">{modpack.name}</h3>
+                </div>
+                {modpack.available && (
+                  <svg
+                    className="h-4 w-4 text-green-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground mb-4">{modpack.version}</p>
+             
+            </div>
+          ))}
         </div>
       </div>
     ),
@@ -154,7 +244,7 @@ export default function ModpackPage() {
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
-  // Estados para datos de Supabase
+  // Estados para datos estáticos
   const [modpacks, setModpacks] = useState<Modpack[]>([])
   const [featuredMods, setFeaturedMods] = useState<Mod[]>([])
   const [optionalMods, setOptionalMods] = useState<{ [key: string]: Mod[] }>({
@@ -169,84 +259,15 @@ export default function ModpackPage() {
   useEffect(() => {
     setMounted(true)
 
-    // Cargar datos desde Supabase
-    async function fetchData() {
-      try {
-        // Cargar modpacks
-        const { data: modpacksData, error: modpacksError } = await supabase
-          .from("modpacks")
-          .select("*")
-          .order("created_at", { ascending: false })
+    // Simular carga de datos
+    const timer = setTimeout(() => {
+      setModpacks(staticModpacks)
+      setFeaturedMods(staticFeaturedMods)
+      setOptionalMods(staticOptionalMods)
+      setIsLoading(false)
+    }, 1000)
 
-        if (modpacksError) throw modpacksError
-        setModpacks(modpacksData)
-
-        // Cargar mods destacados
-        const { data: modsData, error: modsError } = await supabase
-          .from("mods")
-          .select("*")
-          .eq("featured", true)
-          .order("name")
-
-        if (modsError) throw modsError
-        setFeaturedMods(modsData)
-
-        // Cargar mods opcionales por categoría
-        const categories = ["particles", "animations", "sounds", "shaders"]
-        const optionalModsData: { [key: string]: Mod[] } = {}
-
-        for (const category of categories) {
-          const { data, error } = await supabase
-            .from("mods")
-            .select("*")
-            .eq("category", category)
-            .eq("featured", false)
-            .order("name")
-
-          if (error) throw error
-          optionalModsData[category] = data
-        }
-
-        setOptionalMods(optionalModsData)
-
-        // Actualizar el contenedor de versiones de modpack dinámicamente
-        setTimeout(() => {
-          const container = document.getElementById("modpack-versions-container")
-          if (container && modpacksData.length > 0) {
-            container.innerHTML = ""
-            modpacksData.forEach((modpack) => {
-              const modpackCard = document.createElement("div")
-              modpackCard.className = `${modpack.available ? "" : "opacity-60"}`
-              modpackCard.innerHTML = `
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center gap-2">
-                    <div class="relative w-8 h-8">
-                      <img src="${modpack.logo_url || "/placeholder.svg?height=32&width=32"}" alt="${modpack.name}" class="object-contain absolute inset-0" />
-                    </div>
-                    <h3 class="font-minecraft text-lg text-accent">${modpack.name}</h3>
-                  </div>
-                  ${modpack.available ? '<svg class="h-4 w-4 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ""}
-                </div>
-                <p class="text-xs text-muted-foreground mb-4">${modpack.version}</p>
-                <a href="${modpack.available ? modpack.file_url : "#"}" target="_blank" rel="noopener noreferrer" class="${!modpack.available ? "pointer-events-none" : ""}">
-                  <button class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${modpack.available ? "bg-accent text-accent-foreground hover:bg-accent/90" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"} h-10 px-4 py-2 w-full">
-                    <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    Descargar
-                  </button>
-                </a>
-              `
-              container.appendChild(modpackCard)
-            })
-          }
-        }, 500)
-      } catch (error) {
-        console.error("Error fetching data:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchData()
+    return () => clearTimeout(timer)
   }, [])
 
   // TITULOS: Determinamos el color del texto según el tema
@@ -273,78 +294,162 @@ export default function ModpackPage() {
                 <div className="flex-1 h-10 bg-secondary/30 rounded-md animate-pulse"></div>
                 <div className="flex-1 h-10 bg-secondary/30 rounded-md animate-pulse"></div>
               </>
-            ) : (
+            ) : modpacks.length > 0 ? (
               <>
-                <div className="flex-1">
-                  <DownloadModpackButton fullWidth />
-                </div>
-                <a href="/modpack/files" className="flex-1">
-                  <GameButton variant="outline" fullWidth icon={<ExternalLink className="h-5 w-5" />}>
-                    Ver Todos los Archivos
-                  </GameButton>
-                </a>
+                
               </>
+            ) : (
+              <p className="text-muted-foreground">No hay modpacks disponibles actualmente.</p>
             )}
           </div>
         </GameCard>
       </ScrollReveal>
 
-      <ScrollReveal>
-        <GameCard>
-          <h2 className="minecraft-style text-2xl text-accent mb-6">Mods Destacados</h2>
-          {featuredMods.map((mod, index) => (
-            <motion.div
-              key={index}
-              className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-            >
-              <div>
-                <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>{mod.name}</h4>
-                <p className="text-sm text-muted-foreground">{mod.description}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">v{mod.version}</span>
-                {mod.name.toLowerCase().includes("create") && (
-                  <DownloadSpecificModButton modPath="mods/create-1.20.1-6.0.4.jar" text="Descargar" size="sm" />
+      <ScrollReveal direction="up">
+        <SectionHeader title="Mods Incluidos" />
+
+        <div className="max-w-4xl mx-auto">
+          {/* Contenedor de Mods Destacados */}
+          <div id="featured-mods-season-1">
+            <h3 className="font-minecraft text-xl text-accent mb-4 flex items-center">
+              <span className="inline-block w-3 h-3 bg-accent rounded-full mr-2 animate-pulse"></span>
+              Mods Destacados
+            </h3>
+            <GameCard className="border-2 border-accent/30">
+              <div className="grid grid-cols-1 divide-y divide-border">
+                {isLoading ? (
+                  // Mostrar placeholders mientras carga
+                  [...Array(7)].map((_, index) => (
+                    <div key={index} className="p-4 flex justify-between items-center">
+                      <div>
+                        <div className="h-5 bg-secondary/30 rounded-md w-32 mb-2"></div>
+                        <div className="h-3 bg-secondary/30 rounded-md w-48"></div>
+                      </div>
+                      <div className="h-5 bg-secondary/30 rounded-md w-12"></div>
+                    </div>
+                  ))
+                ) : featuredMods.length === 0 ? (
+                  <div className="p-4 text-center">
+                    <p className="text-muted-foreground">No hay mods destacados disponibles.</p>
+                  </div>
+                ) : (
+                  featuredMods.map((mod, index) => (
+                    <motion.div
+                      key={index}
+                      className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                    >
+                      <div>
+                        <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>
+                          {mod.name}
+                        </h4>
+                        <p className="text-sm text-muted-foreground">{mod.description}</p>
+                      </div>
+                      <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
+                        v{mod.version}
+                      </span>
+                    </motion.div>
+                  ))
                 )}
               </div>
-            </motion.div>
-          ))}
-        </GameCard>
+            </GameCard>
+          </div>
+        </div>
       </ScrollReveal>
 
-      <ScrollReveal>
-        <GameCard>
-          <h2 className="minecraft-style text-2xl text-accent mb-6">Mods Opcionales</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <ScrollReveal direction="up" delay={0.2}>
+        <div className="max-w-4xl mx-auto">
+          <h3 className="font-minecraft text-xl text-accent mb-4">Mods Opcionales</h3>
+          <Tabs defaultValue="particles" className="w-full">
+            <TabsList className="grid grid-cols-4 mb-4">
+              <TabsTrigger value="particles" className="minecraft-style">
+                Partículas
+              </TabsTrigger>
+              <TabsTrigger value="animations" className="minecraft-style">
+                Animaciones
+              </TabsTrigger>
+              <TabsTrigger value="sounds" className="minecraft-style">
+                Sonidos
+              </TabsTrigger>
+              <TabsTrigger value="shaders" className="minecraft-style">
+                Shaders
+              </TabsTrigger>
+            </TabsList>
+
             {Object.entries(optionalMods).map(([category, mods]) => (
-              <div key={category}>
-                <h3 className="font-minecraft text-xl text-accent mb-4">{category}</h3>
-                {mods.map((mod, index) => (
-                  <motion.div
-                    key={index}
-                    className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
-                  >
-                    <div>
-                      <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>
-                        {mod.name}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">{mod.description}</p>
-                    </div>
-                    <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
-                      v{mod.version}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
+              <TabsContent key={category} value={category}>
+                <GameCard>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className={`font-minecraft text-lg font-semibold ${titleTextColor}`}>
+                      Mods de{" "}
+                      {category === "particles"
+                        ? "Partículas"
+                        : category === "animations"
+                          ? "Animaciones"
+                          : category === "sounds"
+                            ? "Sonidos"
+                            : "Shaders"}
+                    </h3>
+                    <GameButton
+                      variant="outline"
+                      size="sm"
+                      icon={<Download className="h-4 w-4" />}
+                      onClick={() => {
+                        alert("La funcionalidad de descarga ha sido desactivada en esta versión")
+                      }}
+                    >
+                      Descargar Todos
+                    </GameButton>
+                  </div>
+
+                  <div className="grid grid-cols-1 divide-y divide-border">
+                    {isLoading ? (
+                      // Mostrar placeholders mientras carga
+                      [...Array(3)].map((_, index) => (
+                        <div key={index} className="p-4 flex justify-between items-center">
+                          <div>
+                            <div className="h-5 bg-secondary/30 rounded-md w-32 mb-2"></div>
+                            <div className="h-3 bg-secondary/30 rounded-md w-48"></div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="h-5 bg-secondary/30 rounded-md w-12"></div>
+                            <div className="h-8 bg-secondary/30 rounded-md w-24"></div>
+                          </div>
+                        </div>
+                      ))
+                    ) : mods.length === 0 ? (
+                      <div className="p-4 text-center">
+                        <p className="text-muted-foreground">No hay mods disponibles para esta categoría.</p>
+                      </div>
+                    ) : (
+                      mods.map((mod, index) => (
+                        <motion.div
+                          key={index}
+                          className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: index * 0.05 }}
+                        >
+                          <div>
+                            <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>
+                              {mod.name}
+                            </h4>
+                            <p className="text-sm text-muted-foreground">{mod.description}</p>
+                          </div>
+                          <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
+                            v{mod.version}
+                          </span>
+                        </motion.div>
+                      ))
+                    )}
+                  </div>
+                </GameCard>
+              </TabsContent>
             ))}
-          </div>
-        </GameCard>
+          </Tabs>
+        </div>
       </ScrollReveal>
     </div>
   )

@@ -7,10 +7,7 @@ import { motion } from "framer-motion"
 import { Menu, X, CuboidIcon as Cube, Sun, Moon, Axe, Package, Palette, Server, ImageIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { NetheriousLogo } from "@/components/icons/netherious-logo"
-import { useUser } from "@/context/user-context"
 import { Button } from "@/components/ui/button"
-import DiscordLoginButton from "@/components/discord-login-button"
-
 /**
  * Componente de encabezado de la aplicación
  */
@@ -20,7 +17,6 @@ export default function Header() {
   const [isMounted, setIsMounted] = useState(false)
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
-  const { user, logout } = useUser()
 
   useEffect(() => {
     setIsMounted(true)
@@ -138,31 +134,10 @@ export default function Header() {
             </motion.button>
 
             {/* User login/profile */}
-            {user ? (
-              <div className="flex items-center gap-2">
-                <motion.img
-                  src={user.photoURL || "/placeholder.svg?height=32&width=32"}
-                  alt={user.displayName || "Usuario"}
-                  className="w-8 h-8 rounded-full border border-border"
-                  whileHover={{ scale: 1.1 }}
-                />
-                <div className="hidden md:block">
-                  <p className="text-sm font-medium">{user.displayName}</p>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={logout}
-                    className="p-0 h-auto text-xs text-muted-foreground hover:text-foreground"
-                  >
-                    Cerrar sesión
-                  </Button>
-                </div>
-              </div>
-            ) : (
+
               <div className="hidden md:block">
-                <DiscordLoginButton />
+               
               </div>
-            )}
 
             {/* Mobile menu button - only visible on mobile */}
             <button
@@ -186,23 +161,8 @@ export default function Header() {
           transition={{ duration: 0.3 }}
         >
           <div className="container mx-auto px-4 py-4">
-            {!user ? (
-              <DiscordLoginButton fullWidth />
-            ) : (
-              <div className="flex items-center justify-between mb-4 p-2 bg-secondary/30 rounded-md">
-                <div className="flex items-center gap-2">
-                  <img
-                    src={user.photoURL || "/placeholder.svg?height=32&width=32"}
-                    alt={user.displayName || "Usuario"}
-                    className="w-8 h-8 rounded-full border border-border"
-                  />
-                  <span className="text-sm">{user.displayName}</span>
-                </div>
-                <Button variant="ghost" size="sm" onClick={logout}>
-                  Salir
-                </Button>
-              </div>
-            )}
+
+              
           </div>
         </motion.div>
       )}

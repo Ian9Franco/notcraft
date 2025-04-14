@@ -6,8 +6,8 @@ import Image from "next/image"
 import { Palette, Settings } from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameCard, SectionHeader } from "@/components/ui/card"
-import DownloadButton from "@/components/resource-packs/download-button"
-import { supabase } from "@/lib/supabase"
+
+
 
 /**
  * Interfaz para resource packs
@@ -30,6 +30,44 @@ interface ResourceFile {
   name: string
 }
 
+// Datos estáticos para resource packs
+const staticResourcePacks: ResourcePack[] = [
+  {
+    id: "1",
+    name: "Netherious HD",
+    description: "Pack de texturas HD optimizado para nuestro servidor",
+    image_url: "/placeholder.svg?height=400&width=600",
+    logo_url: "/placeholder.svg?height=64&width=64",
+    special_note: "Recomendado para equipos de gama media-alta",
+    files: [{ id: "file1", name: "Netherious-HD-1.0.zip" }],
+  },
+  {
+    id: "2",
+    name: "Netherious Medieval",
+    description: "Texturas medievales para construcciones épicas",
+    image_url: "/placeholder.svg?height=400&width=600",
+    logo_url: "/placeholder.svg?height=64&width=64",
+    files: [{ id: "file2", name: "Netherious-Medieval-1.2.zip" }],
+  },
+  {
+    id: "3",
+    name: "Netherious Lite",
+    description: "Versión ligera con texturas de 16x para mejor rendimiento",
+    image_url: "/placeholder.svg?height=400&width=600",
+    logo_url: "/placeholder.svg?height=64&width=64",
+    special_note: "Perfecto para equipos de gama baja",
+    files: [{ id: "file3", name: "Netherious-Lite-1.1.zip" }],
+  },
+  {
+    id: "4",
+    name: "Netherious Fantasy",
+    description: "Texturas de fantasía con colores vibrantes",
+    image_url: "/placeholder.svg?height=400&width=600",
+    logo_url: "/placeholder.svg?height=64&width=64",
+    files: [{ id: "file4", name: "Netherious-Fantasy-0.9.zip" }],
+  },
+]
+
 /**
  * Página de resource packs
  */
@@ -37,47 +75,15 @@ export default function ResourcePacksPage() {
   const [resourcePacks, setResourcePacks] = useState<ResourcePack[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  // Cargar resource packs desde Supabase
+  // Cargar resource packs estáticos
   useEffect(() => {
-    async function fetchResourcePacks() {
-      try {
-        // Obtener los resource packs
-        const { data: packs, error: packsError } = await supabase
-          .from("resource_packs")
-          .select("*")
-          .order("created_at", { ascending: false })
+    // Simular carga de datos
+    const timer = setTimeout(() => {
+      setResourcePacks(staticResourcePacks)
+      setIsLoading(false)
+    }, 1000)
 
-        if (packsError) throw packsError
-
-        // Para cada pack, obtener sus archivos
-        const packsWithFiles = await Promise.all(
-          packs.map(async (pack) => {
-            const { data: files, error: filesError } = await supabase
-              .from("resource_pack_files")
-              .select("*")
-              .eq("resource_pack_id", pack.id)
-
-            if (filesError) throw filesError
-
-            return {
-              ...pack,
-              files: files.map((file) => ({
-                id: file.file_url, // Usamos la URL como ID para Supabase Storage
-                name: file.file_name,
-              })),
-            }
-          }),
-        )
-
-        setResourcePacks(packsWithFiles)
-      } catch (error) {
-        console.error("Error fetching resource packs:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchResourcePacks()
+    return () => clearTimeout(timer)
   }, [])
 
   /**
@@ -141,17 +147,8 @@ export default function ResourcePacksPage() {
             )}
 
             {/* Botón de descarga */}
-            {isAvailable ? (
-              <DownloadButton files={pack.files} variant="outline" fullWidth bucket="resource-packs" />
-            ) : (
-              <DownloadButton
-                files={{ id: "", name: "" }}
-                variant="outline"
-                fullWidth
-                className="opacity-50 cursor-not-allowed"
-                onComplete={() => {}}
-              />
-            )}
+
+
           </div>
         </GameCard>
       </ScrollReveal>
@@ -252,4 +249,3 @@ export default function ResourcePacksPage() {
     </div>
   )
 }
-

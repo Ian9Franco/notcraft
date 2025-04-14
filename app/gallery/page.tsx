@@ -6,12 +6,11 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import { Loader2, Upload, Camera, X } from "lucide-react"
-import { useUser } from "@/context/user-context"
-import { supabase } from "@/lib/supabase"
 import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
 import { Input, Textarea } from "@/components/ui/form-elements"
+
 
 /**
  * Interfaz para imágenes de la galería
@@ -24,12 +23,57 @@ interface GalleryImage {
   uploaded_at: string
 }
 
+// Datos estáticos para la galería
+const staticGalleryImages: GalleryImage[] = [
+  {
+    id: "1",
+    image_url: "/placeholder.svg?height=400&width=600",
+    description: "Construcción medieval en el servidor",
+    uploaded_by: "user1",
+    uploaded_at: "2023-05-15T10:30:00Z",
+  },
+  {
+    id: "2",
+    image_url: "/placeholder.svg?height=400&width=600",
+    description: "Paisaje de montañas al atardecer",
+    uploaded_by: "user2",
+    uploaded_at: "2023-05-14T14:20:00Z",
+  },
+  {
+    id: "3",
+    image_url: "/placeholder.svg?height=400&width=600",
+    description: "Base subterránea con iluminación",
+    uploaded_by: "user3",
+    uploaded_at: "2023-05-13T18:45:00Z",
+  },
+  {
+    id: "4",
+    image_url: "/placeholder.svg?height=400&width=600",
+    description: "Granja automática de cultivos",
+    uploaded_by: "user4",
+    uploaded_at: "2023-05-12T09:15:00Z",
+  },
+  {
+    id: "5",
+    image_url: "/placeholder.svg?height=400&width=600",
+    description: "Castillo en construcción",
+    uploaded_by: "user5",
+    uploaded_at: "2023-05-11T16:30:00Z",
+  },
+  {
+    id: "6",
+    image_url: "/placeholder.svg?height=400&width=600",
+    description: "Vista aérea del spawn",
+    uploaded_by: "user6",
+    uploaded_at: "2023-05-10T11:20:00Z",
+  },
+]
+
 /**
  * Página de galería
- * Permite a los usuarios ver y subir imágenes
+ * Muestra imágenes estáticas sin funcionalidad de carga
  */
 export default function GalleryPage() {
-  const { user, signInWithDiscord } = useUser()
 
   const [images, setImages] = useState<GalleryImage[]>([])
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -39,27 +83,15 @@ export default function GalleryPage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
 
-  // Fetch gallery images
+  // Cargar imágenes estáticas
   useEffect(() => {
-    async function fetchImages() {
-      try {
-        const { data, error } = await supabase
-          .from("gallery_images")
-          .select("*")
-          .order("uploaded_at", { ascending: false })
-          .limit(20)
+    // Simular carga de datos
+    const timer = setTimeout(() => {
+      setImages(staticGalleryImages)
+      setIsLoading(false)
+    }, 1000)
 
-        if (error) throw error
-
-        setImages(data || [])
-      } catch (error) {
-        console.error("Error fetching images:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchImages()
+    return () => clearTimeout(timer)
   }, [])
 
   // Handle file selection
@@ -83,84 +115,29 @@ export default function GalleryPage() {
     setPreviewUrl(null)
   }
 
-  // Handle upload
+  // Handle upload (ahora solo muestra un mensaje)
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    if (!user) {
-      alert("Por favor inicia sesión para subir imágenes")
-      return
-    }
 
     if (!selectedFile) {
       alert("Por favor selecciona una imagen")
       return
     }
 
-    if (description.length > 50) {
-      alert("La descripción no puede superar los 50 caracteres")
-      return
-    }
-
     try {
       setIsUploading(true)
 
-      // Verificar límite de imágenes por usuario
-      const { count, error: countError } = await supabase
-        .from("gallery_images")
-        .select("*", { count: "exact", head: true })
-        .eq("uploaded_by", user.id)
-
-      if (countError) throw countError
-
-      if (count && count >= 3) {
-        alert("Has alcanzado el límite de 3 imágenes por usuario")
+      // Simular carga
+      setTimeout(() => {
+        alert("La funcionalidad de carga de imágenes ha sido desactivada en esta versión")
         setIsUploading(false)
-        return
-      }
-
-      // Generar un nombre de archivo único
-      const fileExt = selectedFile.name.split(".").pop()
-      const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}.${fileExt}`
-      const filePath = `${user.id}/${fileName}`
-
-      // Subir imagen a Supabase Storage
-      const { error: uploadError } = await supabase.storage.from("gallery").upload(filePath, selectedFile)
-
-      if (uploadError) throw uploadError
-
-      // Obtener URL pública
-      const { data } = supabase.storage.from("gallery").getPublicUrl(filePath)
-      const imageUrl = data.publicUrl
-
-      // Guardar metadata en la base de datos
-      const { data: newImage, error: dbError } = await supabase
-        .from("gallery_images")
-        .insert([
-          {
-            image_url: imageUrl,
-            description: description,
-            uploaded_by: user.id,
-          },
-        ])
-        .select()
-        .single()
-
-      if (dbError) throw dbError
-
-      // Actualizar estado local
-      setImages([newImage, ...images])
-
-      // Resetear formulario
-      setSelectedFile(null)
-      setPreviewUrl(null)
-      setDescription("")
-
-      alert("Imagen subida correctamente")
+        setSelectedFile(null)
+        setPreviewUrl(null)
+        setDescription("")
+      }, 1500)
     } catch (error) {
-      console.error("Error uploading image:", error)
+      console.error("Error simulado:", error)
       alert("Error al subir la imagen")
-    } finally {
       setIsUploading(false)
     }
   }
@@ -179,22 +156,6 @@ export default function GalleryPage() {
         <GameCard className="max-w-3xl mx-auto" borderGlow>
           <h3 className="font-minecraft text-xl text-accent mb-4">Subir Imagen</h3>
 
-          {!user ? (
-            <div className="text-center py-6">
-              <p className="text-muted-foreground mb-4">Inicia sesión para subir tus capturas de pantalla</p>
-              <GameButton onClick={signInWithDiscord} variant="accent" className="flex items-center gap-2">
-                <svg
-                  className="w-5 h-5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 127.14 96.36"
-                  fill="currentColor"
-                >
-                  <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z" />
-                </svg>
-                Iniciar Sesión con Discord
-              </GameButton>
-            </div>
-          ) : (
             <form onSubmit={handleUpload} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-4">
@@ -268,7 +229,6 @@ export default function GalleryPage() {
                 </div>
               </div>
             </form>
-          )}
         </GameCard>
       </ScrollReveal>
 
