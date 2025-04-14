@@ -60,7 +60,7 @@ export default function Home() {
         <div className="relative min-h-[60vh] rounded-xl overflow-hidden">
           {/* Video Background */}
           <video
-            src="/images/landscape/landscape_final.mp4"  // Asegúrate de que el video esté en esta ruta
+            src="../public/images/landscape/landscape_final.mp4"  // Asegúrate de que el video esté en esta ruta
             autoPlay
             loop
             muted={false}  // Puedes quitar muted si el video ya tiene el sonido
