@@ -67,11 +67,6 @@ export default function Home() {
             playsInline
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
-        <audio
-            src="/images/landscape/landscape_audio.mp3"
-            controls
-            className="absolute bottom-4 left-4 z-10"
-          />
         {/* Overlay */}
         <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-1"></div>
 
