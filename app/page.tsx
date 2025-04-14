@@ -18,22 +18,38 @@ const featuredMods = [
   {
     title: "Create",
     description: "Automatización estética con máquinas de procesamiento y trenes funcionales.",
-    imageSrc: "/placeholder.svg?height=300&width=400",
+    imageSrc: "/images/mods/create-banner.png",
+    logoSrc: "/images/mods/createlogo.png",
   },
   {
     title: "Terralith",
     description: "Terrenos hermosos con generación mejorada y muchos nuevos biomas.",
-    imageSrc: "/placeholder.svg?height=300&width=400",
+    imageSrc: "/images/mods/terralith-banner.png",
+    logoSrc: "/images/mods/terralithlogo.png",
   },
   {
     title: "Oh The Biomes We'll Go",
     description: "Añade una gran variedad de biomas nuevos y únicos al mundo de Minecraft.",
-    imageSrc: "/placeholder.svg?height=300&width=400",
+    imageSrc: "/images/mods/biomes-banner.png",
+    logoSrc: "/images/mods/biomeslogo.png",
   },
   {
     title: "Blue Skies",
     description: "Nuevas dimensiones con biomas, mazmorras y jefes únicos para explorar.",
-    imageSrc: "/placeholder.svg?height=300&width=400",
+    imageSrc: "/images/mods/blueskyes-banner.png",
+    logoSrc: "/images/mods/blueskyeslogo.png",
+  },
+  {
+    title: "Cataclysm",
+    description: "Añade estructuras peligrosas y jefes desafiantes al mundo de Minecraft.",
+    imageSrc: "/images/mods/cataclysm-banner.png",
+    logoSrc: "/images/mods/cataclysmlogo.png",
+  },
+  {
+    title: "Grim",
+    description: "Una experiencia de supervivencia más oscura y desafiante.",
+    imageSrc: "/images/mods/grim-banner.png",
+    logoSrc: "/images/mods/grimlogo.png",
   },
 ]
 
@@ -102,12 +118,22 @@ export default function Home() {
                   <div className="relative h-48 mb-4 rounded-md overflow-hidden">
                     <Image
                       src={mod.imageSrc || "/placeholder.svg"}
-                      alt={mod.title}
+                      alt={`${mod.title} banner`}
                       fill
                       className="object-cover transition-transform duration-500 hover:scale-105"
                     />
                   </div>
-                  <h3 className="font-title text-xl text-accent mb-2">{mod.title}</h3>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="relative h-8 w-8">
+                      <Image
+                        src={mod.logoSrc || "/placeholder.svg"}
+                        alt={`${mod.title} logo`}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <h3 className="font-title text-xl text-accent">{mod.title}</h3>
+                  </div>
                   <p className="text-sm text-foreground">{mod.description}</p>
                 </GameCard>
               </div>
@@ -120,7 +146,7 @@ export default function Home() {
       <ScrollReveal direction="up" delay={0.2}>
         <GameCard className="p-0 overflow-hidden" borderGlow>
           <div className="grid md:grid-cols-2 gap-0">
-            <div className="p-6 md:p-8">
+            <div className="p-6 md:p-8 relative z-10">
               <SectionHeader
                 title="Únete a Nuestra Comunidad"
                 subtitle="Explora, construye y sobrevive en un mundo lleno de aventuras y posibilidades."
@@ -143,14 +169,17 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <div className="relative h-64 md:h-full min-h-[300px]">
-              <Image
-                src="/placeholder.svg?height=400&width=600"
-                alt="Minecraft Server Landscape"
-                fill
-                className="object-cover"
+            <div className="relative h-64 md:h-full min-h-[300px] overflow-hidden">
+              <video
+                src="/images/landscape/landscape_video"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-background to-transparent md:from-transparent md:via-transparent md:to-background"></div>
+              <audio src="/images/landscape/landscape_audio" autoPlay loop className="hidden" />
+              <div className="absolute inset-0 bg-gradient-to-r from-background to-transparent md:from-transparent md:via-transparent md:to-background z-[1]"></div>
             </div>
           </div>
         </GameCard>
@@ -158,4 +187,3 @@ export default function Home() {
     </div>
   )
 }
-
