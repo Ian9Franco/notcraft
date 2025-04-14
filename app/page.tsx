@@ -114,41 +114,42 @@ export default function Home() {
 
       {/* Sección de Mods Destacados */}
       <ScrollReveal>
-        <SectionHeader
-          title="Mods Destacados"
-          subtitle="Nuestro servidor cuenta con una selección de los mejores mods para mejorar tu experiencia de juego."
-        />
-        <div className="mt-8">
-          <Carousel>
-            {featuredMods.map((mod, index) => (
-              <div key={index} className="p-4">
-                <GameCard className="h-full">
-                  <div className="relative h-64 mb-4 rounded-md overflow-hidden">
-                    <Image
-                      src={mod.imageSrc}
-                      alt={`${mod.title} banner`}
-                      fill
-                      className="object-cover transition-transform duration-500 hover:scale-105"
-                    />
-                  </div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="relative h-12 w-12">
+          <SectionHeader
+            title="Mods Destacados"
+            subtitle="Nuestro servidor cuenta con una selección de los mejores mods para mejorar tu experiencia de juego."
+          />
+          <div className="mt-8">
+            <Carousel>
+              {featuredMods.map((mod, index) => (
+                <div key={index} className="p-4">
+                  <GameCard className="h-full">
+                    <div className="relative h-64 mb-4 rounded-md overflow-hidden">
                       <Image
-                        src={mod.logoSrc}
-                        alt={`${mod.title} logo`}
+                        src={mod.imageSrc}
+                        alt={`${mod.title} banner`}
                         fill
-                        className="object-contain"
+                        className="object-cover transition-transform duration-500 hover:scale-105"
                       />
                     </div>
-                    <h3 className="font-title text-xl text-accent">{mod.title}</h3>
-                  </div>
-                  <p className="text-sm text-foreground">{mod.description}</p>
-                </GameCard>
-              </div>
-            ))}
-          </Carousel>
-        </div>
-      </ScrollReveal>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="relative h-16 w-16 rounded-full overflow-hidden border-2 border-accent">
+                        <Image
+                          src={mod.logoSrc}
+                          alt={`${mod.title} logo`}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                      <h3 className="font-title text-xl text-accent">{mod.title}</h3>
+                    </div>
+                    <p className="text-sm text-foreground">{mod.description}</p>
+                  </GameCard>
+                </div>
+              ))}
+            </Carousel>
+          </div>
+        </ScrollReveal>
+
     </div>
   )
 }
