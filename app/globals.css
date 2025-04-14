@@ -198,7 +198,7 @@ h3 {
   @apply text-center font-body text-black;
 }
 
-/* Animaciones y efectos mejorados */
+/* Animaciones y efectos */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -237,7 +237,7 @@ h3 {
   border-color: hsl(var(--accent));
 }
 
-/* Nuevos efectos dinámicos */
+/*  efectos dinámicos */
 .dynamic-border {
   position: relative;
   overflow: hidden;

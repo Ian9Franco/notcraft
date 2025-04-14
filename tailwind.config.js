@@ -71,10 +71,62 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        pulse: {
+          "0%": { boxShadow: "0 0 0 0 rgba(180, 255, 58, 0.4)" },
+          "70%": { boxShadow: "0 0 0 10px rgba(180, 255, 58, 0)" },
+          "100%": { boxShadow: "0 0 0 0 rgba(180, 255, 58, 0)" },
+        },
+        textGlow: {
+          "0%, 100%": { textShadow: "0 0 5px rgba(180, 255, 58, 0.5)" },
+          "50%": { textShadow: "0 0 15px rgba(180, 255, 58, 0.8)" },
+        },
+        "particle-1": {
+          "0%": { transform: "translate(0, 0)", opacity: 0.8 },
+          "100%": { transform: "translate(-100px, -50px)", opacity: 0 },
+        },
+        "particle-2": {
+          "0%": { transform: "translate(0, 0)", opacity: 0.8 },
+          "100%": { transform: "translate(100px, -70px)", opacity: 0 },
+        },
+        "particle-3": {
+          "0%": { transform: "translate(0, 0)", opacity: 0.8 },
+          "100%": { transform: "translate(-70px, 80px)", opacity: 0 },
+        },
+        "particle-4": {
+          "0%": { transform: "translate(0, 0)", opacity: 0.8 },
+          "100%": { transform: "translate(80px, 60px)", opacity: 0 },
+        },
+        wiggle: {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(-5deg)" },
+          "75%": { transform: "rotate(5deg)" },
+        },
+        "float-text": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-2px)" },
+        },
+        reflection: {
+          "0%": { transform: "translateX(-100%) translateY(-100%) rotate(45deg)" },
+          "100%": { transform: "translateX(100%) translateY(100%) rotate(45deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        float: "float 5s ease-in-out infinite",
+        pulse: "pulse 2s infinite",
+        "text-glow": "textGlow 3s infinite",
+        "particle-1": "particle-1 0.8s ease-out forwards",
+        "particle-2": "particle-2 0.8s ease-out forwards",
+        "particle-3": "particle-3 0.8s ease-out forwards",
+        "particle-4": "particle-4 0.8s ease-out forwards",
+        wiggle: "wiggle 1s ease-in-out infinite",
+        "float-text": "float-text 1s ease-in-out infinite",
+        reflection: "reflection 1.5s ease-in-out",
       },
       fontFamily: {
         minecraft: ["MinecraftFont", "monospace"],
@@ -87,4 +139,3 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 }
-

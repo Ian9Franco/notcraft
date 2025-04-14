@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { Download, ExternalLink, HelpCircle, Package, Wrench, Cog, Zap, Server } from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
@@ -33,36 +34,42 @@ interface Mod {
   file_url?: string
 }
 
-// Datos estáticos para modpacks
-const staticModpacks: Modpack[] = [
-  {
-    id: "1",
-    name: "Netherious Season 1",
-    version: "1.0.5",
-    description: "Modpack oficial de la temporada 1",
-    file_url: "#",
-    logo_url: "/placeholder.svg?height=32&width=32",
-    available: true,
-  },
-  {
-    id: "2",
-    name: "Netherious Lite",
-    version: "1.0.2",
-    description: "Versión ligera del modpack",
-    file_url: "#",
-    logo_url: "/placeholder.svg?height=32&width=32",
-    available: true,
-  },
-  {
-    id: "3",
-    name: "Netherious Season 2",
-    version: "Beta",
-    description: "Próximamente",
-    file_url: "#",
-    logo_url: "/placeholder.svg?height=32&width=32",
-    available: false,
-  },
-]
+// Datos estáticos para modpacks por modloader
+const staticModpacks: { [key: string]: Modpack[] } = {
+  forge: [
+    {
+      id: "1",
+      name: "Netherious Forge",
+      version: "1.0.5",
+      description: "Modpack oficial con Forge",
+      file_url: "#",
+      logo_url: "/images/logos/forge-logo.png",
+      available: true,
+    },
+  ],
+  fabric: [
+    {
+      id: "2",
+      name: "Netherious Fabric",
+      version: "1.0.0",
+      description: "Versión con Fabric (próximamente)",
+      file_url: "#",
+      logo_url: "/images/logos/fabric-logo.png",
+      available: false,
+    },
+  ],
+  neoforged: [
+    {
+      id: "3",
+      name: "Netherious NeoForged",
+      version: "Beta",
+      description: "Versión experimental con NeoForged",
+      file_url: "#",
+      logo_url: "/images/logos/neoforged-logo.png",
+      available: false,
+    },
+  ],
+}
 
 // Datos estáticos para mods destacados
 const staticFeaturedMods: Mod[] = [
@@ -141,38 +148,47 @@ const tutorialSteps = [
           Descarga el archivo ZIP del modpack completo desde nuestro servidor:
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {staticModpacks.map((modpack, index) => (
-            <div key={index} className={`${modpack.available ? "" : "opacity-60"}`}>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="relative w-8 h-8">
-                    <img
-                      src={modpack.logo_url || "/placeholder.svg?height=32&width=32"}
-                      alt={modpack.name}
-                      className="object-contain absolute inset-0"
-                    />
+          {Object.entries(staticModpacks).map(([modloader, packs]) =>
+            packs.map((modpack, index) => (
+              <div key={index} className={`${modpack.available ? "" : "opacity-60"}`}>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="relative w-8 h-8">
+                      <img
+                        src={modpack.logo_url || "/placeholder.svg?height=32&width=32"}
+                        alt={modpack.name}
+                        className="object-contain absolute inset-0"
+                      />
+                    </div>
+                    <h3 className="font-minecraft text-lg text-accent">{modpack.name}</h3>
                   </div>
-                  <h3 className="font-minecraft text-lg text-accent">{modpack.name}</h3>
+                  {modpack.available && (
+                    <svg
+                      className="h-4 w-4 text-green-500"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  )}
                 </div>
-                {modpack.available && (
-                  <svg
-                    className="h-4 w-4 text-green-500"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                )}
+                <p className="text-xs text-muted-foreground mb-4">{modpack.version}</p>
+                <GameButton
+                  variant={modpack.available ? "primary" : "outline"}
+                  fullWidth
+                  disabled={!modpack.available}
+                  icon={<Download className="h-4 w-4" />}
+                >
+                  {modpack.available ? "Descargar" : "Próximamente"}
+                </GameButton>
               </div>
-              <p className="text-xs text-muted-foreground mb-4">{modpack.version}</p>
-             
-            </div>
-          ))}
+            )),
+          )}
         </div>
       </div>
     ),
@@ -245,7 +261,7 @@ export default function ModpackPage() {
   const [mounted, setMounted] = useState(false)
 
   // Estados para datos estáticos
-  const [modpacks, setModpacks] = useState<Modpack[]>([])
+  const [modpacks, setModpacks] = useState<{ [key: string]: Modpack[] }>({})
   const [featuredMods, setFeaturedMods] = useState<Mod[]>([])
   const [optionalMods, setOptionalMods] = useState<{ [key: string]: Mod[] }>({
     particles: [],
@@ -288,19 +304,86 @@ export default function ModpackPage() {
           <h2 className="minecraft-style text-2xl text-accent mb-6">Tutorial de Instalación</h2>
           <InteractiveAccordion items={tutorialSteps} />
 
-          <div className="flex flex-col sm:flex-row gap-4 mt-8">
-            {isLoading ? (
-              <>
-                <div className="flex-1 h-10 bg-secondary/30 rounded-md animate-pulse"></div>
-                <div className="flex-1 h-10 bg-secondary/30 rounded-md animate-pulse"></div>
-              </>
-            ) : modpacks.length > 0 ? (
-              <>
-                
-              </>
-            ) : (
-              <p className="text-muted-foreground">No hay modpacks disponibles actualmente.</p>
-            )}
+          <div className="mt-8">
+            <h3 className="font-minecraft text-xl text-accent mb-4">Descargar por Modloader</h3>
+
+            <Tabs defaultValue="forge" className="w-full">
+              <TabsList className="grid grid-cols-3 mb-4">
+                <TabsTrigger value="forge" className="minecraft-style">
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src="/images/logos/forge-logo.png"
+                      alt="Forge"
+                      width={20}
+                      height={20}
+                      className="pixelated"
+                    />
+                    Forge
+                  </div>
+                </TabsTrigger>
+                <TabsTrigger value="fabric" className="minecraft-style" disabled>
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src="/images/logos/fabric-logo.png"
+                      alt="Fabric"
+                      width={20}
+                      height={20}
+                      className="pixelated"
+                    />
+                    Fabric
+                  </div>
+                </TabsTrigger>
+                <TabsTrigger value="neoforged" className="minecraft-style" disabled>
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src="/images/logos/neoforged-logo.png"
+                      alt="NeoForged"
+                      width={20}
+                      height={20}
+                      className="pixelated"
+                    />
+                    NeoForged
+                  </div>
+                </TabsTrigger>
+              </TabsList>
+
+              {Object.entries(staticModpacks).map(([modloader, packs]) => (
+                <TabsContent key={modloader} value={modloader}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {packs.map((modpack, index) => (
+                      <GameCard key={index} className={`${modpack.available ? "border-glow" : "opacity-70"}`}>
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="relative w-12 h-12 bg-background/30 rounded-md p-1">
+                            <Image
+                              src={modpack.logo_url || "/placeholder.svg?height=48&width=48"}
+                              alt={modpack.name}
+                              width={48}
+                              height={48}
+                              className="pixelated object-contain"
+                            />
+                          </div>
+                          <div>
+                            <h4 className="font-minecraft text-lg text-accent">{modpack.name}</h4>
+                            <p className="text-xs text-muted-foreground">Versión {modpack.version}</p>
+                          </div>
+                        </div>
+
+                        <p className="text-sm text-muted-foreground mb-4">{modpack.description}</p>
+
+                        <GameButton
+                          variant={modpack.available ? "accent" : "outline"}
+                          fullWidth
+                          disabled={!modpack.available}
+                          icon={<Download className="h-4 w-4" />}
+                        >
+                          {modpack.available ? "Descargar Modpack" : "Próximamente"}
+                        </GameButton>
+                      </GameCard>
+                    ))}
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
           </div>
         </GameCard>
       </ScrollReveal>
