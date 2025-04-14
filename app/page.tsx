@@ -57,51 +57,47 @@ export default function Home() {
   return (
     <div className="space-y-16 py-8">
       {/* Server Promo Section as Hero */}
-      <div className="relative min-h-[60vh] rounded-xl overflow-hidden">
-        {/* Video Background */}
-        <video
-            src="/images/landscape/landscape_video.mp4"
+        <div className="relative min-h-[60vh] rounded-xl overflow-hidden">
+          {/* Video Background */}
+          <video
+            src="/images/landscape/landscape_final.mp4"  // Asegúrate de que el video esté en esta ruta
             autoPlay
             loop
-            muted
+            muted={false}  // Puedes quitar muted si el video ya tiene el sonido
             playsInline
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
-        <audio
-            src="/images/landscape/landscape_audio.mp3"
-            controls
-            className="absolute bottom-4 left-4 z-10"
-          />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-1"></div>
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-1"></div>
 
-        {/* Content */}
-        <div className="relative z-10 flex items-center justify-center min-h-[60vh] p-8">
-          <div className="max-w-4xl w-full">
-            <SectionHeader
-              title="Únete a Nuestra Comunidad"
-              subtitle="Explora, construye y sobrevive en un mundo lleno de aventuras y posibilidades."
-              accent
-            />
-            <p className="text-foreground mb-6 text-center md:text-left">
-              Nuestro servidor ofrece una experiencia única con temporadas temáticas, mods cuidadosamente seleccionados
-              y una comunidad amigable.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mt-8">
-              <Link href="/server-info">
-                <GameButton variant="primary" size="lg" icon={<Server />}>
-                  Conectarse al Servidor
-                </GameButton>
-              </Link>
-              <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
-                <GameButton variant="secondary" size="lg" icon={<DiscordLogo />}>
-                  Discord
-                </GameButton>
-              </Link>
+          {/* Content */}
+          <div className="relative z-10 flex items-center justify-center min-h-[60vh] p-8">
+            <div className="max-w-4xl w-full">
+              <SectionHeader
+                title="Únete a Nuestra Comunidad"
+                subtitle="Explora, construye y sobrevive en un mundo lleno de aventuras y posibilidades."
+                accent
+              />
+              <p className="text-foreground mb-6 text-center md:text-left">
+                Nuestro servidor ofrece una experiencia única con temporadas temáticas, mods cuidadosamente seleccionados
+                y una comunidad amigable.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mt-8">
+                <Link href="/server-info">
+                  <GameButton variant="primary" size="lg" icon={<Server />}>
+                    Conectarse al Servidor
+                  </GameButton>
+                </Link>
+                <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
+                  <GameButton variant="secondary" size="lg" icon={<DiscordLogo />}>
+                    Discord
+                  </GameButton>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+
 
       {/* Featured Mods Section with Carousel */}
       <ScrollReveal>
