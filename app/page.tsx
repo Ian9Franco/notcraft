@@ -60,15 +60,18 @@ export default function Home() {
       <div className="relative min-h-[60vh] rounded-xl overflow-hidden">
         {/* Video Background */}
         <video
-          src="/images/landscape/landscape_video"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        />
-        <audio src="/images/landscape/landscape_audio" autoPlay loop className="hidden" controls={false} />
-
+            src="/images/landscape/landscape_video.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        <audio
+            src="/images/landscape/landscape_audio.mp3"
+            controls
+            className="absolute bottom-4 left-4 z-10"
+          />
         {/* Overlay */}
         <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-1"></div>
 
