@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import Image from "next/image"
 import { Download, ExternalLink, HelpCircle, Package, Wrench, Cog, Zap, Server } from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger, InteractiveAccordion } from "@/components/ui/interactive"
 import { useTheme } from "next-themes"
+import { ModloaderIcon } from "@/components/modloader-icon" // Importamos el componente ModloaderIcon
 
 /**
  * Interfaz para modpacks
@@ -311,37 +311,20 @@ export default function ModpackPage() {
               <TabsList className="grid grid-cols-3 mb-4">
                 <TabsTrigger value="forge" className="minecraft-style">
                   <div className="flex items-center gap-2">
-                    <Image
-                      src="/images/logos/forge-logo.png"
-                      alt="Forge"
-                      width={20}
-                      height={20}
-                      className="pixelated"
-                    />
+                    {/* Usamos el componente ModloaderIcon en lugar de Image */}
+                    <ModloaderIcon type="forge" size={20} />
                     Forge
                   </div>
                 </TabsTrigger>
                 <TabsTrigger value="fabric" className="minecraft-style" disabled>
                   <div className="flex items-center gap-2">
-                    <Image
-                      src="/images/logos/fabric-logo.png"
-                      alt="Fabric"
-                      width={20}
-                      height={20}
-                      className="pixelated"
-                    />
+                    <ModloaderIcon type="fabric" size={20} />
                     Fabric
                   </div>
                 </TabsTrigger>
                 <TabsTrigger value="neoforged" className="minecraft-style" disabled>
                   <div className="flex items-center gap-2">
-                    <Image
-                      src="/images/logos/neoforged-logo.png"
-                      alt="NeoForged"
-                      width={20}
-                      height={20}
-                      className="pixelated"
-                    />
+                    <ModloaderIcon type="neoforged" size={20} />
                     NeoForged
                   </div>
                 </TabsTrigger>
@@ -354,12 +337,11 @@ export default function ModpackPage() {
                       <GameCard key={index} className={`${modpack.available ? "border-glow" : "opacity-70"}`}>
                         <div className="flex items-center gap-3 mb-4">
                           <div className="relative w-12 h-12 bg-background/30 rounded-md p-1">
-                            <Image
-                              src={modpack.logo_url || "/placeholder.svg?height=48&width=48"}
-                              alt={modpack.name}
-                              width={48}
-                              height={48}
-                              className="pixelated object-contain"
+                            {/* Usamos el componente ModloaderIcon para el logo del modpack */}
+                            <ModloaderIcon
+                              type={modloader as "forge" | "fabric" | "neoforged"}
+                              size={48}
+                              className="absolute inset-0 m-auto"
                             />
                           </div>
                           <div>

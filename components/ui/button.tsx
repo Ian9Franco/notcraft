@@ -72,6 +72,7 @@ interface GameButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   disabled?: boolean
   icon?: React.ReactNode
   fullWidth?: boolean
+  animated?: boolean
 }
 
 /**
@@ -86,9 +87,19 @@ export function GameButton({
   disabled = false,
   icon,
   fullWidth = false,
+  animated = true,
   ...props
 }: GameButtonProps) {
   const [isHovered, setIsHovered] = React.useState(false)
+  const [isMobile, setIsMobile] = React.useState(false)
+
+  // Detectar si es un dispositivo móvil
+  React.useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const baseStyles =
     "relative font-minecraft uppercase tracking-wider flex items-center justify-center rounded-md transition-all duration-300"
@@ -122,6 +133,7 @@ export function GameButton({
     }
   }
 
+  // Usar button normal en lugar de motion.button para evitar problemas de tipos
   return (
     <button
       onClick={onClick}
@@ -139,8 +151,8 @@ export function GameButton({
       onMouseLeave={() => setIsHovered(false)}
       {...props}
     >
-      {/* Partículas animadas (solo visibles al hacer hover) */}
-      {isHovered && !disabled && (
+      {/* Partículas animadas (solo visibles al hacer hover en desktop) */}
+      {isHovered && !disabled && !isMobile && animated && (
         <>
           {[...Array(8)].map((_, i) => (
             <span
@@ -160,7 +172,10 @@ export function GameButton({
 
       {/* Efecto de resplandor interno */}
       <span
-        className={`absolute inset-0 rounded-md opacity-0 pointer-events-none bg-radial-glow transition-opacity duration-300 ${isHovered && !disabled ? "opacity-30" : ""}`}
+        className={cn(
+          "absolute inset-0 rounded-md opacity-0 pointer-events-none bg-radial-glow transition-opacity duration-300",
+          isHovered && !disabled ? "opacity-30" : "",
+        )}
         style={{
           background: `radial-gradient(circle, ${getEffectColor()}20 0%, transparent 70%)`,
         }}
@@ -177,21 +192,31 @@ export function GameButton({
               : variant === "secondary"
                 ? "border-secondary/50"
                 : "border-accent/30",
-          isHovered && !disabled ? "shadow-glow" : "",
+          isHovered && !disabled && !isMobile ? "shadow-glow" : "",
         )}
         style={{
-          boxShadow: isHovered && !disabled ? `0 0 10px ${getEffectColor()}` : "none",
+          boxShadow: isHovered && !disabled && !isMobile ? `0 0 10px ${getEffectColor()}` : "none",
         }}
       />
 
       {/* Contenido del botón */}
       <span className="flex items-center justify-center gap-2 z-10 relative">
         {icon && (
-          <span className={`mr-1 transition-transform duration-300 ${isHovered && !disabled ? "animate-wiggle" : ""}`}>
+          <span
+            className={cn(
+              "mr-1 transition-transform duration-300",
+              isHovered && !disabled && !isMobile && animated ? "animate-wiggle" : "",
+            )}
+          >
             {icon}
           </span>
         )}
-        <span className={`transition-transform duration-300 ${isHovered && !disabled ? "animate-float-text" : ""}`}>
+        <span
+          className={cn(
+            "transition-transform duration-300",
+            isHovered && !disabled && !isMobile && animated ? "animate-float-text" : "",
+          )}
+        >
           {children}
         </span>
       </span>
@@ -200,4 +225,3 @@ export function GameButton({
 }
 
 export { buttonVariants }
-

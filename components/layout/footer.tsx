@@ -1,4 +1,5 @@
 "use client"
+
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Github, Heart } from "lucide-react"
@@ -34,19 +35,19 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-card pt-8 pb-20 md:pb-6 border-t border-border">
-      {/* Partículas de fondo - Eliminamos el overflow-hidden para evitar el punto en la esquina */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Partículas de fondo */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-accent/30 rounded-full"
             initial={{
-              x: `${Math.random() * 80 + 10}%`, // Evitar completamente las esquinas
-              y: `${Math.random() * 80 + 10}%`, // Evitar completamente las esquinas
+              x: `${Math.random() * 80 + 10}%`,
+              y: `${Math.random() * 80 + 10}%`,
               opacity: Math.random() * 0.5 + 0.3,
             }}
             animate={{
-              y: [null, `${Math.random() * 80 + 10}%`], // Evitar completamente las esquinas
+              y: [null, `${Math.random() * 80 + 10}%`],
               opacity: [null, Math.random() * 0.3 + 0.1],
             }}
             transition={{
@@ -68,7 +69,6 @@ export default function Footer() {
             viewport={{ once: true }}
           >
             <div className="flex items-center gap-2 mb-4">
-              {/* Usamos el nuevo logo */}
               <NetheriousLogo size={40} showText={false} />
               <h3 className="font-title text-lg text-accent border-b border-accent/30 pb-2 inline-block">Netherious</h3>
             </div>
@@ -183,4 +183,3 @@ export default function Footer() {
     </footer>
   )
 }
-

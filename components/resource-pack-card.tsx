@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { motion } from "framer-motion"
 import { Download, Palette } from "lucide-react"
 import { GameButton } from "@/components/ui/button"
 import { GameCard } from "@/components/ui/card"
@@ -28,24 +31,30 @@ export function ResourcePackCard({
     <ScrollReveal delay={index * 0.1}>
       <GameCard className="p-0 overflow-hidden h-full" hoverEffect borderGlow>
         {/* Banner con logo superpuesto */}
-        <div className="relative h-48">
+        <div className="relative h-48 group">
           {/* Banner de fondo */}
           <Image
             src={image_url || "/placeholder.svg"}
             alt={name}
             fill
-            className="object-cover transition-transform duration-500 hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
+
+          {/* Overlay con gradiente */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70" />
 
           {/* Logo superpuesto (si existe) */}
           {logo_url && (
             <div className="absolute left-4 bottom-4 z-10">
-              <div className="relative w-16 h-16 transform transition-transform hover:scale-110">
+              <motion.div
+                className="relative w-16 h-16 transform transition-transform"
+                whileHover={{ scale: 1.1, y: -5 }}
+              >
                 {/* Sombra para efecto 3D */}
                 <div
                   className="absolute -right-2 -bottom-2 w-16 h-16 bg-black/30 rounded-md blur-sm z-0"
                   style={{ transform: "perspective(500px) rotateX(10deg) rotateY(-10deg)" }}
-                ></div>
+                />
 
                 {/* Logo con efecto de elevación */}
                 <div
@@ -59,13 +68,17 @@ export function ResourcePackCard({
                     className="object-contain drop-shadow-lg"
                   />
                 </div>
-              </div>
+              </motion.div>
             </div>
           )}
+
+          {/* Nombre del pack en el banner */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+            <h3 className="font-minecraft text-xl text-white drop-shadow-md">{name}</h3>
+          </div>
         </div>
 
         <div className="p-4">
-          <h3 className="font-minecraft text-xl text-accent mb-2">{name}</h3>
           <p className="text-sm text-muted-foreground mb-3">{description}</p>
 
           {/* Nota especial si existe */}

@@ -19,15 +19,50 @@ export function NetheriousLogo({
   animate = false,
   intensity = "medium",
 }: NetheriousLogoProps) {
-  // Mantenemos la interfaz de props igual para compatibilidad con el código existente
-  // pero ahora usamos la nueva imagen del logo
+  // Configuración de animación basada en la intensidad
+  const getAnimationProps = () => {
+    if (!animate) return {}
+
+    const intensityValues = {
+      low: { scale: 1.05, rotate: 3, duration: 3 },
+      medium: { scale: 1.1, rotate: 5, duration: 2.5 },
+      high: { scale: 1.15, rotate: 8, duration: 2 },
+    }
+
+    const values =
+      typeof intensity === "string" && intensity in intensityValues
+        ? intensityValues[intensity as keyof typeof intensityValues]
+        : intensityValues.medium
+
+    return {
+      animate: {
+        scale: [1, values.scale, 1],
+        rotate: [0, values.rotate, 0],
+      },
+      transition: {
+        duration: values.duration,
+        repeat: Number.POSITIVE_INFINITY,
+        ease: "easeInOut",
+      },
+    }
+  }
+
+  const animationProps = getAnimationProps()
 
   return (
     <div className={cn("relative flex items-center", className)} style={{ height: size }}>
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          ...animationProps.animate,
+        }}
+        transition={{
+          duration: 0.5,
+          ease: "easeOut",
+          ...animationProps.transition,
+        }}
         className="relative"
         style={{ width: size, height: size }}
       >
@@ -54,4 +89,3 @@ export function NetheriousLogo({
     </div>
   )
 }
-

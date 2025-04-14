@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Importación de fuentes */
 @font-face {
   font-family: "MinecraftFont";
   src: url("/fonts/MinecraftFont.woff2") format("woff2");
@@ -50,155 +51,250 @@
   font-display: swap;
 }
 
-:root {
-  /* 🌑 Dark mode (default) */
-  --background: 216 29% 19%; /* Crown Black */
-  --foreground: 241 100% 92%; /* Pale Lavender Blue */
-  --card: 300 4% 13%; /* Raisin Black */
-  --card-foreground: 241 100% 92%;
-  --popover: 300 4% 13%;
-  --popover-foreground: 241 100% 92%;
+@layer base {
+  :root {
+    /* 🌑 Dark mode (default) */
+    --background: 216 29% 19%; /* Crown Black */
+    --foreground: 241 100% 92%; /* Pale Lavender Blue */
+    --card: 300 4% 13%; /* Raisin Black */
+    --card-foreground: 241 100% 92%;
+    --popover: 300 4% 13%;
+    --popover-foreground: 241 100% 92%;
 
-  --primary: 241 27% 43%; /* Twilight Blue */
-  --primary-foreground: 241 100% 92%;
+    --primary: 241 27% 43%; /* Twilight Blue */
+    --primary-foreground: 241 100% 92%;
 
-  --secondary: 66 64% 56%; /* Rainforest Glow */
-  --secondary-foreground: 300 4% 13%;
+    --secondary: 66 64% 56%; /* Rainforest Glow */
+    --secondary-foreground: 300 4% 13%;
 
-  --muted: 216 20% 25%;
-  --muted-foreground: 241 50% 70%;
+    --muted: 216 20% 25%;
+    --muted-foreground: 241 50% 70%;
 
-  --accent: 66 64% 56%;
-  --accent-foreground: 300 4% 13%;
+    --accent: 66 64% 56%;
+    --accent-foreground: 300 4% 13%;
 
-  --destructive: 0 70% 45%;
-  --destructive-foreground: 0 0% 100%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 100%;
 
-  --border: 300 4% 18%;
-  --input: 300 4% 18%;
-  --ring: 241 27% 43%;
-  --radius: 0.5rem;
+    --border: 300 4% 18%;
+    --input: 300 4% 18%;
+    --ring: 241 27% 43%;
+    --radius: 0.5rem;
 
- /* SIDEBAR: Sidebar más oscuro que el fondo - Oscurecido aún más */
- --sidebar-bg: hsla(300, 4%, 5%, 0.85); /* Más oscuro que antes */
- --sidebar-fg: 241 100% 92%;
+    /* Sidebar variables */
+    --sidebar-bg: hsla(300, 4%, 5%, 0.85); /* Más oscuro que antes */
+    --sidebar-fg: 241 100% 92%;
 
- /* TITULOS: Colores para títulos con mejor contraste */
- --title-color: 66 64% 65%;
- /* En modo oscuro, los títulos son claros (casi blancos) */
- --title-text-dark: 0 0% 100%;
- /* En modo oscuro, el hover de títulos es accent */
- --title-hover-dark: 66 64% 65%;
+    /* TITULOS: Colores para títulos con mejor contraste */
+    --title-color: 66 64% 65%;
+    /* En modo oscuro, los títulos son claros (casi blancos) */
+    --title-text-dark: 0 0% 100%;
+    /* En modo oscuro, el hover de títulos es accent */
+    --title-hover-dark: 66 64% 65%;
 
- /* Variables generales para texto y hover de títulos */
- --title-text: hsl(241, 27%, 43%);
- --title-hover: hsla(241, 27%, 43%, 0.6); /* mismo color, menos opaco */
+    /* Variables generales para texto y hover de títulos */
+    --title-text: hsl(241, 27%, 43%);
+    --title-hover: hsla(241, 27%, 43%, 0.6); /* mismo color, menos opaco */
+  }
+
+  .light {
+    /* ☀️ Light mode */
+    --background: 180 21% 94%; /* Frosted Glass */
+    --foreground: 196 13% 40%; /* Darker Celestra Grey for contrast */
+
+    --card: 180 13% 83%; /* Offshore Mist */
+    --card-foreground: 186 27% 30%; /* Rhythmic Blue (darkened) */
+
+    --popover: 180 13% 83%;
+    --popover-foreground: 186 27% 30%;
+
+    --primary: 186 27% 79%; /* Rhythmic Blue */
+    --primary-foreground: 0 0% 15%;
+
+    --secondary: 196 13% 66%; /* Celestra Grey */
+    --secondary-foreground: 0 0% 15%;
+
+    --muted: 180 13% 88%;
+    --muted-foreground: 196 13% 45%;
+
+    --accent: 196 13% 66%;
+    --accent-foreground: 0 0% 15%;
+
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 180 13% 80%;
+    --input: 180 13% 80%;
+    --ring: 186 27% 79%;
+
+    --sidebar-bg: 186 27% 40%; /* Más oscuro que antes */
+    --sidebar-fg: 0 0% 15%;
+
+    /* TITULOS: Colores para títulos con mejor contraste */
+    --title-color: 196 13% 30%;
+    /* En modo claro, los títulos son oscuros (casi negros) */
+    --title-text-light: 0 0% 0%;
+    /* En modo claro, el hover de títulos es accent */
+    --title-hover-light: 196 13% 30%;
+
+    /* Variables generales para texto y hover de títulos */
+    --title-text: hsl(216, 29%, 19%);
+    --title-hover: hsl(216, 29%, 30%);
+  }
 }
 
-.light {
-  /* ☀️ Light mode */
-  --background: 180 21% 94%; /* Frosted Glass */
-  --foreground: 196 13% 40%; /* Darker Celestra Grey for contrast */
+@layer base {
+  * {
+    @apply border-border;
+  }
 
-  --card: 180 13% 83%; /* Offshore Mist */
-  --card-foreground: 186 27% 30%; /* Rhythmic Blue (darkened) */
+  body {
+    @apply bg-background text-foreground font-body;
+    background-image: url("/images/dirt-background.png");
+    background-repeat: repeat;
+    background-attachment: fixed;
+    overflow-x: hidden;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
 
-  --popover: 180 13% 83%;
-  --popover-foreground: 186 27% 30%;
+  .light body {
+    background-image: url("/images/light-dirt-background.png");
+  }
 
-  --primary: 186 27% 79%; /* Rhythmic Blue */
-  --primary-foreground: 0 0% 15%;
+  /* TITULOS: Estilos base para títulos */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-title tracking-wide;
+    color: hsl(var(--title-color));
+  }
 
-  --secondary: 196 13% 66%; /* Celestra Grey */
-  --secondary-foreground: 0 0% 15%;
+  /* TITULOSHOVER: Estilos para hover en títulos */
+  .title-hover:hover {
+    color: hsl(var(--title-hover-dark));
+  }
 
-  --muted: 180 13% 88%;
-  --muted-foreground: 196 13% 45%;
+  .light .title-hover:hover {
+    color: hsl(var(--title-hover-light));
+  }
 
-  --accent: 196 13% 66%;
-  --accent-foreground: 0 0% 15%;
+  /* Estilos para scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
 
-  --destructive: 0 84% 55%;
-  --destructive-foreground: 0 0% 100%;
+  ::-webkit-scrollbar-track {
+    @apply bg-secondary/30;
+  }
 
-  --border: 180 13% 80%;
-  --input: 180 13% 80%;
-  --ring: 186 27% 79%;
-
-  --sidebar-bg: 186 27% 40%; /* Más oscuro que antes */
-  --sidebar-fg: 0 0% 15%;
-
-  /* TITULOS: Colores para títulos con mejor contraste */
-  --title-color: 196 13% 30%;
-  /* En modo claro, los títulos son oscuros (casi negros) */
-  --title-text-light: 0 0% 0%;
-  /* En modo claro, el hover de títulos es accent */
-  --title-hover-light: 196 13% 30%;
-
-  /* Variables generales para texto y hover de títulos */
-  --title-text: hsl(216, 29%, 19%);
-  --title-hover: hsl(216, 29%, 30%);
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent/50 rounded-full hover:bg-accent/70 transition-colors;
+  }
 }
 
-body {
-  @apply bg-background text-foreground font-body;
-  background-image: url("/images/dirt-background.png");
-  background-repeat: repeat;
-  background-attachment: fixed;
-  overflow-x: hidden;
+@layer components {
+  /* Estilos para texto con estilo Minecraft */
+  .minecraft-style,
+  .font-minecraft {
+    font-family: "MinecraftFont", monospace;
+    letter-spacing: 0.05em;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Estilos para imágenes pixeladas */
+  .pixelated {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  /* Efecto de brillo para bordes */
+  .border-glow {
+    box-shadow: 0 0 10px rgba(var(--accent), 0.3);
+  }
+
+  /* Efecto de brillo para texto */
+  .text-glow {
+    text-shadow: 0 0 8px rgba(var(--accent), 0.6);
+  }
+
+  /* Efecto de hover para títulos */
+  .title-hover {
+    @apply transition-all duration-300;
+  }
+
+  .title-hover:hover {
+    @apply text-accent transform scale-105;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    @apply bg-[hsl(var(--sidebar-bg))] text-[hsl(var(--sidebar-fg))];
+  }
+
+  /* Animaciones para secciones */
+  .fade-in-section {
+    @apply opacity-0 transition-all duration-700 ease-out;
+    transform: translateY(20px);
+  }
+
+  .fade-in-section.is-visible {
+    @apply opacity-100;
+    transform: translateY(0);
+  }
+
+  /* Estilos específicos para componentes */
+  .server-description {
+    @apply font-bytesized;
+  }
+
+  .header-text,
+  .footer-text {
+    @apply font-title;
+  }
+
+  /* Efecto de vidrio para tarjetas */
+  .glass-effect {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Efecto de HUD para paneles */
+  .hud-panel {
+    border: 2px solid hsl(var(--accent));
+    box-shadow: 0 0 0 1px rgba(180, 255, 58, 0.3), inset 0 0 0 1px rgba(180, 255, 58, 0.3);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(30, 30, 30, 0.7) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Estilo Minecraft para bordes */
+  .minecraft-border {
+    image-rendering: pixelated;
+    border-style: solid;
+    border-width: 4px;
+    border-image: url("/images/minecraft-border.png") 4 repeat;
+  }
+
+  /* Polaroid effect */
+  .polaroid {
+    @apply bg-white p-2 shadow-lg transition-all duration-300 rotate-0 hover:rotate-1;
+  }
+
+  .polaroid img {
+    @apply mb-2;
+  }
+
+  .polaroid figcaption {
+    @apply text-center font-body text-black;
+  }
 }
 
-.light body {
-  background-image: url("/images/light-dirt-background.png");
-}
-
-/* TITULOS: Estilos base para títulos */
-h1,
-h2,
-h3 {
-  @apply font-title uppercase;
-  color: hsl(var(--title-color));
-}
-
-/* TITULOSHOVER: Estilos para hover en títulos */
-.title-hover:hover {
-  color: hsl(var(--title-hover-dark));
-}
-
-.light .title-hover:hover {
-  color: hsl(var(--title-hover-light));
-}
-
-.server-description {
-  @apply font-bytesized;
-}
-
-.header-text,
-.footer-text {
-  @apply font-title;
-}
-
-.minecraft-style {
-  @apply font-minecraft uppercase tracking-wider;
-}
-
-.pixelated {
-  image-rendering: pixelated;
-}
-
-.polaroid {
-  @apply bg-white p-2 shadow-lg transition-all duration-300 rotate-0 hover:rotate-1;
-}
-
-.polaroid img {
-  @apply mb-2;
-}
-
-.polaroid figcaption {
-  @apply text-center font-body text-black;
-}
-
-/* Animaciones y efectos */
+/* Animaciones */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -214,71 +310,18 @@ h3 {
   animation: fadeIn 0.5s ease-in-out forwards;
 }
 
-.fade-in-section {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  will-change: opacity, transform;
-}
-
-.fade-in-section.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hover-effect {
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.hover-effect:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-  border-color: hsl(var(--accent));
-}
-
-/*  efectos dinámicos */
-.dynamic-border {
-  position: relative;
-  overflow: hidden;
-}
-
-.dynamic-border::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, hsl(var(--accent)), transparent);
-  animation: borderFlow 3s linear infinite;
-}
-
-@keyframes borderFlow {
-  0% {
-    left: -100%;
-  }
+@keyframes float {
+  0%,
   100% {
-    left: 100%;
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
 
-.dynamic-glow {
-  animation: dynamicGlow 3s infinite alternate;
-}
-
-@keyframes dynamicGlow {
-  0% {
-    box-shadow: 0 0 5px rgba(var(--accent), 0.3);
-  }
-  100% {
-    box-shadow: 0 0 20px rgba(var(--accent), 0.7);
-  }
-}
-
-/* Animación para pestañas */
-.fade-in {
-  animation: fadeIn 0.3s ease-in-out;
+.animate-float {
+  animation: float 5s ease-in-out infinite;
 }
 
 @keyframes pulse {
@@ -293,11 +336,10 @@ h3 {
   }
 }
 
-.pulse {
+.animate-pulse-glow {
   animation: pulse 2s infinite;
 }
 
-/* Animación para títulos */
 @keyframes textGlow {
   0%,
   100% {
@@ -308,215 +350,11 @@ h3 {
   }
 }
 
-.text-glow {
+.animate-text-glow {
   animation: textGlow 3s infinite;
 }
 
-/* Reflection effect for containers */
-.container-reflection {
-  position: relative;
-  overflow: hidden;
-}
-
-.container-reflection::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(45deg);
-  transition: transform 0.5s ease-in-out;
-  opacity: 0;
-}
-
-.container-reflection:hover::after {
-  opacity: 1;
-  animation: reflection 1.5s ease-in-out;
-}
-
-@keyframes reflection {
-  0% {
-    transform: translateX(-100%) translateY(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) translateY(100%) rotate(45deg);
-  }
-}
-
-/* Fix for navigation issues */
-.page-transition-wrapper {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-/* Aplicar el efecto de reflejo a todos los contenedores con hover */
-.hover-effect {
-  position: relative;
-  overflow: hidden;
-}
-
-.hover-effect::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(45deg);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.hover-effect:hover::after {
-  opacity: 1;
-  animation: reflection 1.5s ease-in-out;
-}
-
-/* Nuevos estilos para la UI tipo app */
-
-/* Efecto de vidrio para tarjetas */
-.glass-effect {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-/* Efecto de borde brillante */
-.border-glow {
-  box-shadow: 0 0 10px rgba(180, 255, 58, 0.3);
-}
-
-/* Scroll snapping para secciones */
-.snap-container {
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100vh;
-}
-
-.snap-section {
-  scroll-snap-align: start;
-  height: 100vh;
-}
-
-/* Estilos para scrollbar personalizado */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(var(--background));
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--accent));
-}
-
-/* Animación para el logo */
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.float-animation {
-  animation: float 5s ease-in-out infinite;
-}
-
-/* Efecto de HUD para paneles */
-.hud-panel {
-  border: 2px solid hsl(var(--accent));
-  box-shadow: 0 0 0 1px rgba(180, 255, 58, 0.3), inset 0 0 0 1px rgba(180, 255, 58, 0.3);
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(30, 30, 30, 0.7) 100%);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-/* Animación para botones */
-@keyframes buttonPulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(180, 255, 58, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 5px rgba(180, 255, 58, 0);
-  }
-}
-
-.button-pulse {
-  animation: buttonPulse 2s infinite;
-}
-
-/* Mejoras para modo oscuro/claro */
-.dark .glass-card {
-  background: rgba(30, 30, 30, 0.7);
-}
-
-.light .glass-card {
-  background: rgba(255, 0, 0, 0.7);
-}
-
-/* Nuevos efectos de partículas */
-@keyframes floatingParticle {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(180deg);
-  }
-  100% {
-    transform: translateY(0) rotate(360deg);
-  }
-}
-
-.particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background-color: hsl(var(--accent));
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0.6;
-  animation: floatingParticle 10s infinite ease-in-out;
-}
-
-/* Estilo Minecraft para bordes */
-.minecraft-border {
-  image-rendering: pixelated;
-  border-style: solid;
-  border-width: 4px;
-  border-image: url("/images/minecraft-border.png") 4 repeat;
-}
-
-/* Efecto de pixelado para imágenes */
-.pixel-image {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
-/* Animaciones para el GameButton */
+/* Animaciones para partículas */
 @keyframes particle-1 {
   0% {
     transform: translate(0, 0);
@@ -577,10 +415,6 @@ h3 {
   animation: particle-4 0.8s ease-out forwards;
 }
 
-.animate-wiggle {
-  animation: wiggle 1s ease-in-out infinite;
-}
-
 @keyframes wiggle {
   0%,
   100% {
@@ -594,8 +428,8 @@ h3 {
   }
 }
 
-.animate-float-text {
-  animation: float-text 1s ease-in-out infinite;
+.animate-wiggle {
+  animation: wiggle 1s ease-in-out infinite;
 }
 
 @keyframes float-text {
@@ -605,6 +439,19 @@ h3 {
   }
   50% {
     transform: translateY(-2px);
+  }
+}
+
+.animate-float-text {
+  animation: float-text 1s ease-in-out infinite;
+}
+
+@keyframes reflection {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
   }
 }
 
@@ -619,6 +466,86 @@ h3 {
   100% {
     box-shadow: 0 0 15px currentColor;
   }
+}
+
+/* Efectos dinámicos */
+.dynamic-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.dynamic-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, hsl(var(--accent)), transparent);
+  animation: borderFlow 3s linear infinite;
+}
+
+@keyframes borderFlow {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.dynamic-glow {
+  animation: dynamicGlow 3s infinite alternate;
+}
+
+@keyframes dynamicGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(var(--accent), 0.3);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(var(--accent), 0.7);
+  }
+}
+
+/* Efectos de hover */
+.hover-effect {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hover-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  border-color: hsl(var(--accent));
+}
+
+/* Reflection effect */
+.container-reflection {
+  position: relative;
+  overflow: hidden;
+}
+
+.container-reflection::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  transition: transform 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.container-reflection:hover::after {
+  opacity: 1;
+  animation: reflection 1.5s ease-in-out;
 }
 
 /* Estilos para el carrusel */
@@ -660,9 +587,75 @@ h3 {
   background-color: hsl(var(--accent));
 }
 
+/* Media queries para responsividad */
+@media (max-width: 640px) {
+  .minecraft-style,
+  .font-minecraft {
+    font-size: 0.9em;
+  }
+
+  h1 {
+    @apply text-3xl;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-xl;
+  }
+}
+
 @media (min-width: 768px) {
   .carousel-item {
     flex: 0 0 33.333%;
   }
 }
 
+/* Estilos para contenedores de contenido */
+.content-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Fix para problemas de navegación */
+.page-transition-wrapper {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Scroll snapping para secciones */
+.snap-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  height: 100vh;
+}
+
+/* Animaciones para partículas flotantes */
+@keyframes floatingParticle {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+  }
+  100% {
+    transform: translateY(0) rotate(360deg);
+  }
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: hsl(var(--accent));
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.6;
+  animation: floatingParticle 10s infinite ease-in-out;
+}

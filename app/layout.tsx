@@ -4,7 +4,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SidebarNavigation, MobileNavigation } from "@/components/navigation"
-import { TooltipProvider } from "@/components/ui/interactive"
+import { TooltipProvider } from "@/components/ui/tooltip"
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
 
@@ -12,7 +12,18 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Netherious - Minecraft Server & Modpack",
-  description: "Custom Minecraft server and modpack website",
+  description: "Servidor de Minecraft personalizado con modpack y comunidad activa",
+  keywords: "minecraft, server, modpack, forge, fabric, neoforged, gaming",
+  authors: [{ name: "Netherious Team" }],
+  viewport: "width=device-width, initial-scale=1",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f0f0f" },
+  ],
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
 }
 
 /**

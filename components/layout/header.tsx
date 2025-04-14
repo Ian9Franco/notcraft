@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, CuboidIcon as Cube, Sun, Moon, Axe, Package, Palette, Server, ImageIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { NetheriousLogo } from "@/components/icons/netherious-logo"
 import { Button } from "@/components/ui/button"
+
 /**
  * Componente de encabezado de la aplicación
  */
@@ -18,6 +19,7 @@ export default function Header() {
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
 
+  // Efecto para detectar scroll y montaje
   useEffect(() => {
     setIsMounted(true)
 
@@ -28,6 +30,11 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Cerrar el menú móvil cuando cambia la ruta
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
 
   /**
    * Función para obtener el título de la página actual
@@ -69,10 +76,19 @@ export default function Header() {
     }
   }
 
+  // Enlaces de navegación
+  const navLinks = [
+    { href: "/", label: "Inicio" },
+    { href: "/modpack", label: "Modpack" },
+    { href: "/resource-packs", label: "Resource Packs" },
+    { href: "/server-info", label: "Server Info" },
+    { href: "/gallery", label: "Galería" },
+  ]
+
   return (
     <header
-      className={`bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-40 transition-all duration-300 ${
-        scrolled ? "py-2 shadow-md" : "py-3"
+      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
+        scrolled ? "bg-background/80 backdrop-blur-md shadow-md py-2" : "bg-transparent py-3"
       }`}
     >
       <div className="container mx-auto px-4">
@@ -81,7 +97,7 @@ export default function Header() {
           <Link href="/" className="md:hidden flex items-center space-x-2">
             <div className="relative flex items-center justify-center">
               {isMounted ? (
-                <NetheriousLogo size={40} showText={false} />
+                <NetheriousLogo size={40} showText={false} animate={true} />
               ) : (
                 <div className="w-10 h-10 flex items-center justify-center rounded-md">
                   <Cube className="text-accent" />
@@ -123,49 +139,74 @@ export default function Header() {
           {/* Right side controls */}
           <div className="flex items-center gap-2">
             {/* Theme toggle */}
-            <motion.button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
-              whileHover={{ scale: 1.1, rotate: theme === "dark" ? 180 : 0 }}
-              whileTap={{ scale: 0.9 }}
-              aria-label={theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
-            >
-              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-            </motion.button>
-
-            {/* User login/profile */}
-
-              <div className="hidden md:block">
-               
-              </div>
+            {isMounted && (
+              <motion.button
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
+                whileHover={{ scale: 1.1, rotate: theme === "dark" ? 180 : 0 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label={theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
+              >
+                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+              </motion.button>
+            )}
 
             {/* Mobile menu button - only visible on mobile */}
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-foreground hover:text-accent transition-colors"
+              className="md:hidden"
               aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={isOpen ? "close" : "menu"}
+                  initial={{ opacity: 0, rotate: -90 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: 90 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {isOpen ? <X size={24} /> : <Menu size={24} />}
+                </motion.div>
+              </AnimatePresence>
+            </Button>
           </div>
         </div>
       </div>
 
       {/* Mobile Navigation - only visible when menu is open */}
-      {isOpen && (
-        <motion.div
-          className="md:hidden bg-background/95 backdrop-blur-sm border-t border-border/30"
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="container mx-auto px-4 py-4">
-
-              
-          </div>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="md:hidden bg-background/95 backdrop-blur-sm border-t border-border/30"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="container mx-auto px-4 py-4 space-y-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "block px-4 py-3 rounded-md font-minecraft transition-colors",
+                    pathname === link.href ? "bg-accent/20 text-accent" : "hover:bg-accent/10 hover:text-accent",
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
+}
+
+// Función de utilidad para combinar clases
+function cn(...classes: (string | boolean | undefined)[]) {
+  return classes.filter(Boolean).join(" ")
 }
