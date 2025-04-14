@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Server, Package } from "lucide-react"
 import { DiscordLogo } from "@/components/icons/discord-logo"
 import { NetheriousLogo } from "@/components/icons/netherious-logo"
-import { ParallaxSection, ScrollReveal } from "@/components/animations"
+import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
 import { Carousel } from "@/components/ui/carousel"
@@ -59,49 +59,63 @@ const featuredMods = [
 export default function Home() {
   return (
     <div className="space-y-16 py-8">
-      {/* Hero Section with Parallax and Logo */}
-      <ParallaxSection
-        bgImage="/placeholder.svg?height=800&width=1600"
-        className="min-h-[60vh] flex items-center justify-center rounded-xl overflow-hidden"
-      >
-        <div className="text-center p-8 bg-background/60 backdrop-blur-md rounded-xl max-w-3xl mx-auto">
-          <motion.div
-            className="flex justify-center mb-6"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <NetheriousLogo showText={true} size={80} className="h-20" />
-          </motion.div>
+      {/* Hero Section with Video Background */}
+      <div className="relative min-h-[60vh] rounded-xl overflow-hidden">
+        {/* Video Background */}
+        <video
+          src="/images/landscape/landscape_video"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+        <audio src="/images/landscape/landscape_audio" autoPlay loop className="hidden" />
 
-          <motion.p
-            className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            Una experiencia de Minecraft con mods increíbles, terrenos épicos y comunidad amigable.
-          </motion.p>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-1"></div>
 
-          <motion.div
-            className="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Link href="/modpack">
-              <GameButton variant="accent" size="lg" icon={<Package />}>
-                Descargar Modpack
-              </GameButton>
-            </Link>
-            <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
-              <GameButton variant="outline" size="lg" icon={<DiscordLogo />}>
-                Unirse al Discord
-              </GameButton>
-            </Link>
-          </motion.div>
+        {/* Content */}
+        <div className="relative z-10 flex items-center justify-center min-h-[60vh]">
+          <div className="text-center p-8 max-w-3xl mx-auto">
+            <motion.div
+              className="flex justify-center mb-6"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <NetheriousLogo showText={true} size={80} className="h-20" />
+            </motion.div>
+
+            <motion.p
+              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Una experiencia de Minecraft con mods increíbles, terrenos épicos y comunidad amigable.
+            </motion.p>
+
+            <motion.div
+              className="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <Link href="/modpack">
+                <GameButton variant="accent" size="lg" icon={<Package />}>
+                  Descargar Modpack
+                </GameButton>
+              </Link>
+              <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
+                <GameButton variant="outline" size="lg" icon={<DiscordLogo />}>
+                  Unirse al Discord
+                </GameButton>
+              </Link>
+            </motion.div>
+          </div>
         </div>
-      </ParallaxSection>
+      </div>
 
       {/* Featured Mods Section with Carousel */}
       <ScrollReveal>
@@ -120,11 +134,11 @@ export default function Home() {
                       src={mod.imageSrc || "/placeholder.svg"}
                       alt={`${mod.title} banner`}
                       fill
-                      className="object-cover transition-transform duration-500 hover:scale-105"
+                      className="object-contain transition-transform duration-500 hover:scale-105 bg-secondary/50"
                     />
                   </div>
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="relative h-8 w-8">
+                    <div className="relative h-12 w-12">
                       <Image
                         src={mod.logoSrc || "/placeholder.svg"}
                         alt={`${mod.title} logo`}
@@ -170,15 +184,12 @@ export default function Home() {
               </div>
             </div>
             <div className="relative h-64 md:h-full min-h-[300px] overflow-hidden">
-              <video
-                src="/images/landscape/landscape_video"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover"
+              <Image
+                src="/placeholder.svg?height=400&width=600"
+                alt="Minecraft Server Landscape"
+                fill
+                className="object-cover"
               />
-              <audio src="/images/landscape/landscape_audio" autoPlay loop className="hidden" />
               <div className="absolute inset-0 bg-gradient-to-r from-background to-transparent md:from-transparent md:via-transparent md:to-background z-[1]"></div>
             </div>
           </div>
