@@ -48,6 +48,24 @@ const staticResourcePacks: ResourcePack[] = [
     special_note: "Requiere Optifine o Entity Model Features",
     files: [{ id: "file2", name: "Fresh-Animations-1.2.zip" }],
   },
+  {
+    id: "3",
+    name: "Ejemplo",
+    description: "Un pack de texturas ejemplo",
+    image_url: "/images/texturas/ejemplo.png",
+    logo_url: "/images/texturas/ejemplo.png",
+    special_note: "Compatible con la mayoría de mods",
+    files: [{ id: "file1", name: "ejemplo.zip" }],
+  },
+  {
+    id: "4",
+    name: "Ejemplo",
+    description: "Un pack de texturas ejemplo",
+    image_url: "/images/texturas/ejemplo.png",
+    logo_url: "/images/texturas/ejemplo.png",
+    special_note: "Compatible con la mayoría de mods",
+    files: [{ id: "file1", name: "ejemplo.zip" }],
+  },
 ]
 
 /**
@@ -77,10 +95,10 @@ export default function ResourcePacksPage() {
         />
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {isLoading ? (
           // Mostrar placeholders mientras carga
-          [...Array(2)].map((_, index) => (
+          [...Array(3)].map((_, index) => (
             <GameCard key={index} className="h-80 animate-pulse">
               <div className="h-48 bg-secondary/30 rounded-md mb-4"></div>
               <div className="h-4 bg-secondary/30 rounded-md w-3/4 mb-2"></div>
@@ -89,7 +107,7 @@ export default function ResourcePacksPage() {
             </GameCard>
           ))
         ) : resourcePacks.length === 0 ? (
-          <div className="col-span-2 text-center py-12">
+          <div className="col-span-full text-center py-12">
             <p className="text-muted-foreground">No hay resource packs disponibles actualmente.</p>
           </div>
         ) : (

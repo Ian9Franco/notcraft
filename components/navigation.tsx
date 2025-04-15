@@ -123,13 +123,18 @@ export function SidebarNavigation() {
     >
       <div className="flex flex-col h-full">
         {/* Logo y título */}
-        <div className="p-4 flex items-center justify-center">
-          <Link href="/" className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-start gap-2")}>
-            <div className="w-10 h-10 relative flex items-center justify-center">
-              <NetheriousLogo size={40} showText={false} animate={true} intensity="medium" />
-            </div>
-            <AnimatePresence>
-              {!isCollapsed && (
+          {!isCollapsed && (
+            <div className="mt-8 p-4 flex items-center justify-center">
+              <Link
+                href="/"
+                className={cn(
+                  "flex items-center transition-all duration-300",
+                  isCollapsed ? "justify-center" : "justify-start gap-2"
+                )}
+              >
+                <div className="w-10 h-10 relative flex items-center justify-center">
+                  <NetheriousLogo size={100} showText={false} animate={true} intensity="medium" />
+                </div>
                 <motion.span
                   className="font-title text-xl text-accent tracking-wider"
                   initial={{ opacity: 0, x: -10, width: 0 }}
@@ -137,12 +142,12 @@ export function SidebarNavigation() {
                   exit={{ opacity: 0, x: -10, width: 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                  Netherious???
+                  {/* nombre logo, por ejemplo: Netherious */}
+                  
                 </motion.span>
-              )}
-            </AnimatePresence>
-          </Link>
-        </div>
+              </Link>
+            </div>
+          )}
 
         {/* Elementos de navegación */}
         <div className="flex-1 py-8 flex flex-col gap-2 px-2">
@@ -159,7 +164,7 @@ export function SidebarNavigation() {
             onMouseLeave={() => setIsHovered(false)}
             className={cn(
               "w-full flex items-center justify-center p-2 rounded-md transition-colors",
-              isHovered ? "bg-accent/10 text-sidebar-fg" : "bg-[#1a1a1a] dark:bg-[#0a0a0a] text-accent",
+              isHovered ? "bg-accent/10 text-accent" : "bg-[#1a1a1a] dark:bg-[#0a0a0a] text-accent",
             )}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -205,8 +210,7 @@ export function MobileNavigation() {
                     isActive ? "text-accent" : "text-foreground",
                   )}
                 >
-                  {React.cloneElement(item.icon as React.ReactElement, { size: 20 })}
-                  <span className="text-xs mt-1 font-minecraft">{item.label}</span>
+                  {React.cloneElement(item.icon as React.ReactElement, { size: 24 })}
                 </div>
 
                 {isActive && (

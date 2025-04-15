@@ -1,107 +1,100 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Download, Palette } from "lucide-react"
+import { Download, Info } from "lucide-react"
 import { GameButton } from "@/components/ui/button"
 import { GameCard } from "@/components/ui/card"
-import { ScrollReveal } from "@/components/animations"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
-interface ResourcePackProps {
+interface ResourcePackCardProps {
   id: string
   name: string
   description: string
   image_url: string
   logo_url?: string
   special_note?: string
-  available?: boolean
+  available: boolean
   index: number
 }
 
 export function ResourcePackCard({
+  id,
   name,
   description,
   image_url,
   logo_url,
   special_note,
-  available = true,
+  available,
   index,
-}: ResourcePackProps) {
+}: ResourcePackCardProps) {
+  const [isHovered, setIsHovered] = useState(false)
+
   return (
-    <ScrollReveal delay={index * 0.1}>
-      <GameCard className="p-0 overflow-hidden h-full" hoverEffect borderGlow>
-        {/* Banner con logo superpuesto */}
-        <div className="relative h-48 group">
-          {/* Banner de fondo */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -5 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+    >
+      <GameCard className="h-full overflow-hidden">
+        <div className="relative h-48 rounded-md overflow-hidden mb-4">
           <Image
-            src={image_url || "/placeholder.svg"}
+            src={image_url || "/placeholder.svg?height=400&width=600"}
             alt={name}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-500"
+            style={{ transform: isHovered ? "scale(1.05)" : "scale(1)" }}
           />
 
-          {/* Overlay con gradiente */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70" />
-
-          {/* Logo superpuesto (si existe) */}
+          {/* Logo cuadrado con contorno */}
           {logo_url && (
-            <div className="absolute left-4 bottom-4 z-10">
-              <motion.div
-                className="relative w-16 h-16 transform transition-transform"
-                whileHover={{ scale: 1.1, y: -5 }}
-              >
-                {/* Sombra para efecto 3D */}
-                <div
-                  className="absolute -right-2 -bottom-2 w-16 h-16 bg-black/30 rounded-md blur-sm z-0"
-                  style={{ transform: "perspective(500px) rotateX(10deg) rotateY(-10deg)" }}
-                />
-
-                {/* Logo con efecto de elevación */}
-                <div
-                  className="relative z-10 w-16 h-16 bg-white/10 backdrop-blur-sm rounded-md p-1 border border-white/20"
-                  style={{ transform: "perspective(500px) rotateX(-5deg) rotateY(5deg)" }}
-                >
-                  <Image
-                    src={logo_url || "/placeholder.svg"}
-                    alt={`${name} logo`}
-                    fill
-                    className="object-contain drop-shadow-lg"
-                  />
-                </div>
-              </motion.div>
+            <div className="absolute bottom-4 left-4 w-16 h-16 rounded-md overflow-hidden border-2 border-accent shadow-lg">
+              <Image
+                src={logo_url || "/placeholder.svg?height=100&width=100"}
+                alt={`${name} logo`}
+                fill
+                className="object-cover"
+              />
             </div>
           )}
-
-          {/* Nombre del pack en el banner */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-            <h3 className="font-minecraft text-xl text-white drop-shadow-md">{name}</h3>
-          </div>
         </div>
 
-        <div className="p-4">
-          <p className="text-sm text-muted-foreground mb-3">{description}</p>
+        {/* Título con espacio para el logo */}
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="font-minecraft text-xl text-accent pl-0">{name}</h3>
 
-          {/* Nota especial si existe */}
           {special_note && (
-            <div className="bg-accent/10 border border-accent/30 rounded-md p-2 mb-4 text-xs">
-              <p className="flex items-start gap-2">
-                <Palette className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-                <span>{special_note}</span>
-              </p>
-            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="h-5 w-5 text-muted-foreground hover:text-accent transition-colors" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{special_note}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
+        </div>
 
-          {/* Botón de descarga */}
+        <p className="text-sm text-muted-foreground mb-4">{description}</p>
+
+        <div className="mt-auto">
           <GameButton
-            variant={available ? "accent" : "outline"}
-            fullWidth
+            variant={available ? "primary" : "outline"}
+            size="sm"
+            className="w-full"
             disabled={!available}
             icon={<Download className="h-4 w-4" />}
           >
-            {available ? "Descargar Pack" : "Próximamente"}
+            {available ? "Descargar Resource Pack" : "No Disponible"}
           </GameButton>
         </div>
       </GameCard>
-    </ScrollReveal>
+    </motion.div>
   )
 }

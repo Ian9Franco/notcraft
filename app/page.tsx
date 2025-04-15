@@ -1,4 +1,5 @@
 "use client"
+import { useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Server } from "lucide-react"
@@ -29,19 +30,22 @@ const featuredMods = [
   },
   {
     title: "Blue Skies",
-    description: "Blue Skies es un mod de supervivencia que añade aspectos como dimensiones, mazmorras y más en un escenario claro y oscuro.",
+    description:
+      "Blue Skies es un mod de supervivencia que añade aspectos como dimensiones, mazmorras y más en un escenario claro y oscuro.",
     imageSrc: "/images/mods/blueskyes-banner.png",
     logoSrc: "/images/mods/blueskyeslogo.png",
   },
   {
     title: "L_Ender's Cataclysm",
-    description: "Cataclysm es un mod que agrega mazmorras difíciles, peleas contra jefes desafiantes y elementos poderosos.",
+    description:
+      "Cataclysm es un mod que agrega mazmorras difíciles, peleas contra jefes desafiantes y elementos poderosos.",
     imageSrc: "/images/mods/cataclysm-banner.png",
     logoSrc: "/images/mods/cataclysmlogo.png",
   },
   {
     title: "Grim & Bleak",
-    description: "Un mod de terror centrado en el ambiente que añade toda una dimensión al juego y mezcla el terror con la jugabilidad.",
+    description:
+      "Un mod de terror centrado en el ambiente que añade toda una dimensión al juego y mezcla el terror con la jugabilidad.",
     imageSrc: "/images/mods/grim-banner.png",
     logoSrc: "/images/mods/grimlogo.png",
   },
@@ -51,26 +55,39 @@ const featuredMods = [
  * Página principal
  */
 export default function Home() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [overlayHidden, setOverlayHidden] = useState(false)
+
+  const handlePlay = () => {
+    const video = videoRef.current
+    if (video) {
+      video.muted = false // activar sonido
+      video.play().catch((err) => console.warn("Error al reproducir:", err))
+      setOverlayHidden(true) // ocultar overlay
+    }
+  }
+
   return (
     <div className="space-y-16 py-8">
-      {/* Hero Section con Video de Fondo */}
-      <section className="hero-section relative min-h-[60vh] rounded-xl overflow-hidden">
-        {/* Video Background */}
+      {/* Hero con video */}
+      <div onClick={handlePlay} className="relative min-h-[60vh] rounded-xl overflow-hidden cursor-pointer">
         <video
-          src="/images/landscape/landscape_video"
+          ref={videoRef}
+          src="/images/landscape/landscape_final.mp4"
           autoPlay
           loop
-          muted
+          muted // se activa el autoplay con muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
-        <audio src="/images/landscape/landscape_audio" autoPlay loop className="hidden" controls={false} />
 
-        {/* Overlay para mejorar legibilidad */}
-        <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-1"></div>
+        {/* Overlay solo si no fue clickeado */}
+        {!overlayHidden && (
+          <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-10 transition-opacity duration-500" />
+        )}
 
         {/* Contenido */}
-        <div className="relative z-10 flex items-center justify-center min-h-[60vh] p-8">
+        <div className="relative z-20 flex items-center justify-center min-h-[60vh] p-8">
           <div className="max-w-4xl w-full">
             <div className="text-center md:text-left mb-8">
               <h1 className="font-title text-3xl md:text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">
@@ -98,8 +115,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-
+      </div>
+      
       {/* Sección de Mods Destacados */}
       <ScrollReveal>
         <SectionHeader
@@ -117,7 +134,8 @@ export default function Home() {
                       src={mod.imageSrc || "/placeholder.svg"}
                       alt={`${mod.title} banner`}
                       fill
-                      className="object-cover transition-transform duration-500 hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover object-center transition-transform duration-500 hover:scale-105"
                     />
                   </div>
                   <div className="mod-info flex items-center gap-4 mb-4">
@@ -126,7 +144,7 @@ export default function Home() {
                         src={mod.logoSrc || "/placeholder.svg"}
                         alt={`${mod.title} logo`}
                         fill
-                        className="object-contain p-2"
+                        className="object-cover"
                       />
                     </div>
                     <h3 className="font-title text-xl text-accent high-contrast-text">{mod.title}</h3>
