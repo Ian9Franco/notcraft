@@ -134,8 +134,9 @@
     --input: 180 13% 70%;
     --ring: 186 27% 60%;
 
-    --sidebar-bg: 186 27% 40%;
-    --sidebar-fg: 0 0% 15%;
+    /* Sidebar variables - Darkened for better contrast */
+    --sidebar-bg: 186 27% 30%;
+    --sidebar-fg: 0 0% 100%;
 
     /* TITULOS: Colores para títulos con mejor contraste */
     --title-color: 196 13% 25%; /* Más oscuro para mejor contraste */
@@ -218,6 +219,17 @@
   .light h2.high-contrast-text,
   .light h3.high-contrast-text {
     color: hsl(var(--title-color));
+  }
+
+  /* Mejoras para la navegación en modo claro */
+  .light .sidebar {
+    --sidebar-bg: 186 27% 30%;
+    --sidebar-fg: 0 0% 100%;
+  }
+
+  /* Asegurar que el botón de colapso siempre sea visible */
+  .light .sidebar button:hover {
+    color: hsl(var(--accent)) !important;
   }
 }
 
@@ -311,6 +323,7 @@
 
   .light .hud-panel {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(220, 220, 220, 0.7) 100%);
+    box-shadow: 0 0 0 1px rgba(100, 100, 100, 0.3), inset 0 0 0 1px rgba(100, 220, 220, 0.7);
     box-shadow: 0 0 0 1px rgba(100, 100, 100, 0.3), inset 0 0 0 1px rgba(100, 100, 100, 0.3);
   }
 
@@ -340,16 +353,22 @@
     @apply relative min-h-[60vh] rounded-xl overflow-hidden;
   }
 
+  /* Estilos mejorados para los mods */
   .mod-banner {
     @apply relative h-64 mb-4 rounded-md overflow-hidden;
   }
 
-  .mod-logo {
-    @apply relative h-12 w-12;
+  .mod-logo-container {
+    @apply relative h-16 w-16 rounded-full overflow-hidden border-2 border-accent flex items-center justify-center bg-card/50;
+    box-shadow: 0 0 10px rgba(var(--accent), 0.3);
   }
 
   .mod-info {
-    @apply flex items-center gap-3 mb-2;
+    @apply flex items-center gap-4 mb-4;
+  }
+
+  .mod-description {
+    @apply p-3 rounded-md bg-background/50 backdrop-blur-sm border border-border/50;
   }
 }
 

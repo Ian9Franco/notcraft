@@ -1,5 +1,4 @@
 "use client"
-import { useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Server } from "lucide-react"
@@ -58,7 +57,7 @@ export default function Home() {
       <section className="hero-section relative min-h-[60vh] rounded-xl overflow-hidden">
         {/* Video Background */}
         <video
-          src="/images/landscape/landscape_final.mp4"
+          src="/images/landscape/landscape_video"
           autoPlay
           loop
           muted
@@ -112,7 +111,7 @@ export default function Home() {
           <Carousel>
             {featuredMods.map((mod, index) => (
               <div key={index} className="p-4">
-                <GameCard className="h-full">
+                <GameCard className="h-full hover:shadow-lg transition-all duration-300">
                   <div className="mod-banner relative h-64 mb-4 rounded-md overflow-hidden">
                     <Image
                       src={mod.imageSrc || "/placeholder.svg"}
@@ -121,18 +120,27 @@ export default function Home() {
                       className="object-cover transition-transform duration-500 hover:scale-105"
                     />
                   </div>
-                  <div className="mod-info flex items-center gap-3 mb-2">
-                    <div className="mod-logo relative h-12 w-12">
+                  <div className="mod-info flex items-center gap-4 mb-4">
+                    <div className="mod-logo-container relative h-16 w-16 rounded-full overflow-hidden border-2 border-accent flex items-center justify-center bg-card/50">
                       <Image
                         src={mod.logoSrc || "/placeholder.svg"}
                         alt={`${mod.title} logo`}
                         fill
-                        className="object-contain"
+                        className="object-contain p-2"
                       />
                     </div>
                     <h3 className="font-title text-xl text-accent high-contrast-text">{mod.title}</h3>
                   </div>
-                  <p className="text-sm text-foreground high-contrast-text">{mod.description}</p>
+                  <div className="mod-description p-3 rounded-md bg-background/50 backdrop-blur-sm border border-border/50">
+                    <p className="text-sm text-foreground high-contrast-text">{mod.description}</p>
+                  </div>
+                  <div className="mt-4 flex justify-end">
+                    <Link href={`/mods/${mod.title.toLowerCase().replace(/\s+/g, "-")}`}>
+                      <GameButton variant="outline" size="sm">
+                        Ver detalles
+                      </GameButton>
+                    </Link>
+                  </div>
                 </GameCard>
               </div>
             ))}
