@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Importación de fuentes */
+/*
+ * ========================================
+ * FUENTES
+ * ========================================
+ */
 @font-face {
   font-family: "MinecraftFont";
   src: url("/fonts/MinecraftFont.woff2") format("woff2");
@@ -51,6 +55,11 @@
   font-display: swap;
 }
 
+/*
+ * ========================================
+ * VARIABLES Y TEMAS
+ * ========================================
+ */
 @layer base {
   :root {
     /* 🌑 Dark mode (default) */
@@ -82,31 +91,29 @@
     --radius: 0.5rem;
 
     /* Sidebar variables */
-    --sidebar-bg: hsla(300, 4%, 5%, 0.85); /* Más oscuro que antes */
+    --sidebar-bg: hsla(300, 4%, 5%, 0.85);
     --sidebar-fg: 241 100% 92%;
 
     /* TITULOS: Colores para títulos con mejor contraste */
     --title-color: 66 64% 65%;
-    /* En modo oscuro, los títulos son claros (casi blancos) */
     --title-text-dark: 0 0% 100%;
-    /* En modo oscuro, el hover de títulos es accent */
     --title-hover-dark: 66 64% 65%;
 
     /* Variables generales para texto y hover de títulos */
     --title-text: hsl(241, 27%, 43%);
-    --title-hover: hsla(241, 27%, 43%, 0.6); /* mismo color, menos opaco */
+    --title-hover: hsla(241, 27%, 43%, 0.6);
   }
 
   .light {
     /* ☀️ Light mode */
     --background: 180 21% 94%; /* Frosted Glass */
-    --foreground: 196 13% 40%; /* Darker Celestra Grey for contrast */
+    --foreground: 196 13% 30%; /* Darker Celestra Grey for better contrast */
 
     --card: 180 13% 83%; /* Offshore Mist */
-    --card-foreground: 186 27% 30%; /* Rhythmic Blue (darkened) */
+    --card-foreground: 186 27% 25%; /* Rhythmic Blue (darkened more) */
 
     --popover: 180 13% 83%;
-    --popover-foreground: 186 27% 30%;
+    --popover-foreground: 186 27% 25%;
 
     --primary: 186 27% 79%; /* Rhythmic Blue */
     --primary-foreground: 0 0% 15%;
@@ -115,27 +122,25 @@
     --secondary-foreground: 0 0% 15%;
 
     --muted: 180 13% 88%;
-    --muted-foreground: 196 13% 45%;
+    --muted-foreground: 196 13% 35%; /* Darkened for better contrast */
 
-    --accent: 196 13% 66%;
+    --accent: 196 13% 50%; /* Darkened for better contrast */
     --accent-foreground: 0 0% 15%;
 
     --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 180 13% 80%;
-    --input: 180 13% 80%;
-    --ring: 186 27% 79%;
+    --border: 180 13% 70%; /* Darkened for better contrast */
+    --input: 180 13% 70%;
+    --ring: 186 27% 60%;
 
-    --sidebar-bg: 186 27% 40%; /* Más oscuro que antes */
+    --sidebar-bg: 186 27% 40%;
     --sidebar-fg: 0 0% 15%;
 
     /* TITULOS: Colores para títulos con mejor contraste */
-    --title-color: 196 13% 30%;
-    /* En modo claro, los títulos son oscuros (casi negros) */
+    --title-color: 196 13% 25%; /* Más oscuro para mejor contraste */
     --title-text-light: 0 0% 0%;
-    /* En modo claro, el hover de títulos es accent */
-    --title-hover-light: 196 13% 30%;
+    --title-hover-light: 196 13% 25%;
 
     /* Variables generales para texto y hover de títulos */
     --title-text: hsl(216, 29%, 19%);
@@ -143,6 +148,11 @@
   }
 }
 
+/*
+ * ========================================
+ * ESTILOS BASE
+ * ========================================
+ */
 @layer base {
   * {
     @apply border-border;
@@ -161,7 +171,7 @@
     background-image: url("/images/light-dirt-background.png");
   }
 
-  /* TITULOS: Estilos base para títulos */
+  /* Estilos base para títulos */
   h1,
   h2,
   h3,
@@ -172,7 +182,7 @@
     color: hsl(var(--title-color));
   }
 
-  /* TITULOSHOVER: Estilos para hover en títulos */
+  /* Estilos para hover en títulos */
   .title-hover:hover {
     color: hsl(var(--title-hover-dark));
   }
@@ -194,8 +204,28 @@
   ::-webkit-scrollbar-thumb {
     @apply bg-accent/50 rounded-full hover:bg-accent/70 transition-colors;
   }
+
+  /* Mejora de contraste para textos */
+  .high-contrast-text {
+    text-shadow: none !important;
+  }
+
+  .light .high-contrast-text {
+    color: hsl(var(--foreground));
+  }
+
+  .light h1.high-contrast-text,
+  .light h2.high-contrast-text,
+  .light h3.high-contrast-text {
+    color: hsl(var(--title-color));
+  }
 }
 
+/*
+ * ========================================
+ * COMPONENTES
+ * ========================================
+ */
 @layer components {
   /* Estilos para texto con estilo Minecraft */
   .minecraft-style,
@@ -205,6 +235,11 @@
     text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
   }
 
+  .light .minecraft-style,
+  .light .font-minecraft {
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+  }
+
   /* Estilos para imágenes pixeladas */
   .pixelated {
     image-rendering: pixelated;
@@ -212,14 +247,17 @@
     image-rendering: crisp-edges;
   }
 
-  /* Efecto de brillo para bordes */
+  /* Efectos visuales */
   .border-glow {
     box-shadow: 0 0 10px rgba(var(--accent), 0.3);
   }
 
-  /* Efecto de brillo para texto */
   .text-glow {
     text-shadow: 0 0 8px rgba(var(--accent), 0.6);
+  }
+
+  .light .text-glow {
+    text-shadow: 0 0 5px rgba(var(--accent), 0.4);
   }
 
   /* Efecto de hover para títulos */
@@ -257,19 +295,23 @@
     @apply font-title;
   }
 
-  /* Efecto de vidrio para tarjetas */
+  /* Efectos visuales */
   .glass-effect {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
 
-  /* Efecto de HUD para paneles */
   .hud-panel {
     border: 2px solid hsl(var(--accent));
     box-shadow: 0 0 0 1px rgba(180, 255, 58, 0.3), inset 0 0 0 1px rgba(180, 255, 58, 0.3);
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(30, 30, 30, 0.7) 100%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+  }
+
+  .light .hud-panel {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(220, 220, 220, 0.7) 100%);
+    box-shadow: 0 0 0 1px rgba(100, 100, 100, 0.3), inset 0 0 0 1px rgba(100, 100, 100, 0.3);
   }
 
   /* Estilo Minecraft para bordes */
@@ -292,9 +334,30 @@
   .polaroid figcaption {
     @apply text-center font-body text-black;
   }
+
+  /* Componentes específicos de la página */
+  .hero-section {
+    @apply relative min-h-[60vh] rounded-xl overflow-hidden;
+  }
+
+  .mod-banner {
+    @apply relative h-64 mb-4 rounded-md overflow-hidden;
+  }
+
+  .mod-logo {
+    @apply relative h-12 w-12;
+  }
+
+  .mod-info {
+    @apply flex items-center gap-3 mb-2;
+  }
 }
 
-/* Animaciones */
+/*
+ * ========================================
+ * ANIMACIONES
+ * ========================================
+ */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -468,7 +531,11 @@
   }
 }
 
-/* Efectos dinámicos */
+/*
+ * ========================================
+ * EFECTOS DINÁMICOS
+ * ========================================
+ */
 .dynamic-border {
   position: relative;
   overflow: hidden;
@@ -507,7 +574,11 @@
   }
 }
 
-/* Efectos de hover */
+/*
+ * ========================================
+ * EFECTOS DE HOVER
+ * ========================================
+ */
 .hover-effect {
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -548,7 +619,11 @@
   animation: reflection 1.5s ease-in-out;
 }
 
-/* Estilos para el carrusel */
+/*
+ * ========================================
+ * CARRUSEL
+ * ========================================
+ */
 .carousel {
   position: relative;
   overflow: hidden;
@@ -587,7 +662,11 @@
   background-color: hsl(var(--accent));
 }
 
-/* Media queries para responsividad */
+/*
+ * ========================================
+ * MEDIA QUERIES
+ * ========================================
+ */
 @media (max-width: 640px) {
   .minecraft-style,
   .font-minecraft {
@@ -613,18 +692,20 @@
   }
 }
 
-/* Estilos para contenedores de contenido */
+/*
+ * ========================================
+ * UTILIDADES
+ * ========================================
+ */
 .content-container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-/* Fix para problemas de navegación */
 .page-transition-wrapper {
   opacity: 1 !important;
   transform: none !important;
 }
 
-/* Scroll snapping para secciones */
 .snap-container {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
@@ -636,7 +717,17 @@
   height: 100vh;
 }
 
-/* Animaciones para partículas flotantes */
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: hsl(var(--accent));
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.6;
+  animation: floatingParticle 10s infinite ease-in-out;
+}
+
 @keyframes floatingParticle {
   0% {
     transform: translateY(0) rotate(0deg);
@@ -647,15 +738,4 @@
   100% {
     transform: translateY(0) rotate(360deg);
   }
-}
-
-.particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background-color: hsl(var(--accent));
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0.6;
-  animation: floatingParticle 10s infinite ease-in-out;
 }

@@ -21,8 +21,8 @@ export const metadata: Metadata = {
     { media: "(prefers-color-scheme: dark)", color: "#0f0f0f" },
   ],
   icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-icon.png",
+    icon: "/netherious.ico",
+    apple: "/netherious.ico",
   },
 }
 
