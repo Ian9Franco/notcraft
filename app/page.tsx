@@ -48,51 +48,40 @@ const featuredMods = [
   },
 ]
 
-
+/**
+ * Página principal
+ */
 export default function Home() {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [overlayHidden, setOverlayHidden] = useState(false)
-
-  const handlePlay = () => {
-    const video = videoRef.current
-    if (video) {
-      video.muted = false // activar sonido
-      video.play().catch((err) => console.warn("Error al reproducir:", err))
-      setOverlayHidden(true) // ocultar overlay
-    }
-  }
-
   return (
     <div className="space-y-16 py-8">
-      {/* Hero con video */}
-      <div
-        onClick={handlePlay}
-        className="relative min-h-[60vh] rounded-xl overflow-hidden cursor-pointer"
-      >
+      {/* Hero Section con Video de Fondo */}
+      <section className="hero-section relative min-h-[60vh] rounded-xl overflow-hidden">
+        {/* Video Background */}
         <video
-          ref={videoRef}
           src="/images/landscape/landscape_final.mp4"
           autoPlay
           loop
-          muted // se activa el autoplay con muted
+          muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
+        <audio src="/images/landscape/landscape_audio" autoPlay loop className="hidden" controls={false} />
 
-        {/* Overlay solo si no fue clickeado */}
-        {!overlayHidden && (
-          <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-10 transition-opacity duration-500" />
-        )}
+        {/* Overlay para mejorar legibilidad */}
+        <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-1"></div>
 
         {/* Contenido */}
-        <div className="relative z-20 flex items-center justify-center min-h-[60vh] p-8">
+        <div className="relative z-10 flex items-center justify-center min-h-[60vh] p-8">
           <div className="max-w-4xl w-full">
-            <SectionHeader
-              title="Únete a Nuestra Comunidad"
-              subtitle="Explora, construye y sobrevive en un mundo lleno de aventuras y posibilidades."
-              accent
-            />
-            <p className="text-foreground mb-6 text-center md:text-left">
+            <div className="text-center md:text-left mb-8">
+              <h1 className="font-title text-3xl md:text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">
+                Únete a Nuestra Comunidad
+              </h1>
+              <p className="text-lg max-w-3xl mx-auto md:mx-0 font-body font-light text-foreground high-contrast-text">
+                Explora, construye y sobrevive en un mundo lleno de aventuras y posibilidades.
+              </p>
+            </div>
+            <p className="text-foreground mb-6 text-center md:text-left high-contrast-text">
               Nuestro servidor ofrece una experiencia única con temporadas temáticas, mods cuidadosamente seleccionados
               y una comunidad amigable.
             </p>
@@ -110,46 +99,46 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Sección de Mods Destacados */}
       <ScrollReveal>
-          <SectionHeader
-            title="Mods Destacados"
-            subtitle="Nuestro servidor cuenta con una selección de los mejores mods para mejorar tu experiencia de juego."
-          />
-          <div className="mt-8">
-            <Carousel>
-              {featuredMods.map((mod, index) => (
-                <div key={index} className="p-4">
-                  <GameCard className="h-full">
-                    <div className="relative h-64 mb-4 rounded-md overflow-hidden">
+        <SectionHeader
+          title="Mods Destacados"
+          subtitle="Nuestro servidor cuenta con una selección de los mejores mods para mejorar tu experiencia de juego."
+        />
+
+        <div className="mt-8">
+          <Carousel>
+            {featuredMods.map((mod, index) => (
+              <div key={index} className="p-4">
+                <GameCard className="h-full">
+                  <div className="mod-banner relative h-64 mb-4 rounded-md overflow-hidden">
+                    <Image
+                      src={mod.imageSrc || "/placeholder.svg"}
+                      alt={`${mod.title} banner`}
+                      fill
+                      className="object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                  </div>
+                  <div className="mod-info flex items-center gap-3 mb-2">
+                    <div className="mod-logo relative h-12 w-12">
                       <Image
-                        src={mod.imageSrc}
-                        alt={`${mod.title} banner`}
+                        src={mod.logoSrc || "/placeholder.svg"}
+                        alt={`${mod.title} logo`}
                         fill
-                        className="object-cover transition-transform duration-500 hover:scale-105"
+                        className="object-contain"
                       />
                     </div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="relative h-16 w-16 rounded-full overflow-hidden border-2 border-accent">
-                        <Image
-                          src={mod.logoSrc}
-                          alt={`${mod.title} logo`}
-                          fill
-                          className="object-contain"
-                        />
-                      </div>
-                      <h3 className="font-title text-xl text-accent">{mod.title}</h3>
-                    </div>
-                    <p className="text-sm text-foreground">{mod.description}</p>
-                  </GameCard>
-                </div>
-              ))}
-            </Carousel>
-          </div>
-        </ScrollReveal>
-
+                    <h3 className="font-title text-xl text-accent high-contrast-text">{mod.title}</h3>
+                  </div>
+                  <p className="text-sm text-foreground high-contrast-text">{mod.description}</p>
+                </GameCard>
+              </div>
+            ))}
+          </Carousel>
+        </div>
+      </ScrollReveal>
     </div>
   )
 }

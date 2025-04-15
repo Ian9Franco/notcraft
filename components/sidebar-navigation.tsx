@@ -132,7 +132,7 @@ export default function SidebarNavigation() {
                   exit={{ opacity: 0, x: -10, width: 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                  Netherious
+                  netheriouss¡?
                 </motion.span>
               )}
             </AnimatePresence>
