@@ -65,7 +65,7 @@ const staticResourcePacks: ResourcePack[] = [
     name: "Enhanced Boss Bars",
     description: "Nuevas barras de jefes mejoradas!",
     image_url: "images/texturas/bossbar.png",
-    logo_url: "/images/texturas/bossbarlogo.png",
+    logo_url: "/images/texturas/bosslogo.png",
     special_note: "Compatible con la mayoría de mods",
     files: [{ id: "file1", name: "ejemplo.zip" }],
   },
