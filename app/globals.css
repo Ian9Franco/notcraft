@@ -259,6 +259,13 @@
     image-rendering: crisp-edges;
   }
 
+/* Estilo exclusivo para descripciones de shaders */
+.shader-description {
+  @apply text-sm font-medium leading-snug;
+  color: #A47864;
+}
+
+
   /* Efectos visuales */
   .border-glow {
     box-shadow: 0 0 10px rgba(var(--accent), 0.3);

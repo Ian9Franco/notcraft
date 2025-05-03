@@ -46,7 +46,7 @@ export default function Header() {
       case "/modpack":
         return "Modpack"
       case "/resource-packs":
-        return "Resource Packs"
+        return "Apariencia"
       case "/server-info":
         return "Server Info"
       case "/gallery":

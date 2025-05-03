@@ -56,6 +56,8 @@ module.exports = {
           DEFAULT: "hsl(var(--sidebar-bg))",
           fg: "hsl(var(--sidebar-fg))",
         },
+        //SHADERS
+        shader: "hsl(216, 29%, 19%)",
       },
       borderRadius: {
         lg: "var(--radius)",

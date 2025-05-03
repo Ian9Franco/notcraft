@@ -60,24 +60,24 @@ const staticResourcePacks: ResourcePack[] = [
     special_note: "Requiere Optifine o Entity Model Features",
     files: [{ id: "file2", name: "Fresh-Animations-1.2.zip" }],
   },
-  /* {
+   {
     id: "3",
-    name: "Ejemplo",
-    description: "Un pack de texturas ejemplo",
-    image_url: "/images/texturas/ejemplo.png",
-    logo_url: "/images/texturas/ejemplo.png",
+    name: "Enhanced Boss Bars",
+    description: "Nuevas barras de jefes mejoradas!",
+    image_url: "images/texturas/bossbar.png",
+    logo_url: "/images/texturas/bossbarlogo.png",
     special_note: "Compatible con la mayoría de mods",
     files: [{ id: "file1", name: "ejemplo.zip" }],
   },
   {
     id: "4",
-    name: "Ejemplo",
-    description: "Un pack de texturas ejemplo",
+    name: "Shrimp's Immersive Interfaces",
+    description: "Una renovación gráfica completa de la interfaz gráfica de usuario de Minecraft, aporta variedad y encanto a las cajas anteriormente grises.",
     image_url: "/images/texturas/ejemplo.png",
     logo_url: "/images/texturas/ejemplo.png",
     special_note: "Compatible con la mayoría de mods",
     files: [{ id: "file1", name: "ejemplo.zip" }],
-  },*/
+  },
 ]
 
 // Datos estáticos para shaders
@@ -179,7 +179,6 @@ export default function ResourcePacksPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {isLoading ? (
-              // Mostrar placeholders mientras carga
               [...Array(3)].map((_, index) => (
                 <div key={index} className="p-4 flex justify-between items-center">
                   <div>
@@ -193,33 +192,79 @@ export default function ResourcePacksPage() {
               <div className="col-span-full p-4 text-center">
                 <p className="text-muted-foreground">No hay shaders disponibles actualmente.</p>
               </div>
-            ) : (
-              shaders.map((shader, index) => (
-                <GameCard key={index} className="flex flex-col h-full">
-                  <div className="flex-grow">
-                    <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover mb-2`}>
-                      {shader.name}
-                    </h4>
-                    <p className="text-sm text-muted-foreground mb-4">{shader.description}</p>
-                    <div className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded inline-block mb-4">
-                      v{shader.version}
+              ) : (
+                [
+                  {
+                    name: "MakeUp - Ultra Fast",
+                    version: "v1.0",
+                    description: "Shaders livianos y rápidos, ideales para PCs de bajos recursos.",
+                    link: "https://modrinth.com/shader/makeup-ultra-fast-shaders/gallery",
+                  },
+                  {
+                    name: "Complementary Shaders - Reimagined",
+                    version: "v1.0",
+                    description: "Un rework visual con iluminación realista y excelente compatibilidad.",
+                    link: "https://modrinth.com/shader/complementary-reimagined/versions",
+                  },
+                  {
+                    name: "Complementary Shaders - Unbound",
+                    version: "v1.0",
+                    description: "Calidad cinematográfica con sombras suaves y efectos avanzados.",
+                    link: "https://modrinth.com/shader/complementary-unbound/versions",
+                  },
+                  {
+                    name: "Photon Shaders",
+                    version: "v1.0",
+                    description: "Inspirado en el trazado de rayos, con reflejos intensos y luces dinámicas.",
+                    link: "https://modrinth.com/shader/photon-shader/gallery",
+                  },
+                  {
+                    name: "Super Duper Vanilla",
+                    version: "v1.0",
+                    description: "Mantiene el estilo vanilla con mejoras sutiles de iluminación y agua.",
+                    link: "https://modrinth.com/shader/super-duper-vanilla/gallery",
+                  },
+                  {
+                    name: "Hysteria Shaders",
+                    version: "v1.0",
+                    description: "Colores vibrantes y un toque surrealista para experiencias únicas.",
+                    link: "https://modrinth.com/shader/hysteria-shaders/gallery",
+                  },
+                  {
+                    name: "RedHat Shaders",
+                    version: "v1.0",
+                    description: "Ideal para aventuras oscuras, con contrastes profundos y niebla densa.",
+                    link: "https://modrinth.com/shader/redhat-shaders/gallery",
+                  },
+                  {
+                    name: "Soft Voxels Lite",
+                    version: "v1.0",
+                    description: "Iluminación suave y elegante, estilo voxel con rendimiento optimizado.",
+                    link: "https://modrinth.com/shader/soft-voxels-lite/gallery",
+                  },
+                ].map((shader, index) => (
+                  <GameCard key={index} className="flex flex-col h-full">
+                    <div className="flex-grow">
+                      <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover mb-2`}>
+                        {shader.name}
+                      </h4>
+                      <p className="text-sm text-shader font-medium leading-snug mb-4">{shader.description}</p>
+                      <div className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded inline-block mb-4">
+                        {shader.version}
+                      </div>
                     </div>
-                  </div>
-                  <a
-                    href={`https://modrinth.com/shaders/${shader.name.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-auto"
-                  >
-                    <GameButton variant="outline" fullWidth icon={<ExternalLink className="h-4 w-4" />}>
-                      Ver en Modrinth
-                    </GameButton>
-                  </a>
-                </GameCard>
-              ))
-            )}
-          </div>
+                    <a href={shader.link} target="_blank" rel="noopener noreferrer" className="mt-auto">
+                      <GameButton variant="outline" fullWidth icon={<ExternalLink className="h-4 w-4" />}>
+                        Ver en Modrinth
+                      </GameButton>
+                    </a>
+                  </GameCard>
+                ))
+              )}
+              
+  </div>
         </GameCard>
+
       </ScrollReveal>
 
       <ScrollReveal direction="up">
