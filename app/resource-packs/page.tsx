@@ -8,6 +8,7 @@ import { GameCard, SectionHeader } from "@/components/ui/card"
 import { ResourcePackCard } from "@/components/resource-pack-card" // Importamos el componente ResourcePackCard
 import { GameButton } from "@/components/ui/button"
 import { useTheme } from "next-themes"
+import Image from 'next/image';
 
 /**
  * Interfaz para resource packs
@@ -65,7 +66,7 @@ const staticResourcePacks: ResourcePack[] = [
     name: "Enhanced Boss Bars",
     description: "Nuevas barras de jefes mejoradas!",
     image_url: "images/texturas/bossbar.png",
-    logo_url: "/images/texturas/bosslogo.png",
+    logo_url: "/images/texturas/bossbarlogo.png",
     special_note: "Compatible con la mayoría de mods",
     files: [{ id: "file1", name: "ejemplo.zip" }],
   },
