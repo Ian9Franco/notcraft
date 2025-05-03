@@ -15,11 +15,11 @@ import DiscordWidget from "@/components/widgets/discord-widget"
 const seasons = [
   {
     number: 1,
-    title: "El Comienzo",
-    date: "Enero 2025 - Presente",
+    title: "Primera Ruptura",
+    date: "Mayo 2025 - Presente",
     description:
-      "En un futuro distante, la búsqueda de tecnología avanzada por parte de la humanidad desencadena un evento catastrófico que condena al planeta, obligándolos a escapar. Su nave espacial, dañada por escombros durante la huida, se desvía y aterriza forzosamente en un planeta desconocido, dejándolos para sobrevivir y reconstruir la civilización que perdieron.",
-    playerCount: 15,
+    "Los primeros en llegar pensaron que era solo otro mundo por conquistar. Construyeron máquinas, exploraron los cielos y perforaron las profundidades___ hasta que algo respondió. Las cuevas comenzaron a susurrar, los bosques a observar, y los portales a abrirse por sí solos. Criaturas prehistóricas despertaron, dioses olvidados reclamaron sus dominios, y dimensiones enteras comenzaron a colapsar sobre la realidad. Hoy, los sobrevivientes vagan entre mundos rotos, enfrentan horrores que escapan a la razón, y confían en engranajes y hechizos para mantenerse con vida. Aquí, cada paso puede ser el último… y cada amanecer, un milagro.",
+   playerCount: 3,
   },
   {
     number: 2,
@@ -57,7 +57,7 @@ export default function ServerInfoPage() {
           <GameCard hoverEffect>
             <h3 className="font-minecraft text-xl text-accent mb-4">Versión</h3>
             <div className="text-center">
-              <span className="block text-lg font-bold">Minecraft 1.20.4</span>
+              <span className="block text-lg font-bold">Minecraft 1.20.1</span>
               <span className="text-sm text-muted-foreground">Requiere el modpack oficial</span>
             </div>
           </GameCard>
@@ -66,7 +66,7 @@ export default function ServerInfoPage() {
             <h3 className="font-minecraft text-xl text-accent mb-4">Estado</h3>
             <div className="flex items-center justify-center gap-2">
               <div className="h-3 w-3 rounded-full bg-green-500 pulse"></div>
-              <span>Online - 8/20 jugadores</span>
+              <span>Online - 1/10 jugadores</span>
             </div>
           </GameCard>
         </div>
@@ -80,9 +80,9 @@ export default function ServerInfoPage() {
                 <Calendar className="h-5 w-5 text-accent" />
                 <h3 className="font-minecraft text-xl text-accent">Mantenimiento Programado</h3>
               </div>
-              <p className="text-sm text-muted-foreground mb-2">28 de Marzo, 2025</p>
+              <p className="text-sm text-muted-foreground mb-2">3 de Mayo, 2025</p>
               <p className="text-muted-foreground">
-                El servidor estará en mantenimiento el 30 de Marzo de 10:00 a 14:00 (GMT-3) para realizar
+                El servidor estará en mantenimiento el 21 de mayo de 10:00 a 14:00 (GMT-3) para realizar
                 actualizaciones importantes. Durante este período, el servidor no estará disponible.
               </p>
             </GameCard>

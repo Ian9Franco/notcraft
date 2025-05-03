@@ -17,18 +17,6 @@ const featuredMods = [
     logoSrc: "/images/mods/createlogo.png",
   },
   {
-    title: "Terralith",
-    description: "Terrenos hermosos con generación mejorada y muchos nuevos biomas.",
-    imageSrc: "/images/mods/terralith-banner.png",
-    logoSrc: "/images/mods/terralithlogo.png",
-  },
-  {
-    title: "Oh The Biomes We'll Go",
-    description: "Añade una gran variedad de biomas nuevos y únicos al mundo de Minecraft.",
-    imageSrc: "/images/mods/biomes-banner.png",
-    logoSrc: "/images/mods/biomeslogo.png",
-  },
-  {
     title: "Blue Skies",
     description:
       "Blue Skies es un mod de supervivencia que añade aspectos como dimensiones, mazmorras y más en un escenario claro y oscuro.",

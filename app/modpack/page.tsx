@@ -2,7 +2,18 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Download, ExternalLink, HelpCircle, Package, Wrench, Cog, Zap, Server } from "lucide-react"
+import {
+  Download,
+  ExternalLink,
+  HelpCircle,
+  Package,
+  Wrench,
+  Cog,
+  Zap,
+  Server,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
@@ -61,7 +72,7 @@ const staticModpacks: { [key: string]: Modpack[] } = {
   neoforged: [
     {
       id: "3",
-      name: "Netherious NeoForged",
+      name: "Netherious NeoForge",
       version: "Beta",
       description: "Versión experimental con NeoForged",
       file_url: "#",
@@ -73,36 +84,100 @@ const staticModpacks: { [key: string]: Modpack[] } = {
 
 // Datos estáticos para mods destacados
 const staticFeaturedMods: Mod[] = [
-  { name: "Create", version: "0.5.1", description: "Añade máquinas y mecanismos complejos" },
-  { name: "Biomes O' Plenty", version: "1.20.1-18.0.0.598", description: "Añade nuevos biomas al mundo" },
-  { name: "JEI", version: "15.2.0.27", description: "Interfaz mejorada para recetas e items" },
-  { name: "Waystones", version: "14.0.2", description: "Sistema de teletransporte entre puntos" },
-  { name: "Sophisticated Backpacks", version: "3.18.65", description: "Mochilas avanzadas con mejoras" },
-  { name: "Farmer's Delight", version: "1.2.3", description: "Expansión de comidas y agricultura" },
-  { name: "Supplementaries", version: "2.6.30", description: "Bloques y mecánicas complementarias" },
+  {
+    name: "Sweet Calamity",
+    version: "1.0.0",
+    description: "Explora las Sweetlands, una nueva dimensión llena de diversión y azúcar(mod argentino)",
+  },
+  { name: "Blue Skies", version: "1.1.3", description: "Dos nuevas dimensiones llenas de aventuras y jefes" },
+  { name: "The Bumblezone", version: "5.0.2", description: "Dimensión basada en abejas y colmenas gigantes" },
+  {
+    name: "Grim and Bleak",
+    version: "1.0.0",
+    description: "Añade una atmósfera oscura con enemigos y objetos sombríos",
+  },
+  { name: "Macabre", version: "1.0.0", description: "Terror y estética gótica en nuevas entidades y estructuras" },
+  { name: "Hamsters", version: "1.0.0", description: "Añade adorables hámsters domesticables" },
+  { name: "Unusual Prehistory", version: "1.0.0", description: "Criaturas prehistóricas" },
+  {
+    name: "There is Something in the Caves",
+    version: "1.0.0",
+    description: "Misterios y horrores acechan en la oscuridad",
+  },
+  {
+    name: "Tacz",
+    version: "1.0.0",
+    description: "La experiencia FPS moderna más inmersiva y personalizable de Minecraft",
+  },
+  { name: "Ad Astra", version: "1.12.3", description: "Exploración espacial con planetas, cohetes y estaciones" },
+  { name: "Unusual End", version: "1.0.0", description: "Transforma el End en una dimensión extraña y peligrosa" },
+  { name: "Butcher", version: "1.0.0", description: "Sistema de caza, despiece y cocina sangrienta" },
+  {
+    name: "Cognition",
+    version: "1.0.0",
+    description:
+      "Cognition tiene como objetivo revisar la XP del jugador, proporcionando nuevas formas de almacenarla, transportarla y usarla de formas extrañas y maravillosas",
+  },
+  {
+    name: "Randomium",
+    version: "1.0.0",
+    description: "Un nuevo mineral que se comporta de forma aleatoria y puede soltar cualquier objeto",
+  },
+  {
+    name: "Overenchanted",
+    version: "1.0.0",
+    description: "Un mod simple que agrega más niveles a los encantamientos de vainilla",
+  },
+  {
+    name: "Passive Skill Tree",
+    version: "1.0.0",
+    description: "Árbol de habilidades pasivas para personalización de personajes",
+  },
 ]
+
 
 // Datos estáticos para mods opcionales
 const staticOptionalMods: { [key: string]: Mod[] } = {
   particles: [
-    { name: "Particle Mod", version: "1.0.0", description: "Efectos de partículas mejorados" },
-    { name: "Enhanced Visuals", version: "2.1.5", description: "Mejora visual de efectos y partículas" },
-    { name: "Ambient Particles", version: "1.3.2", description: "Partículas ambientales en biomas" },
+    { name: "Particular", version: "1.0.0", description: "Efectos de partículas mejorados" },
+    { name: "Explosive Enhancement", version: "2.1.5", description: "Mejora visual de efectos y explosiones" },
+    { name: "Pretty Rain", version: "1.3.2", description: "Partículas de lluvia mejoradas" },
+    { name: "Wakes", version: "1.0.0", description: "Efectos de agua mejorados" },
+    { name: "Perception", version: "1.1.0", description: "Efectos visuales ambientales" },
+    { name: "Visuality", version: "2.0.0", description: "Partículas visuales mejoradas" },
+    { name: "Cosy Critters", version: "1.0.0", description: "Partículas para criaturas" },
+    { name: "Biome Particle Weather", version: "1.2.0", description: "Partículas específicas por bioma" },
   ],
   animations: [
-    { name: "Better Animations", version: "2.0.0", description: "Animaciones mejoradas para jugadores" },
-    { name: "Smooth Animations", version: "1.5.3", description: "Animaciones más fluidas para mobs" },
-    { name: "First Person Model", version: "2.2.1", description: "Modelo en primera persona mejorado" },
+    { name: "Eating Animation", version: "2.0.0", description: "Animaciones mejoradas al comer" },
+    { name: "Entity Model & Texture Features", version: "1.5.3", description: "Mejoras en modelos y texturas" },
+    { name: "Weapon Master", version: "1.2.1", description: "Animaciones de armas mejoradas" },
+    { name: "Let Sleeping Dogs Lie", version: "1.0.0", description: "Animaciones para mascotas durmiendo" },
   ],
   sounds: [
-    { name: "Sound Physics", version: "1.1.0", description: "Física de sonido realista" },
-    { name: "Enhanced Sounds", version: "2.0.5", description: "Sonidos ambientales mejorados" },
-    { name: "Music Expansion", version: "1.3.2", description: "Más música para el juego" },
+    { name: "Sound Physics Remastered", version: "1.1.0", description: "Física de sonido realista" },
+    { name: "Presence Footsteps", version: "2.0.5", description: "Sonidos de pasos mejorados" },
+    { name: "Sounds of the Forest", version: "1.3.2", description: "Sonidos ambientales de bosque" },
   ],
-  shaders: [
-    { name: "BSL Shaders", version: "1.0.0", description: "Shaders de calidad media-alta" },
-    { name: "Complementary", version: "2.1.5", description: "Shaders equilibrados y personalizables" },
-    { name: "Sildur's Vibrant", version: "1.3.2", description: "Shaders vibrantes con buen rendimiento" },
+  performance: [
+    { name: "Farsight", version: "1.0.0", description: "Mejora la distancia de renderizado" },
+    { name: "Fog", version: "1.2.0", description: "Efectos de niebla optimizados" },
+    { name: "Embeddium", version: "0.2.5", description: "Optimización general del juego" },
+    { name: "Oculus", version: "1.5.0", description: "Mejoras de renderizado" },
+  ],
+  qol: [
+    { name: "Keybind Bundles", version: "1.0.0", description: "Mejoras en atajos de teclado" },
+    { name: "Modern UI", version: "2.0.0", description: "Interfaz de usuario moderna" },
+    { name: "Enchantment Info", version: "1.1.0", description: "Información detallada de encantamientos" },
+    { name: "Hold My Items", version: "1.0.0", description: "Mejoras en el inventario" },
+    { name: "Immersive Armor HUD", version: "1.2.0", description: "HUD de armadura mejorado" },
+    { name: "Item Zoom", version: "1.0.0", description: "Zoom en items" },
+    { name: "Mouse Tweaks", version: "2.0.0", description: "Mejoras en el uso del ratón" },
+    { name: "Xaero Minimap", version: "1.5.0", description: "Minimapa avanzado" },
+    { name: "JEI/EMI/Jade", version: "2.0.0", description: "Información de items y bloques" },
+    { name: "Pickup Notifier", version: "1.0.0", description: "Notificaciones de recogida de items" },
+    { name: "Appleskin", version: "1.2.0", description: "Información de comida mejorada" },
+    { name: "Bridgin Mod", version: "1.0.0", description: "Mejoras para construir puentes" },
   ],
 }
 
@@ -177,15 +252,20 @@ const tutorialSteps = [
                     </svg>
                   )}
                 </div>
-                <p className="text-xs text-muted-foreground mb-4">{modpack.version}</p>
-                <GameButton
-                  variant={modpack.available ? "primary" : "outline"}
-                  fullWidth
-                  disabled={!modpack.available}
-                  icon={<Download className="h-4 w-4" />}
+                <p className="text-xs text-accent">Versión {modpack.version}</p>
+                <a
+                  href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
+                  className={modpack.available ? "" : "pointer-events-none"}
                 >
-                  {modpack.available ? "Descargar" : "Próximamente"}
-                </GameButton>
+                  <GameButton
+                    variant={modpack.available ? "primary" : "outline"}
+                    fullWidth
+                    disabled={!modpack.available}
+                    icon={<Download className="h-4 w-4" />}
+                  >
+                    {modpack.available ? "Descargar" : "Próximamente"}
+                  </GameButton>
+                </a>
               </div>
             )),
           )}
@@ -267,9 +347,11 @@ export default function ModpackPage() {
     particles: [],
     animations: [],
     sounds: [],
-    shaders: [],
+    performance: [],
+    qol: [],
   })
   const [isLoading, setIsLoading] = useState(true)
+  const [isModsExpanded, setIsModsExpanded] = useState(false)
 
   // Efecto para manejar el montaje del componente
   useEffect(() => {
@@ -288,6 +370,42 @@ export default function ModpackPage() {
 
   // TITULOS: Determinamos el color del texto según el tema
   const titleTextColor = mounted ? (theme === "dark" ? "text-white" : "text-black") : "text-primary"
+
+  // Función para obtener el enlace de descarga según la categoría
+  const getCategoryDownloadLink = (category: string) => {
+    switch (category) {
+      case "particles":
+        return "https://drive.google.com/uc?export=download&id=1KuQL_oxuUdu4MTDzUVuiX1PmPMFcyoqi"
+      case "sounds":
+        return "https://drive.google.com/uc?export=download&id=1ZKtSam_uWcwPt3IRlmuu_vu1AtqOe8y1"
+      case "animations":
+        return "https://drive.google.com/uc?export=download&id=11npWwiUQZvc1bw3pk0qtun6XX8syxUGs"
+      case "performance":
+        return "https://drive.google.com/uc?export=download&id=1IEeH5m16jxClrMi16u33UKM-3NblPZtO"
+      case "qol":
+        return "https://drive.google.com/uc?export=download&id=1PsFWmXt3AkQGbW6mCAuXZH-8Vg9bejG7"
+      default:
+        return "#"
+    }
+  }
+
+  // Función para obtener el nombre de la categoría en español
+  const getCategoryName = (category: string) => {
+    switch (category) {
+      case "particles":
+        return "Partículas"
+      case "sounds":
+        return "Sonidos"
+      case "animations":
+        return "Animaciones"
+      case "performance":
+        return "Rendimiento"
+      case "qol":
+        return "Calidad de Vida"
+      default:
+        return category
+    }
+  }
 
   return (
     <div className="space-y-12 py-6">
@@ -346,20 +464,25 @@ export default function ModpackPage() {
                           </div>
                           <div>
                             <h4 className="font-minecraft text-lg text-accent">{modpack.name}</h4>
-                            <p className="text-xs text-muted-foreground">Versión {modpack.version}</p>
+                            <p className="text-xs text-accent">Versión {modpack.version}</p>
                           </div>
                         </div>
 
-                        <p className="text-sm text-muted-foreground mb-4">{modpack.description}</p>
+                        <p className="text-sm text-accent mb-4">{modpack.description}</p>
 
-                        <GameButton
-                          variant={modpack.available ? "accent" : "outline"}
-                          fullWidth
-                          disabled={!modpack.available}
-                          icon={<Download className="h-4 w-4" />}
+                        <a
+                          href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
+                          className={modpack.available ? "" : "pointer-events-none"}
                         >
-                          {modpack.available ? "Descargar Modpack" : "Próximamente"}
-                        </GameButton>
+                          <GameButton
+                            variant={modpack.available ? "accent" : "outline"}
+                            fullWidth
+                            disabled={!modpack.available}
+                            icon={<Download className="h-4 w-4" />}
+                          >
+                            {modpack.available ? "Descargar Modpack" : "Próximamente"}
+                          </GameButton>
+                        </a>
                       </GameCard>
                     ))}
                   </div>
@@ -376,10 +499,16 @@ export default function ModpackPage() {
         <div className="max-w-4xl mx-auto">
           {/* Contenedor de Mods Destacados */}
           <div id="featured-mods-season-1">
-            <h3 className="font-minecraft text-xl text-accent mb-4 flex items-center">
-              <span className="inline-block w-3 h-3 bg-accent rounded-full mr-2 animate-pulse"></span>
-              Mods Destacados
-            </h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-minecraft text-xl text-accent flex items-center">
+                <span className="inline-block w-3 h-3 bg-accent rounded-full mr-2 animate-pulse"></span>
+                Mods Destacados
+              </h3>
+             
+            </div>
+
+            
+
             <GameCard className="border-2 border-accent/30">
               <div className="grid grid-cols-1 divide-y divide-border">
                 {isLoading ? (
@@ -428,18 +557,26 @@ export default function ModpackPage() {
         <div className="max-w-4xl mx-auto">
           <h3 className="font-minecraft text-xl text-accent mb-4">Mods Opcionales</h3>
           <Tabs defaultValue="particles" className="w-full">
-            <TabsList className="grid grid-cols-4 mb-4">
+            <TabsList className="grid grid-cols-5 mb-4">
               <TabsTrigger value="particles" className="minecraft-style">
-                Partículas
+                <span className="hidden sm:inline">Partículas</span>
+                <span className="inline sm:hidden">Partíc.</span>
               </TabsTrigger>
               <TabsTrigger value="animations" className="minecraft-style">
-                Animaciones
+                <span className="hidden sm:inline">Animaciones</span>
+                <span className="inline sm:hidden">Anim.</span>
               </TabsTrigger>
               <TabsTrigger value="sounds" className="minecraft-style">
-                Sonidos
+                <span className="hidden sm:inline">Sonidos</span>
+                <span className="inline sm:hidden">Sonidos</span>
               </TabsTrigger>
-              <TabsTrigger value="shaders" className="minecraft-style">
-                Shaders
+              <TabsTrigger value="performance" className="minecraft-style">
+                <span className="hidden sm:inline">Rendimiento</span>
+                <span className="inline sm:hidden">Rend.</span>
+              </TabsTrigger>
+              <TabsTrigger value="qol" className="minecraft-style">
+                <span className="hidden sm:inline">Calidad de Vida</span>
+                <span className="inline sm:hidden">QoL</span>
               </TabsTrigger>
             </TabsList>
 
@@ -448,25 +585,25 @@ export default function ModpackPage() {
                 <GameCard>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className={`font-minecraft text-lg font-semibold ${titleTextColor}`}>
-                      Mods de{" "}
-                      {category === "particles"
-                        ? "Partículas"
-                        : category === "animations"
-                          ? "Animaciones"
-                          : category === "sounds"
-                            ? "Sonidos"
-                            : "Shaders"}
+                      Mods de <span className="hidden sm:inline">{getCategoryName(category)}</span>
+                      <span className="inline sm:hidden">
+                        {category === "particles"
+                          ? "Partíc."
+                          : category === "animations"
+                            ? "Anim."
+                            : category === "sounds"
+                              ? "Sonidos"
+                              : category === "performance"
+                                ? "Rend."
+                                : "QoL"}
+                      </span>
                     </h3>
-                    <GameButton
-                      variant="outline"
-                      size="sm"
-                      icon={<Download className="h-4 w-4" />}
-                      onClick={() => {
-                        alert("La funcionalidad de descarga ha sido desactivada en esta versión")
-                      }}
-                    >
-                      Descargar Todos
-                    </GameButton>
+                    <a href={getCategoryDownloadLink(category)}>
+                      <GameButton variant="outline" size="sm" icon={<Download className="h-4 w-4" />}>
+                        <span className="hidden sm:inline">Descargar Todos</span>
+                        <span className="inline sm:hidden">Descargar</span>
+                      </GameButton>
+                    </a>
                   </div>
 
                   <div className="grid grid-cols-1 divide-y divide-border">
