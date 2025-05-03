@@ -49,7 +49,7 @@ export default function ServerInfoPage() {
           <GameCard hoverEffect borderGlow>
             <h3 className="font-title text-xl text-accent mb-4">IP del Servidor</h3>
             <div className="bg-background p-3 rounded-md font-minecraft text-center flex items-center justify-between">
-              <span>play.netherious.com</span>
+              <span></span>
               <CopyButton text="play.netherious.com" />
             </div>
           </GameCard>
@@ -67,6 +67,7 @@ export default function ServerInfoPage() {
             <div className="flex items-center justify-center gap-2">
               <div className="h-3 w-3 rounded-full bg-green-500 pulse"></div>
               <span>Online - 1/10 jugadores</span>
+              <span className="text-sm text-muted-foreground">Si la idea gusta, pasaremos a servidor dedicado (24/7)</span>
             </div>
           </GameCard>
         </div>
