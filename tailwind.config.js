@@ -51,46 +51,45 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Añadir colores para el sidebar
+        // Sidebar
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-bg))",
           fg: "hsl(var(--sidebar-fg))",
         },
         // Coffee theme colors
         coffee: {
-          DEFAULT: "#6f4e37", // Coffee
-          light: "#8a6142", // Lighter Coffee
-          dark: "#5a3f2c", // Darker Coffee
+          DEFAULT: "#6f4e37",
+          light: "#8a6142",
+          dark: "#5a3f2c",
         },
         bistre: {
-          DEFAULT: "#3d2b1f", // Bistre
-          light: "#4e382a", // Lighter Bistre
-          dark: "#2c1f16", // Darker Bistre
+          DEFAULT: "#3d2b1f",
+          light: "#4e382a",
+          dark: "#2c1f16",
         },
         wheat: {
-          DEFAULT: "#f5deb3", // Wheat
-          light: "#f8e7c9", // Lighter Wheat
-          dark: "#e5cfa4", // Darker Wheat
+          DEFAULT: "#f5deb3",
+          light: "#f8e7c9",
+          dark: "#e5cfa4",
         },
         chestnut: {
-          DEFAULT: "#954535", // Chestnut
-          light: "#a85a49", // Lighter Chestnut
-          dark: "#7a3829", // Darker Chestnut
+          DEFAULT: "#954535",
+          light: "#a85a49",
+          dark: "#7a3829",
         },
         "dutch-white": {
-          DEFAULT: "#efdfbb", // Dutch White
-          light: "#f5e9d0", // Lighter Dutch White
-          dark: "#e0d0ac", // Darker Dutch White
+          DEFAULT: "#efdfbb",
+          light: "#f5e9d0",
+          dark: "#e0d0ac",
         },
         "papaya-whip": {
-          DEFAULT: "#ffefd5", // Papaya Whip
-          light: "#fff5e6", // Lighter Papaya Whip
-          dark: "#f5e5cb", // Darker Papaya Whip
+          DEFAULT: "#ffefd5",
+          light: "#fff5e6",
+          dark: "#f5e5cb",
         },
-        //SHADERS
         shader: {
-          DEFAULT: "hsl(216, 29%, 19%)", // Dark mode shader text
-          light: "#6f4e37", // Coffee - Light mode shader text
+          DEFAULT: "hsl(216, 29%, 19%)",
+          light: "#6f4e37",
         },
       },
       borderRadius: {
@@ -117,7 +116,7 @@ module.exports = {
           "100%": { boxShadow: "0 0 0 0 rgba(180, 255, 58, 0)" },
         },
         "coffee-pulse": {
-          "0%": { boxShadow: "0 0 0 0 rgba(149, 69, 53, 0.4)" }, // Chestnut pulse
+          "0%": { boxShadow: "0 0 0 0 rgba(149, 69, 53, 0.4)" },
           "70%": { boxShadow: "0 0 0 10px rgba(149, 69, 53, 0)" },
           "100%": { boxShadow: "0 0 0 0 rgba(149, 69, 53, 0)" },
         },

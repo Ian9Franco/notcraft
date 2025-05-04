@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Palette, Settings, Download, ExternalLink, Info, List, AlertTriangle } from "lucide-react"
+import { Palette, Settings, Download, ExternalLink, Info, List, AlertTriangle, Users } from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameCard, SectionHeader } from "@/components/ui/card"
 import { ResourcePackCard } from "@/components/resource-pack-card" // Importamos el componente ResourcePackCard
@@ -177,8 +177,106 @@ export default function ResourcePacksPage() {
         <SectionHeader
           title="Apariencia"
           subtitle="Estos resource packs están recomendados para mejorar tu experiencia visual en nuestro servidor."
+          accent
         />
       </motion.div>
+
+      {/* Aviso de compatibilidad */}
+      <ScrollReveal>
+        <GameCard className="border-2 border-accent/30 bg-accent/5 max-w-4xl mx-auto">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="h-6 w-6 text-accent shrink-0 mt-1" />
+            <div>
+              <h3 className="font-minecraft text-xl text-accent mb-2">Compatibilidad</h3>
+              <p className="text-muted-foreground mb-3">
+                Estos resource packs están optimizados para funcionar con nuestro modpack oficial. Para una mejor
+                experiencia, asegúrate de tener instalado el modpack antes de aplicar estos packs.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <a href="/modpack" className="inline-flex">
+                  <GameButton variant="outline" size="sm" icon={<Download className="h-4 w-4" />}>
+                    Descargar Modpack
+                  </GameButton>
+                </a>
+                <a href="https://discord.gg/NhpPc2C2" target="_blank" rel="noopener noreferrer">
+                  <GameButton variant="ghost" size="sm" icon={<Users className="h-4 w-4" />}>
+                    Soporte en Discord
+                  </GameButton>
+                </a>
+              </div>
+            </div>
+          </div>
+        </GameCard>
+      </ScrollReveal>
+
+      {/* Información de Resource Packs - Estilo Server Info */}
+      <ScrollReveal>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <GameCard hoverEffect borderGlow className="flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Palette className="h-5 w-5 text-accent" />
+                <h3 className="font-title text-xl text-accent">Resource Packs</h3>
+              </div>
+              <div className="bg-background/50 p-3 rounded-md font-minecraft text-center mb-4">
+                <span>{resourcePacks.length} packs disponibles</span>
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground text-center">Actualizados para Minecraft 1.20.1</p>
+          </GameCard>
+
+          <GameCard hoverEffect className="flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Settings className="h-5 w-5 text-accent" />
+                <h3 className="font-minecraft text-xl text-accent">Shaders</h3>
+              </div>
+              <div className="text-center mb-4">
+                <span className="block text-lg font-bold">{shaders.length} opciones</span>
+                <span className="text-sm text-muted-foreground">Para diferentes tipos de PC</span>
+              </div>
+            </div>
+            <a href="#shaders" className="w-full">
+              <GameButton
+                variant="outline"
+                size="sm"
+                icon={<ExternalLink className="h-4 w-4" />}
+                className="w-full button-with-particles"
+              >
+                Ver Shaders
+                <span className="button-particle button-particle-1"></span>
+                <span className="button-particle button-particle-2"></span>
+                <span className="button-particle button-particle-3"></span>
+                <span className="button-particle button-particle-4"></span>
+              </GameButton>
+            </a>
+          </GameCard>
+
+          <GameCard hoverEffect className="flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Download className="h-5 w-5 text-accent" />
+                <h3 className="font-minecraft text-xl text-accent">Descarga Todo</h3>
+              </div>
+              <div className="text-center mb-4">
+                <span className="text-sm text-muted-foreground">
+                  Descarga todos los resource packs en un solo archivo
+                </span>
+              </div>
+            </div>
+            <a
+              href="https://drive.google.com/uc?export=download&id=1Evy3Lnka7Y_LNkkzvzewjtfEPZb0cQtJ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full"
+            >
+              <GameButton variant="accent" size="sm" icon={<Download className="h-4 w-4" />} className="w-full">
+                Descargar Todo
+              </GameButton>
+            </a>
+          </GameCard>
+        </div>
+      </ScrollReveal>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {isLoading ? (
@@ -212,21 +310,6 @@ export default function ResourcePacksPage() {
           ))
         )}
       </div>
-
-      {!isLoading && resourcePacks.length > 0 && (
-        <div className="flex justify-center mt-6">
-          <a
-            href="https://drive.google.com/uc?export=download&id=1Evy3Lnka7Y_LNkkzvzewjtfEPZb0cQtJ"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex"
-          >
-            <GameButton variant="accent" size="lg" icon={<Download className="h-5 w-5" />}>
-              Descargar Todos los Resource Packs
-            </GameButton>
-          </a>
-        </div>
-      )}
 
       {/* Nueva sección: Orden de Resource Packs */}
       <ScrollReveal direction="up">
@@ -309,51 +392,53 @@ export default function ResourcePacksPage() {
         </GameCard>
       </ScrollReveal>
 
-      <ScrollReveal direction="up">
-        <SectionHeader title="Shaders" subtitle="Mejora la iluminación y efectos visuales de tu juego" />
+      <div id="shaders">
+        <ScrollReveal direction="up">
+          <SectionHeader title="Shaders" subtitle="Mejora la iluminación y efectos visuales de tu juego" />
 
-        <GameCard className="border-glow">
-          <h3 className={`font-minecraft text-xl text-accent mb-6`}>Shaders Recomendados</h3>
+          <GameCard className="border-glow">
+            <h3 className={`font-minecraft text-xl text-accent mb-6`}>Shaders Recomendados</h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {isLoading ? (
-              // Mostrar placeholders mientras carga
-              [...Array(3)].map((_, index) => (
-                <div key={index} className="p-4 flex justify-between items-center">
-                  <div>
-                    <div className="h-5 bg-secondary/30 rounded-md w-32 mb-2"></div>
-                    <div className="h-3 bg-secondary/30 rounded-md w-48"></div>
-                  </div>
-                  <div className="h-8 bg-secondary/30 rounded-md w-24"></div>
-                </div>
-              ))
-            ) : shaders.length === 0 ? (
-              <div className="col-span-full p-4 text-center">
-                <p className="text-muted-foreground">No hay shaders disponibles actualmente.</p>
-              </div>
-            ) : (
-              shaders.map((shader, index) => (
-                <GameCard key={index} className="flex flex-col h-full">
-                  <div className="flex-grow">
-                    <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover mb-2`}>
-                      {shader.name}
-                    </h4>
-                    <p className="text-sm text-shader font-medium leading-snug mb-4">{shader.description}</p>
-                    <div className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded inline-block mb-4">
-                      {shader.version}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {isLoading ? (
+                // Mostrar placeholders mientras carga
+                [...Array(3)].map((_, index) => (
+                  <div key={index} className="p-4 flex justify-between items-center">
+                    <div>
+                      <div className="h-5 bg-secondary/30 rounded-md w-32 mb-2"></div>
+                      <div className="h-3 bg-secondary/30 rounded-md w-48"></div>
                     </div>
+                    <div className="h-8 bg-secondary/30 rounded-md w-24"></div>
                   </div>
-                  <a href={shader.link} target="_blank" rel="noopener noreferrer" className="mt-auto">
-                    <GameButton variant="outline" fullWidth icon={<ExternalLink className="h-4 w-4" />}>
-                      Ver en Modrinth
-                    </GameButton>
-                  </a>
-                </GameCard>
-              ))
-            )}
-          </div>
-        </GameCard>
-      </ScrollReveal>
+                ))
+              ) : shaders.length === 0 ? (
+                <div className="col-span-full p-4 text-center">
+                  <p className="text-muted-foreground">No hay shaders disponibles actualmente.</p>
+                </div>
+              ) : (
+                shaders.map((shader, index) => (
+                  <GameCard key={index} className="flex flex-col h-full">
+                    <div className="flex-grow">
+                      <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover mb-2`}>
+                        {shader.name}
+                      </h4>
+                      <p className="text-sm text-shader font-medium leading-snug mb-4">{shader.description}</p>
+                      <div className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded inline-block mb-4">
+                        {shader.version}
+                      </div>
+                    </div>
+                    <a href={shader.link} target="_blank" rel="noopener noreferrer" className="mt-auto">
+                      <GameButton variant="outline" fullWidth icon={<ExternalLink className="h-4 w-4" />}>
+                        Ver en Modrinth
+                      </GameButton>
+                    </a>
+                  </GameCard>
+                ))
+              )}
+            </div>
+          </GameCard>
+        </ScrollReveal>
+      </div>
 
       <ScrollReveal direction="up">
         <GameCard borderGlow>

@@ -57,10 +57,11 @@ interface GameCardProps {
   hoverEffect?: boolean
   glassEffect?: boolean
   borderGlow?: boolean
+  initialAnimation?: boolean
 }
 
 /**
- * Tarjeta con estilo de juego
+ * Tarjeta con estilo de juego y efectos mejorados
  */
 export function GameCard({
   children,
@@ -68,6 +69,7 @@ export function GameCard({
   hoverEffect = true,
   glassEffect = true,
   borderGlow = false,
+  initialAnimation = true,
 }: GameCardProps) {
   return (
     <motion.div
@@ -78,8 +80,8 @@ export function GameCard({
         className,
       )}
       whileHover={hoverEffect ? { y: -5, boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)" } : {}}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={initialAnimation ? { opacity: 0, y: 20 } : false}
+      animate={initialAnimation ? { opacity: 1, y: 0 } : false}
       transition={{ duration: 0.4 }}
     >
       {borderGlow && (
@@ -118,27 +120,39 @@ interface FeatureCardProps {
   description: string
   imageSrc: string
   className?: string
+  onClick?: () => void
 }
 
 /**
- * Tarjeta para mostrar características
+ * Tarjeta para mostrar características con animaciones mejoradas
  */
-export function FeatureCard({ title, description, imageSrc, className }: FeatureCardProps) {
+export function FeatureCard({ title, description, imageSrc, className, onClick }: FeatureCardProps) {
   return (
-    <div
+    <motion.div
       className={cn(
-        "group bg-secondary/80 border border-border rounded-md overflow-hidden transition-all duration-300",
+        "group bg-secondary/80 border border-border rounded-md overflow-hidden transition-all duration-300 cursor-pointer",
         className,
       )}
+      whileHover={{ y: -5, boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)" }}
+      onClick={onClick}
     >
       <div className="relative h-48 overflow-hidden">
-        <Image src={imageSrc || "/placeholder.svg"} alt={title} fill className="object-cover" />
+        <Image 
+          src={imageSrc || "/placeholder.svg?height=192&width=384"} 
+          alt={title} 
+          fill 
+          className="object-cover transition-transform duration-500 group-hover:scale-110" 
+        />
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0"
+          whileHover={{ opacity: 1 }}
+        />
       </div>
       <div className="p-4">
-        <h3 className="font-title text-xl text-accent mb-2">{title}</h3>
+        <h3 className="font-title text-xl text-accent mb-2 group-hover:text-glow">{title}</h3>
         <p className="text-sm text-muted-foreground font-body">{description}</p>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -149,23 +163,54 @@ interface SectionHeaderProps {
   title: string
   subtitle?: string
   accent?: boolean
+  className?: string
+  align?: "left" | "center" | "right"
 }
 
 /**
- * Componente para encabezados de sección
+ * Componente para encabezados de sección con animaciones mejoradas
  */
-export function SectionHeader({ title, subtitle, accent = false }: SectionHeaderProps) {
+export function SectionHeader({ 
+  title, 
+  subtitle, 
+  accent = false, 
+  className = "",
+  align = "left"
+}: SectionHeaderProps) {
+  const alignmentClasses = {
+    left: "text-left",
+    center: "text-center mx-auto",
+    right: "text-right ml-auto",
+  }
+
   return (
-    <div className="mb-8 text-center md:text-left fade-in-section">
+    <motion.div 
+      className={cn(
+        "mb-8 fade-in-section", 
+        alignmentClasses[align],
+        className
+      )}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <h2
-        className={`font-title text-3xl md:text-4xl lg:text-5xl mb-3 ${accent ? "text-accent text-glow" : "text-primary"}`}
+        className={cn(
+          "font-title text-3xl md:text-4xl lg:text-5xl mb-3",
+          accent ? "text-accent text-glow" : "text-primary"
+        )}
       >
         {title || ""}
       </h2>
       {subtitle ? (
-        <p className="text-muted-foreground text-lg max-w-3xl mx-auto md:mx-0 font-body font-light">{subtitle}</p>
+        <p className={cn(
+          "text-muted-foreground text-lg font-body font-light",
+          align === "center" ? "max-w-3xl mx-auto" : "max-w-3xl",
+          align === "right" ? "ml-auto" : ""
+        )}>
+          {subtitle}
+        </p>
       ) : null}
-    </div>
+    </motion.div>
   )
 }
-

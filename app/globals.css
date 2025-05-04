@@ -105,54 +105,46 @@
   }
 
   .light {
-    /* ☀️ Light mode - Refined Coffee Vibes Theme */
-
-    /* General background and foreground */
-    --background: 39 77% 95%; /* Papaya Whip - más claro */
-
-    --foreground: 39 77% 45%; /* Más legible sobre fondos oscuros */
-    --card-foreground: 39 77% 45%;
-    --popover-foreground: 39 77% 45%;
-    --popover: 43 57% 90%;
-    --popover-foreground: 39 77% 30%;
-
-    /* Primary button color */
-    --primary: 14 59% 34%; /* Chestnut - se mantiene para botones */
-    --primary-foreground: 39 77% 95%; /* Papaya Whip - buen contraste sobre Chestnut */
-
-    /* Secondary elements */
-    --secondary: 26 34% 28%; /* Coffee - se mantiene */
-    --secondary-foreground: 39 77% 95%; /* Papaya Whip */
-
-    /* Muted text (subtítulos, detalles menores) */
-    --muted: 43 57% 95%; /* Más claro para bloques secundarios */
-    --muted-foreground: 26 34% 40%; /* Coffee más claro */
-
-    /* Accent (títulos, enlaces importantes) */
-    --accent: 240 5% 8%; /* Crow Black */
-    --accent-foreground: 39 77% 95%; /* Papaya Whip */
-
-    /* Destructive (errores, alertas) */
-    --destructive: 0 70% 45%; /* más oscuro que el anterior para mejor contraste */
-    --destructive-foreground: 0 0% 100%;
-
-    /* Borders, inputs, rings */
-    --border: 26 34% 28%; /* Coffee - definido, no tan fuerte */
-    --input: 26 34% 22%;
-    --ring: 14 59% 34%; /* Chestnut - llama más la atención al enfocar */
-
-    /* Sidebar (menús, nav lateral) */
-    --sidebar-bg: 26 34% 20%; /* Bistre profundo */
-    --sidebar-fg: 39 77% 90%; /* Papaya Whip */
-
-    /* Títulos */
---title-color: 26 34% 28%; /* Coffee */
---title-text-light: 26 34% 28%; /* Coffee */
---title-hover-light: 14 59% 34%; /* Chestnut más claro para hover */
-    /* Generales para texto */
-    --title-text: hsl(39, 77%, 85%); /* Wheat */
-    --title-hover: hsl(39, 77%, 75%); /* Wheat más oscuro */
+    /* ☀️ Light mode - Coffeehouse Vibes */
+    --background: 39 77% 95%;       /* Papaya Whip */
+    --foreground: 26 34% 15%;       /* Bistre profundo para legibilidad */
+    
+    --card: 43 57% 92%;             /* Dutch White + Wheat fusion */
+    --card-foreground: 26 34% 15%;  /* Igual que foreground para coherencia */
+  
+    --popover: 43 57% 92%;
+    --popover-foreground: 26 34% 15%;
+  
+    --primary: 14 59% 34%;          /* Chestnut */
+    --primary-foreground: 39 77% 95%; /* Papaya Whip */
+  
+    --secondary: 26 34% 20%;        /* Bistre */
+    --secondary-foreground: 39 77% 95%; /* Claro sobre fondo oscuro */
+  
+    --muted: 43 57% 95%;
+    --muted-foreground: 26 34% 20%; /* Más oscuro que antes */
+  
+    --accent: 14 59% 34%;           /* Chestnut como acento principal */
+    --accent-foreground: 39 77% 95%;
+  
+    --destructive: 0 70% 40%;
+    --destructive-foreground: 39 77% 95%;
+  
+    --border: 26 34% 22%;           /* Coffee más oscuro */
+    --input: 26 34% 18%;
+    --ring: 14 59% 34%;
+  
+    --sidebar-bg: 26 34% 18%;
+    --sidebar-fg: 39 77% 90%;
+  
+    --title-color: 26 34% 18%;
+    --title-text-light: 26 34% 18%;
+    --title-hover-light: 14 59% 34%;
+  
+    --title-text: hsl(39, 77%, 25%);     /* Marrón oscuro para contraste */
+    --title-hover: hsl(14, 59%, 34%);    /* Chestnut más fuerte */
   }
+  
 }
 
 /*
@@ -218,7 +210,7 @@
   }
 
   .light .high-contrast-text {
-    color: hsl(26, 34%, 33%); /* Coffee - high contrast text (CAMBIADO A MÁS OSCURO) */
+    color: hsl(26, 34%, 33%); /* Coffee - high contrast text */
   }
 
   .light h1.high-contrast-text,
@@ -227,38 +219,43 @@
     color: hsl(var(--title-color));
   }
 
-  /* Mejoras para la navegación en modo claro */
-  .light .sidebar {
-    --sidebar-bg: 26 34% 25%; /* Darker Coffee - sidebar background */
-    --sidebar-fg: 39 77% 83%; /* Wheat - sidebar text */
-  }
-
-  /* Asegurar que el botón de colapso siempre sea visible */
-  .light .sidebar button:hover {
-    color: hsl(var(--accent)) !important;
-  }
-
-  /* Añadir estilos específicos para textos en modo claro */
-  .light p {
-    color: hsl(227, 66%, 70%);
-  }
-  
-  .light .text-foreground {
-    color: hsl(241, 100%, 92%) !important;
-  }
-  
+  /* Mejoras específicas para light mode */
   .light .text-muted-foreground {
-    color: hsl(227, 66%, 70%) !important; /* Texto secundario más claro */
+    color: hsl(26, 34%, 25%) !important; /* Más oscuro para mejor contraste */
   }
 
-  /* Ajustar colores para títulos en modo claro */
-  .light h1,
-  .light h2,
-  .light h3,
-  .light h4,
-  .light h5,
-  .light h6 {
-    color: hsl(39, 77%, 85%); /* Wheat - #f5deb3 */
+  .light .card p,
+  .light .card span:not(.font-minecraft) {
+    color: hsl(26, 34%, 25%) !important; /* Más oscuro para mejor contraste */
+  }
+
+  /* Mejora de contraste para contenedores en modo claro */
+  .light .bg-background\/50 {
+    background-color: hsla(39, 77%, 90%, 0.95) !important; /* Fondo más opaco para contenedores */
+  }
+
+  .light .bg-background\/30 {
+    background-color: hsla(39, 77%, 90%, 0.97) !important; /* Fondo más opaco para contenedores */
+  }
+
+  .light .bg-background\/60 {
+    background-color: hsla(39, 77%, 90%, 0.98) !important; /* Fondo más opaco para contenedores */
+  }
+
+  .light .bg-secondary\/30 {
+    background-color: hsla(26, 34%, 28%, 0.25) !important; /* Fondo más visible para contenedores secundarios */
+  }
+
+  .light .bg-secondary\/50 {
+    background-color: hsla(26, 34%, 28%, 0.35) !important; /* Fondo más visible para contenedores secundarios */
+  }
+
+  .light .bg-secondary\/80 {
+    background-color: hsla(26, 34%, 28%, 0.45) !important; /* Fondo más visible para contenedores secundarios */
+  }
+
+  .light .bg-card\/80 {
+    background-color: hsla(43, 57%, 90%, 0.98) !important; /* Fondo más opaco para tarjetas */
   }
 }
 
@@ -286,16 +283,6 @@
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
-  }
-
-  /* Estilo exclusivo para descripciones de shaders */
-  .shader-description {
-    @apply text-sm font-medium leading-snug;
-    color: #a47864;
-  }
-
-  .light .shader-description {
-    color: hsl(26, 34%, 40%) !important; /* Más claro que el anterior */
   }
 
   /* Efectos visuales */
@@ -336,16 +323,6 @@
     transform: translateY(0);
   }
 
-  /* Estilos específicos para componentes */
-  .server-description {
-    @apply font-bytesized;
-  }
-
-  .header-text,
-  .footer-text {
-    @apply font-title;
-  }
-
   /* Efectos visuales */
   .glass-effect {
     backdrop-filter: blur(8px);
@@ -361,112 +338,125 @@
   }
 
   .light .hud-panel {
-    background: linear-gradient(135deg, rgba(245, 222, 179, 0.7) 0%, rgba(239, 223, 187, 0.7) 100%); /* Wheat to Dutch White gradient */
-    box-shadow: 0 0 0 1px rgba(111, 78, 55, 0.3), inset 0 0 0 1px rgba(111, 78, 55, 0.3); /* Coffee shadow */
+    background: linear-gradient(135deg, rgba(245, 222, 179, 0.7) 0%, rgba(239, 223, 187, 0.7) 100%);
+    box-shadow: 0 0 0 1px rgba(111, 78, 55, 0.3), inset 0 0 0 1px rgba(111, 78, 55, 0.3);
   }
 
-  /* Estilo Minecraft para bordes */
-  .minecraft-border {
-    image-rendering: pixelated;
-    border-style: solid;
-    border-width: 4px;
-    border-image: url("/images/minecraft-border.png") 4 repeat;
+  /* Partículas para botones */
+  .button-particle {
+    @apply absolute w-1.5 h-1.5 rounded-full bg-accent pointer-events-none opacity-0;
   }
 
-  /* Polaroid effect */
-  .polaroid {
-    @apply bg-white p-2 shadow-lg transition-all duration-300 rotate-0 hover:rotate-1;
+  .button-with-particles {
+    @apply relative overflow-visible;
   }
 
-  .polaroid img {
-    @apply mb-2;
+  .button-with-particles:hover .button-particle-1 {
+    @apply animate-particle-1;
   }
 
-  .polaroid figcaption {
-    @apply text-center font-body text-black;
+  .button-with-particles:hover .button-particle-2 {
+    @apply animate-particle-2;
   }
 
-  /* Componentes específicos de la página */
-  .hero-section {
-    @apply relative min-h-[60vh] rounded-xl overflow-hidden;
+  .button-with-particles:hover .button-particle-3 {
+    @apply animate-particle-3;
   }
 
-  /* Estilos mejorados para los mods */
-  .mod-banner {
-    @apply relative h-64 mb-4 rounded-md overflow-hidden;
-  }
-
-  .mod-logo-container {
-    @apply relative h-16 w-16 rounded-full overflow-hidden border-2 border-accent flex items-center justify-center bg-card/50;
-    box-shadow: 0 0 10px rgba(var(--accent), 0.3);
-  }
-
-  .mod-info {
-    @apply flex items-center gap-4 mb-4;
-  }
-
-  .mod-description {
-    @apply p-3 rounded-md bg-background/50 backdrop-blur-sm border border-border/50;
+  .button-with-particles:hover .button-particle-4 {
+    @apply animate-particle-4;
   }
 
   /* Estilos para el orden de resource packs */
   .resource-pack-order {
-    @apply p-4 rounded-lg border-2 border-accent/30 bg-card/80 backdrop-blur-sm;
+    @apply space-y-4;
   }
 
   .resource-pack-item {
-    @apply flex items-center gap-3 p-3 rounded-md mb-2 bg-background/40 border border-border/50 transition-all duration-200;
-  }
-
-  .resource-pack-item:hover {
-    @apply bg-background/60 border-accent/40 transform -translate-y-1;
+    @apply flex items-center gap-3 p-3 bg-background/70 rounded-md border border-border/50 transition-all hover:bg-background/90;
   }
 
   .resource-pack-number {
-    @apply flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground font-minecraft text-sm;
+    @apply flex items-center justify-center w-8 h-8 rounded-full bg-accent/20 text-accent font-minecraft;
   }
 
-  .light .resource-pack-number {
-    background-color: hsl(14, 59%, 34%); /* Chestnut */
-    color: hsl(39, 77%, 85%); /* Wheat - #f5deb3 */
+  /* Mejora de contraste para textos en modo claro */
+  .light .text-shader {
+    color: hsl(26, 34%, 20%) !important;
   }
 
-  /* Homepage text over video in light mode */
-  .light .hero-text-over-video {
-    color: #3d2b1f; /* Bistre - for main heading (CAMBIADO A MÁS OSCURO) */
+  .light .modpack-text {
+    color: hsl(26, 34%, 25%) !important;
   }
 
-  .light .hero-description-over-video {
-    color: #6f4e37; /* Coffee - for descriptions (CAMBIADO A MÁS OSCURO) */
+  .light .modpack-version {
+    color: hsl(26, 34%, 30%) !important;
   }
 
-  .light .hero-info-over-video {
-    color: #3d2b1f; /* Bistre - for additional info (CAMBIADO A MÁS OSCURO) */
+  /* Estilos para el carrusel mejorado */
+  .carousel-container {
+    @apply relative overflow-hidden rounded-lg;
   }
 
-  /* Better contrast for modpack text in dark mode */
-  .dark .modpack-text {
-    color: hsl(241, 100%, 92%); /* pale lavender blue - for better contrast in dark mode */
+  .carousel-slide {
+    @apply w-full transition-opacity duration-500;
   }
 
-  .dark .modpack-version {
-    color: hsl(241, 27%, 43%); /* twilight blue - for version numbers */
+  .carousel-controls {
+    @apply absolute top-1/2 left-0 right-0 flex justify-between px-4 -translate-y-1/2 z-10;
   }
 
-  /* Mejorar contraste para textos en tarjetas */
-  .light .card-foreground,
-  .light .card p,
-  .light .card span:not(.font-minecraft) {
-    color: hsl(39, 77%, 30%) !important;
+  .carousel-control-button {
+    @apply bg-background/80 hover:bg-background text-foreground p-2 rounded-full backdrop-blur-sm transition-transform hover:scale-110;
   }
 
-  /* Ajustar colores para elementos de resource packs en modo claro */
-  .light .resource-pack-item {
-    background-color: hsla(39, 77%, 95%, 0.6); /* Fondo más claro */
+  .carousel-indicators {
+    @apply absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10;
   }
 
-  .light .resource-pack-item:hover {
-    background-color: hsla(39, 77%, 90%, 0.8); /* Fondo hover más claro */
+  .carousel-indicator {
+    @apply w-2.5 h-2.5 rounded-full transition-all duration-300;
+  }
+
+  .carousel-indicator-active {
+    @apply bg-accent w-5;
+  }
+
+  .carousel-indicator-inactive {
+    @apply bg-foreground/30 hover:bg-foreground/50;
+  }
+
+  /* Estilos para la galería */
+  .gallery-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6;
+  }
+
+  .gallery-item {
+    @apply overflow-hidden cursor-pointer h-full transition-all duration-300;
+  }
+
+  .gallery-image-container {
+    @apply relative h-48 md:h-56 mb-2 overflow-hidden;
+  }
+
+  .gallery-image {
+    @apply object-cover transition-transform duration-500 hover:scale-105;
+  }
+
+  .gallery-modal {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4;
+  }
+
+  .gallery-modal-content {
+    @apply relative max-w-4xl max-h-[90vh] w-full bg-background rounded-lg overflow-hidden;
+  }
+
+  .gallery-modal-close {
+    @apply absolute top-4 right-4 z-10 bg-background/80 p-2 rounded-full hover:bg-background transition-all hover:scale-110;
+  }
+
+  .gallery-modal-image {
+    @apply relative h-[70vh];
   }
 }
 
@@ -516,13 +506,17 @@
   }
 }
 
+.animate-pulse-glow {
+  animation: pulse 2s infinite;
+}
+
 .light .animate-pulse-glow {
   animation: coffee-pulse 2s infinite;
 }
 
 @keyframes coffee-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(149, 69, 53, 0.4); /* Chestnut pulse for light mode */
+    box-shadow: 0 0 0 0 rgba(149, 69, 53, 0.4);
   }
   70% {
     box-shadow: 0 0 0 10px rgba(149, 69, 53, 0);
@@ -532,39 +526,6 @@
   }
 }
 
-.animate-pulse-glow {
-  animation: pulse 2s infinite;
-}
-
-@keyframes textGlow {
-  0%,
-  100% {
-    text-shadow: 0 0 5px rgba(180, 255, 58, 0.5);
-  }
-  50% {
-    text-shadow: 0 0 15px rgba(180, 255, 58, 0.8);
-  }
-}
-
-.animate-text-glow {
-  animation: textGlow 3s infinite;
-}
-
-.light .animate-text-glow {
-  animation: coffeeTextGlow 3s infinite;
-}
-
-@keyframes coffeeTextGlow {
-  0%,
-  100% {
-    text-shadow: 0 0 5px rgba(149, 69, 53, 0.5); /* Chestnut glow for light mode */
-  }
-  50% {
-    text-shadow: 0 0 15px rgba(149, 69, 53, 0.8);
-  }
-}
-
-/* Animaciones para partículas */
 @keyframes particle-1 {
   0% {
     transform: translate(0, 0);
@@ -656,19 +617,6 @@
   animation: float-text 1s ease-in-out infinite;
 }
 
-@keyframes reflection {
-  0% {
-    transform: translateX(-100%) translateY(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) translateY(100%) rotate(45deg);
-  }
-}
-
-.shadow-glow {
-  animation: shadow-pulse 1.5s infinite alternate;
-}
-
 @keyframes shadow-pulse {
   0% {
     box-shadow: 0 0 5px currentColor;
@@ -678,135 +626,8 @@
   }
 }
 
-/*
- * ========================================
- * EFECTOS DINÁMICOS
- * ========================================
- */
-.dynamic-border {
-  position: relative;
-  overflow: hidden;
-}
-
-.dynamic-border::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, hsl(var(--accent)), transparent);
-  animation: borderFlow 3s linear infinite;
-}
-
-@keyframes borderFlow {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
-}
-
-.dynamic-glow {
-  animation: dynamicGlow 3s infinite alternate;
-}
-
-@keyframes dynamicGlow {
-  0% {
-    box-shadow: 0 0 5px rgba(var(--accent), 0.3);
-  }
-  100% {
-    box-shadow: 0 0 20px rgba(var(--accent), 0.7);
-  }
-}
-
-/*
- * ========================================
- * EFECTOS DE HOVER
- * ========================================
- */
-.hover-effect {
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.hover-effect:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-  border-color: hsl(var(--accent));
-}
-
-/* Reflection effect */
-.container-reflection {
-  position: relative;
-  overflow: hidden;
-}
-
-.container-reflection::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(45deg);
-  transition: transform 0.5s ease-in-out;
-  opacity: 0;
-}
-
-.container-reflection:hover::after {
-  opacity: 1;
-  animation: reflection 1.5s ease-in-out;
-}
-
-/*
- * ========================================
- * CARRUSEL
- * ========================================
- */
-.carousel {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-}
-
-.carousel-container {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-
-.carousel-item {
-  flex: 0 0 100%;
-}
-
-.carousel-controls {
-  position: absolute;
-  bottom: 1rem;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.carousel-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.carousel-dot.active {
-  background-color: hsl(var(--accent));
+.shadow-glow {
+  animation: shadow-pulse 1.5s infinite alternate;
 }
 
 /*
@@ -830,59 +651,5 @@
 
   h3 {
     @apply text-xl;
-  }
-}
-
-@media (min-width: 768px) {
-  .carousel-item {
-    flex: 0 0 33.333%;
-  }
-}
-
-/*
- * ========================================
- * UTILIDADES
- * ========================================
- */
-.content-container {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-}
-
-.page-transition-wrapper {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-.snap-container {
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100vh;
-}
-
-.snap-section {
-  scroll-snap-align: start;
-  height: 100vh;
-}
-
-.particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background-color: hsl(var(--accent));
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0.6;
-  animation: floatingParticle 10s infinite ease-in-out;
-}
-
-@keyframes floatingParticle {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(180deg);
-  }
-  100% {
-    transform: translateY(0) rotate(360deg);
   }
 }

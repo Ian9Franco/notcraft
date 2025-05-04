@@ -2,64 +2,174 @@
 
 import { useRef, useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
+import { motion } from "framer-motion"
 
 interface BackgroundVideoProps {
-    audioEnabled?: boolean
-    blurAmount?: number
-    manualPlayTrigger?: boolean // 👈 NUEVA PROP
-  }
+  audioEnabled?: boolean
+  blurAmount?: number
+  manualPlayTrigger?: boolean
+  videoSrc?: string
+  fallbackImage?: string
+  overlayColor?: string
+  overlayOpacity?: number
+}
+
 export default function BackgroundVideo({
   audioEnabled = true,
-  blurAmount = 8, // Valor para el difuminado
-  manualPlayTrigger = false, // ← también le das un valor por defecto
+  blurAmount = 8,
+  manualPlayTrigger = false,
+  videoSrc = "/images/landscape/landscape_final.mp4",
+  fallbackImage = "/images/landscape/home.png",
+  overlayColor = "rgba(0, 0, 0, 0.4)",
+  overlayOpacity = 0.4,
 }: BackgroundVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [hasInteracted, setHasInteracted] = useState(false)
-  const pathname = usePathname() // Para detectar cambios de ruta
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
+  const [isVideoError, setIsVideoError] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
+  const pathname = usePathname()
 
-  // Efecto para manejar la reproducción inicial
   useEffect(() => {
-    if (typeof window === "undefined") return
-
-    const video = videoRef.current
-    if (!video) return
-
-    // Configuración inicial - siempre muteado para permitir autoplay
-    video.muted = true
-    video.volume = 0
-
-    // Intenta reproducir el video automáticamente
+    if (typeof window === "undefined") return;
+  
+    const video = videoRef.current;
+    if (!video) return;
+  
+    // Asegurar mute para autoplay
+    video.muted = true;
+    video.volume = 0;
+  
     const playVideo = async () => {
       try {
-        await video.play()
-        console.log("Video de fondo reproducido automáticamente")
+        await video.play();
+        setIsPlaying(true);
+        console.log("Video de fondo reproducido automáticamente");
       } catch (error) {
-        console.error("Error al reproducir el video de fondo:", error)
-
+        console.error("Error al reproducir el video de fondo:", error);
         // Reintento con delay
         setTimeout(() => {
-          if (video) {
-            video.play().catch((e) => console.error("Reintento fallido:", e))
-          }
-        }, 1000)
+          video.play().catch((e) => {
+            console.error("Reintento fallido:", e);
+          });
+        }, 1000);
+      }
+    };
+  
+    const handleLoadedData = () => {
+      if (!isVideoLoaded) {
+        setIsVideoLoaded(true);
+      }
+      playVideo();
+    };
+  
+    const handleError = (e: Event) => {
+      console.error("Error en el video de fondo:", e);
+      setIsVideoError(true);
+    };
+  
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+  
+    video.addEventListener("loadeddata", handleLoadedData);
+    video.addEventListener("error", handleError);
+    video.addEventListener("play", handlePlay);
+    video.addEventListener("pause", handlePause);
+  
+    // Si el video ya está cargado (por ejemplo desde caché)
+    if (video.readyState >= 2) {
+      handleLoadedData();
+    }
+  
+    return () => {
+      video.removeEventListener("loadeddata", handleLoadedData);
+      video.removeEventListener("error", handleError);
+      video.removeEventListener("play", handlePlay);
+      video.removeEventListener("pause", handlePause);
+    };
+  }, [videoRef, isVideoLoaded]);
+  
+
+    // Cleanup
+
+
+  // Escuchar eventos para controlar el video desde otros componentes
+  useEffect(() => {
+    const handleToggleVideo = (e: CustomEvent) => {
+      const video = videoRef.current
+      if (!video) return
+
+      if (e.detail.action === "play" && video.paused) {
+        video
+          .play()
+          .then(() => {
+            setIsPlaying(true)
+            // Notificar el cambio de estado
+            document.dispatchEvent(
+              new CustomEvent("backgroundVideoStateChange", {
+                detail: { state: "playing" },
+              }),
+            )
+          })
+          .catch((err) => console.error("Error al reproducir video:", err))
+      } else if (e.detail.action === "pause" && !video.paused) {
+        video.pause()
+        setIsPlaying(false)
+        // Notificar el cambio de estado
+        document.dispatchEvent(
+          new CustomEvent("backgroundVideoStateChange", {
+            detail: { state: "paused" },
+          }),
+        )
       }
     }
 
-    playVideo()
+    const handleToggleAudio = (e: CustomEvent) => {
+      const video = videoRef.current
+      if (!video) return
 
-    video.addEventListener("canplay", () => {
-      video.play().catch((err) => console.warn("Error al reproducir en canplay:", err))
-    })
+      if (e.detail.action === "unmute") {
+        video.muted = false
+        video.volume = 0.3
+        setIsMuted(false)
+        setHasInteracted(true)
+        // Notificar el cambio de estado
+        document.dispatchEvent(
+          new CustomEvent("backgroundVideoStateChange", {
+            detail: { state: "unmuted" },
+          }),
+        )
+      } else if (e.detail.action === "mute") {
+        video.muted = true
+        video.volume = 0
+        setIsMuted(true)
+        // Notificar el cambio de estado
+        document.dispatchEvent(
+          new CustomEvent("backgroundVideoStateChange", {
+            detail: { state: "muted" },
+          }),
+        )
+      }
+    }
+
+    document.addEventListener("toggleBackgroundVideo", handleToggleVideo as EventListener)
+    document.addEventListener("toggleBackgroundAudio", handleToggleAudio as EventListener)
+
+    return () => {
+      document.removeEventListener("toggleBackgroundVideo", handleToggleVideo as EventListener)
+      document.removeEventListener("toggleBackgroundAudio", handleToggleAudio as EventListener)
+    }
   }, [])
 
-  // Efecto para activar el audio cuando cambia la ruta (navegación por sidebar)
-  // Reacciona al trigger manual para habilitar el audio
+  // Efecto para activar el audio cuando se solicita manualmente
   useEffect(() => {
     if (manualPlayTrigger && !hasInteracted) {
       enableAudio()
     }
   }, [manualPlayTrigger, hasInteracted])
-  
+
+  // Efecto para activar el audio cuando cambia la ruta
   useEffect(() => {
     if (!audioEnabled || hasInteracted) return
 
@@ -78,32 +188,34 @@ export default function BackgroundVideo({
 
     try {
       video.muted = false
-      video.volume = 0.5
+      video.volume = 0.3 // Volumen más bajo por defecto
+
+      // Fade in del volumen para una experiencia más suave
+      let currentVolume = 0
+      const volumeInterval = setInterval(() => {
+        currentVolume += 0.05
+        if (currentVolume >= 0.3) {
+          currentVolume = 0.3
+          clearInterval(volumeInterval)
+        }
+        video.volume = currentVolume
+      }, 100)
+
       video.play().catch((err) => {
         console.error("Error al activar el audio:", err)
+        // Reintento con delay
         setTimeout(() => {
-          video.muted = false
-          video.volume = 0.5
-          video.play().catch((e) => console.error("Reintento fallido:", e))
+          if (video) {
+            video.muted = false
+            video.volume = 0.3
+            video.play().catch((e) => console.error("Reintento fallido:", e))
+          }
         }, 1000)
       })
     } catch (error) {
       console.error("Error al intentar activar el audio:", error)
     }
   }
-  // Efecto para detectar clics en botones y enlaces
-  useEffect(() => {
-    if (manualPlayTrigger && !hasInteracted) {
-      enableAudio()
-    }
-  }, [manualPlayTrigger, hasInteracted])
-
-  useEffect(() => {
-    if (!audioEnabled || hasInteracted) return
-    if (pathname) {
-      enableAudio()
-    }
-  }, [pathname, audioEnabled, hasInteracted])
 
   // Manejador de clic para el fondo
   const handleBackgroundClick = () => {
@@ -125,10 +237,10 @@ export default function BackgroundVideo({
         height: "100vh",
         zIndex: -10,
         overflow: "hidden",
-        cursor: hasInteracted ? "default" : "pointer", // Cambiar cursor a pointer si aún no se ha interactuado
+        cursor: hasInteracted ? "default" : "pointer",
       }}
     >
-      {/* Overlay con desenfoque */}
+      {/* Overlay con desenfoque y color */}
       <div
         style={{
           position: "absolute",
@@ -136,14 +248,15 @@ export default function BackgroundVideo({
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "transparent",
+          backgroundColor: overlayColor,
+          opacity: overlayOpacity,
           backdropFilter: `blur(${blurAmount}px)`,
           zIndex: 1,
         }}
       />
 
       {/* Video de fondo */}
-      <video
+      <motion.video
         ref={videoRef}
         style={{
           position: "absolute",
@@ -154,15 +267,19 @@ export default function BackgroundVideo({
           objectFit: "cover",
           zIndex: 0,
         }}
-        src="/images/landscape/landscape_final.mp4"
+        src={videoSrc}
         autoPlay
         loop
         muted
         playsInline
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isVideoLoaded && !isVideoError ? 1 : 0 }}
+        transition={{ duration: 1 }}
+        onError={() => setIsVideoError(true)}
       />
 
-      {/* Fallback en caso de error */}
-      {videoRef.current?.error && (
+      {/* Fallback en caso de error o mientras carga */}
+      {(!isVideoLoaded || isVideoError) && (
         <div
           style={{
             position: "absolute",
@@ -170,7 +287,9 @@ export default function BackgroundVideo({
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundColor: "#0f0f0f", // Fondo oscuro como fallback
+            backgroundImage: `url(${fallbackImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
             zIndex: 0,
           }}
         />

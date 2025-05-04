@@ -1,28 +1,17 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
-import {
-  Download,
-  ExternalLink,
-  HelpCircle,
-  Package,
-  Wrench,
-  Cog,
-  Zap,
-  Server,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react"
+import { Download, ExternalLink, HelpCircle, Package, Wrench, Cog, Zap, Server } from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger, InteractiveAccordion } from "@/components/ui/interactive"
 import { useTheme } from "next-themes"
-import { ModloaderIcon } from "@/components/modloader-icon" // Importamos el componente ModloaderIcon
+import { ModloaderIcon } from "@/components/modloader-icon"
 
 /**
- * Interfaz para modpacks
+ * Interfaces
  */
 interface Modpack {
   id: string
@@ -34,9 +23,6 @@ interface Modpack {
   available: boolean
 }
 
-/**
- * Interfaz para mods
- */
 interface Mod {
   name: string
   version: string
@@ -45,15 +31,18 @@ interface Mod {
   file_url?: string
 }
 
+/**
+ * Datos estáticos
+ */
 // Datos estáticos para modpacks por modloader
-const staticModpacks: { [key: string]: Modpack[] } = {
+const staticModpacks: Record<string, Modpack[]> = {
   forge: [
     {
       id: "1",
       name: "Netherious Forge",
       version: "1.0.5",
       description: "Modpack oficial con Forge",
-      file_url: "#",
+      file_url: "https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la",
       logo_url: "/images/logos/forge-logo.png",
       available: true,
     },
@@ -154,7 +143,7 @@ const staticFeaturedMods: Mod[] = [
 ]
 
 // Datos estáticos para mods opcionales
-const staticOptionalMods: { [key: string]: Mod[] } = {
+const staticOptionalMods: Record<string, Mod[]> = {
   particles: [
     { name: "Particular", version: "1.0.0", description: "Efectos de partículas mejorados" },
     { name: "Explosive Enhancement", version: "2.1.5", description: "Mejora visual de efectos y explosiones" },
@@ -246,10 +235,10 @@ const tutorialSteps = [
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <div className="relative w-8 h-8">
-                      <img
-                        src={modpack.logo_url || "/placeholder.svg?height=32&width=32"}
-                        alt={modpack.name}
-                        className="object-contain absolute inset-0"
+                      <ModloaderIcon
+                        type={modloader as "forge" | "fabric" | "neoforged"}
+                        size={32}
+                        className="absolute inset-0"
                       />
                     </div>
                     <h3 className="font-minecraft text-lg text-accent">{modpack.name}</h3>
@@ -269,23 +258,22 @@ const tutorialSteps = [
                     </svg>
                   )}
                 </div>
-                {/* Using primary color (Twilight Blue) instead of accent (Rainforest Glow) for better contrast in dark mode */}
                 <p className="text-xs text-primary">Versión {modpack.version}</p>
-                  <a
-                    href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={modpack.available ? "" : "pointer-events-none"}
+                <a
+                  href={modpack.file_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={modpack.available ? "" : "pointer-events-none"}
+                >
+                  <GameButton
+                    variant={modpack.available ? "primary" : "outline"}
+                    fullWidth
+                    disabled={!modpack.available}
+                    icon={<Download className="h-4 w-4" />}
                   >
-                    <GameButton
-                      variant={modpack.available ? "primary" : "outline"}
-                      fullWidth
-                      disabled={!modpack.available}
-                      icon={<Download className="h-4 w-4" />}
-                    >
-                      {modpack.available ? "Descargar" : "Próximamente"}
-                    </GameButton>
-                  </a>
+                    {modpack.available ? "Descargar" : "Próximamente"}
+                  </GameButton>
+                </a>
               </div>
             )),
           )}
@@ -353,25 +341,38 @@ const tutorialSteps = [
 ]
 
 /**
+ * Mapeo de categorías a nombres en español
+ */
+const categoryNames: Record<string, string> = {
+  particles: "Partículas",
+  sounds: "Sonidos",
+  animations: "Animaciones",
+  performance: "Rendimiento",
+  qol: "Calidad de Vida",
+}
+
+/**
+ * Mapeo de categorías a enlaces de descarga
+ */
+const categoryDownloadLinks: Record<string, string> = {
+  particles: "https://drive.google.com/uc?export=download&id=1KuQL_oxuUdu4MTDzUVuiX1PmPMFcyoqi",
+  sounds: "https://drive.google.com/uc?export=download&id=1ZKtSam_uWcwPt3IRlmuu_vu1AtqOe8y1",
+  animations: "https://drive.google.com/uc?export=download&id=11npWwiUQZvc1bw3pk0qtun6XX8syxUGs",
+  performance: "https://drive.google.com/uc?export=download&id=1IEeH5m16jxClrMi16u33UKM-3NblPZtO",
+  qol: "https://drive.google.com/uc?export=download&id=1PsFWmXt3AkQGbW6mCAuXZH-8Vg9bejG7",
+}
+
+/**
  * Página del modpack
  */
 export default function ModpackPage() {
-  // Usamos useTheme para detectar el tema actual
+  // Estados
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
-
-  // Estados para datos estáticos
-  const [modpacks, setModpacks] = useState<{ [key: string]: Modpack[] }>({})
+  const [modpacks, setModpacks] = useState<Record<string, Modpack[]>>({})
   const [featuredMods, setFeaturedMods] = useState<Mod[]>([])
-  const [optionalMods, setOptionalMods] = useState<{ [key: string]: Mod[] }>({
-    particles: [],
-    animations: [],
-    sounds: [],
-    performance: [],
-    qol: [],
-  })
+  const [optionalMods, setOptionalMods] = useState<Record<string, Mod[]>>({})
   const [isLoading, setIsLoading] = useState(true)
-  const [isModsExpanded, setIsModsExpanded] = useState(false)
 
   // Efecto para manejar el montaje del componente
   useEffect(() => {
@@ -388,44 +389,47 @@ export default function ModpackPage() {
     return () => clearTimeout(timer)
   }, [])
 
-  // TITULOS: Determinamos el color del texto según el tema
-  const titleTextColor = mounted ? (theme === "dark" ? "text-white" : "text-black") : "text-primary"
+  // Determinamos el color del texto según el tema
+  const titleTextColor = useMemo(
+    () => (mounted ? (theme === "dark" ? "text-white" : "text-black") : "text-primary"),
+    [mounted, theme],
+  )
 
-  // Función para obtener el enlace de descarga según la categoría
-  const getCategoryDownloadLink = (category: string) => {
-    switch (category) {
-      case "particles":
-        return "https://drive.google.com/uc?export=download&id=1KuQL_oxuUdu4MTDzUVuiX1PmPMFcyoqi"
-      case "sounds":
-        return "https://drive.google.com/uc?export=download&id=1ZKtSam_uWcwPt3IRlmuu_vu1AtqOe8y1"
-      case "animations":
-        return "https://drive.google.com/uc?export=download&id=11npWwiUQZvc1bw3pk0qtun6XX8syxUGs"
-      case "performance":
-        return "https://drive.google.com/uc?export=download&id=1IEeH5m16jxClrMi16u33UKM-3NblPZtO"
-      case "qol":
-        return "https://drive.google.com/uc?export=download&id=1PsFWmXt3AkQGbW6mCAuXZH-8Vg9bejG7"
-      default:
-        return "#"
-    }
-  }
+  // Renderizado de placeholders mientras carga
+  const renderPlaceholders = (count = 7) =>
+    [...Array(count)].map((_, index) => (
+      <div key={index} className="p-4 flex justify-between items-center">
+        <div>
+          <div className="h-5 bg-secondary/30 rounded-md w-32 mb-2"></div>
+          <div className="h-3 bg-secondary/30 rounded-md w-48"></div>
+        </div>
+        <div className="h-5 bg-secondary/30 rounded-md w-12"></div>
+      </div>
+    ))
 
-  // Función para obtener el nombre de la categoría en español
-  const getCategoryName = (category: string) => {
-    switch (category) {
-      case "particles":
-        return "Partículas"
-      case "sounds":
-        return "Sonidos"
-      case "animations":
-        return "Animaciones"
-      case "performance":
-        return "Rendimiento"
-      case "qol":
-        return "Calidad de Vida"
-      default:
-        return category
-    }
-  }
+  // Renderizado de mods
+  const renderMods = (mods: Mod[]) =>
+    mods.length === 0 ? (
+      <div className="p-4 text-center">
+        <p className="text-muted-foreground">No hay mods disponibles.</p>
+      </div>
+    ) : (
+      mods.map((mod, index) => (
+        <motion.div
+          key={index}
+          className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, delay: index * 0.05 }}
+        >
+          <div>
+            <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>{mod.name}</h4>
+            <p className="text-sm text-muted-foreground">{mod.description}</p>
+          </div>
+          <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">v{mod.version}</span>
+        </motion.div>
+      ))
+    )
 
   return (
     <div className="space-y-12 py-6">
@@ -449,7 +453,6 @@ export default function ModpackPage() {
               <TabsList className="grid grid-cols-3 mb-4">
                 <TabsTrigger value="forge" className="minecraft-style">
                   <div className="flex items-center gap-2">
-                    {/* Usamos el componente ModloaderIcon en lugar de Image */}
                     <ModloaderIcon type="forge" size={20} />
                     Forge
                   </div>
@@ -475,7 +478,6 @@ export default function ModpackPage() {
                       <GameCard key={index} className={`${modpack.available ? "border-glow" : "opacity-70"}`}>
                         <div className="flex items-center gap-3 mb-4">
                           <div className="relative w-12 h-12 bg-background/30 rounded-md p-1">
-                            {/* Usamos el componente ModloaderIcon para el logo del modpack */}
                             <ModloaderIcon
                               type={modloader as "forge" | "fabric" | "neoforged"}
                               size={48}
@@ -484,20 +486,14 @@ export default function ModpackPage() {
                           </div>
                           <div>
                             <h4 className="font-minecraft text-lg text-accent">{modpack.name}</h4>
-                            {/* Using primary color (Twilight Blue) instead of accent (Rainforest Glow) for better contrast in dark mode */}
                             <p className="text-xs modpack-version">Versión {modpack.version}</p>
                           </div>
                         </div>
 
-                        <p className="text-sm modpack-text mb-4">
-                          {modpack.description}{" "}
-                          {/* Using foreground color instead of accent for better contrast in dark mode */}
-                        </p>
-
-                        {/* No dropdown here anymore */}
+                        <p className="text-sm modpack-text mb-4">{modpack.description}</p>
 
                         <a
-                          href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
+                          href={modpack.file_url}
                           target="_blank"
                           rel="noopener noreferrer"
                           className={modpack.available ? "" : "pointer-events-none"}
@@ -536,42 +532,7 @@ export default function ModpackPage() {
 
             <GameCard className="border-2 border-accent/30">
               <div className="grid grid-cols-1 divide-y divide-border">
-                {isLoading ? (
-                  // Mostrar placeholders mientras carga
-                  [...Array(7)].map((_, index) => (
-                    <div key={index} className="p-4 flex justify-between items-center">
-                      <div>
-                        <div className="h-5 bg-secondary/30 rounded-md w-32 mb-2"></div>
-                        <div className="h-3 bg-secondary/30 rounded-md w-48"></div>
-                      </div>
-                      <div className="h-5 bg-secondary/30 rounded-md w-12"></div>
-                    </div>
-                  ))
-                ) : featuredMods.length === 0 ? (
-                  <div className="p-4 text-center">
-                    <p className="text-muted-foreground">No hay mods destacados disponibles.</p>
-                  </div>
-                ) : (
-                  featuredMods.map((mod, index) => (
-                    <motion.div
-                      key={index}
-                      className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                    >
-                      <div>
-                        <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>
-                          {mod.name}
-                        </h4>
-                        <p className="text-sm text-muted-foreground">{mod.description}</p>
-                      </div>
-                      <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
-                        v{mod.version}
-                      </span>
-                    </motion.div>
-                  ))
-                )}
+                {isLoading ? renderPlaceholders() : renderMods(featuredMods)}
               </div>
             </GameCard>
           </div>
@@ -583,26 +544,22 @@ export default function ModpackPage() {
           <h3 className="font-minecraft text-xl text-accent mb-4">Mods Opcionales</h3>
           <Tabs defaultValue="particles" className="w-full">
             <TabsList className="grid grid-cols-5 mb-4">
-              <TabsTrigger value="particles" className="minecraft-style">
-                <span className="hidden sm:inline">Partículas</span>
-                <span className="inline sm:hidden">Partíc.</span>
-              </TabsTrigger>
-              <TabsTrigger value="animations" className="minecraft-style">
-                <span className="hidden sm:inline">Animaciones</span>
-                <span className="inline sm:hidden">Anim.</span>
-              </TabsTrigger>
-              <TabsTrigger value="sounds" className="minecraft-style">
-                <span className="hidden sm:inline">Sonidos</span>
-                <span className="inline sm:hidden">Sonidos</span>
-              </TabsTrigger>
-              <TabsTrigger value="performance" className="minecraft-style">
-                <span className="hidden sm:inline">Rendimiento</span>
-                <span className="inline sm:hidden">Rend.</span>
-              </TabsTrigger>
-              <TabsTrigger value="qol" className="minecraft-style">
-                <span className="hidden sm:inline">Calidad de Vida</span>
-                <span className="inline sm:hidden">QoL</span>
-              </TabsTrigger>
+              {Object.keys(staticOptionalMods).map((category) => (
+                <TabsTrigger key={category} value={category} className="minecraft-style">
+                  <span className="hidden sm:inline">{categoryNames[category]}</span>
+                  <span className="inline sm:hidden">
+                    {category === "particles"
+                      ? "Partíc."
+                      : category === "animations"
+                        ? "Anim."
+                        : category === "sounds"
+                          ? "Sonidos"
+                          : category === "performance"
+                            ? "Rend."
+                            : "QoL"}
+                  </span>
+                </TabsTrigger>
+              ))}
             </TabsList>
 
             {Object.entries(optionalMods).map(([category, mods]) => (
@@ -610,7 +567,7 @@ export default function ModpackPage() {
                 <GameCard>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className={`font-minecraft text-lg font-semibold ${titleTextColor}`}>
-                      Mods de <span className="hidden sm:inline">{getCategoryName(category)}</span>
+                      Mods de <span className="hidden sm:inline">{categoryNames[category]}</span>
                       <span className="inline sm:hidden">
                         {category === "particles"
                           ? "Partíc."
@@ -623,7 +580,7 @@ export default function ModpackPage() {
                                 : "QoL"}
                       </span>
                     </h3>
-                    <a href={getCategoryDownloadLink(category)}>
+                    <a href={categoryDownloadLinks[category]}>
                       <GameButton variant="outline" size="sm" icon={<Download className="h-4 w-4" />}>
                         <span className="hidden sm:inline">Descargar Todos</span>
                         <span className="inline sm:hidden">Descargar</span>
@@ -632,45 +589,7 @@ export default function ModpackPage() {
                   </div>
 
                   <div className="grid grid-cols-1 divide-y divide-border">
-                    {isLoading ? (
-                      // Mostrar placeholders mientras carga
-                      [...Array(3)].map((_, index) => (
-                        <div key={index} className="p-4 flex justify-between items-center">
-                          <div>
-                            <div className="h-5 bg-secondary/30 rounded-md w-32 mb-2"></div>
-                            <div className="h-3 bg-secondary/30 rounded-md w-48"></div>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <div className="h-5 bg-secondary/30 rounded-md w-12"></div>
-                            <div className="h-8 bg-secondary/30 rounded-md w-24"></div>
-                          </div>
-                        </div>
-                      ))
-                    ) : mods.length === 0 ? (
-                      <div className="p-4 text-center">
-                        <p className="text-muted-foreground">No hay mods disponibles para esta categoría.</p>
-                      </div>
-                    ) : (
-                      mods.map((mod, index) => (
-                        <motion.div
-                          key={index}
-                          className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: index * 0.05 }}
-                        >
-                          <div>
-                            <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>
-                              {mod.name}
-                            </h4>
-                            <p className="text-sm text-muted-foreground">{mod.description}</p>
-                          </div>
-                          <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
-                            v{mod.version}
-                          </span>
-                        </motion.div>
-                      ))
-                    )}
+                    {isLoading ? renderPlaceholders(3) : renderMods(mods)}
                   </div>
                 </GameCard>
               </TabsContent>

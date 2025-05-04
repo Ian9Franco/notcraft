@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState } from "react";
+import { useState } from "react"
 import { Server, Calendar, AlertTriangle, Info, Download, Users, Clock } from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
@@ -9,9 +9,6 @@ import { GameCard, SectionHeader } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/interactive"
 import { CopyButton } from "@/components/ui/form-elements"
 import DiscordWidget from "@/components/widgets/discord-widget"
-
-
-
 
 /**
  * Datos de temporadas
@@ -22,7 +19,7 @@ const seasons = [
     title: "Primera Ruptura",
     date: "Mayo 2025 - Presente",
     description:
-      "Los primeros en llegar pensaron que era solo otro mundo por conquistar. Construyeron máquinas, exploraron los cielos y perforaron las profundidades___ hasta que algo respondió. Las cuevas comenzaron a susurrar, los bosques a observar, y los portales a abrirse por sí solos. Criaturas prehistóricas despertaron, dioses olvidados reclamaron sus dominios, y dimensiones enteras comenzaron a colapsar sobre la realidad. Hoy, los sobrevivientes vagan entre mundos rotos, enfrentan horrores que escapan a la razón, y confían en engranajes y hechizos para mantenerse con vida. Aquí, cada paso puede ser el último… y cada amanecer, un milagro.",
+      "Los primeros en llegar pensaron que era solo otro mundo por conquistar. Construyeron máquinas, exploraron los cielos y perforaron las profundidades___ hasta que algo respondió. Las cuevas comenzaron a susurrar, los bosques a observar, y los portales a abrirse por sí solos. Criaturas prehistóricas despertaron, dioses olvidados reclamaron sus dominios, y confían en engranajes y hechizos para mantenerse con vida. Aquí, cada paso puede ser el último… y cada amanecer, un milagro.",
     playerCount: 3,
   },
   {
@@ -38,7 +35,7 @@ const seasons = [
  * Página de información del servidor
  */
 export default function ServerInfoPage() {
-  const [showInstructions, setShowInstructions] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false)
 
   return (
     <div className="space-y-12 py-6">
@@ -59,15 +56,19 @@ export default function ServerInfoPage() {
               <h3 className="font-minecraft text-xl text-accent mb-2">Servidor No Dedicado</h3>
               <p className="text-muted-foreground mb-3">
                 Actualmente, el servidor se ejecuta de forma local (LAN) y genera una nueva IP cada vez que se inicia.
-                Para jugar, debes solicitar que se abra el servidor.
+                Para jugar, puedes usar el mod E4MC que permite crear salas locales y conectarte con amigos.
               </p>
               <div className="flex flex-wrap gap-3">
-                <GameButton variant="outline" size="sm" icon={<Users className="h-4 w-4" />}>
-                  Solicitar Acceso
-                </GameButton>
-                <GameButton variant="ghost" size="sm" icon={<Info className="h-4 w-4" />}>
-                  Más Información
-                </GameButton>
+                <a href="https://discord.gg/NhpPc2C2" target="_blank" rel="noopener noreferrer">
+                  <GameButton variant="outline" size="sm" icon={<Users className="h-4 w-4" />}>
+                    Unirse a Discord
+                  </GameButton>
+                </a>
+                <a href="https://modrinth.com/mod/e4mc" target="_blank" rel="noopener noreferrer">
+                  <GameButton variant="ghost" size="sm" icon={<Download className="h-4 w-4" />}>
+                    Descargar E4MC
+                  </GameButton>
+                </a>
               </div>
             </div>
           </div>
@@ -104,9 +105,20 @@ export default function ServerInfoPage() {
                 <span className="text-sm text-muted-foreground">Requiere el modpack oficial</span>
               </div>
             </div>
-            <GameButton variant="outline" size="sm" icon={<Download className="h-4 w-4" />} className="w-full">
-              Descargar Modpack
-            </GameButton>
+            <a href="/modpack" className="w-full">
+              <GameButton
+                variant="outline"
+                size="sm"
+                icon={<Download className="h-4 w-4" />}
+                className="w-full button-with-particles"
+              >
+                Descargar Modpack
+                <span className="button-particle button-particle-1"></span>
+                <span className="button-particle button-particle-2"></span>
+                <span className="button-particle button-particle-3"></span>
+                <span className="button-particle button-particle-4"></span>
+              </GameButton>
+            </a>
           </GameCard>
 
           <GameCard hoverEffect className="flex flex-col justify-between">
@@ -153,64 +165,60 @@ export default function ServerInfoPage() {
       </div>
 
       {/* Sección de recursos y configuración */}
-        <ScrollReveal>
-              <GameCard className="max-w-4xl mx-auto">
-                <div className="flex items-center gap-2 mb-6">
-                  <Download className="h-5 w-5 text-accent" />
-                  <h3 className="font-minecraft text-xl text-accent">Recursos y Configuración</h3>
-                </div>
+      <ScrollReveal>
+        <GameCard className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-2 mb-6">
+            <Download className="h-5 w-5 text-accent" />
+            <h3 className="font-minecraft text-xl text-accent">Recursos y Configuración</h3>
+          </div>
 
-                <div className="space-y-6">
-                  <div className="bg-background/50 p-4 rounded-md border border-border/50">
-                    <h4 className="font-minecraft text-lg mb-3">Archivo de Opciones</h4>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Descarga este archivo para tener los packs de recursos organizados y las teclas configuradas
-                      correctamente.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <a
-                        href="https://drive.google.com/uc?export=download&id=1Alur-e5wsAEdE8h1hbwxyhqC_492Crhl"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1"
-                      >
-                        <GameButton
-                          variant="outline"
-                          size="sm"
-                          icon={<Download className="h-4 w-4" />}
-                          className="w-full"
-                        >
-                          Descargar Options
-                        </GameButton>
-                      </a>
-                      <GameButton
-                        variant="ghost"
-                        size="sm"
-                        icon={<Info className="h-4 w-4" />}
-                        className="flex-1"
-                        onClick={() => setShowInstructions(prev => !prev)}
-                      >
-                        {showInstructions ? "Ocultar Instrucciones" : "Ver Instrucciones"}
-                      </GameButton>
-                    </div>
-                  </div>
+          <div className="space-y-6">
+            <div className="bg-background/50 p-4 rounded-md border border-border/50">
+              <h4 className="font-minecraft text-lg mb-3">Archivo de Opciones</h4>
+              <p className="text-sm text-muted-foreground mb-4">
+                Descarga este archivo para tener los packs de recursos organizados y las teclas configuradas
+                correctamente.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <a
+                  href="https://drive.google.com/uc?export=download&id=1Alur-e5wsAEdE8h1hbwxyhqC_492Crhl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1"
+                >
+                  <GameButton variant="outline" size="sm" icon={<Download className="h-4 w-4" />} className="w-full">
+                    Descargar Options
+                  </GameButton>
+                </a>
+                <GameButton
+                  variant="ghost"
+                  size="sm"
+                  icon={<Info className="h-4 w-4" />}
+                  className="flex-1"
+                  onClick={() => setShowInstructions((prev) => !prev)}
+                >
+                  {showInstructions ? "Ocultar Instrucciones" : "Ver Instrucciones"}
+                </GameButton>
+              </div>
+            </div>
 
-                  {showInstructions && (
-                    <div className="bg-background/50 p-4 rounded-md border border-border/50">
-                      <h4 className="font-minecraft text-lg mb-3">Instrucciones de Instalación</h4>
-                      <ol className="space-y-2 text-sm text-muted-foreground list-decimal pl-5">
-                        <li>
-                          Localiza la carpeta <code className="bg-background/70 px-1 rounded">.minecraft</code> en tu computadora
-                        </li>
-                        <li>Coloca el archivo descargado en esta carpeta</li>
-                        <li>Reemplaza el archivo existente si se te solicita</li>
-                        <li>Reinicia Minecraft para aplicar los cambios</li>
-                      </ol>
-                    </div>
-                  )}
-                </div>
-              </GameCard>
-            </ScrollReveal>
+            {showInstructions && (
+              <div className="bg-background/50 p-4 rounded-md border border-border/50">
+                <h4 className="font-minecraft text-lg mb-3">Instrucciones de Instalación</h4>
+                <ol className="space-y-2 text-sm text-muted-foreground list-decimal pl-5">
+                  <li>
+                    Localiza la carpeta <code className="bg-background/70 px-1 rounded">.minecraft</code> en tu
+                    computadora
+                  </li>
+                  <li>Coloca el archivo descargado en esta carpeta</li>
+                  <li>Reemplaza el archivo existente si se te solicita</li>
+                  <li>Reinicia Minecraft para aplicar los cambios</li>
+                </ol>
+              </div>
+            )}
+          </div>
+        </GameCard>
+      </ScrollReveal>
 
       {/* Temporadas */}
       <ScrollReveal direction="up">

@@ -10,8 +10,6 @@ import {
   Menu,
   X,
   CuboidIcon as Cube,
-  Sun,
-  Moon,
   Home,
   Package,
   Palette,
@@ -19,11 +17,18 @@ import {
   ImageIcon,
   Play,
   Pause,
+  Volume2,
+  VolumeX,
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { NetheriousLogo } from "@/components/icons/netherious-logo"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+
+// Importamos los iconos personalizados
+import { CoffeeIcon } from "@/components/icons/coffee-icon"
+import { CatIcon } from "@/components/icons/cat-icon"
 
 /**
  * Elementos de navegación disponibles
@@ -41,6 +46,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
   const [logoAnimationKey, setLogoAnimationKey] = useState(0)
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
@@ -81,15 +87,43 @@ export default function Header() {
 
   // Alternar reproducción de video
   const togglePlayPause = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause()
-      } else {
-        videoRef.current.play()
-      }
-      setIsPlaying(!isPlaying)
-    }
+    // Disparar un evento personalizado para comunicarse con BackgroundVideo
+    const event = new CustomEvent("toggleBackgroundVideo", {
+      detail: { action: isPlaying ? "pause" : "play" },
+    })
+    document.dispatchEvent(event)
+    setIsPlaying(!isPlaying)
   }
+
+  // Alternar audio
+  const toggleMute = () => {
+    // Disparar un evento personalizado para comunicarse con BackgroundVideo
+    const event = new CustomEvent("toggleBackgroundAudio", {
+      detail: { action: isMuted ? "unmute" : "mute" },
+    })
+    document.dispatchEvent(event)
+    setIsMuted(!isMuted)
+  }
+
+  // Escuchar eventos del video de fondo
+  useEffect(() => {
+    const handleVideoStateChange = (e: CustomEvent) => {
+      if (e.detail.state === "playing") {
+        setIsPlaying(true)
+      } else if (e.detail.state === "paused") {
+        setIsPlaying(false)
+      } else if (e.detail.state === "muted") {
+        setIsMuted(true)
+      } else if (e.detail.state === "unmuted") {
+        setIsMuted(false)
+      }
+    }
+
+    document.addEventListener("backgroundVideoStateChange", handleVideoStateChange as EventListener)
+    return () => {
+      document.removeEventListener("backgroundVideoStateChange", handleVideoStateChange as EventListener)
+    }
+  }, [])
 
   return (
     <header
@@ -150,31 +184,61 @@ export default function Header() {
             </div>
           </motion.div>
 
-          {/* Botón de reproducción de video */}
-          <motion.button
-            onClick={togglePlayPause}
-            className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            aria-label={isPlaying ? "Pausar video" : "Reproducir video"}
-          >
-            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-          </motion.button>
-
-          {/* Botones de tema y menú */}
+          {/* Botones de control de medios y tema */}
           <div className="flex items-center gap-2">
-            {isMounted && (
-              <motion.button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
-                whileHover={{ scale: 1.1, rotate: theme === "dark" ? 180 : 0 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label={theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
-              >
-                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-              </motion.button>
-            )}
+            <TooltipProvider>
+              {/* Botón de reproducción de video */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <motion.button
+                    onClick={togglePlayPause}
+                    className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    aria-label={isPlaying ? "Pausar video" : "Reproducir video"}
+                  >
+                    {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+                  </motion.button>
+                </TooltipTrigger>
+                <TooltipContent>{isPlaying ? "Pausar video de fondo" : "Reproducir video de fondo"}</TooltipContent>
+              </Tooltip>
 
+              {/* Botón de audio */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <motion.button
+                    onClick={toggleMute}
+                    className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    aria-label={isMuted ? "Activar audio" : "Silenciar audio"}
+                  >
+                    {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                  </motion.button>
+                </TooltipTrigger>
+                <TooltipContent>{isMuted ? "Activar audio" : "Silenciar audio"}</TooltipContent>
+              </Tooltip>
+
+              {/* Botón de tema con iconos personalizados */}
+              {isMounted && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <motion.button
+                      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                      className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
+                      whileHover={{ scale: 1.1, rotate: theme === "dark" ? 180 : 0 }}
+                      whileTap={{ scale: 0.9 }}
+                      aria-label={theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
+                    >
+                      {theme === "dark" ? <CoffeeIcon size={20} /> : <CatIcon size={20} />}
+                    </motion.button>
+                  </TooltipTrigger>
+                  <TooltipContent>{theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}</TooltipContent>
+                </Tooltip>
+              )}
+            </TooltipProvider>
+
+            {/* Botón de menú móvil */}
             <Button
               variant="ghost"
               size="icon"
@@ -230,9 +294,6 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Video element */}
-      <video ref={videoRef} src="/landscape/landscape_final.mp4" className="hidden" />
     </header>
   )
 }
