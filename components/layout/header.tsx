@@ -9,6 +9,10 @@ import { useTheme } from "next-themes"
 import { NetheriousLogo } from "@/components/icons/netherious-logo"
 import { Button } from "@/components/ui/button"
 
+import { PlayCircle } from "lucide-react"
+import { Play } from "lucide-react"
+
+
 /**
  * Componente de encabezado de la aplicación
  */
@@ -135,6 +139,25 @@ export default function Header() {
               />
             </div>
           </motion.div>
+
+          
+          {/* Play intro video */}
+            <motion.button
+              onClick={() => {
+                const video = document.getElementById("intro-video") as HTMLVideoElement
+                if (video) {
+                  video.play()
+                  video.scrollIntoView({ behavior: "smooth", block: "center" })
+                }
+              }}
+              className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label="Reproducir video de introducción"
+            >
+              <Play size={20} />
+            </motion.button>
+
 
           {/* Right side controls */}
           <div className="flex items-center gap-2">
