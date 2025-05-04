@@ -105,48 +105,58 @@
   }
 
   .light {
-    /* ☀️ Light mode - Coffee Vibes Theme */
-    --background: 39 77% 83%; /* Wheat - general page background */
-    --foreground: 26 34% 33%; /* Coffee - main text (CAMBIADO A MÁS OSCURO) */
-
-    --card: 43 57% 83%; /* Dutch White - secondary backgrounds */
-    --card-foreground: 26 34% 33%; /* Coffee - card text (CAMBIADO A MÁS OSCURO) */
-
+    /* ☀️ Light mode - Refined Coffee Vibes Theme */
+  
+    /* General background and foreground */
+    --background: 39 77% 88%; /* Papaya Whip - más claro, cálido */
+    --foreground: 26 34% 22%; /* Bistre - más profundo para texto principal */
+  
+    /* Cards and popovers */
+    --card: 43 57% 83%; /* Dutch White - bien suave */
+    --card-foreground: 26 34% 22%; /* Bistre */
+  
     --popover: 43 57% 83%;
-    --popover-foreground: 26 34% 33%; /* Coffee - popover text (CAMBIADO A MÁS OSCURO) */
-
-    --primary: 26 34% 33%;
-    --primary-foreground: 39 77% 83%;
-
-    --secondary: 26 34% 33%; /* Coffee - secondary elements (CAMBIADO A MÁS OSCURO) */
-    --secondary-foreground: 39 77% 83%;
-
-    --muted: 43 57% 90%;
-    --muted-foreground: 26 34% 33%; /* Coffee - muted text (CAMBIADO A MÁS OSCURO) */
-
-    --accent: 240 5% 8%; /* Crow Black - accent elements */
-    --accent-foreground: 39 77% 83%;
-
-    --destructive: 0 84% 55%;
+    --popover-foreground: 26 34% 22%;
+  
+    /* Primary button color */
+    --primary: 14 59% 34%; /* Chestnut - más saturado para call to action */
+    --primary-foreground: 39 77% 90%; /* Papaya Whip - buen contraste sobre Chestnut */
+  
+    /* Secondary elements */
+    --secondary: 26 34% 28%; /* Coffee - un poco más claro */
+    --secondary-foreground: 39 77% 90%; /* Papaya Whip */
+  
+    /* Muted text (subtítulos, detalles menores) */
+    --muted: 43 57% 90%; /* Más claro para bloques secundarios */
+    --muted-foreground: 26 34% 33%; /* Coffee */
+  
+    /* Accent (títulos, enlaces importantes) */
+    --accent: 240 5% 8%; /* Crow Black */
+    --accent-foreground: 39 77% 90%; /* Papaya Whip */
+  
+    /* Destructive (errores, alertas) */
+    --destructive: 0 70% 45%; /* más oscuro que el anterior para mejor contraste */
     --destructive-foreground: 0 0% 100%;
-
-    --border: 26 34% 33%;
-    --input: 26 34% 33%; /* Coffee - input elements (CAMBIADO A MÁS OSCURO) */
-    --ring: 240 5% 8%; /* Crow Black - focus rings */
-
-    /* Sidebar variables - Coffee theme */
-    --sidebar-bg: 26 34% 25%;
-    --sidebar-fg: 39 77% 83%;
-
-    /* TITULOS: Colores para títulos con mejor contraste */
-    --title-color: 240 5% 8%; /* Crow Black - mejor contraste en títulos */
-    --title-text-light: 26 34% 33%; /* Coffee - title text (CAMBIADO A MÁS OSCURO) */
-    --title-hover-light: 240 5% 18%; /* Slightly lighter Crow Black */
-
-    /* Variables generales para texto y hover de títulos */
-    --title-text: hsl(26, 34%, 33%); /* Coffee (CAMBIADO A MÁS OSCURO) */
+  
+    /* Borders, inputs, rings */
+    --border: 26 34% 28%; /* Coffee - definido, no tan fuerte */
+    --input: 26 34% 22%;
+    --ring: 14 59% 34%; /* Chestnut - llama más la atención al enfocar */
+  
+    /* Sidebar (menús, nav lateral) */
+    --sidebar-bg: 26 34% 20%; /* Bistre profundo */
+    --sidebar-fg: 39 77% 90%; /* Papaya Whip */
+  
+    /* Títulos */
+    --title-color: 240 5% 8%; /* Crow Black */
+    --title-text-light: 26 34% 22%; /* Bistre */
+    --title-hover-light: 240 5% 18%;
+  
+    /* Generales para texto */
+    --title-text: hsl(26, 34%, 22%); /* Bistre */
     --title-hover: hsl(240, 5%, 8%); /* Crow Black */
   }
+  
 }
 
 /*

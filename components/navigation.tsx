@@ -175,7 +175,9 @@ export function SidebarNavigation() {
             onMouseLeave={() => setIsHovered(false)}
             className={cn(
               "w-full flex items-center justify-center p-2 rounded-md transition-colors",
-              isHovered ? "bg-accent/10 text-accent" : "bg-[#1a1a1a] dark:bg-[#0a0a0a] text-accent",
+              isHovered
+                ? "bg-accent/10 text-accent"
+                : "bg-background text-accent dark:bg-[#0a0a0a]",
             )}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
