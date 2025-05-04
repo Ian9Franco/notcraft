@@ -9,7 +9,7 @@ import { useTheme } from "next-themes"
 import { NetheriousLogo } from "@/components/icons/netherious-logo"
 import { Button } from "@/components/ui/button"
 
-import { PlayCircle } from "lucide-react"
+
 import { Play } from "lucide-react"
 
 
@@ -140,7 +140,7 @@ export default function Header() {
             </div>
           </motion.div>
 
-          
+
           {/* Play intro video */}
             <motion.button
               onClick={() => {

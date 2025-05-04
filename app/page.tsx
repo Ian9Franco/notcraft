@@ -77,32 +77,37 @@ export default function Home() {
               <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-10 transition-opacity duration-500" />
             )}
 
-            <div className="relative z-20 flex items-center justify-center min-h-[60vh] p-8">
-              <div className="max-w-4xl w-full text-center md:text-left">
-                <h1 className="font-title text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">
-                  Únete a Nuestra Comunidad
-                </h1>
-                <p className="text-lg font-body font-light text-foreground high-contrast-text">
-                  Explora, construye y sobrevive en un mundo lleno de aventuras y posibilidades.
-                </p>
-                <p className="text-foreground mt-4 high-contrast-text">
-                  Nuestro servidor ofrece una experiencia única con temporadas temáticas, mods cuidadosamente seleccionados
-                  y una comunidad amigable.
-                </p>
-                <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mt-8">
-                  <Link href="/server-info">
-                    <GameButton variant="primary" size="lg" icon={<Server />}>
-                      Conectarse al Servidor
-                    </GameButton>
-                  </Link>
-                  <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
-                    <GameButton variant="secondary" size="lg" icon={<DiscordLogo />}>
-                      Discord
-                    </GameButton>
-                  </Link>
+                <div className="relative z-20 flex items-center justify-center min-h-[60vh] p-8">
+                  <div className="max-w-4xl w-full text-center md:text-left">
+                    <h1 className="font-title text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">
+                      Unite
+                    </h1>
+                    <p className="text-lg font-body font-light text-foreground high-contrast-text">
+                      Acá, cada rincón esconde un misterio, cada paisaje una historia olvidada.
+                      Un mundo vasto y peligroso te llama a descubrir lo desconocido, desafiar tus límites y enfrentar lo inesperado. 
+                    </p>
+                    <p className="text-foreground mt-4 high-contrast-text">
+                    Nuestro servidor no es solo un lugar para jugar, 
+                    es un territorio donde el terror acecha en las sombras y cada decisión puede ser la última. 
+                    Con mods cuidadosamente seleccionados, un mundo que cambia constantemente y amenazas que esperan a ser descubiertas, 
+                    siempre habrá algo nuevo que explorar… pero tené cuidado,
+                    porque con cada paso, el peligro crece y lo inesperado te acecha desde cualquier rincón.
+                      </p>
+                    <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mt-8">
+                      <Link href="/server-info">
+                        <GameButton variant="primary" size="lg" icon={<Server />}>
+                        Unite a Netherious
+                        </GameButton>
+                      </Link>
+                      <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
+                        <GameButton variant="secondary" size="lg" icon={<DiscordLogo />}>
+                          Conéctate en Discord
+                        </GameButton>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+
           </div>
 
       {/* Sección de Mods Destacados */}

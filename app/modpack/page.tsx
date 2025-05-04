@@ -271,19 +271,21 @@ const tutorialSteps = [
                 </div>
                 {/* Using primary color (Twilight Blue) instead of accent (Rainforest Glow) for better contrast in dark mode */}
                 <p className="text-xs text-primary">Versión {modpack.version}</p>
-                <a
-                  href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
-                  className={modpack.available ? "" : "pointer-events-none"}
-                >
-                  <GameButton
-                    variant={modpack.available ? "primary" : "outline"}
-                    fullWidth
-                    disabled={!modpack.available}
-                    icon={<Download className="h-4 w-4" />}
+                  <a
+                    href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={modpack.available ? "" : "pointer-events-none"}
                   >
-                    {modpack.available ? "Descargar" : "Próximamente"}
-                  </GameButton>
-                </a>
+                    <GameButton
+                      variant={modpack.available ? "primary" : "outline"}
+                      fullWidth
+                      disabled={!modpack.available}
+                      icon={<Download className="h-4 w-4" />}
+                    >
+                      {modpack.available ? "Descargar" : "Próximamente"}
+                    </GameButton>
+                  </a>
               </div>
             )),
           )}
@@ -496,6 +498,8 @@ export default function ModpackPage() {
 
                         <a
                           href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className={modpack.available ? "" : "pointer-events-none"}
                         >
                           <GameButton

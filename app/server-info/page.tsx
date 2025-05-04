@@ -8,6 +8,8 @@ import { GameCard, SectionHeader } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/interactive"
 import { CopyButton } from "@/components/ui/form-elements"
 import DiscordWidget from "@/components/widgets/discord-widget"
+import { ExternalLink } from "lucide-react";  // Asegúrate de que esta importación esté presente
+
 
 /**
  * Datos de temporadas
@@ -97,6 +99,35 @@ export default function ServerInfoPage() {
         </div>
       </div>
 
+      {/* Botón de descarga */}
+      <a 
+          href="https://drive.google.com/uc?export=download&id=1Alur-e5wsAEdE8h1hbwxyhqC_492Crhl" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="w-full max-w-[600px] mx-auto px-4"
+        >
+          <GameButton 
+            variant="outline" 
+            size="sm" 
+            icon={<ExternalLink className="h-4 w-4" />}
+            className="w-full"
+          >
+            Descargar archivo Options para tener los packs de recursos organizados y las teclas configuradas (la mayoría).
+          </GameButton>
+        </a>
+
+
+      {/* Instrucciones de instalación con separación */}
+      <GameCard hoverEffect className="mt-8">
+        <h3 className="font-minecraft text-xl text-accent mb-4">Instrucciones de instalación</h3>
+        <div className="text-center">
+          <p className="text-sm text-muted-foreground">
+            El archivo debe colocarse en la carpeta <strong>.minecraft</strong> de tu computadora. 
+            Asegúrate de reemplazar el archivo existente para que se apliquen los cambios correctamente.
+          </p>
+        </div>
+      </GameCard>
+
       <ScrollReveal direction="up">
         <SectionHeader
           title="Temporadas de Netherious"
@@ -144,6 +175,5 @@ export default function ServerInfoPage() {
         </Tabs>
       </ScrollReveal>
     </div>
-  )
+  );
 }
-
