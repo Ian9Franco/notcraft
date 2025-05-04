@@ -2,13 +2,12 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Palette, Settings, Download, ExternalLink } from "lucide-react"
+import { Palette, Settings, Download, ExternalLink, Info, List, AlertTriangle } from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameCard, SectionHeader } from "@/components/ui/card"
 import { ResourcePackCard } from "@/components/resource-pack-card" // Importamos el componente ResourcePackCard
 import { GameButton } from "@/components/ui/button"
 import { useTheme } from "next-themes"
-import Image from 'next/image';
 
 /**
  * Interfaz para resource packs
@@ -39,6 +38,7 @@ interface Shader {
   version: string
   description: string
   file_url?: string
+  link?: string
 }
 
 // Datos estáticos para resource packs
@@ -61,11 +61,11 @@ const staticResourcePacks: ResourcePack[] = [
     special_note: "Requiere Optifine o Entity Model Features",
     files: [{ id: "file2", name: "Fresh-Animations-1.2.zip" }],
   },
-   {
+  {
     id: "3",
     name: "Enhanced Boss Bars",
     description: "Nuevas barras de jefes mejoradas!",
-    image_url: "images/texturas/bossbar.png",
+    image_url: "/images/texturas/bossbar.png",
     logo_url: "/images/texturas/bossbarlogo.png",
     special_note: "Compatible con la mayoría de mods",
     files: [{ id: "file1", name: "ejemplo.zip" }],
@@ -73,7 +73,8 @@ const staticResourcePacks: ResourcePack[] = [
   {
     id: "4",
     name: "Shrimp's Immersive Interfaces",
-    description: "Una renovación gráfica completa de la interfaz gráfica de usuario de Minecraft, aporta variedad y encanto a las cajas anteriormente grises",
+    description:
+      "Una renovación gráfica completa de la interfaz gráfica de usuario de Minecraft, aporta variedad y encanto a las cajas anteriormente grises",
     image_url: "/images/texturas/interface.png",
     logo_url: "/images/texturas/interfacelogo.png",
     special_note: "Compatible con la mayoría de mods",
@@ -83,9 +84,62 @@ const staticResourcePacks: ResourcePack[] = [
 
 // Datos estáticos para shaders
 const staticShaders: Shader[] = [
-  { name: "BSL Shaders", version: "1.0.0", description: "Shaders de calidad media-alta" },
-  { name: "Complementary", version: "2.1.5", description: "Shaders equilibrados y personalizables" },
-  { name: "Sildur's Vibrant", version: "1.3.2", description: "Shaders vibrantes con buen rendimiento" },
+  {
+    name: "MakeUp - Ultra Fast",
+    version: "v1.0",
+    description: "Shaders livianos y rápidos, ideales para PCs de bajos recursos.",
+    link: "https://modrinth.com/shader/makeup-ultra-fast-shaders/gallery",
+  },
+  {
+    name: "Complementary Shaders - Reimagined",
+    version: "v1.0",
+    description: "Un rework visual con iluminación realista y excelente compatibilidad.",
+    link: "https://modrinth.com/shader/complementary-reimagined/versions",
+  },
+  {
+    name: "Complementary Shaders - Unbound",
+    version: "v1.0",
+    description: "Calidad cinematográfica con sombras suaves y efectos avanzados.",
+    link: "https://modrinth.com/shader/complementary-unbound/versions",
+  },
+  {
+    name: "Photon Shaders",
+    version: "v1.0",
+    description: "Inspirado en el trazado de rayos, con reflejos intensos y luces dinámicas.",
+    link: "https://modrinth.com/shader/photon-shader/gallery",
+  },
+  {
+    name: "Super Duper Vanilla",
+    version: "v1.0",
+    description: "Mantiene el estilo vanilla con mejoras sutiles de iluminación y agua.",
+    link: "https://modrinth.com/shader/super-duper-vanilla/gallery",
+  },
+  {
+    name: "Hysteria Shaders",
+    version: "v1.0",
+    description: "Colores vibrantes y un toque surrealista para experiencias únicas.",
+    link: "https://modrinth.com/shader/hysteria-shaders/gallery",
+  },
+  {
+    name: "RedHat Shaders",
+    version: "v1.0",
+    description: "Ideal para aventuras oscuras, con contrastes profundos y niebla densa.",
+    link: "https://modrinth.com/shader/redhat-shaders/gallery",
+  },
+  {
+    name: "Soft Voxels Lite",
+    version: "v1.0",
+    description: "Iluminación suave y elegante, estilo voxel con rendimiento optimizado.",
+    link: "https://modrinth.com/shader/soft-voxels-lite/gallery",
+  },
+]
+
+// Orden recomendado de resource packs
+const resourcePackOrder = [
+  { name: "Fresh Animations", description: "Animaciones mejoradas para mobs" },
+  { name: "Enhanced Boss Bars", description: "Barras de jefes mejoradas" },
+  { name: "Shrimp's Immersive Interfaces", description: "Mejoras de interfaz" },
+  { name: "Whimscape", description: "Pack de texturas principal" },
 ]
 
 /**
@@ -172,6 +226,72 @@ export default function ResourcePacksPage() {
         </div>
       )}
 
+      {/* Nueva sección: Orden de Resource Packs */}
+      <ScrollReveal direction="up">
+        <SectionHeader
+          title="Orden Correcto de Resource Packs"
+          subtitle="Para obtener la mejor experiencia visual, coloca los resource packs en este orden específico (de arriba hacia abajo)."
+        />
+
+        <GameCard className="border-glow">
+          <div className="flex items-center gap-2 mb-6">
+            <List className="h-5 w-5 text-accent" />
+            <h3 className="font-minecraft text-xl text-accent">Orden Recomendado</h3>
+          </div>
+
+          <div className="resource-pack-order">
+            <div className="flex items-center gap-2 mb-4">
+              <AlertTriangle className="h-5 w-5 text-accent" />
+              <p className="text-sm font-medium">
+                El orden es importante: los packs en la parte superior tienen prioridad sobre los que están debajo.
+              </p>
+            </div>
+
+            <div className="space-y-3 mb-6">
+              {resourcePackOrder.map((pack, index) => (
+                <div key={index} className="resource-pack-item">
+                  <div className="resource-pack-number">{index + 1}</div>
+                  <div>
+                    <h4 className="font-minecraft text-base">{pack.name}</h4>
+                    <p className="text-xs text-muted-foreground">{pack.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-4 bg-background/50 rounded-md border border-border/50">
+              <div className="flex items-start gap-2">
+                <Info className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                <div className="text-sm">
+                  <p className="mb-2">
+                    <span className="font-medium">Consejo:</span> Para cambiar el orden de los resource packs en
+                    Minecraft:
+                  </p>
+                  <ol className="list-decimal pl-5 space-y-1 text-muted-foreground">
+                    <li>Ve a Opciones → Resource Packs</li>
+                    <li>Arrastra los packs activados hacia arriba o abajo para cambiar su prioridad</li>
+                    <li>Los packs en la parte superior tienen prioridad sobre los que están debajo</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Imagen de ejemplo del orden correcto */}
+          <div className="mt-6">
+            <h4 className="font-minecraft text-lg text-accent mb-3">Ejemplo Visual</h4>
+            <div className="relative w-full h-64 md:h-80 bg-background/30 rounded-md overflow-hidden border border-border">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">Imagen de ejemplo del orden correcto de resource packs</p>
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground mt-2 text-center">
+              Captura de pantalla del menú de Resource Packs con el orden correcto
+            </p>
+          </div>
+        </GameCard>
+      </ScrollReveal>
+
       <ScrollReveal direction="up">
         <SectionHeader title="Shaders" subtitle="Mejora la iluminación y efectos visuales de tu juego" />
 
@@ -180,6 +300,7 @@ export default function ResourcePacksPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {isLoading ? (
+              // Mostrar placeholders mientras carga
               [...Array(3)].map((_, index) => (
                 <div key={index} className="p-4 flex justify-between items-center">
                   <div>
@@ -193,79 +314,28 @@ export default function ResourcePacksPage() {
               <div className="col-span-full p-4 text-center">
                 <p className="text-muted-foreground">No hay shaders disponibles actualmente.</p>
               </div>
-              ) : (
-                [
-                  {
-                    name: "MakeUp - Ultra Fast",
-                    version: "v1.0",
-                    description: "Shaders livianos y rápidos, ideales para PCs de bajos recursos.",
-                    link: "https://modrinth.com/shader/makeup-ultra-fast-shaders/gallery",
-                  },
-                  {
-                    name: "Complementary Shaders - Reimagined",
-                    version: "v1.0",
-                    description: "Un rework visual con iluminación realista y excelente compatibilidad.",
-                    link: "https://modrinth.com/shader/complementary-reimagined/versions",
-                  },
-                  {
-                    name: "Complementary Shaders - Unbound",
-                    version: "v1.0",
-                    description: "Calidad cinematográfica con sombras suaves y efectos avanzados.",
-                    link: "https://modrinth.com/shader/complementary-unbound/versions",
-                  },
-                  {
-                    name: "Photon Shaders",
-                    version: "v1.0",
-                    description: "Inspirado en el trazado de rayos, con reflejos intensos y luces dinámicas.",
-                    link: "https://modrinth.com/shader/photon-shader/gallery",
-                  },
-                  {
-                    name: "Super Duper Vanilla",
-                    version: "v1.0",
-                    description: "Mantiene el estilo vanilla con mejoras sutiles de iluminación y agua.",
-                    link: "https://modrinth.com/shader/super-duper-vanilla/gallery",
-                  },
-                  {
-                    name: "Hysteria Shaders",
-                    version: "v1.0",
-                    description: "Colores vibrantes y un toque surrealista para experiencias únicas.",
-                    link: "https://modrinth.com/shader/hysteria-shaders/gallery",
-                  },
-                  {
-                    name: "RedHat Shaders",
-                    version: "v1.0",
-                    description: "Ideal para aventuras oscuras, con contrastes profundos y niebla densa.",
-                    link: "https://modrinth.com/shader/redhat-shaders/gallery",
-                  },
-                  {
-                    name: "Soft Voxels Lite",
-                    version: "v1.0",
-                    description: "Iluminación suave y elegante, estilo voxel con rendimiento optimizado.",
-                    link: "https://modrinth.com/shader/soft-voxels-lite/gallery",
-                  },
-                ].map((shader, index) => (
-                  <GameCard key={index} className="flex flex-col h-full">
-                    <div className="flex-grow">
-                      <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover mb-2`}>
-                        {shader.name}
-                      </h4>
-                      <p className="text-sm text-shader font-medium leading-snug mb-4">{shader.description}</p>
-                      <div className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded inline-block mb-4">
-                        {shader.version}
-                      </div>
+            ) : (
+              shaders.map((shader, index) => (
+                <GameCard key={index} className="flex flex-col h-full">
+                  <div className="flex-grow">
+                    <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover mb-2`}>
+                      {shader.name}
+                    </h4>
+                    <p className="text-sm text-shader font-medium leading-snug mb-4">{shader.description}</p>
+                    <div className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded inline-block mb-4">
+                      {shader.version}
                     </div>
-                    <a href={shader.link} target="_blank" rel="noopener noreferrer" className="mt-auto">
-                      <GameButton variant="outline" fullWidth icon={<ExternalLink className="h-4 w-4" />}>
-                        Ver en Modrinth
-                      </GameButton>
-                    </a>
-                  </GameCard>
-                ))
-              )}
-              
-  </div>
+                  </div>
+                  <a href={shader.link} target="_blank" rel="noopener noreferrer" className="mt-auto">
+                    <GameButton variant="outline" fullWidth icon={<ExternalLink className="h-4 w-4" />}>
+                      Ver en Modrinth
+                    </GameButton>
+                  </a>
+                </GameCard>
+              ))
+            )}
+          </div>
         </GameCard>
-
       </ScrollReveal>
 
       <ScrollReveal direction="up">

@@ -80,7 +80,7 @@ export default function Header() {
   const navLinks = [
     { href: "/", label: "Inicio" },
     { href: "/modpack", label: "Modpack" },
-    { href: "/resource-packs", label: "Resource Packs" },
+    { href: "/resource-packs", label: "Apariencia" },
     { href: "/server-info", label: "Server Info" },
     { href: "/gallery", label: "Galería" },
   ]

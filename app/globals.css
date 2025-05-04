@@ -79,7 +79,7 @@
     --muted: 216 20% 25%;
     --muted-foreground: 241 50% 70%;
 
-    --accent: 66 64% 56%;
+    --accent: 66 64% 56%; /* Rainforest Glow */
     --accent-foreground: 300 4% 13%;
 
     --destructive: 0 70% 45%;
@@ -105,47 +105,47 @@
   }
 
   .light {
-    /* ☀️ Light mode */
-    --background: 180 21% 94%; /* Frosted Glass */
-    --foreground: 196 13% 30%; /* Darker Celestra Grey for better contrast */
+    /* ☀️ Light mode - Coffee Vibes Theme */
+    --background: 39 77% 83%; /* Wheat - general page background */
+    --foreground: 26 34% 33%; /* Coffee - main text (CAMBIADO A MÁS OSCURO) */
 
-    --card: 180 13% 83%; /* Offshore Mist */
-    --card-foreground: 186 27% 25%; /* Rhythmic Blue (darkened more) */
+    --card: 43 57% 83%; /* Dutch White - secondary backgrounds */
+    --card-foreground: 26 34% 33%; /* Coffee - card text (CAMBIADO A MÁS OSCURO) */
 
-    --popover: 180 13% 83%;
-    --popover-foreground: 186 27% 25%;
+    --popover: 43 57% 83%;
+    --popover-foreground: 26 34% 33%; /* Coffee - popover text (CAMBIADO A MÁS OSCURO) */
 
-    --primary: 186 27% 79%; /* Rhythmic Blue */
-    --primary-foreground: 0 0% 15%;
+    --primary: 26 34% 33%;
+    --primary-foreground: 39 77% 83%;
 
-    --secondary: 196 13% 66%; /* Celestra Grey */
-    --secondary-foreground: 0 0% 15%;
+    --secondary: 26 34% 33%; /* Coffee - secondary elements (CAMBIADO A MÁS OSCURO) */
+    --secondary-foreground: 39 77% 83%;
 
-    --muted: 180 13% 88%;
-    --muted-foreground: 196 13% 35%; /* Darkened for better contrast */
+    --muted: 43 57% 90%;
+    --muted-foreground: 26 34% 33%; /* Coffee - muted text (CAMBIADO A MÁS OSCURO) */
 
-    --accent: 196 13% 50%; /* Darkened for better contrast */
-    --accent-foreground: 0 0% 15%;
+    --accent: 240 5% 8%; /* Crow Black - accent elements */
+    --accent-foreground: 39 77% 83%;
 
     --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 180 13% 70%; /* Darkened for better contrast */
-    --input: 180 13% 70%;
-    --ring: 186 27% 60%;
+    --border: 26 34% 33%;
+    --input: 26 34% 33%; /* Coffee - input elements (CAMBIADO A MÁS OSCURO) */
+    --ring: 240 5% 8%; /* Crow Black - focus rings */
 
-    /* Sidebar variables - Darkened for better contrast */
-    --sidebar-bg: 186 27% 30%;
-    --sidebar-fg: 0 0% 100%;
+    /* Sidebar variables - Coffee theme */
+    --sidebar-bg: 26 34% 25%;
+    --sidebar-fg: 39 77% 83%;
 
     /* TITULOS: Colores para títulos con mejor contraste */
-    --title-color: 196 13% 25%; /* Más oscuro para mejor contraste */
-    --title-text-light: 0 0% 0%;
-    --title-hover-light: 196 13% 25%;
+    --title-color: 240 5% 8%; /* Crow Black - mejor contraste en títulos */
+    --title-text-light: 26 34% 33%; /* Coffee - title text (CAMBIADO A MÁS OSCURO) */
+    --title-hover-light: 240 5% 18%; /* Slightly lighter Crow Black */
 
     /* Variables generales para texto y hover de títulos */
-    --title-text: hsl(216, 29%, 19%);
-    --title-hover: hsl(216, 29%, 30%);
+    --title-text: hsl(26, 34%, 33%); /* Coffee (CAMBIADO A MÁS OSCURO) */
+    --title-hover: hsl(240, 5%, 8%); /* Crow Black */
   }
 }
 
@@ -212,7 +212,7 @@
   }
 
   .light .high-contrast-text {
-    color: hsl(var(--foreground));
+    color: hsl(26, 34%, 33%); /* Coffee - high contrast text (CAMBIADO A MÁS OSCURO) */
   }
 
   .light h1.high-contrast-text,
@@ -223,8 +223,8 @@
 
   /* Mejoras para la navegación en modo claro */
   .light .sidebar {
-    --sidebar-bg: 186 27% 30%;
-    --sidebar-fg: 0 0% 100%;
+    --sidebar-bg: 26 34% 25%; /* Darker Coffee - sidebar background */
+    --sidebar-fg: 39 77% 83%; /* Wheat - sidebar text */
   }
 
   /* Asegurar que el botón de colapso siempre sea visible */
@@ -259,12 +259,15 @@
     image-rendering: crisp-edges;
   }
 
-/* Estilo exclusivo para descripciones de shaders */
-.shader-description {
-  @apply text-sm font-medium leading-snug;
-  color: #A47864;
-}
+  /* Estilo exclusivo para descripciones de shaders */
+  .shader-description {
+    @apply text-sm font-medium leading-snug;
+    color: #a47864;
+  }
 
+  .light .shader-description {
+    color: #6f4e37; /* Coffee - shader descriptions in light mode */
+  }
 
   /* Efectos visuales */
   .border-glow {
@@ -276,7 +279,7 @@
   }
 
   .light .text-glow {
-    text-shadow: 0 0 5px rgba(var(--accent), 0.4);
+    text-shadow: 0 0 5px rgba(149, 69, 53, 0.4); /* Chestnut glow for light mode */
   }
 
   /* Efecto de hover para títulos */
@@ -329,9 +332,8 @@
   }
 
   .light .hud-panel {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(220, 220, 220, 0.7) 100%);
-    box-shadow: 0 0 0 1px rgba(100, 100, 100, 0.3), inset 0 0 0 1px rgba(100, 220, 220, 0.7);
-    box-shadow: 0 0 0 1px rgba(100, 100, 100, 0.3), inset 0 0 0 1px rgba(100, 100, 100, 0.3);
+    background: linear-gradient(135deg, rgba(245, 222, 179, 0.7) 0%, rgba(239, 223, 187, 0.7) 100%); /* Wheat to Dutch White gradient */
+    box-shadow: 0 0 0 1px rgba(111, 78, 55, 0.3), inset 0 0 0 1px rgba(111, 78, 55, 0.3); /* Coffee shadow */
   }
 
   /* Estilo Minecraft para bordes */
@@ -376,6 +378,50 @@
 
   .mod-description {
     @apply p-3 rounded-md bg-background/50 backdrop-blur-sm border border-border/50;
+  }
+
+  /* Estilos para el orden de resource packs */
+  .resource-pack-order {
+    @apply p-4 rounded-lg border-2 border-accent/30 bg-card/80 backdrop-blur-sm;
+  }
+
+  .resource-pack-item {
+    @apply flex items-center gap-3 p-3 rounded-md mb-2 bg-background/40 border border-border/50 transition-all duration-200;
+  }
+
+  .resource-pack-item:hover {
+    @apply bg-background/60 border-accent/40 transform -translate-y-1;
+  }
+
+  .resource-pack-number {
+    @apply flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground font-minecraft text-sm;
+  }
+
+  .light .resource-pack-number {
+    background-color: #954535; /* Chestnut - accent in light mode */
+    color: #f5deb3; /* Wheat - text on accent in light mode */
+  }
+
+  /* Homepage text over video in light mode */
+  .light .hero-text-over-video {
+    color: #3d2b1f; /* Bistre - for main heading (CAMBIADO A MÁS OSCURO) */
+  }
+
+  .light .hero-description-over-video {
+    color: #6f4e37; /* Coffee - for descriptions (CAMBIADO A MÁS OSCURO) */
+  }
+
+  .light .hero-info-over-video {
+    color: #3d2b1f; /* Bistre - for additional info (CAMBIADO A MÁS OSCURO) */
+  }
+
+  /* Better contrast for modpack text in dark mode */
+  .dark .modpack-text {
+    color: hsl(241, 100%, 92%); /* pale lavender blue - for better contrast in dark mode */
+  }
+
+  .dark .modpack-version {
+    color: hsl(241, 27%, 43%); /* twilight blue - for version numbers */
   }
 }
 
@@ -425,6 +471,22 @@
   }
 }
 
+.light .animate-pulse-glow {
+  animation: coffee-pulse 2s infinite;
+}
+
+@keyframes coffee-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(149, 69, 53, 0.4); /* Chestnut pulse for light mode */
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(149, 69, 53, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(149, 69, 53, 0);
+  }
+}
+
 .animate-pulse-glow {
   animation: pulse 2s infinite;
 }
@@ -441,6 +503,20 @@
 
 .animate-text-glow {
   animation: textGlow 3s infinite;
+}
+
+.light .animate-text-glow {
+  animation: coffeeTextGlow 3s infinite;
+}
+
+@keyframes coffeeTextGlow {
+  0%,
+  100% {
+    text-shadow: 0 0 5px rgba(149, 69, 53, 0.5); /* Chestnut glow for light mode */
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(149, 69, 53, 0.8);
+  }
 }
 
 /* Animaciones para partículas */
@@ -765,3 +841,4 @@
     transform: translateY(0) rotate(360deg);
   }
 }
+

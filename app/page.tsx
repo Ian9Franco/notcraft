@@ -39,72 +39,72 @@ const featuredMods = [
   },
 ]
 
-/**
- * Página principal
- */
 export default function Home() {
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const heroVideoRef = useRef<HTMLVideoElement>(null)
   const [overlayHidden, setOverlayHidden] = useState(false)
 
+  // Función para manejar el click en el hero
   const handlePlay = () => {
-    const video = videoRef.current
-    if (video) {
-      video.muted = false // activar sonido
-      video.play().catch((err) => console.warn("Error al reproducir:", err))
-      setOverlayHidden(true) // ocultar overlay
+    setOverlayHidden(true)
+
+    // Intenta reproducir el video del hero
+    if (heroVideoRef.current) {
+      heroVideoRef.current.play().catch((err) => console.warn("Error al reproducir el video del hero:", err))
     }
+
+    // Dispara un evento de click global para activar el audio del video de fondo
+    const clickEvent = new Event("click")
+    document.dispatchEvent(clickEvent)
   }
 
   return (
-    <div className="space-y-16 py-8">
+    <div className="relative z-10 space-y-24 py-8">
       {/* Hero con video */}
-      <div onClick={handlePlay} className="relative min-h-[60vh] rounded-xl overflow-hidden cursor-pointer">
-        <video
-          ref={videoRef}
-          src="/images/landscape/landscape_final.mp4"
-          autoPlay
-          loop
-          muted // se activa el autoplay con muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        />
+      <div
+            onClick={handlePlay}
+            className="relative min-h-[60vh] rounded-xl overflow-hidden cursor-pointer border border-border/40 bg-background/50 backdrop-blur-sm shadow-xl"
+          >
+            <Image
+              src="/images/landscape/home.png"
+              alt="Imagen del hero"
+              fill
+              priority
+              className="object-cover z-0"
+              sizes="100vw"
+            />
 
-        {/* Overlay solo si no fue clickeado */}
-        {!overlayHidden && (
-          <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-10 transition-opacity duration-500" />
-        )}
+            {!overlayHidden && (
+              <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-10 transition-opacity duration-500" />
+            )}
 
-        {/* Contenido */}
-        <div className="relative z-20 flex items-center justify-center min-h-[60vh] p-8">
-          <div className="max-w-4xl w-full">
-            <div className="text-center md:text-left mb-8">
-              <h1 className="font-title text-3xl md:text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">
-                Únete a Nuestra Comunidad
-              </h1>
-              <p className="text-lg max-w-3xl mx-auto md:mx-0 font-body font-light text-foreground high-contrast-text">
-                Explora, construye y sobrevive en un mundo lleno de aventuras y posibilidades.
-              </p>
-            </div>
-            <p className="text-foreground mb-6 text-center md:text-left high-contrast-text">
-              Nuestro servidor ofrece una experiencia única con temporadas temáticas, mods cuidadosamente seleccionados
-              y una comunidad amigable.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mt-8">
-              <Link href="/server-info">
-                <GameButton variant="primary" size="lg" icon={<Server />}>
-                  Conectarse al Servidor
-                </GameButton>
-              </Link>
-              <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
-                <GameButton variant="secondary" size="lg" icon={<DiscordLogo />}>
-                  Discord
-                </GameButton>
-              </Link>
+            <div className="relative z-20 flex items-center justify-center min-h-[60vh] p-8">
+              <div className="max-w-4xl w-full text-center md:text-left">
+                <h1 className="font-title text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">
+                  Únete a Nuestra Comunidad
+                </h1>
+                <p className="text-lg font-body font-light text-foreground high-contrast-text">
+                  Explora, construye y sobrevive en un mundo lleno de aventuras y posibilidades.
+                </p>
+                <p className="text-foreground mt-4 high-contrast-text">
+                  Nuestro servidor ofrece una experiencia única con temporadas temáticas, mods cuidadosamente seleccionados
+                  y una comunidad amigable.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mt-8">
+                  <Link href="/server-info">
+                    <GameButton variant="primary" size="lg" icon={<Server />}>
+                      Conectarse al Servidor
+                    </GameButton>
+                  </Link>
+                  <Link href="https://discord.gg/VgHGz5RJ" target="_blank" rel="noopener noreferrer">
+                    <GameButton variant="secondary" size="lg" icon={<DiscordLogo />}>
+                      Discord
+                    </GameButton>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      
+
       {/* Sección de Mods Destacados */}
       <ScrollReveal>
         <SectionHeader
@@ -112,12 +112,12 @@ export default function Home() {
           subtitle="Nuestro servidor cuenta con una selección de los mejores mods para mejorar tu experiencia de juego."
         />
 
-        <div className="mt-8">
+        <div className="mt-8 bg-background/50 backdrop-blur-sm rounded-xl border border-border/30 shadow-md">
           <Carousel>
             {featuredMods.map((mod, index) => (
               <div key={index} className="p-4">
-                <GameCard className="h-full hover:shadow-lg transition-all duration-300">
-                  <div className="mod-banner relative h-64 mb-4 rounded-md overflow-hidden">
+                <GameCard className="h-full hover:shadow-lg transition-all duration-300 bg-card/80 backdrop-blur-sm border border-border/30">
+                  <div className="relative h-64 mb-4 rounded-md overflow-hidden">
                     <Image
                       src={mod.imageSrc || "/placeholder.svg"}
                       alt={`${mod.title} banner`}
@@ -126,8 +126,8 @@ export default function Home() {
                       className="object-cover object-center transition-transform duration-500 hover:scale-105"
                     />
                   </div>
-                  <div className="mod-info flex items-center gap-4 mb-4">
-                    <div className="mod-logo-container relative h-16 w-16 rounded-full overflow-hidden border-2 border-accent flex items-center justify-center bg-card/50">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="relative h-16 w-16 rounded-full overflow-hidden border-2 border-accent flex items-center justify-center bg-card/50">
                       <Image
                         src={mod.logoSrc || "/placeholder.svg"}
                         alt={`${mod.title} logo`}
@@ -137,7 +137,7 @@ export default function Home() {
                     </div>
                     <h3 className="font-title text-xl text-accent high-contrast-text">{mod.title}</h3>
                   </div>
-                  <div className="mod-description p-3 rounded-md bg-background/50 backdrop-blur-sm border border-border/50">
+                  <div className="p-3 rounded-md bg-background/60 backdrop-blur border border-border/50">
                     <p className="text-sm text-foreground high-contrast-text">{mod.description}</p>
                   </div>
                   <div className="mt-4 flex justify-end">

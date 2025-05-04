@@ -7,6 +7,7 @@ import { SidebarNavigation, MobileNavigation } from "@/components/navigation"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
+import BackgroundVideo from "@/components/layout/BackgroundVideo"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -46,7 +47,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <TooltipProvider>
-            <div className="flex min-h-screen">
+            {/* Background video, detrás de todo */}
+            <BackgroundVideo audioEnabled={true} blurAmount={8} />
+
+            <div className="flex min-h-screen relative z-10">
               <SidebarNavigation />
               <div className="flex-1 flex flex-col min-h-screen">
                 <Header />

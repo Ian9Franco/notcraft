@@ -28,7 +28,7 @@ export default function Footer() {
   const footerLinks = [
     { href: "/", label: "Inicio" },
     { href: "/modpack", label: "Modpack" },
-    { href: "/resource-packs", label: "Resource Packs" },
+    { href: "/resource-packs", label: " Apariencia" },
     { href: "/server-info", label: "Información del Servidor" },
     { href: "/gallery", label: "Galería" },
   ]

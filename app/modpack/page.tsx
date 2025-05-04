@@ -72,7 +72,7 @@ const staticModpacks: { [key: string]: Modpack[] } = {
   neoforged: [
     {
       id: "3",
-      name: "Netherious NeoForge",
+      name: "Netherious NeoForged",
       version: "Beta",
       description: "Versión experimental con NeoForged",
       file_url: "#",
@@ -84,6 +84,12 @@ const staticModpacks: { [key: string]: Modpack[] } = {
 
 // Datos estáticos para mods destacados
 const staticFeaturedMods: Mod[] = [
+  { name: "Create", version: "0.5.1", description: "Añade máquinas y mecanismos complejos para automatización" },
+  {
+    name: "Deeper and Darker",
+    version: "1.0.0",
+    description: "Expande el Deep Dark con nuevas estructuras y enemigos",
+  },
   {
     name: "Sweet Calamity",
     version: "1.0.0",
@@ -98,7 +104,11 @@ const staticFeaturedMods: Mod[] = [
   },
   { name: "Macabre", version: "1.0.0", description: "Terror y estética gótica en nuevas entidades y estructuras" },
   { name: "Hamsters", version: "1.0.0", description: "Añade adorables hámsters domesticables" },
+  { name: "Naturalist", version: "2.1.1", description: "Nuevos animales salvajes y comportamientos realistas" },
   { name: "Unusual Prehistory", version: "1.0.0", description: "Criaturas prehistóricas" },
+  { name: "Thalassophobia", version: "1.0.0", description: "Exploración acuática con criaturas marinas aterradoras" },
+  { name: "L_Ender's Cataclysm", version: "1.32", description: "Jefes poderosos y estructuras desafiantes en el End" },
+  { name: "Dweller Dweller", version: "1.0.0", description: "Presencias siniestras en cuevas profundas" },
   {
     name: "There is Something in the Caves",
     version: "1.0.0",
@@ -111,6 +121,8 @@ const staticFeaturedMods: Mod[] = [
   },
   { name: "Ad Astra", version: "1.12.3", description: "Exploración espacial con planetas, cohetes y estaciones" },
   { name: "Unusual End", version: "1.0.0", description: "Transforma el End en una dimensión extraña y peligrosa" },
+  { name: "Outher End", version: "1.0.0", description: "Expande el End con biomas y criaturas alienígenas" },
+  { name: "IDAS", version: "1.0.0", description: "Un mod que agrega estructuras muy detalladas usando bloques y mobs" },
   { name: "Butcher", version: "1.0.0", description: "Sistema de caza, despiece y cocina sangrienta" },
   {
     name: "Cognition",
@@ -118,6 +130,12 @@ const staticFeaturedMods: Mod[] = [
     description:
       "Cognition tiene como objetivo revisar la XP del jugador, proporcionando nuevas formas de almacenarla, transportarla y usarla de formas extrañas y maravillosas",
   },
+  {
+    name: "Incapacited",
+    version: "1.0.0",
+    description: "Estado de incapacitación antes de morir, como en juegos cooperativos",
+  },
+  { name: "Parcool", version: "1.0.0", description: "Parkour fluido con animaciones y mejoras de movimiento" },
   {
     name: "Randomium",
     version: "1.0.0",
@@ -134,7 +152,6 @@ const staticFeaturedMods: Mod[] = [
     description: "Árbol de habilidades pasivas para personalización de personajes",
   },
 ]
-
 
 // Datos estáticos para mods opcionales
 const staticOptionalMods: { [key: string]: Mod[] } = {
@@ -252,7 +269,8 @@ const tutorialSteps = [
                     </svg>
                   )}
                 </div>
-                <p className="text-xs text-accent">Versión {modpack.version}</p>
+                {/* Using primary color (Twilight Blue) instead of accent (Rainforest Glow) for better contrast in dark mode */}
+                <p className="text-xs text-primary">Versión {modpack.version}</p>
                 <a
                   href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
                   className={modpack.available ? "" : "pointer-events-none"}
@@ -464,11 +482,17 @@ export default function ModpackPage() {
                           </div>
                           <div>
                             <h4 className="font-minecraft text-lg text-accent">{modpack.name}</h4>
-                            <p className="text-xs text-accent">Versión {modpack.version}</p>
+                            {/* Using primary color (Twilight Blue) instead of accent (Rainforest Glow) for better contrast in dark mode */}
+                            <p className="text-xs modpack-version">Versión {modpack.version}</p>
                           </div>
                         </div>
 
-                        <p className="text-sm text-accent mb-4">{modpack.description}</p>
+                        <p className="text-sm modpack-text mb-4">
+                          {modpack.description}{" "}
+                          {/* Using foreground color instead of accent for better contrast in dark mode */}
+                        </p>
+
+                        {/* No dropdown here anymore */}
 
                         <a
                           href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
@@ -504,10 +528,7 @@ export default function ModpackPage() {
                 <span className="inline-block w-3 h-3 bg-accent rounded-full mr-2 animate-pulse"></span>
                 Mods Destacados
               </h3>
-             
             </div>
-
-            
 
             <GameCard className="border-2 border-accent/30">
               <div className="grid grid-cols-1 divide-y divide-border">

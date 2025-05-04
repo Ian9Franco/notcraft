@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-
 import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -58,9 +57,22 @@ const NavItem = ({ href, icon, label, isActive, isCollapsed }: NavItemProps) => 
               whileTap={{ scale: 0.97 }}
             >
               <span className="text-xl">{icon}</span>
-              {!isCollapsed && (
-                <span className="font-minecraft text-sm whitespace-nowrap overflow-hidden text-ellipsis">{label}</span>
-              )}
+              <AnimatePresence mode="wait">
+                {!isCollapsed && (
+                  <motion.span
+                    className="font-minecraft text-sm whitespace-nowrap overflow-hidden text-ellipsis"
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: "auto" }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={{
+                      duration: 0.5, // Slowed down for smoother transition
+                      ease: [0.25, 1, 0.5, 1], // Same custom easing as sidebar
+                    }}
+                  >
+                    {label}
+                  </motion.span>
+                )}
+              </AnimatePresence>
               {isActive && (
                 <motion.div
                   className="absolute left-0 w-1 h-8 bg-accent rounded-r-md"
@@ -112,45 +124,44 @@ export function SidebarNavigation() {
   return (
     <motion.aside
       className={cn(
-        "hidden md:flex flex-col h-screen sticky top-0 z-40 border-r border-border transition-all duration-300",
-        isCollapsed ? "w-16" : "w-56",
+        "hidden md:flex flex-col h-screen sticky top-0 z-40 border-r border-border",
         "sidebar shadow-lg shadow-black/20 dark:shadow-black/40",
       )}
       initial={{ x: -50, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      layout
+      animate={{
+        width: isCollapsed ? 64 : 224, // 16px (w-16) = 64px, 56px (w-56) = 224px
+        x: 0,
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.5, // Slightly longer for smoother animation
+        ease: [0.25, 1, 0.5, 1], // Custom easing function for smoother animation
+        width: { duration: 0.5, ease: [0.25, 1, 0.5, 1] },
+      }}
     >
-      <div className="flex flex-col h-full">
-        {/* Logo y título */}
-          {!isCollapsed && (
-            <div className="mt-8 p-4 flex items-center justify-center">
-              <Link
-                href="/"
-                className={cn(
-                  "flex items-center transition-all duration-300",
-                  isCollapsed ? "justify-center" : "justify-start gap-2"
-                )}
+      <div className="flex flex-col h-full relative">
+        {/* Fixed height container for logo to prevent layout shift */}
+        <div className="h-24 relative overflow-hidden">
+          <AnimatePresence mode="wait">
+            {!isCollapsed && (
+              <motion.div
+                className="absolute top-0 left-0 w-full p-4 flex items-center justify-center"
+                initial={{ x: -40, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -40, opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
               >
-                <div className="w-10 h-10 relative flex items-center justify-center">
-                  <NetheriousLogo size={100} showText={false} animate={true} intensity="medium" />
-                </div>
-                <motion.span
-                  className="font-title text-xl text-accent tracking-wider"
-                  initial={{ opacity: 0, x: -10, width: 0 }}
-                  animate={{ opacity: 1, x: 0, width: "auto" }}
-                  exit={{ opacity: 0, x: -10, width: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                >
-                  {/* nombre logo, por ejemplo: Netherious */}
-                  
-                </motion.span>
-              </Link>
-            </div>
-          )}
+                <Link href="/" className="flex items-center justify-start">
+                  <NetheriousLogo size={75} showText={false} animate={true} intensity="low" />{" "}
+                  {/* Increased size from 60 to 75 */}
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-        {/* Elementos de navegación */}
-        <div className="flex-1 py-8 flex flex-col gap-2 px-2">
+        {/* Elementos de navegación - ahora en posición fija */}
+        <div className="flex-1 flex flex-col gap-2 px-2 py-4">
           {NAV_ITEMS.map((item) => (
             <NavItem key={item.href} {...item} isActive={pathname === item.href} isCollapsed={isCollapsed} />
           ))}
@@ -170,13 +181,7 @@ export function SidebarNavigation() {
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
-            <motion.div
-              initial={false}
-              animate={{ rotate: isCollapsed ? 0 : 180 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-            >
-              {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
-            </motion.div>
+            <div className="text-xl">{isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}</div>
           </motion.button>
         </div>
       </div>
