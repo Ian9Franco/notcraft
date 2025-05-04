@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
  */
 interface GameButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode
-  variant?: "primary" | "secondary" | "accent" | "outline"
+  variant?: "primary" | "secondary" | "accent" | "outline" | "ghost"
   size?: "sm" | "md" | "lg"
   className?: string
   disabled?: boolean
@@ -35,12 +35,13 @@ export function GameButton({
   const baseStyles =
     "relative font-minecraft uppercase tracking-wider flex items-center justify-center rounded-md transition-all duration-300"
 
-  const variantStyles = {
-    primary: "bg-primary text-primary-foreground hover:bg-primary/90 border-2 border-primary/50",
-    secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-2 border-secondary/50",
-    accent: "bg-accent text-accent-foreground hover:bg-accent/90 border-2 border-accent/50",
-    outline: "bg-background text-foreground border-2 border-border hover:border-accent hover:text-accent",
-  }
+    const variantStyles = {
+      primary: "bg-primary text-primary-foreground hover:bg-primary/90 border-2 border-primary/50",
+      secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-2 border-secondary/50",
+      accent: "bg-accent text-accent-foreground hover:bg-accent/90 border-2 border-accent/50",
+      outline: "bg-background text-foreground border-2 border-border hover:border-accent hover:text-accent",
+      ghost: "bg-transparent text-foreground hover:bg-accent/20", // ✅ nuevo estilo
+    }
 
   const sizeStyles = {
     sm: "text-xs py-1 px-3",

@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
@@ -65,8 +65,8 @@ const NavItem = ({ href, icon, label, isActive, isCollapsed }: NavItemProps) => 
                     animate={{ opacity: 1, width: "auto" }}
                     exit={{ opacity: 0, width: 0 }}
                     transition={{
-                      duration: 0.5, // Slowed down for smoother transition
-                      ease: [0.25, 1, 0.5, 1], // Same custom easing as sidebar
+                      duration: 0.5,
+                      ease: [0.25, 1, 0.5, 1],
                     }}
                   >
                     {label}
@@ -96,27 +96,37 @@ const NavItem = ({ href, icon, label, isActive, isCollapsed }: NavItemProps) => 
 }
 
 /**
- * Componente principal de la barra lateral de navegación
+ * Componente principal de la barra lateral de navegación para escritorio
  */
 export function SidebarNavigation() {
   const pathname = usePathname()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const [logoAnimationKey, setLogoAnimationKey] = useState(0)
+  const prevCollapsedState = useRef(isCollapsed)
 
-  // Función para verificar si el dispositivo es móvil
+  // Detectar si es dispositivo móvil
   const checkMobile = useCallback(() => {
     const mobile = window.innerWidth < 768
     setIsMobile(mobile)
     if (mobile) setIsCollapsed(true)
   }, [])
 
-  // Efecto para detectar cambios en el tamaño de la ventana
+  // Configurar detector de tamaño de ventana
   useEffect(() => {
     checkMobile()
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
   }, [checkMobile])
+
+  // Reiniciar animación del logo cuando se expande la barra lateral
+  useEffect(() => {
+    if (prevCollapsedState.current && !isCollapsed) {
+      setLogoAnimationKey((prev) => prev + 1)
+    }
+    prevCollapsedState.current = isCollapsed
+  }, [isCollapsed])
 
   // No renderizar en dispositivos móviles
   if (isMobile) return null
@@ -129,45 +139,48 @@ export function SidebarNavigation() {
       )}
       initial={{ x: -50, opacity: 0 }}
       animate={{
-        width: isCollapsed ? 64 : 224, // 16px (w-16) = 64px, 56px (w-56) = 224px
+        width: isCollapsed ? 64 : 224,
         x: 0,
         opacity: 1,
       }}
       transition={{
-        duration: 0.5, // Slightly longer for smoother animation
-        ease: [0.25, 1, 0.5, 1], // Custom easing function for smoother animation
+        duration: 0.5,
+        ease: [0.25, 1, 0.5, 1],
         width: { duration: 0.5, ease: [0.25, 1, 0.5, 1] },
       }}
     >
       <div className="flex flex-col h-full relative">
-        {/* Fixed height container for logo to prevent layout shift */}
+        {/* Contenedor del logo */}
         <div className="h-24 relative overflow-hidden">
           <AnimatePresence mode="wait">
             {!isCollapsed && (
               <motion.div
+                key={`logo-${logoAnimationKey}`}
                 className="absolute top-0 left-0 w-full p-4 flex items-center justify-center"
-                initial={{ x: -40, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
+                initial={{ x: -100, opacity: 0, scale: 0.9 }}
+                animate={{ x: 0, opacity: 1, scale: 1 }}
                 exit={{ x: -40, opacity: 0 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
+                transition={{
+                  duration: 1,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
               >
                 <Link href="/" className="flex items-center justify-start">
-                  <NetheriousLogo size={75} showText={false} animate={true} intensity="low" />{" "}
-                  {/* Increased size from 60 to 75 */}
+                  <NetheriousLogo size={120} />
                 </Link>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Elementos de navegación - ahora en posición fija */}
+        {/* Elementos de navegación */}
         <div className="flex-1 flex flex-col gap-2 px-2 py-4">
           {NAV_ITEMS.map((item) => (
             <NavItem key={item.href} {...item} isActive={pathname === item.href} isCollapsed={isCollapsed} />
           ))}
         </div>
 
-        {/* Botón para colapsar/expandir con animación mejorada */}
+        {/* Botón para colapsar/expandir */}
         <div className="p-4 border-t border-border/30">
           <motion.button
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -175,9 +188,7 @@ export function SidebarNavigation() {
             onMouseLeave={() => setIsHovered(false)}
             className={cn(
               "w-full flex items-center justify-center p-2 rounded-md transition-colors",
-              isHovered
-                ? "bg-accent/10 text-accent"
-                : "bg-background text-accent dark:bg-[#0a0a0a]",
+              isHovered ? "bg-accent/10 text-accent" : "bg-background text-accent dark:bg-[#0a0a0a]",
             )}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -196,62 +207,88 @@ export function SidebarNavigation() {
  */
 export function MobileNavigation() {
   const pathname = usePathname()
+  // Ref para controlar que la animación del logo solo se ejecute una vez
+  const hasAnimated = useRef(false)
+
+  // Efecto para establecer hasAnimated a true después de la animación
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      hasAnimated.current = true
+    }, 1500)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
-    <motion.nav
-      className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-t border-border"
-      initial={{ y: 100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="flex justify-around items-center h-16">
-        {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href
-
-          return (
-            <Link key={item.href} href={item.href} className="w-full">
-              <div className="flex flex-col items-center justify-center h-full relative">
-                <div
-                  className={cn(
-                    "flex flex-col items-center justify-center",
-                    isActive ? "text-accent" : "text-foreground",
-                  )}
-                >
-                  {React.cloneElement(item.icon as React.ReactElement, { size: 24 })}
-                </div>
-
-                {isActive && (
-                  <motion.div
-                    className="absolute bottom-0 w-12 h-1 bg-accent rounded-t-md"
-                    layoutId="mobileActiveIndicator"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  />
-                )}
-              </div>
-            </Link>
-          )
-        })}
+    <>
+      {/* Logo para móvil - Solo se anima una vez al cargar la página */}
+      <div className="md:hidden flex justify-center items-center py-4">
+        <div className="w-full max-w-[180px]">
+          {!hasAnimated.current && <NetheriousLogo size={180} animate={false} />}
+          {hasAnimated.current && (
+            <div className="w-[180px] h-[180px] flex items-center justify-center">
+              <img src="/images/logos/netherious.png" alt="Netherious Logo" className="object-contain w-full h-full" />
+            </div>
+          )}
+        </div>
       </div>
-    </motion.nav>
+
+      {/* Barra de navegación móvil */}
+      <motion.nav
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-t border-border"
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="flex justify-around items-center h-16">
+          {NAV_ITEMS.map((item) => {
+            const isActive = pathname === item.href
+
+            return (
+              <Link key={item.href} href={item.href} className="w-full">
+                <div className="flex flex-col items-center justify-center h-full relative">
+                  <div
+                    className={cn(
+                      "flex flex-col items-center justify-center",
+                      isActive ? "text-accent" : "text-foreground",
+                    )}
+                  >
+                    {React.cloneElement(item.icon as React.ReactElement, { size: 24 })}
+                  </div>
+
+                  {isActive && (
+                    <motion.div
+                      className="absolute bottom-0 w-12 h-1 bg-accent rounded-t-md"
+                      layoutId="mobileActiveIndicator"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    />
+                  )}
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+      </motion.nav>
+    </>
   )
 }
 
 /**
- * Componente de animaciones
+ * Props para el componente ScrollReveal
  */
-export function ScrollReveal({
-  children,
-  direction = "up",
-  delay = 0,
-  className = "",
-}: {
+interface ScrollRevealProps {
   children: React.ReactNode
   direction?: "up" | "down" | "left" | "right"
   delay?: number
   className?: string
-}) {
+}
+
+/**
+ * Componente de animaciones para revelar elementos al hacer scroll
+ */
+export function ScrollReveal({ children, direction = "up", delay = 0, className = "" }: ScrollRevealProps) {
   const getInitialProps = () => {
     switch (direction) {
       case "up":
@@ -281,6 +318,17 @@ export function ScrollReveal({
 }
 
 /**
+ * Props para el componente ParallaxSection
+ */
+interface ParallaxSectionProps {
+  children: React.ReactNode
+  bgImage: string
+  overlayColor?: string
+  height?: string
+  className?: string
+}
+
+/**
  * Componente de sección con efecto parallax
  */
 export function ParallaxSection({
@@ -289,13 +337,7 @@ export function ParallaxSection({
   overlayColor = "rgba(0, 0, 0, 0.5)",
   height = "400px",
   className = "",
-}: {
-  children: React.ReactNode
-  bgImage: string
-  overlayColor?: string
-  height?: string
-  className?: string
-}) {
+}: ParallaxSectionProps) {
   return (
     <div className={cn("relative overflow-hidden", className)} style={{ height }}>
       <div

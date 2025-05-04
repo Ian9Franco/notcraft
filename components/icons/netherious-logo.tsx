@@ -14,8 +14,8 @@ export interface NetheriousLogoProps {
 
 export function NetheriousLogo({
   className,
-  size = 80,
-  showText = true,
+  size = 180,
+  showText = false,
   animate = false,
   intensity = "medium",
 }: NetheriousLogoProps) {
@@ -52,9 +52,10 @@ export function NetheriousLogo({
   return (
     <div className={cn("relative flex items-center", className)} style={{ height: size }}>
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, x: -100, scale: 0.9 }}
         animate={{
           opacity: 1,
+          x: 0,
           scale: 1,
           ...animationProps.animate,
         }}
@@ -83,7 +84,7 @@ export function NetheriousLogo({
           className="text-accent font-title text-2xl ml-2"
           style={{ fontSize: size / 3 }}
         >
-          Netherious
+          
         </motion.span>
       )}
     </div>
