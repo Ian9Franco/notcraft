@@ -1,15 +1,15 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
-import Image from "next/image"
 
 export interface NetheriousLogoProps {
   className?: string
   size?: number
   showText?: boolean
   animate?: boolean
-  intensity?: "low" | "medium" | "high" | string
+  intensity?: "low" | "medium" | "high"
 }
 
 export function NetheriousLogo({

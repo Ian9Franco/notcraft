@@ -106,57 +106,53 @@
 
   .light {
     /* ☀️ Light mode - Refined Coffee Vibes Theme */
-  
+
     /* General background and foreground */
-    --background: 39 77% 88%; /* Papaya Whip - más claro, cálido */
-    --foreground: 26 34% 22%; /* Bistre - más profundo para texto principal */
-  
-    /* Cards and popovers */
-    --card: 43 57% 83%; /* Dutch White - bien suave */
-    --card-foreground: 26 34% 22%; /* Bistre */
-  
-    --popover: 43 57% 83%;
-    --popover-foreground: 26 34% 22%;
-  
+    --background: 39 77% 95%; /* Papaya Whip - más claro */
+
+    --foreground: 39 77% 45%; /* Más legible sobre fondos oscuros */
+    --card-foreground: 39 77% 45%;
+    --popover-foreground: 39 77% 45%;
+    --popover: 43 57% 90%;
+    --popover-foreground: 39 77% 30%;
+
     /* Primary button color */
-    --primary: 14 59% 34%; /* Chestnut - más saturado para call to action */
-    --primary-foreground: 39 77% 90%; /* Papaya Whip - buen contraste sobre Chestnut */
-  
+    --primary: 14 59% 34%; /* Chestnut - se mantiene para botones */
+    --primary-foreground: 39 77% 95%; /* Papaya Whip - buen contraste sobre Chestnut */
+
     /* Secondary elements */
-    --secondary: 26 34% 28%; /* Coffee - un poco más claro */
-    --secondary-foreground: 39 77% 90%; /* Papaya Whip */
-  
+    --secondary: 26 34% 28%; /* Coffee - se mantiene */
+    --secondary-foreground: 39 77% 95%; /* Papaya Whip */
+
     /* Muted text (subtítulos, detalles menores) */
-    --muted: 43 57% 90%; /* Más claro para bloques secundarios */
-    --muted-foreground: 26 34% 33%; /* Coffee */
-  
+    --muted: 43 57% 95%; /* Más claro para bloques secundarios */
+    --muted-foreground: 26 34% 40%; /* Coffee más claro */
+
     /* Accent (títulos, enlaces importantes) */
     --accent: 240 5% 8%; /* Crow Black */
-    --accent-foreground: 39 77% 90%; /* Papaya Whip */
-  
+    --accent-foreground: 39 77% 95%; /* Papaya Whip */
+
     /* Destructive (errores, alertas) */
     --destructive: 0 70% 45%; /* más oscuro que el anterior para mejor contraste */
     --destructive-foreground: 0 0% 100%;
-  
+
     /* Borders, inputs, rings */
     --border: 26 34% 28%; /* Coffee - definido, no tan fuerte */
     --input: 26 34% 22%;
     --ring: 14 59% 34%; /* Chestnut - llama más la atención al enfocar */
-  
+
     /* Sidebar (menús, nav lateral) */
     --sidebar-bg: 26 34% 20%; /* Bistre profundo */
     --sidebar-fg: 39 77% 90%; /* Papaya Whip */
-  
+
     /* Títulos */
-    --title-color: 240 5% 8%; /* Crow Black */
-    --title-text-light: 26 34% 22%; /* Bistre */
-    --title-hover-light: 240 5% 18%;
-  
+--title-color: 26 34% 28%; /* Coffee */
+--title-text-light: 26 34% 28%; /* Coffee */
+--title-hover-light: 14 59% 34%; /* Chestnut más claro para hover */
     /* Generales para texto */
-    --title-text: hsl(26, 34%, 22%); /* Bistre */
-    --title-hover: hsl(240, 5%, 8%); /* Crow Black */
+    --title-text: hsl(39, 77%, 85%); /* Wheat */
+    --title-hover: hsl(39, 77%, 75%); /* Wheat más oscuro */
   }
-  
 }
 
 /*
@@ -241,6 +237,29 @@
   .light .sidebar button:hover {
     color: hsl(var(--accent)) !important;
   }
+
+  /* Añadir estilos específicos para textos en modo claro */
+  .light p {
+    color: hsl(227, 66%, 70%);
+  }
+  
+  .light .text-foreground {
+    color: hsl(241, 100%, 92%) !important;
+  }
+  
+  .light .text-muted-foreground {
+    color: hsl(227, 66%, 70%) !important; /* Texto secundario más claro */
+  }
+
+  /* Ajustar colores para títulos en modo claro */
+  .light h1,
+  .light h2,
+  .light h3,
+  .light h4,
+  .light h5,
+  .light h6 {
+    color: hsl(39, 77%, 85%); /* Wheat - #f5deb3 */
+  }
 }
 
 /*
@@ -276,7 +295,7 @@
   }
 
   .light .shader-description {
-    color: #6f4e37; /* Coffee - shader descriptions in light mode */
+    color: hsl(26, 34%, 40%) !important; /* Más claro que el anterior */
   }
 
   /* Efectos visuales */
@@ -408,8 +427,8 @@
   }
 
   .light .resource-pack-number {
-    background-color: #954535; /* Chestnut - accent in light mode */
-    color: #f5deb3; /* Wheat - text on accent in light mode */
+    background-color: hsl(14, 59%, 34%); /* Chestnut */
+    color: hsl(39, 77%, 85%); /* Wheat - #f5deb3 */
   }
 
   /* Homepage text over video in light mode */
@@ -432,6 +451,22 @@
 
   .dark .modpack-version {
     color: hsl(241, 27%, 43%); /* twilight blue - for version numbers */
+  }
+
+  /* Mejorar contraste para textos en tarjetas */
+  .light .card-foreground,
+  .light .card p,
+  .light .card span:not(.font-minecraft) {
+    color: hsl(39, 77%, 30%) !important;
+  }
+
+  /* Ajustar colores para elementos de resource packs en modo claro */
+  .light .resource-pack-item {
+    background-color: hsla(39, 77%, 95%, 0.6); /* Fondo más claro */
+  }
+
+  .light .resource-pack-item:hover {
+    background-color: hsla(39, 77%, 90%, 0.8); /* Fondo hover más claro */
   }
 }
 
@@ -851,4 +886,3 @@
     transform: translateY(0) rotate(360deg);
   }
 }
-

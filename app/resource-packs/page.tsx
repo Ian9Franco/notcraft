@@ -142,8 +142,7 @@ const resourcePackOrder = [
   { name: "Whimscape: EMI Patch", description: "Compatibilidad visual con EMI" },
   { name: "Whimscape: Exploration Patch", description: "Mejoras visuales para entornos lejanos y estructuras" },
   { name: "Whimscape", description: "El alma visual del servidor" },
-];
-
+]
 
 /**
  * Página de resource packs
@@ -216,18 +215,17 @@ export default function ResourcePacksPage() {
 
       {!isLoading && resourcePacks.length > 0 && (
         <div className="flex justify-center mt-6">
-        <a
-          href="https://drive.google.com/uc?export=download&id=1Evy3Lnka7Y_LNkkzvzewjtfEPZb0cQtJ"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex"
-        >
-          <GameButton variant="accent" size="lg" icon={<Download className="h-5 w-5" />}>
-            Descargar Todos los Resource Packs
-          </GameButton>
-        </a>
-      </div>
-      
+          <a
+            href="https://drive.google.com/uc?export=download&id=1Evy3Lnka7Y_LNkkzvzewjtfEPZb0cQtJ"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex"
+          >
+            <GameButton variant="accent" size="lg" icon={<Download className="h-5 w-5" />}>
+              Descargar Todos los Resource Packs
+            </GameButton>
+          </a>
+        </div>
       )}
 
       {/* Nueva sección: Orden de Resource Packs */}
@@ -283,33 +281,31 @@ export default function ResourcePacksPage() {
 
           {/* Imagen de ejemplo del orden correcto */}
           <div className="mt-6">
-              <h4 className="font-minecraft text-lg text-accent mb-3">Ejemplo Visual</h4>
-              <div className="flex justify-center space-x-4">
-                <div className="relative w-[377px] h-[765px] bg-background/30 rounded-md overflow-hidden border border-border">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <img 
-                      src="/images/landscape/resource 1.png" 
-                      alt="Imagen de ejemplo 1 del orden correcto de resource packs" 
-                      className="object-contain w-full h-full"
-                    />
-                  </div>
-                </div>
-                <div className="relative w-[377px] h-[765px] bg-background/30 rounded-md overflow-hidden border border-border">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <img 
-                      src="/images/landscape/resource 2.png" 
-                      alt="Imagen de ejemplo 2 del orden correcto de resource packs" 
-                      className="object-contain w-full h-full"
-                    />
-                  </div>
+            <h4 className="font-minecraft text-lg text-accent mb-3">Ejemplo Visual</h4>
+            <div className="flex flex-col md:flex-row justify-center gap-4">
+              <div className="relative w-full md:w-[377px] h-[400px] md:h-[765px] bg-background/30 rounded-md overflow-hidden border border-border">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img
+                    src="/images/landscape/resource 1.png"
+                    alt="Imagen de ejemplo 1 del orden correcto de resource packs"
+                    className="object-contain w-full h-full"
+                  />
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 text-center">
-                Captura de pantalla del menú de Resource Packs con el orden correcto
-              </p>
+              <div className="relative w-full md:w-[377px] h-[400px] md:h-[765px] bg-background/30 rounded-md overflow-hidden border border-border">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img
+                    src="/images/landscape/resource 2.png"
+                    alt="Imagen de ejemplo 2 del orden correcto de resource packs"
+                    className="object-contain w-full h-full"
+                  />
+                </div>
+              </div>
             </div>
-
-
+            <p className="text-xs text-muted-foreground mt-2 text-center">
+              Captura de pantalla del menú de Resource Packs con el orden correcto
+            </p>
+          </div>
         </GameCard>
       </ScrollReveal>
 
