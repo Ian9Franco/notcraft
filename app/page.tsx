@@ -108,40 +108,36 @@ export default function Home() {
 
       <div className="relative z-20 flex items-center justify-center min-h-[60vh] p-8">
         <div className="max-w-4xl w-full text-center md:text-left">
-          <h1 className="font-title text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">Unite</h1>
+        <h1 className="font-title text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">Unite</h1>
 
-          {/* Mobile */}
-          <p className="text-lg font-body font-light text-foreground high-contrast-text md:hidden">
-            Acá no venís a plantar zanahorias. Hay armas, bestias, máquinas y terrores esperando. ¿Te la bancás o sos
-            decorado de cueva?
-          </p>
+        <h1 className="font-title text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">Unite</h1>
 
-          {/* Desktop */}
-          <p className="text-lg font-body font-light text-foreground high-contrast-text hidden md:block">
-            Este mundo no perdona. Explorar no es un paseo: hay monstruos marinos que te comen sin avisar, jefes que
-            pegan como camión, y máquinas que exigen seso, no suerte. Vas a necesitar armas, reflejos, estrategia y
-            huevos. Automatizá o morí, peleá o escapá... pero no digas que no te avisamos.
-          </p>
+            {/* Mobile */}
+            <p className="text-lg font-body font-light text-foreground high-contrast-text md:hidden">
+              Acá no te rompen el orto de entrada… salvo que lo vayas a buscar. Si te quedás en tu campito, podés vivir bien. Pero pisá una cueva de noche, y te convertís en comida. ¿Explorás... o te quedás regando nabos?
+            </p>
 
-          {/* Mobile 2 */}
-          <p className="text-foreground mt-4 high-contrast-text md:hidden">
-            Terror, tecnología y sangre. Este server no tiene compasión ni respawn piadoso. ¿Vas a construir imperios...
-            o a mendigar en el spawn?
-          </p>
+            {/* Desktop */}
+            <p className="text-lg font-body font-light text-foreground high-contrast-text hidden md:block">
+              Este mundo tiene dos caras. Si te armás tu base, farmeás de día y no te metés donde no debés, podés tener una vida tranqui. Pero si entrás al bosque de noche, bajás muy hondo, o cruzás portales raros... ahí cambia todo. Te van a correr, te van a gritar, te van a romper. Hay bestias que no preguntan, lugares que no quieren visitas, y cosas que no podés matar ni con diez pociones. No es injusto, es salvaje. Y el que muere es porque fue a buscar quilombo.
+            </p>
 
-          {/* Desktop 2 */}
-          <p className="text-foreground mt-4 high-contrast-text hidden md:block">
-            Esto no es un server para los que se esconden en cuevas haciendo granjas de pollos. Es un infierno diseñado
-            para los que la tienen grande: exploradores, ingenieros del caos, y soldados del fin del mundo. Acá, los
-            jefes no te saludan, te pegan como padrastro borracho. Hay tiburones bajo el agua, bestias en los bosques, y
-            máquinas que explotan si sos un burro. Las armas no son adorno, son tu única chance. La automatización es la
-            diferencia entre dominar el terreno o ser carne para las sombras.
-            <br />
-            <br />
-            Porque en este mundo, o aprendés a sobrevivir, o te convertís en otra historia olvidada. Nadie va a cantar
-            tus hazañas si morís en tu primer amanecer. Nadie va a rescatar tu loot si te enterrás solo. Acá, o dejás
-            marca… o te borran como si nunca hubieras existido.
-          </p>
+            {/* Mobile 2 */}
+            <p className="text-foreground mt-4 high-contrast-text md:hidden">
+              Paz si la cuidás. Terror si la desafiás. Este mundo es una balanza, y vos decidís si la rompés o la respetás. Pero no llores cuando venga la cuenta.
+            </p>
+
+            {/* Desktop 2 */}
+            <p className="text-foreground mt-4 high-contrast-text hidden md:block">
+              Este server no es un infierno constante. Te podés armar tu granjita, automatizar, decorar, pasarla piola. Pero no es un parque de diversiones: si te metés donde no te llaman, lo vas a pagar. El bosque no perdona. Las profundidades no tienen reglas. Las dimensiones raras no conocen la lógica. Y si entrás pensando que todo es Minecraft vanilla, te van a dejar en bolas más rápido que un creeper con lag.
+
+              <br />
+              <br />
+
+              Acá podés vivir como un rey… o morir como un boludo. Tu camino depende de cuán cerca querés mirar al abismo. Porque en este mundo, si no provocás, tal vez vivís. Pero si provocás… más vale que estés listo para bancártela.
+            </p>
+
+
 
           <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mt-8">
             <Link href="/server-info">

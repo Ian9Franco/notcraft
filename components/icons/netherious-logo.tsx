@@ -1,8 +1,10 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { useTheme } from "next-themes"
 
 export interface NetheriousLogoProps {
   className?: string
@@ -10,16 +12,52 @@ export interface NetheriousLogoProps {
   showText?: boolean
   animate?: boolean
   intensity?: "low" | "medium" | "high"
+  forceVariant?: "white" | "black"
+  location?: "sidebar" | "header" | "footer"
 }
 
+/**
+ * Logo que cambia entre blanco y negro según la ubicación y tema.
+ *
+ * | Ubicación | Claro     | Oscuro     |
+ * |-----------|-----------|------------|
+ * | footer    | Negro     | Blanco     |
+ * | otros     | Negro     | Negro      |
+ */
 export function NetheriousLogo({
   className,
   size = 180,
   showText = false,
   animate = false,
   intensity = "medium",
+  forceVariant,
+  location = "sidebar",
 }: NetheriousLogoProps) {
-  // Configuración de animación basada en la intensidad
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const getLogoFile = (): string => {
+    if (forceVariant === "white") return "netherious-light-r.png"
+    if (forceVariant === "black") return "netherious-dark-r.png"
+  
+    if (!mounted) return "netherious-dark-r.png"
+  
+    if (["footer", "sidebar", "header"].includes(location)) {
+      return resolvedTheme === "dark"
+        ? "netherious-dark-r.png"
+        : "netherious-light-r.png"
+    }
+  
+    return "netherious-dark-r.png"
+  }
+  
+
+  const logoPath = `/images/logos/${getLogoFile()}`
+
   const getAnimationProps = () => {
     if (!animate) return {}
 
@@ -29,10 +67,7 @@ export function NetheriousLogo({
       high: { scale: 1.15, rotate: 8, duration: 2 },
     }
 
-    const values =
-      typeof intensity === "string" && intensity in intensityValues
-        ? intensityValues[intensity as keyof typeof intensityValues]
-        : intensityValues.medium
+    const values = intensityValues[intensity] || intensityValues.medium
 
     return {
       animate: {
@@ -41,7 +76,7 @@ export function NetheriousLogo({
       },
       transition: {
         duration: values.duration,
-        repeat: Number.POSITIVE_INFINITY,
+        repeat: Infinity,
         ease: "easeInOut",
       },
     }
@@ -50,9 +85,9 @@ export function NetheriousLogo({
   const animationProps = getAnimationProps()
 
   return (
-    <div className={cn("relative flex items-center", className)} style={{ height: size }}>
+    <div className={cn("relative flex items-center", className)} style={{ width: "auto" }}>
       <motion.div
-        initial={{ opacity: 0, x: -100, scale: 0.9 }}
+        initial={{ opacity: 0, x: -20, scale: 0.9 }}
         animate={{
           opacity: 1,
           x: 0,
@@ -65,14 +100,15 @@ export function NetheriousLogo({
           ...animationProps.transition,
         }}
         className="relative"
-        style={{ width: size, height: size }}
+        style={{ width: size }}
       >
         <Image
-          src="/images/logos/netherious.png"
+          src={logoPath}
           alt="Netherious Logo"
           width={size}
           height={size}
           className="object-contain"
+          priority
         />
       </motion.div>
 
@@ -81,10 +117,10 @@ export function NetheriousLogo({
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-          className="text-accent font-title text-2xl ml-2"
+          className="text-accent font-title ml-2"
           style={{ fontSize: size / 3 }}
         >
-          
+          Netherious
         </motion.span>
       )}
     </div>

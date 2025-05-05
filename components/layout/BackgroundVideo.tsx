@@ -29,70 +29,67 @@ export default function BackgroundVideo({
   const [isVideoError, setIsVideoError] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
+  const [volume, setVolume] = useState(0.3) // Volumen entre 0 y 1
   const pathname = usePathname()
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-  
-    const video = videoRef.current;
-    if (!video) return;
-  
+    if (typeof window === "undefined") return
+
+    const video = videoRef.current
+    if (!video) return
+
     // Asegurar mute para autoplay
-    video.muted = true;
-    video.volume = 0;
-  
+    video.muted = true
+    video.volume = 0
+
     const playVideo = async () => {
       try {
-        await video.play();
-        setIsPlaying(true);
-        console.log("Video de fondo reproducido automáticamente");
+        await video.play()
+        setIsPlaying(true)
+        console.log("Video de fondo reproducido automáticamente")
       } catch (error) {
-        console.error("Error al reproducir el video de fondo:", error);
+        console.error("Error al reproducir el video de fondo:", error)
         // Reintento con delay
         setTimeout(() => {
           video.play().catch((e) => {
-            console.error("Reintento fallido:", e);
-          });
-        }, 1000);
+            console.error("Reintento fallido:", e)
+          })
+        }, 1000)
       }
-    };
-  
+    }
+
     const handleLoadedData = () => {
       if (!isVideoLoaded) {
-        setIsVideoLoaded(true);
+        setIsVideoLoaded(true)
       }
-      playVideo();
-    };
-  
+      playVideo()
+    }
+
     const handleError = (e: Event) => {
-      console.error("Error en el video de fondo:", e);
-      setIsVideoError(true);
-    };
-  
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-  
-    video.addEventListener("loadeddata", handleLoadedData);
-    video.addEventListener("error", handleError);
-    video.addEventListener("play", handlePlay);
-    video.addEventListener("pause", handlePause);
-  
+      console.error("Error en el video de fondo:", e)
+      setIsVideoError(true)
+    }
+
+    const handlePlay = () => setIsPlaying(true)
+    const handlePause = () => setIsPlaying(false)
+
+    video.addEventListener("loadeddata", handleLoadedData)
+    video.addEventListener("error", handleError)
+    video.addEventListener("play", handlePlay)
+    video.addEventListener("pause", handlePause)
+
     // Si el video ya está cargado (por ejemplo desde caché)
     if (video.readyState >= 2) {
-      handleLoadedData();
+      handleLoadedData()
     }
-  
+
     return () => {
-      video.removeEventListener("loadeddata", handleLoadedData);
-      video.removeEventListener("error", handleError);
-      video.removeEventListener("play", handlePlay);
-      video.removeEventListener("pause", handlePause);
-    };
-  }, [videoRef, isVideoLoaded]);
-  
-
-    // Cleanup
-
+      video.removeEventListener("loadeddata", handleLoadedData)
+      video.removeEventListener("error", handleError)
+      video.removeEventListener("play", handlePlay)
+      video.removeEventListener("pause", handlePause)
+    }
+  }, [videoRef, isVideoLoaded])
 
   // Escuchar eventos para controlar el video desde otros componentes
   useEffect(() => {
@@ -131,13 +128,13 @@ export default function BackgroundVideo({
 
       if (e.detail.action === "unmute") {
         video.muted = false
-        video.volume = 0.3
+        video.volume = volume
         setIsMuted(false)
         setHasInteracted(true)
         // Notificar el cambio de estado
         document.dispatchEvent(
           new CustomEvent("backgroundVideoStateChange", {
-            detail: { state: "unmuted" },
+            detail: { state: "unmuted", value: volume },
           }),
         )
       } else if (e.detail.action === "mute") {
@@ -153,14 +150,34 @@ export default function BackgroundVideo({
       }
     }
 
+    const handleSetVolume = (e: CustomEvent) => {
+      const video = videoRef.current
+      if (!video) return
+
+      if (typeof e.detail.volume === "number") {
+        const newVolume = Math.max(0, Math.min(1, e.detail.volume))
+        setVolume(newVolume)
+        video.volume = newVolume
+
+        // Notificar el cambio de estado
+        document.dispatchEvent(
+          new CustomEvent("backgroundVideoStateChange", {
+            detail: { state: "volume", value: newVolume },
+          }),
+        )
+      }
+    }
+
     document.addEventListener("toggleBackgroundVideo", handleToggleVideo as EventListener)
     document.addEventListener("toggleBackgroundAudio", handleToggleAudio as EventListener)
+    document.addEventListener("setBackgroundVolume", handleSetVolume as EventListener)
 
     return () => {
       document.removeEventListener("toggleBackgroundVideo", handleToggleVideo as EventListener)
       document.removeEventListener("toggleBackgroundAudio", handleToggleAudio as EventListener)
+      document.removeEventListener("setBackgroundVolume", handleSetVolume as EventListener)
     }
-  }, [])
+  }, [volume])
 
   // Efecto para activar el audio cuando se solicita manualmente
   useEffect(() => {
@@ -188,14 +205,14 @@ export default function BackgroundVideo({
 
     try {
       video.muted = false
-      video.volume = 0.3 // Volumen más bajo por defecto
+      video.volume = volume // Usar el volumen actual
 
       // Fade in del volumen para una experiencia más suave
       let currentVolume = 0
       const volumeInterval = setInterval(() => {
         currentVolume += 0.05
-        if (currentVolume >= 0.3) {
-          currentVolume = 0.3
+        if (currentVolume >= volume) {
+          currentVolume = volume
           clearInterval(volumeInterval)
         }
         video.volume = currentVolume
@@ -207,7 +224,7 @@ export default function BackgroundVideo({
         setTimeout(() => {
           if (video) {
             video.muted = false
-            video.volume = 0.3
+            video.volume = volume
             video.play().catch((e) => console.error("Reintento fallido:", e))
           }
         }, 1000)

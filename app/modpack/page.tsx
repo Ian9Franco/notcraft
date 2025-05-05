@@ -73,74 +73,34 @@ const staticModpacks: Record<string, Modpack[]> = {
 
 // Datos estáticos para mods destacados
 const staticFeaturedMods: Mod[] = [
-  { name: "Create", version: "0.5.1", description: "Añade máquinas y mecanismos complejos para automatización" },
-  {
-    name: "Deeper and Darker",
-    version: "1.0.0",
-    description: "Expande el Deep Dark con nuevas estructuras y enemigos",
-  },
-  {
-    name: "Sweet Calamity",
-    version: "1.0.0",
-    description: "Explora las Sweetlands, una nueva dimensión llena de diversión y azúcar(mod argentino)",
-  },
-  { name: "Blue Skies", version: "1.1.3", description: "Dos nuevas dimensiones llenas de aventuras y jefes" },
-  { name: "The Bumblezone", version: "5.0.2", description: "Dimensión basada en abejas y colmenas gigantes" },
-  {
-    name: "Grim and Bleak",
-    version: "1.0.0",
-    description: "Añade una atmósfera oscura con enemigos y objetos sombríos",
-  },
-  { name: "Macabre", version: "1.0.0", description: "Terror y estética gótica en nuevas entidades y estructuras" },
-  { name: "Hamsters", version: "1.0.0", description: "Añade adorables hámsters domesticables" },
-  { name: "Naturalist", version: "2.1.1", description: "Nuevos animales salvajes y comportamientos realistas" },
-  { name: "Unusual Prehistory", version: "1.0.0", description: "Criaturas prehistóricas" },
-  { name: "Thalassophobia", version: "1.0.0", description: "Exploración acuática con criaturas marinas aterradoras" },
-  { name: "L_Ender's Cataclysm", version: "1.32", description: "Jefes poderosos y estructuras desafiantes en el End" },
-  { name: "Dweller Dweller", version: "1.0.0", description: "Presencias siniestras en cuevas profundas" },
-  {
-    name: "There is Something in the Caves",
-    version: "1.0.0",
-    description: "Misterios y horrores acechan en la oscuridad",
-  },
-  {
-    name: "Tacz",
-    version: "1.0.0",
-    description: "La experiencia FPS moderna más inmersiva y personalizable de Minecraft",
-  },
-  { name: "Ad Astra", version: "1.12.3", description: "Exploración espacial con planetas, cohetes y estaciones" },
-  { name: "Unusual End", version: "1.0.0", description: "Transforma el End en una dimensión extraña y peligrosa" },
-  { name: "Outher End", version: "1.0.0", description: "Expande el End con biomas y criaturas alienígenas" },
-  { name: "IDAS", version: "1.0.0", description: "Un mod que agrega estructuras muy detalladas usando bloques y mobs" },
-  { name: "Butcher", version: "1.0.0", description: "Sistema de caza, despiece y cocina sangrienta" },
-  {
-    name: "Cognition",
-    version: "1.0.0",
-    description:
-      "Cognition tiene como objetivo revisar la XP del jugador, proporcionando nuevas formas de almacenarla, transportarla y usarla de formas extrañas y maravillosas",
-  },
-  {
-    name: "Incapacited",
-    version: "1.0.0",
-    description: "Estado de incapacitación antes de morir, como en juegos cooperativos",
-  },
-  { name: "Parcool", version: "1.0.0", description: "Parkour fluido con animaciones y mejoras de movimiento" },
-  {
-    name: "Randomium",
-    version: "1.0.0",
-    description: "Un nuevo mineral que se comporta de forma aleatoria y puede soltar cualquier objeto",
-  },
-  {
-    name: "Overenchanted",
-    version: "1.0.0",
-    description: "Un mod simple que agrega más niveles a los encantamientos de vainilla",
-  },
-  {
-    name: "Passive Skill Tree",
-    version: "1.0.0",
-    description: "Árbol de habilidades pasivas para personalización de personajes",
-  },
+  { name: "Create", version: "0.5.1", description: "¿Redstone? Una pelotudez al lado de esto. Armá fábricas que hacen llorar al CPU y dejá de jugar como un cavernícola." },
+  { name: "Deeper and Darker", version: "1.0.0", description: "El Deep Dark original es un chiste. Acá bajás y no salís más, papá. Te comen los bichos y te cagás en las patas." },
+  { name: "Sweet Calamity", version: "1.0.0", description: "Una dimensión entera hecha de azúcar y locura. Es rosado, sí, pero no te confundas: esto no es para maricones." },
+  { name: "Blue Skies", version: "1.1.3", description: "Dos mundos nuevos con jefes que te rompen el orto si los mirás mal. Andá con espada o andá a llorar al respawn." },
+  { name: "The Bumblezone", version: "5.0.2", description: "Abejas gigantes, colmenas que parecen villas y un olor a muerte dulce. Entrás una vez y salís con picaduras en el alma." },
+  { name: "Grim and Bleak", version: "1.0.0", description: "Esto no es un mod, es una depresión con espadas. Oscuro, retorcido y con enemigos que no tienen códigos." },
+  { name: "Macabre", version: "1.0.0", description: "Un desfile de horrores góticos para cagones con estilo. Gritás, llorás y encima te gusta." },
+  { name: "Hamsters", version: "1.0.0", description: "¿Querés ternura? Tomá un hámster. Pero bancátelo cuando se te muera porque sos un manco cuidando." },
+  { name: "Naturalist", version: "2.1.1", description: "Animales salvajes, comportamiento realista y cero paciencia. La jungla es ley, y vos sos un boludo más." },
+  { name: "Unusual Prehistory", version: "1.0.0", description: "Dinosaurios con hambre de noobs. Traeme una vara y te muestro cómo te la metés en el orto contra un triceratops." },
+  { name: "Thalassophobia", version: "1.0.0", description: "Metete al agua si sos guapo. Allá abajo hay cosas que ni tu vieja te puede salvar." },
+  { name: "L_Ender's Cataclysm", version: "1.32", description: "Jefes que te escupen en la cara y estructuras que te hacen desear nunca haber minado. El End, versión hardcore." },
+  { name: "Dweller Dweller", version: "1.0.0", description: "Cavás tan profundo que te cruzás con tus propios demonios. Literal. Y no podés ni gritar." },
+  { name: "There is Something in the Caves", version: "1.0.0", description: "No sabés qué es, pero te sigue. Te respira en la nuca. Y cuando lo ves, ya estás muerto." },
+  { name: "Tacz", version: "1.0.0", description: "FPS moderno con todo. Disparos, personalización y violencia sin sentido. Dejate de joder con el arco." },
+  { name: "Ad Astra", version: "1.12.3", description: "Explorá planetas que te quieren romper todo solo por existir. Cohetes, estaciones y un ticket directo al bardo galáctico." },
+  { name: "Unusual End", version: "1.0.0", description: "El End se puso en falopa. Todo raro, todo hostil. Te metés una vez y rezás no respawnear ahí." },
+  { name: "Outher End", version: "1.0.0", description: "Biomas alien, bichos con ganas de hacerte puré y una estética que da miedo de verdad. Esto es el fin del End." },
+  { name: "IDAS", version: "1.0.0", description: "Estructuras tan zarpadas que hacen ver a las de Mojang como dibujitos de jardín. Arte con blocks, gil." },
+  { name: "Butcher", version: "1.0.0", description: "Matá, cortá, cociná. Todo bien sangriento como te gusta. No apto para veganos ni putitos del tofu." },
+  { name: "Cognition", version: "1.0.0", description: "¿XP? Ahora sirve para algo posta. Guardalo, usalo raro, o explotalo. Jugá con tu cabeza, literal." },
+  { name: "Incapacited", version: "1.0.0", description: "No morís al toque, pero quedás tirado como una bolsa. O te salvan... o te terminan. Como en la vida." },
+  { name: "Parcool", version: "1.0.0", description: "Saltá, corré y humillá a todos los que siguen caminando como aldeanos con hemorroides. Esto es parkour, papá." },
+  { name: "Randomium", version: "1.0.0", description: "Un mineral que puede darte un tótem... o una papa. Jugás con el azar, pero siempre te caga." },
+  { name: "Overenchanted", version: "1.0.0", description: "Olvidate del nivel 5. Esto es overkill. Encantamientos tan rotos que Mojang lloraría si los viera." },
+  { name: "Passive Skill Tree", version: "1.0.0", description: "Customizá tu personaje como un RPG de verdad. Porque si no tenés build, sos uno más del montón." },
 ]
+
 
 // Datos estáticos para mods opcionales
 const staticOptionalMods: Record<string, Mod[]> = {

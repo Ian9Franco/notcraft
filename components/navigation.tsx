@@ -60,7 +60,7 @@ const NavItem = ({ href, icon, label, isActive, isCollapsed }: NavItemProps) => 
               <AnimatePresence mode="wait">
                 {!isCollapsed && (
                   <motion.span
-                    className="font-minecraft text-sm whitespace-nowrap overflow-hidden text-ellipsis"
+                    className="font-minecraft text-sm whitespace-nowrap overflow-hidden text-ellipsis w-full"
                     initial={{ opacity: 0, width: 0 }}
                     animate={{ opacity: 1, width: "auto" }}
                     exit={{ opacity: 0, width: 0 }}
@@ -166,7 +166,7 @@ export function SidebarNavigation() {
                 }}
               >
                 <Link href="/" className="flex items-center justify-start">
-                  <NetheriousLogo size={120} />
+                  <NetheriousLogo size={120} location="sidebar" />
                 </Link>
               </motion.div>
             )}
@@ -174,7 +174,7 @@ export function SidebarNavigation() {
         </div>
 
         {/* Elementos de navegación */}
-        <div className="flex-1 flex flex-col gap-2 px-2 py-4">
+        <div className="flex-1 flex flex-col gap-2 px-2 py-4 w-full">
           {NAV_ITEMS.map((item) => (
             <NavItem key={item.href} {...item} isActive={pathname === item.href} isCollapsed={isCollapsed} />
           ))}
@@ -221,17 +221,7 @@ export function MobileNavigation() {
 
   return (
     <>
-      {/* Logo para móvil - Solo se anima una vez al cargar la página */}
-      <div className="md:hidden flex justify-center items-center py-4">
-        <div className="w-full max-w-[180px]">
-          {!hasAnimated.current && <NetheriousLogo size={180} animate={false} />}
-          {hasAnimated.current && (
-            <div className="w-[180px] h-[180px] flex items-center justify-center">
-              <img src="/images/logos/netherious.png" alt="Netherious Logo" className="object-contain w-full h-full" />
-            </div>
-          )}
-        </div>
-      </div>
+     
 
       {/* Barra de navegación móvil */}
       <motion.nav

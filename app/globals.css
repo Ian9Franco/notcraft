@@ -105,46 +105,43 @@
   }
 
   .light {
-    /* ☀️ Light mode - Coffeehouse Vibes */
-    --background: 39 77% 95%;       /* Papaya Whip */
-    --foreground: 26 34% 15%;       /* Bistre profundo para legibilidad */
-    
-    --card: 43 57% 92%;             /* Dutch White + Wheat fusion */
-    --card-foreground: 26 34% 15%;  /* Igual que foreground para coherencia */
-  
-    --popover: 43 57% 92%;
-    --popover-foreground: 26 34% 15%;
-  
-    --primary: 14 59% 34%;          /* Chestnut */
-    --primary-foreground: 39 77% 95%; /* Papaya Whip */
-  
-    --secondary: 26 34% 20%;        /* Bistre */
-    --secondary-foreground: 39 77% 95%; /* Claro sobre fondo oscuro */
-  
-    --muted: 43 57% 95%;
-    --muted-foreground: 26 34% 20%; /* Más oscuro que antes */
-  
-    --accent: 14 59% 34%;           /* Chestnut como acento principal */
-    --accent-foreground: 39 77% 95%;
-  
-    --destructive: 0 70% 40%;
-    --destructive-foreground: 39 77% 95%;
-  
-    --border: 26 34% 22%;           /* Coffee más oscuro */
-    --input: 26 34% 18%;
-    --ring: 14 59% 34%;
-  
-    --sidebar-bg: 26 34% 18%;
-    --sidebar-fg: 39 77% 90%;
-  
-    --title-color: 26 34% 18%;
-    --title-text-light: 26 34% 18%;
-    --title-hover-light: 14 59% 34%;
-  
-    --title-text: hsl(39, 77%, 25%);     /* Marrón oscuro para contraste */
-    --title-hover: hsl(14, 59%, 34%);    /* Chestnut más fuerte */
+    /* ☀️ Light mode - Refined Coffee Vibes Theme */
+    --background: 39 77% 95%; /* Papaya Whip - más claro */
+    --foreground: 26 34% 25%; /* Más oscuro para mejor contraste */
+    --card: 43 57% 90%;
+    --card-foreground: 26 34% 25%; /* Más oscuro para mejor contraste */
+    --popover: 43 57% 90%;
+    --popover-foreground: 26 34% 25%; /* Más oscuro para mejor contraste */
+
+    --primary: 14 59% 34%; /* Chestnut - se mantiene para botones */
+    --primary-foreground: 39 77% 95%; /* Papaya Whip - buen contraste sobre Chestnut */
+
+    --secondary: 26 34% 28%; /* Coffee - se mantiene */
+    --secondary-foreground: 39 77% 95%; /* Papaya Whip */
+
+    --muted: 43 57% 95%; /* Más claro para bloques secundarios */
+    --muted-foreground: 26 34% 25%; /* Más oscuro para mejor contraste */
+
+    --accent: 240 5% 8%; /* Crow Black */
+    --accent-foreground: 39 77% 95%; /* Papaya Whip */
+
+    --destructive: 0 70% 45%; /* más oscuro que el anterior para mejor contraste */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 26 34% 28%; /* Coffee - definido, no tan fuerte */
+    --input: 26 34% 22%;
+    --ring: 14 59% 34%; /* Chestnut - llama más la atención al enfocar */
+
+    --sidebar-bg: 26 34% 15%; /* Bistre más oscuro para mejor contraste */
+    --sidebar-fg: 39 77% 95%; /* Papaya Whip más claro para mejor contraste */
+
+    --title-color: 26 34% 28%; /* Coffee */
+    --title-text-light: 26 34% 28%; /* Coffee */
+    --title-hover-light: 14 59% 34%; /* Chestnut más claro para hover */
+
+    --title-text: hsl(39, 77%, 85%); /* Wheat */
+    --title-hover: hsl(39, 77%, 75%); /* Wheat más oscuro */
   }
-  
 }
 
 /*
@@ -256,6 +253,84 @@
 
   .light .bg-card\/80 {
     background-color: hsla(43, 57%, 90%, 0.98) !important; /* Fondo más opaco para tarjetas */
+  }
+
+  /* Mejora para el modo claro con blur en tono papaya */
+  .light main {
+    position: relative;
+  }
+
+  .light main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: hsla(39, 77%, 95%, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: -1;
+    border-radius: 1rem;
+  }
+
+  /* Mejora de contraste para textos en modo claro */
+  .light p,
+  .light span,
+  .light div {
+    color: hsl(26, 34%, 20%);
+  }
+
+  .light h1,
+  .light h2,
+  .light h3,
+  .light h4,
+  .light h5,
+  .light h6 {
+    color: hsl(14, 59%, 34%);
+  }
+
+  /* Mejora de contraste para la sidebar en modo claro */
+  .light .sidebar {
+    background-color: hsl(39, 77%, 95%, 0.3);
+  }
+
+  .light .sidebar a,
+  .light .sidebar button,
+  .light .sidebar span {
+    color: hsl(39, 77%, 95%);
+  }
+
+  .light .sidebar svg {
+    color: hsl(26, 34%, 15%, 0.7);
+  }
+
+  .light .sidebar .hover\:bg-accent\/10:hover {
+    background-color: hsla(39, 77%, 95%, 0.2);
+  }
+
+  /* Mejora para el botón de expandir la sidebar en modo claro */
+  .light [data-sidebar="trigger"] {
+    background-color: hsl(26, 34%, 15%);
+    color: hsl(39, 77%, 95%);
+    border: 1px solid hsl(39, 77%, 95%, 0.3);
+  }
+
+  .light [data-sidebar="trigger"]:hover {
+    background-color: hsl(39, 77%, 95%);
+    color: hsl(26, 34%, 15%);
+  }
+
+  .light [data-sidebar="rail"] {
+    background-color: hsl(26, 34%, 15%, 0.7);
+  }
+
+  .light [data-sidebar="rail"]:hover {
+    background-color: hsl(26, 34%, 20%);
+  }
+
+  .light [data-sidebar="rail"]::after {
+    background-color: hsl(39, 77%, 95%, 0.5);
   }
 }
 

@@ -19,12 +19,15 @@ import {
   Pause,
   Volume2,
   VolumeX,
+  Volume1,
+  Volume,
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { NetheriousLogo } from "@/components/icons/netherious-logo"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { useMediaQuery } from "@/hooks/use-media-query"
 
 // Importamos los iconos personalizados
 import { CoffeeIcon } from "@/components/icons/coffee-icon"
@@ -47,10 +50,15 @@ export default function Header() {
   const [isMounted, setIsMounted] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
+  const [volume, setVolume] = useState(30) // Volumen de 0 a 100
+  const [showVolumeControl, setShowVolumeControl] = useState(false)
   const [logoAnimationKey, setLogoAnimationKey] = useState(0)
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme, resolvedTheme } = useTheme()
   const videoRef = useRef<HTMLVideoElement>(null)
+  const volumeControlRef = useRef<HTMLDivElement>(null)
+  const isDarkMode = resolvedTheme === "dark"
+  const isMobile = useMediaQuery("(max-width: 768px)")
 
   // Efecto para detectar scroll y montar componente
   useEffect(() => {
@@ -69,6 +77,20 @@ export default function Header() {
     setIsOpen(false)
   }, [pathname])
 
+  // Cerrar control de volumen al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (volumeControlRef.current && !volumeControlRef.current.contains(event.target as Node) && showVolumeControl) {
+        setShowVolumeControl(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [showVolumeControl])
+
   // Obtener título de la página actual
   const getPageTitle = () => {
     const currentPage = NAV_ITEMS.find((item) => item.href === pathname)
@@ -79,7 +101,7 @@ export default function Header() {
   const getPageIcon = () => {
     const currentPage = NAV_ITEMS.find((item) => item.href === pathname)
     return currentPage ? (
-      React.cloneElement(currentPage.icon, { className: "h-5 w-5 text-accent" })
+      React.cloneElement(currentPage.icon as React.ReactElement, { className: "h-5 w-5 text-accent" })
     ) : (
       <Cube className="h-5 w-5 text-accent" />
     )
@@ -105,6 +127,44 @@ export default function Header() {
     setIsMuted(!isMuted)
   }
 
+  // Cambiar volumen
+  const handleVolumeChange = (newVolume: number) => {
+    setVolume(newVolume)
+
+    // Disparar un evento personalizado para comunicarse con BackgroundVideo
+    const event = new CustomEvent("setBackgroundVolume", {
+      detail: { volume: newVolume / 100 },
+    })
+    document.dispatchEvent(event)
+
+    // Si el volumen es 0, considerar como muteado
+    if (newVolume === 0 && !isMuted) {
+      setIsMuted(true)
+      document.dispatchEvent(
+        new CustomEvent("toggleBackgroundAudio", {
+          detail: { action: "mute" },
+        }),
+      )
+    }
+    // Si el volumen es mayor que 0 y está muteado, desmutearlo
+    else if (newVolume > 0 && isMuted) {
+      setIsMuted(false)
+      document.dispatchEvent(
+        new CustomEvent("toggleBackgroundAudio", {
+          detail: { action: "unmute" },
+        }),
+      )
+    }
+  }
+
+  // Obtener el icono de volumen según el nivel
+  const getVolumeIcon = () => {
+    if (isMuted || volume === 0) return <VolumeX size={20} />
+    if (volume < 33) return <Volume size={20} />
+    if (volume < 66) return <Volume1 size={20} />
+    return <Volume2 size={20} />
+  }
+
   // Escuchar eventos del video de fondo
   useEffect(() => {
     const handleVideoStateChange = (e: CustomEvent) => {
@@ -116,6 +176,8 @@ export default function Header() {
         setIsMuted(true)
       } else if (e.detail.state === "unmuted") {
         setIsMuted(false)
+      } else if (e.detail.state === "volume" && typeof e.detail.value === "number") {
+        setVolume(Math.round(e.detail.value * 100))
       }
     }
 
@@ -124,6 +186,9 @@ export default function Header() {
       document.removeEventListener("backgroundVideoStateChange", handleVideoStateChange as EventListener)
     }
   }, [])
+
+  // Adjust logo size based on screen size
+  const logoSize = isMobile ? 40 : 60
 
   return (
     <header
@@ -139,14 +204,14 @@ export default function Header() {
               {isMounted && (
                 <motion.div
                   key={`logo-header-${logoAnimationKey}`}
-                  initial={{ x: -100, opacity: 0, scale: 0.9 }}
+                  initial={{ x: -20, opacity: 0, scale: 0.9 }}
                   animate={{ x: 0, opacity: 1, scale: 1 }}
                   transition={{
-                    duration: 1,
+                    duration: 0.5,
                     ease: [0.22, 1, 0.36, 1],
                   }}
                 >
-                  <NetheriousLogo size={40} />
+                  <NetheriousLogo size={logoSize} location="header" />
                 </motion.div>
               )}
               {!isMounted && (
@@ -203,21 +268,73 @@ export default function Header() {
                 <TooltipContent>{isPlaying ? "Pausar video de fondo" : "Reproducir video de fondo"}</TooltipContent>
               </Tooltip>
 
-              {/* Botón de audio */}
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <motion.button
-                    onClick={toggleMute}
-                    className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    aria-label={isMuted ? "Activar audio" : "Silenciar audio"}
-                  >
-                    {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-                  </motion.button>
-                </TooltipTrigger>
-                <TooltipContent>{isMuted ? "Activar audio" : "Silenciar audio"}</TooltipContent>
-              </Tooltip>
+              {/* Control de volumen con dropdown personalizado */}
+              <div className="relative" ref={volumeControlRef}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <motion.button
+                      onClick={() => setShowVolumeControl(!showVolumeControl)}
+                      className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      aria-label="Control de volumen"
+                    >
+                      {getVolumeIcon()}
+                    </motion.button>
+                  </TooltipTrigger>
+                  <TooltipContent>Control de volumen</TooltipContent>
+                </Tooltip>
+
+                {/* Panel de control de volumen */}
+                <AnimatePresence>
+                  {showVolumeControl && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 mt-2 w-64 p-4 rounded-md border bg-popover shadow-md z-50"
+                    >
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-medium text-sm">Volumen</h4>
+                          <button
+                            onClick={toggleMute}
+                            className="p-1 rounded-full hover:bg-accent/10 transition-colors"
+                          >
+                            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                          </button>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Volume className="h-4 w-4 text-muted-foreground" />
+                          <div
+                            className="relative flex-1 h-2 rounded-full overflow-hidden"
+                            style={{ backgroundColor: isDarkMode ? "#1f1f1f" : "#f5e9d5" }}
+                          >
+                            <div
+                              className="absolute h-full transition-all duration-200"
+                              style={{
+                                width: `${isMuted ? 0 : volume}%`,
+                                backgroundColor: isDarkMode ? "#B6EFBA" : "#3d2b1f",
+                              }}
+                            />
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              step="1"
+                              value={volume}
+                              onChange={(e) => handleVolumeChange(Number.parseInt(e.target.value))}
+                              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                            />
+                          </div>
+                          <span className="text-xs w-8 text-right">{volume}%</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               {/* Botón de tema con iconos personalizados */}
               {isMounted && (
@@ -226,14 +343,14 @@ export default function Header() {
                     <motion.button
                       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                       className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
-                      whileHover={{ scale: 1.1, rotate: theme === "dark" ? 180 : 0 }}
+                      whileHover={{ scale: 1.1, rotate: theme === "dark" ? 180 : 180 }}
                       whileTap={{ scale: 0.9 }}
                       aria-label={theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
                     >
                       {theme === "dark" ? <CoffeeIcon size={20} /> : <CatIcon size={20} />}
                     </motion.button>
                   </TooltipTrigger>
-                  <TooltipContent>{theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}</TooltipContent>
+                  <TooltipContent>{theme === "dark" ? "Cambiar al tema Cozy" : "Cambiar al tema original"}</TooltipContent>
                 </Tooltip>
               )}
             </TooltipProvider>

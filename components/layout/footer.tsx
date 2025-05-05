@@ -5,12 +5,14 @@ import { motion } from "framer-motion"
 import { Github, Heart } from "lucide-react"
 import { DiscordLogo } from "../icons/discord-logo"
 import { NetheriousLogo } from "../icons/netherious-logo"
+import { useTheme } from "next-themes"
 
 /**
  * Componente de pie de página
  */
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const { resolvedTheme } = useTheme()
 
   // Animación para los enlaces
   const linkVariants = {
@@ -35,29 +37,7 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-card pt-8 pb-20 md:pb-6 border-t border-border">
-      {/* Partículas de fondo */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-accent/30 rounded-full"
-            initial={{
-              x: `${Math.random() * 80 + 10}%`,
-              y: `${Math.random() * 80 + 10}%`,
-              opacity: Math.random() * 0.5 + 0.3,
-            }}
-            animate={{
-              y: [null, `${Math.random() * 80 + 10}%`],
-              opacity: [null, Math.random() * 0.3 + 0.1],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-            }}
-          />
-        ))}
-      </div>
+      {/* Código existente... */}
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -67,10 +47,12 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
+            className="flex flex-col"
           >
-            <div className="flex items-center gap-2 mb-4">
-              <NetheriousLogo size={40} showText={false} />
-              <h3 className="font-title text-lg text-accent border-b border-accent/30 pb-2 inline-block">Netherious</h3>
+            <div className="flex items-center justify-center md:justify-start mb-4">
+              <Link href="/" className="inline-block">
+                <NetheriousLogo size={80} location="footer" />
+              </Link>
             </div>
             <p className="text-sm text-foreground font-body font-light">
               Un servidor personalizado de Minecraft con mods increíbles para una experiencia única.
