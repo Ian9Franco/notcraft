@@ -109,9 +109,6 @@ export default function Home() {
       <div className="relative z-20 flex items-center justify-center min-h-[60vh] p-8">
         <div className="max-w-4xl w-full text-center md:text-left">
         <h1 className="font-title text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">Unite</h1>
-
-        <h1 className="font-title text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">Unite</h1>
-
             {/* Mobile */}
             <p className="text-lg font-body font-light text-foreground high-contrast-text md:hidden">
               Acá no te rompen el orto de entrada… salvo que lo vayas a buscar. Si te quedás en tu campito, podés vivir bien. Pero pisá una cueva de noche, y te convertís en comida. ¿Explorás... o te quedás regando nabos?
