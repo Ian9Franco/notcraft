@@ -219,10 +219,10 @@ export default function ResourcePacksPage() {
                 <h3 className="font-title text-xl text-accent">Resource Packs</h3>
               </div>
               <div className="bg-background/50 p-3 rounded-md font-minecraft text-center mb-4">
-                <span>{resourcePacks.length} packs disponibles</span>
+                <span>{resourcePacks.length} core packs</span>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground text-center">Actualizados para Minecraft 1.20.1</p>
+            <p className="text-xs text-muted-foreground text-center">20 Packs de recursos en total.Actualizados para Minecraft 1.20.1</p>
           </GameCard>
 
           <GameCard hoverEffect className="flex flex-col justify-between">
@@ -232,7 +232,7 @@ export default function ResourcePacksPage() {
                 <h3 className="font-minecraft text-xl text-accent">Shaders</h3>
               </div>
               <div className="text-center mb-4">
-                <span className="block text-lg font-bold">{shaders.length} opciones</span>
+                <span className="block text-lg font-bold">{shaders.length} opciones recomendadas </span>
                 <span className="text-sm text-muted-foreground">Para diferentes tipos de PC</span>
               </div>
             </div>

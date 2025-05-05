@@ -44,6 +44,16 @@ const NAV_ITEMS = [
   { href: "/gallery", icon: <ImageIcon />, label: "Galería" },
 ]
 
+/**
+ * Componente de encabezado principal
+ *
+ * Características:
+ * - Barra de navegación responsive
+ * - Logo con efecto hover
+ * - Controles para video de fondo y audio
+ * - Cambio de tema claro/oscuro
+ * - Menú móvil desplegable
+ */
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -187,8 +197,9 @@ export default function Header() {
     }
   }, [])
 
-  // Adjust logo size based on screen size
-  const logoSize = isMobile ? 40 : 60
+  // Ajustar tamaño del logo según el tamaño de pantalla
+  // Aumentado el tamaño del logo en el header como solicitó el usuario
+  const logoSize = isMobile ? 50 : 80 // Aumentado de 40/60 a 50/80
 
   return (
     <header
@@ -350,7 +361,9 @@ export default function Header() {
                       {theme === "dark" ? <CoffeeIcon size={20} /> : <CatIcon size={20} />}
                     </motion.button>
                   </TooltipTrigger>
-                  <TooltipContent>{theme === "dark" ? "Cambiar al tema Cozy" : "Cambiar al tema original"}</TooltipContent>
+                  <TooltipContent>
+                    {theme === "dark" ? "Cambiar al tema Cozy" : "Cambiar al tema original"}
+                  </TooltipContent>
                 </Tooltip>
               )}
             </TooltipProvider>

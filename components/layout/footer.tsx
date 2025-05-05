@@ -9,6 +9,12 @@ import { useTheme } from "next-themes"
 
 /**
  * Componente de pie de página
+ *
+ * Características:
+ * - Logo con efecto hover
+ * - Enlaces a secciones principales
+ * - Enlaces a redes sociales
+ * - Información de copyright
  */
 export default function Footer() {
   const currentYear = new Date().getFullYear()

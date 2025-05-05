@@ -33,7 +33,7 @@ interface NavItemProps extends NavItem {
 const NAV_ITEMS: NavItem[] = [
   { href: "/", icon: <Home />, label: "Inicio" },
   { href: "/modpack", icon: <Package />, label: "Modpack" },
-  { href: "/appearance", icon: <Palette />, label: "Apariencia" },
+  { href: "/resource-packs", icon: <Palette />, label: "Apariencia" },
   { href: "/server-info", icon: <Server />, label: "Server Info" },
   { href: "/gallery", icon: <ImageIcon />, label: "Galería" },
 ]
@@ -97,6 +97,12 @@ const NavItem = ({ href, icon, label, isActive, isCollapsed }: NavItemProps) => 
 
 /**
  * Componente principal de la barra lateral de navegación para escritorio
+ *
+ * Características:
+ * - Barra lateral colapsable
+ * - Logo con efecto hover
+ * - Navegación con indicador de página activa
+ * - Adaptable a diferentes tamaños de pantalla
  */
 export function SidebarNavigation() {
   const pathname = usePathname()
@@ -128,6 +134,11 @@ export function SidebarNavigation() {
     prevCollapsedState.current = isCollapsed
   }, [isCollapsed])
 
+  // Manejar el toggle de la sidebar
+  const handleToggleSidebar = () => {
+    setIsCollapsed(!isCollapsed)
+  }
+
   // No renderizar en dispositivos móviles
   if (isMobile) return null
 
@@ -148,6 +159,7 @@ export function SidebarNavigation() {
         ease: [0.25, 1, 0.5, 1],
         width: { duration: 0.5, ease: [0.25, 1, 0.5, 1] },
       }}
+      style={{ minWidth: isCollapsed ? "64px" : "224px" }} // Asegura un ancho mínimo consistente
     >
       <div className="flex flex-col h-full relative">
         {/* Contenedor del logo */}
@@ -183,8 +195,10 @@ export function SidebarNavigation() {
         {/* Botón para colapsar/expandir */}
         <div className="p-4 border-t border-border/30">
           <motion.button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            onMouseEnter={() => setIsHovered(true)}
+            onClick={handleToggleSidebar}
+            onMouseEnter={() => {
+              setIsHovered(true)
+            }}
             onMouseLeave={() => setIsHovered(false)}
             className={cn(
               "w-full flex items-center justify-center p-2 rounded-md transition-colors",
@@ -221,8 +235,6 @@ export function MobileNavigation() {
 
   return (
     <>
-     
-
       {/* Barra de navegación móvil */}
       <motion.nav
         className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-t border-border"

@@ -83,17 +83,38 @@ export function ResourcePackCard({
 
         <p className="text-sm text-muted-foreground mb-4">{description}</p>
 
-        <div className="mt-auto">
-          <GameButton
-            variant={available ? "primary" : "outline"}
-            size="sm"
-            className="w-full"
-            disabled={!available}
-            icon={<Download className="h-4 w-4" />}
-          >
-            {available ? "Descargar Resource Pack" : "No Disponible"}
-          </GameButton>
-        </div>
+        {/* boton de descarga individual
+         <div className="mt-auto">
+  {available ? (
+    <a
+      href="https://example.com/tu-enlace-al-resource-pack"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-full"
+    >
+      <GameButton
+        variant="primary"
+        size="sm"
+        className="w-full"
+        icon={<Download className="h-4 w-4" />}
+      >
+        Descargar Resource Pack
+      </GameButton>
+    </a>
+  ) : (
+    <GameButton
+      variant="outline"
+      size="sm"
+      className="w-full"
+      disabled
+      icon={<Download className="h-4 w-4" />}
+    >
+      No Disponible
+    </GameButton>
+  )}
+      </div>
+       */}
+
       </GameCard>
     </motion.div>
   )
