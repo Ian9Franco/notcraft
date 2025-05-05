@@ -1,59 +1,75 @@
-Aquí tenés tu README actualizado en **lenguaje Markdown (md)**, con las modificaciones que mencionaste:
-
-```md
 # Sitio Web de Servidor y Modpack de Minecraft
 
-Este proyecto es un sitio web para un servidor personalizado de Minecraft con modpack. Ofrece información sobre el servidor, descargas organizadas de recursos y una futura galería para compartir capturas.
+Este proyecto fue desarrollado como una web personal para un servidor privado de Minecraft, pensado para ser utilizado exclusivamente por un grupo de amigos.  
+También lo realicé como parte de mi portfolio para demostrar conocimientos en desarrollo fullstack con tecnologías modernas.
 
-## Características
+## 🎯 Objetivo del Proyecto
 
-- Diseño oscuro con estilo Minecraft
-- Página de inicio con descripción del servidor
-- Sección de descarga de modpack completo y recursos opcionales
-- Información del servidor con detalles de temporadas
-- Autenticación con Discord mediante Supabase
-- Archivos alojados en Google Drive
-- Galería planeada (actualmente no funcional y sin prioridad)
+Crear una experiencia web que combine:
 
-## Requisitos
+- Descarga organizada de modpacks y recursos personalizados (sonidos, partículas, shaders, etc.)
+- Presentación de temporadas del servidor
+- Autenticación por Discord
+- Integración con Google Drive para almacenamiento
+- Diseño responsive con estética inspirada en Minecraft
+- Fundamentos de accesibilidad y usabilidad
 
-- Node.js 18.x o superior
-- NPM o Yarn
+## 🔐 Accesibilidad
 
-## Instalación
+La web no está pensada para el público general. Todo el contenido está dirigido a un entorno cerrado, sin funcionalidad pública.
 
-1. Cloná el repositorio:
-   ```bash
-   git clone https://github.com/tuusuario/minecraft-server-website.git
-   cd minecraft-server-website
-   ```
+## 🧩 Tecnologías Utilizadas
 
-2. Instalá las dependencias:
-   ```bash
-   npm install
-   # o
-   yarn install
-   ```
+- **Next.js 14** – Framework de React con App Router
+- **React 18** – Librería para la UI
+- **Tailwind CSS** – Estilos por utilidades
+- **shadcn/ui** – Componentes accesibles y adaptables
+- **Supabase** – Autenticación con OAuth de Discord
+- **Lucide React** – Iconografía moderna
+- **Google Drive API** – Para descargar archivos directamente desde Drive
 
-3. Creá un archivo `.env.local` en la raíz del proyecto con las siguientes variables:
-   ```env
-   # Google Drive IDs
-   NEXT_PUBLIC_DRIVE_MODPACK_COMPLETE_ID=tu-id-modpack
-   NEXT_PUBLIC_DRIVE_MODPACK_FOLDER_ID=tu-id-carpeta-principal
-   NEXT_PUBLIC_DRIVE_PARTICLES_FOLDER_ID=tu-id-carpeta-particulas
-   NEXT_PUBLIC_DRIVE_ANIMATIONS_FOLDER_ID=tu-id-carpeta-animaciones
-   NEXT_PUBLIC_DRIVE_SOUNDS_FOLDER_ID=tu-id-carpeta-sonidos
-   NEXT_PUBLIC_DRIVE_SHADERS_FOLDER_ID=tu-id-carpeta-shaders
-   ```
+## ⚙️ Lógica Implementada
 
-4. Iniciá el servidor de desarrollo:
-   ```bash
-   npm run dev
-   # o
-   yarn dev
-   ```
+- Creación de sistema de descargas con enlaces directos a Drive (usando `uc?export=download&id=...`)
+- Gestión de IDs y visibilidad de carpetas en Drive
+- Manejo de modpacks requeridos y opcionales, organizados por tipo
+- Condición de descarga habilitada o deshabilitada según disponibilidad de recursos
+- Uso de contexto global (`UserContext`) para manejar autenticación
+- Separación clara entre rutas, componentes, estilos y lógica
+- Uso de `backdrop-filter` y transparencia en modo oscuro y claro con Tailwind y CSS custom
 
-5. Abrí [http://localhost:3000](http://localhost:3000) en tu navegador para ver el sitio.
+## 📁 Organización de Recursos
+
+En Google Drive, estructuré los archivos en carpetas específicas para:
+
+- Modpack completo
+- Mods requeridos
+- Mods opcionales divididos en:
+  - Partículas
+  - Sonidos
+  - Shaders
+  - Animaciones
+
+Todos los archivos fueron subidos con permisos de solo lectura y los IDs fueron extraídos para integrarlos como variables de entorno en la app.
+
+## 🖼️ Galería (en desarrollo)
+
+La idea es incluir una galería donde los usuarios autenticados puedan subir y ver capturas de pantalla del servidor.  
+Por el momento, no está implementada y no es una prioridad.
+
+## 🗂️ Estructura del Código
+
+- `/app`: rutas y layout del sitio (Next.js App Router)
+- `/components`: todos los componentes reutilizables
+- `/context`: manejo de contexto de usuario
+- `/lib`: funciones utilitarias y helpers
+- `/public`: archivos estáticos, favicon, imágenes
+
+---
+
+Este proyecto me permitió aplicar y practicar múltiples áreas del desarrollo web moderno, integrando frontend, backend como servicio (BaaS), diseño UI/UX y gestión de archivos externos.  
+Fue pensado con una mentalidad de "web-app": ligera, usable, responsive y organizada.
+
 
 ## Configuración de Google Drive
 
@@ -101,14 +117,6 @@ La funcionalidad de galería aún no está implementada. Requiere una base de da
 - shadcn/ui
 - Supabase (autenticación con Discord)
 - Lucide React (iconos)
-
-## Estructura del Proyecto
-
-- `/app` – Rutas y páginas de la aplicación
-- `/components` – Componentes reutilizables
-- `/context` – Contextos de React (UserContext)
-- `/lib` – Utilidades y configuraciones
-- `/public` – Archivos estáticos
 
 ## Licencia
 
