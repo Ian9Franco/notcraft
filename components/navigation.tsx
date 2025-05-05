@@ -33,7 +33,7 @@ interface NavItemProps extends NavItem {
 const NAV_ITEMS: NavItem[] = [
   { href: "/", icon: <Home />, label: "Inicio" },
   { href: "/modpack", icon: <Package />, label: "Modpack" },
-  { href: "/resource-packs", icon: <Palette />, label: "Apariencia" },
+  { href: "/appearance", icon: <Palette />, label: "Apariencia" },
   { href: "/server-info", icon: <Server />, label: "Server Info" },
   { href: "/gallery", icon: <ImageIcon />, label: "Galería" },
 ]
@@ -98,7 +98,7 @@ const NavItem = ({ href, icon, label, isActive, isCollapsed }: NavItemProps) => 
 /**
  * Componente principal de la barra lateral de navegación para escritorio
  *
- * Características:
+ * Características:   
  * - Barra lateral colapsable
  * - Logo con efecto hover
  * - Navegación con indicador de página activa
