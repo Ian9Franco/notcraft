@@ -1,17 +1,28 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Download, ExternalLink, HelpCircle, Package, Wrench, Cog, Zap, Server } from "lucide-react"
+import {
+  Download,
+  ExternalLink,
+  HelpCircle,
+  Package,
+  Wrench,
+  Cog,
+  Zap,
+  Server,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger, InteractiveAccordion } from "@/components/ui/interactive"
 import { useTheme } from "next-themes"
-import { ModloaderIcon } from "@/components/modloader-icon"
+import { ModloaderIcon } from "@/components/modloader-icon" // Importamos el componente ModloaderIcon
 
 /**
- * Interfaces
+ * Interfaz para modpacks
  */
 interface Modpack {
   id: string
@@ -23,6 +34,9 @@ interface Modpack {
   available: boolean
 }
 
+/**
+ * Interfaz para mods
+ */
 interface Mod {
   name: string
   version: string
@@ -31,18 +45,15 @@ interface Mod {
   file_url?: string
 }
 
-/**
- * Datos estáticos
- */
 // Datos estáticos para modpacks por modloader
-const staticModpacks: Record<string, Modpack[]> = {
+const staticModpacks: { [key: string]: Modpack[] } = {
   forge: [
     {
       id: "1",
       name: "Netherious Forge",
       version: "1.0.5",
       description: "Modpack oficial con Forge",
-      file_url: "https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la",
+      file_url: "#",
       logo_url: "/images/logos/forge-logo.png",
       available: true,
     },
@@ -73,37 +84,77 @@ const staticModpacks: Record<string, Modpack[]> = {
 
 // Datos estáticos para mods destacados
 const staticFeaturedMods: Mod[] = [
-  { name: "Create", version: "0.5.1", description: "¿Redstone? Una pelotudez al lado de esto. Armá fábricas que hacen llorar al CPU y dejá de jugar como un cavernícola." },
-  { name: "Deeper and Darker", version: "1.0.0", description: "El Deep Dark original es un chiste. Acá bajás y no salís más, papá. Te comen los bichos y te cagás en las patas." },
-  { name: "Sweet Calamity", version: "1.0.0", description: "Una dimensión entera hecha de azúcar y locura. Es rosado, sí, pero no te confundas: esto no es para maricones." },
-  { name: "Blue Skies", version: "1.1.3", description: "Dos mundos nuevos con jefes que te rompen el orto si los mirás mal. Andá con espada o andá a llorar al respawn." },
-  { name: "The Bumblezone", version: "5.0.2", description: "Abejas gigantes, colmenas que parecen villas y un olor a muerte dulce. Entrás una vez y salís con picaduras en el alma." },
-  { name: "Grim and Bleak", version: "1.0.0", description: "Esto no es un mod, es una depresión con espadas. Oscuro, retorcido y con enemigos que no tienen códigos." },
-  { name: "Macabre", version: "1.0.0", description: "Un desfile de horrores góticos para cagones con estilo. Gritás, llorás y encima te gusta." },
-  { name: "Hamsters", version: "1.0.0", description: "¿Querés ternura? Tomá un hámster. Pero bancátelo cuando se te muera porque sos un manco cuidando." },
-  { name: "Naturalist", version: "2.1.1", description: "Animales salvajes, comportamiento realista y cero paciencia. La jungla es ley, y vos sos un boludo más." },
-  { name: "Unusual Prehistory", version: "1.0.0", description: "Dinosaurios con hambre de noobs. Traeme una vara y te muestro cómo te la metés en el orto contra un triceratops." },
-  { name: "Thalassophobia", version: "1.0.0", description: "Metete al agua si sos guapo. Allá abajo hay cosas que ni tu vieja te puede salvar." },
-  { name: "L_Ender's Cataclysm", version: "1.32", description: "Jefes que te escupen en la cara y estructuras que te hacen desear nunca haber minado. El End, versión hardcore." },
-  { name: "Dweller Dweller", version: "1.0.0", description: "Cavás tan profundo que te cruzás con tus propios demonios. Literal. Y no podés ni gritar." },
-  { name: "There is Something in the Caves", version: "1.0.0", description: "No sabés qué es, pero te sigue. Te respira en la nuca. Y cuando lo ves, ya estás muerto." },
-  { name: "Tacz", version: "1.0.0", description: "FPS moderno con todo. Disparos, personalización y violencia sin sentido. Dejate de joder con el arco." },
-  { name: "Ad Astra", version: "1.12.3", description: "Explorá planetas que te quieren romper todo solo por existir. Cohetes, estaciones y un ticket directo al bardo galáctico." },
-  { name: "Unusual End", version: "1.0.0", description: "El End se puso en falopa. Todo raro, todo hostil. Te metés una vez y rezás no respawnear ahí." },
-  { name: "Outher End", version: "1.0.0", description: "Biomas alien, bichos con ganas de hacerte puré y una estética que da miedo de verdad. Esto es el fin del End." },
-  { name: "IDAS", version: "1.0.0", description: "Estructuras tan zarpadas que hacen ver a las de Mojang como dibujitos de jardín. Arte con blocks, gil." },
-  { name: "Butcher", version: "1.0.0", description: "Matá, cortá, cociná. Todo bien sangriento como te gusta. No apto para veganos ni putitos del tofu." },
-  { name: "Cognition", version: "1.0.0", description: "¿XP? Ahora sirve para algo posta. Guardalo, usalo raro, o explotalo. Jugá con tu cabeza, literal." },
-  { name: "Incapacited", version: "1.0.0", description: "No morís al toque, pero quedás tirado como una bolsa. O te salvan... o te terminan. Como en la vida." },
-  { name: "Parcool", version: "1.0.0", description: "Saltá, corré y humillá a todos los que siguen caminando como aldeanos con hemorroides. Esto es parkour, papá." },
-  { name: "Randomium", version: "1.0.0", description: "Un mineral que puede darte un tótem... o una papa. Jugás con el azar, pero siempre te caga." },
-  { name: "Overenchanted", version: "1.0.0", description: "Olvidate del nivel 5. Esto es overkill. Encantamientos tan rotos que Mojang lloraría si los viera." },
-  { name: "Passive Skill Tree", version: "1.0.0", description: "Customizá tu personaje como un RPG de verdad. Porque si no tenés build, sos uno más del montón." },
+  { name: "Create", version: "0.5.1", description: "Añade máquinas y mecanismos complejos para automatización" },
+  {
+    name: "Deeper and Darker",
+    version: "1.0.0",
+    description: "Expande el Deep Dark con nuevas estructuras y enemigos",
+  },
+  {
+    name: "Sweet Calamity",
+    version: "1.0.0",
+    description: "Explora las Sweetlands, una nueva dimensión llena de diversión y azúcar(mod argentino)",
+  },
+  { name: "Blue Skies", version: "1.1.3", description: "Dos nuevas dimensiones llenas de aventuras y jefes" },
+  { name: "The Bumblezone", version: "5.0.2", description: "Dimensión basada en abejas y colmenas gigantes" },
+  {
+    name: "Grim and Bleak",
+    version: "1.0.0",
+    description: "Añade una atmósfera oscura con enemigos y objetos sombríos",
+  },
+  { name: "Macabre", version: "1.0.0", description: "Terror y estética gótica en nuevas entidades y estructuras" },
+  { name: "Hamsters", version: "1.0.0", description: "Añade adorables hámsters domesticables" },
+  { name: "Naturalist", version: "2.1.1", description: "Nuevos animales salvajes y comportamientos realistas" },
+  { name: "Unusual Prehistory", version: "1.0.0", description: "Criaturas prehistóricas" },
+  { name: "Thalassophobia", version: "1.0.0", description: "Exploración acuática con criaturas marinas aterradoras" },
+  { name: "L_Ender's Cataclysm", version: "1.32", description: "Jefes poderosos y estructuras desafiantes en el End" },
+  { name: "Dweller Dweller", version: "1.0.0", description: "Presencias siniestras en cuevas profundas" },
+  {
+    name: "There is Something in the Caves",
+    version: "1.0.0",
+    description: "Misterios y horrores acechan en la oscuridad",
+  },
+  {
+    name: "Tacz",
+    version: "1.0.0",
+    description: "La experiencia FPS moderna más inmersiva y personalizable de Minecraft",
+  },
+  { name: "Ad Astra", version: "1.12.3", description: "Exploración espacial con planetas, cohetes y estaciones" },
+  { name: "Unusual End", version: "1.0.0", description: "Transforma el End en una dimensión extraña y peligrosa" },
+  { name: "Outher End", version: "1.0.0", description: "Expande el End con biomas y criaturas alienígenas" },
+  { name: "IDAS", version: "1.0.0", description: "Un mod que agrega estructuras muy detalladas usando bloques y mobs" },
+  { name: "Butcher", version: "1.0.0", description: "Sistema de caza, despiece y cocina sangrienta" },
+  {
+    name: "Cognition",
+    version: "1.0.0",
+    description:
+      "Cognition tiene como objetivo revisar la XP del jugador, proporcionando nuevas formas de almacenarla, transportarla y usarla de formas extrañas y maravillosas",
+  },
+  {
+    name: "Incapacited",
+    version: "1.0.0",
+    description: "Estado de incapacitación antes de morir, como en juegos cooperativos",
+  },
+  { name: "Parcool", version: "1.0.0", description: "Parkour fluido con animaciones y mejoras de movimiento" },
+  {
+    name: "Randomium",
+    version: "1.0.0",
+    description: "Un nuevo mineral que se comporta de forma aleatoria y puede soltar cualquier objeto",
+  },
+  {
+    name: "Overenchanted",
+    version: "1.0.0",
+    description: "Un mod simple que agrega más niveles a los encantamientos de vainilla",
+  },
+  {
+    name: "Passive Skill Tree",
+    version: "1.0.0",
+    description: "Árbol de habilidades pasivas para personalización de personajes",
+  },
 ]
 
-
 // Datos estáticos para mods opcionales
-const staticOptionalMods: Record<string, Mod[]> = {
+const staticOptionalMods: { [key: string]: Mod[] } = {
   particles: [
     { name: "Particular", version: "1.0.0", description: "Efectos de partículas mejorados" },
     { name: "Explosive Enhancement", version: "2.1.5", description: "Mejora visual de efectos y explosiones" },
@@ -195,10 +246,10 @@ const tutorialSteps = [
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <div className="relative w-8 h-8">
-                      <ModloaderIcon
-                        type={modloader as "forge" | "fabric" | "neoforged"}
-                        size={32}
-                        className="absolute inset-0"
+                      <img
+                        src={modpack.logo_url || "/placeholder.svg?height=32&width=32"}
+                        alt={modpack.name}
+                        className="object-contain absolute inset-0"
                       />
                     </div>
                     <h3 className="font-minecraft text-lg text-accent">{modpack.name}</h3>
@@ -218,15 +269,15 @@ const tutorialSteps = [
                     </svg>
                   )}
                 </div>
-                <p className="text-xs text-primary">Versión {modpack.version}</p>
+                <p className="text-xs text-accent [text-shadow:_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]">
+                  Versión {modpack.version}
+                </p>
                 <a
-                  href={modpack.file_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
                   className={modpack.available ? "" : "pointer-events-none"}
                 >
                   <GameButton
-                    variant={modpack.available ? "primary" : "outline"}
+                    variant={modpack.available ? "accent" : "outline"}
                     fullWidth
                     disabled={!modpack.available}
                     icon={<Download className="h-4 w-4" />}
@@ -290,7 +341,7 @@ const tutorialSteps = [
         </ol>
         <div className="flex justify-center mt-4">
           <a href="/server-info" className="inline-flex">
-            <GameButton variant="primary" size="sm" icon={<Server className="h-4 w-4" />}>
+            <GameButton variant="accent" size="sm" icon={<Server className="h-4 w-4" />}>
               Ver Info del Servidor
             </GameButton>
           </a>
@@ -301,38 +352,25 @@ const tutorialSteps = [
 ]
 
 /**
- * Mapeo de categorías a nombres en español
- */
-const categoryNames: Record<string, string> = {
-  particles: "Partículas",
-  sounds: "Sonidos",
-  animations: "Animaciones",
-  performance: "Rendimiento",
-  qol: "Calidad de Vida",
-}
-
-/**
- * Mapeo de categorías a enlaces de descarga
- */
-const categoryDownloadLinks: Record<string, string> = {
-  particles: "https://drive.google.com/uc?export=download&id=1KuQL_oxuUdu4MTDzUVuiX1PmPMFcyoqi",
-  sounds: "https://drive.google.com/uc?export=download&id=1ZKtSam_uWcwPt3IRlmuu_vu1AtqOe8y1",
-  animations: "https://drive.google.com/uc?export=download&id=11npWwiUQZvc1bw3pk0qtun6XX8syxUGs",
-  performance: "https://drive.google.com/uc?export=download&id=1IEeH5m16jxClrMi16u33UKM-3NblPZtO",
-  qol: "https://drive.google.com/uc?export=download&id=1PsFWmXt3AkQGbW6mCAuXZH-8Vg9bejG7",
-}
-
-/**
  * Página del modpack
  */
 export default function ModpackPage() {
-  // Estados
+  // Usamos useTheme para detectar el tema actual
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [modpacks, setModpacks] = useState<Record<string, Modpack[]>>({})
+
+  // Estados para datos estáticos
+  const [modpacks, setModpacks] = useState<{ [key: string]: Modpack[] }>({})
   const [featuredMods, setFeaturedMods] = useState<Mod[]>([])
-  const [optionalMods, setOptionalMods] = useState<Record<string, Mod[]>>({})
+  const [optionalMods, setOptionalMods] = useState<{ [key: string]: Mod[] }>({
+    particles: [],
+    animations: [],
+    sounds: [],
+    performance: [],
+    qol: [],
+  })
   const [isLoading, setIsLoading] = useState(true)
+  const [isModsExpanded, setIsModsExpanded] = useState(false)
 
   // Efecto para manejar el montaje del componente
   useEffect(() => {
@@ -349,47 +387,44 @@ export default function ModpackPage() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Determinamos el color del texto según el tema
-  const titleTextColor = useMemo(
-    () => (mounted ? (theme === "dark" ? "text-white" : "text-black") : "text-primary"),
-    [mounted, theme],
-  )
+  // TITULOS: Determinamos el color del texto según el tema
+  const titleTextColor = mounted ? (theme === "dark" ? "text-white" : "text-black") : "text-primary"
 
-  // Renderizado de placeholders mientras carga
-  const renderPlaceholders = (count = 7) =>
-    [...Array(count)].map((_, index) => (
-      <div key={index} className="p-4 flex justify-between items-center">
-        <div>
-          <div className="h-5 bg-secondary/30 rounded-md w-32 mb-2"></div>
-          <div className="h-3 bg-secondary/30 rounded-md w-48"></div>
-        </div>
-        <div className="h-5 bg-secondary/30 rounded-md w-12"></div>
-      </div>
-    ))
+  // Función para obtener el enlace de descarga según la categoría
+  const getCategoryDownloadLink = (category: string) => {
+    switch (category) {
+      case "particles":
+        return "https://drive.google.com/uc?export=download&id=1KuQL_oxuUdu4MTDzUVuiX1PmPMFcyoqi"
+      case "sounds":
+        return "https://drive.google.com/uc?export=download&id=1ZKtSam_uWcwPt3IRlmuu_vu1AtqOe8y1"
+      case "animations":
+        return "https://drive.google.com/uc?export=download&id=11npWwiUQZvc1bw3pk0qtun6XX8syxUGs"
+      case "performance":
+        return "https://drive.google.com/uc?export=download&id=1IEeH5m16jxClrMi16u33UKM-3NblPZtO"
+      case "qol":
+        return "https://drive.google.com/uc?export=download&id=1PsFWmXt3AkQGbW6mCAuXZH-8Vg9bejG7"
+      default:
+        return "#"
+    }
+  }
 
-  // Renderizado de mods
-  const renderMods = (mods: Mod[]) =>
-    mods.length === 0 ? (
-      <div className="p-4 text-center">
-        <p className="text-muted-foreground">No hay mods disponibles.</p>
-      </div>
-    ) : (
-      mods.map((mod, index) => (
-        <motion.div
-          key={index}
-          className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: index * 0.05 }}
-        >
-          <div>
-            <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>{mod.name}</h4>
-            <p className="text-sm text-muted-foreground">{mod.description}</p>
-          </div>
-          <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">v{mod.version}</span>
-        </motion.div>
-      ))
-    )
+  // Función para obtener el nombre de la categoría en español
+  const getCategoryName = (category: string) => {
+    switch (category) {
+      case "particles":
+        return "Partículas"
+      case "sounds":
+        return "Sonidos"
+      case "animations":
+        return "Animaciones"
+      case "performance":
+        return "Rendimiento"
+      case "qol":
+        return "Calidad de Vida"
+      default:
+        return category
+    }
+  }
 
   return (
     <div className="space-y-12 py-6">
@@ -413,6 +448,7 @@ export default function ModpackPage() {
               <TabsList className="grid grid-cols-3 mb-4">
                 <TabsTrigger value="forge" className="minecraft-style">
                   <div className="flex items-center gap-2">
+                    {/* Usamos el componente ModloaderIcon en lugar de Image */}
                     <ModloaderIcon type="forge" size={20} />
                     Forge
                   </div>
@@ -438,6 +474,7 @@ export default function ModpackPage() {
                       <GameCard key={index} className={`${modpack.available ? "border-glow" : "opacity-70"}`}>
                         <div className="flex items-center gap-3 mb-4">
                           <div className="relative w-12 h-12 bg-background/30 rounded-md p-1">
+                            {/* Usamos el componente ModloaderIcon para el logo del modpack */}
                             <ModloaderIcon
                               type={modloader as "forge" | "fabric" | "neoforged"}
                               size={48}
@@ -446,16 +483,18 @@ export default function ModpackPage() {
                           </div>
                           <div>
                             <h4 className="font-minecraft text-lg text-accent">{modpack.name}</h4>
-                            <p className="text-xs modpack-version">Versión {modpack.version}</p>
+                            <p className="text-xs text-accent [text-shadow:_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]">
+                              Versión {modpack.version}
+                            </p>
                           </div>
                         </div>
 
-                        <p className="text-sm modpack-text mb-4">{modpack.description}</p>
+                        <p className="text-sm text-accent mb-4 [text-shadow:_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]">
+                          {modpack.description}
+                        </p>
 
                         <a
-                          href={modpack.file_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
                           className={modpack.available ? "" : "pointer-events-none"}
                         >
                           <GameButton
@@ -483,16 +522,48 @@ export default function ModpackPage() {
         <div className="max-w-4xl mx-auto">
           {/* Contenedor de Mods Destacados */}
           <div id="featured-mods-season-1">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-minecraft text-xl text-accent flex items-center">
-                <span className="inline-block w-3 h-3 bg-accent rounded-full mr-2 animate-pulse"></span>
-                Mods Destacados
-              </h3>
-            </div>
-
+            <h3 className="font-minecraft text-xl text-accent mb-4 flex items-center">
+              <span className="inline-block w-3 h-3 bg-accent rounded-full mr-2 animate-pulse"></span>
+              Mods Destacados
+            </h3>
             <GameCard className="border-2 border-accent/30">
               <div className="grid grid-cols-1 divide-y divide-border">
-                {isLoading ? renderPlaceholders() : renderMods(featuredMods)}
+                {isLoading ? (
+                  // Mostrar placeholders mientras carga
+                  [...Array(7)].map((_, index) => (
+                    <div key={index} className="p-4 flex justify-between items-center">
+                      <div>
+                        <div className="h-5 bg-secondary/30 rounded-md w-32 mb-2"></div>
+                        <div className="h-3 bg-secondary/30 rounded-md w-48"></div>
+                      </div>
+                      <div className="h-5 bg-secondary/30 rounded-md w-12"></div>
+                    </div>
+                  ))
+                ) : featuredMods.length === 0 ? (
+                  <div className="p-4 text-center">
+                    <p className="text-muted-foreground">No hay mods destacados disponibles.</p>
+                  </div>
+                ) : (
+                  featuredMods.map((mod, index) => (
+                    <motion.div
+                      key={index}
+                      className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                    >
+                      <div>
+                        <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>
+                          {mod.name}
+                        </h4>
+                        <p className="text-sm text-muted-foreground">{mod.description}</p>
+                      </div>
+                      <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
+                        v{mod.version}
+                      </span>
+                    </motion.div>
+                  ))
+                )}
               </div>
             </GameCard>
           </div>
@@ -504,22 +575,26 @@ export default function ModpackPage() {
           <h3 className="font-minecraft text-xl text-accent mb-4">Mods Opcionales</h3>
           <Tabs defaultValue="particles" className="w-full">
             <TabsList className="grid grid-cols-5 mb-4">
-              {Object.keys(staticOptionalMods).map((category) => (
-                <TabsTrigger key={category} value={category} className="minecraft-style">
-                  <span className="hidden sm:inline">{categoryNames[category]}</span>
-                  <span className="inline sm:hidden">
-                    {category === "particles"
-                      ? "Partíc."
-                      : category === "animations"
-                        ? "Anim."
-                        : category === "sounds"
-                          ? "Sonidos"
-                          : category === "performance"
-                            ? "Rend."
-                            : "QoL"}
-                  </span>
-                </TabsTrigger>
-              ))}
+              <TabsTrigger value="particles" className="minecraft-style">
+                <span className="hidden sm:inline">Partículas</span>
+                <span className="inline sm:hidden">Partíc.</span>
+              </TabsTrigger>
+              <TabsTrigger value="animations" className="minecraft-style">
+                <span className="hidden sm:inline">Animaciones</span>
+                <span className="inline sm:hidden">Anim.</span>
+              </TabsTrigger>
+              <TabsTrigger value="sounds" className="minecraft-style">
+                <span className="hidden sm:inline">Sonidos</span>
+                <span className="inline sm:hidden">Sonidos</span>
+              </TabsTrigger>
+              <TabsTrigger value="performance" className="minecraft-style">
+                <span className="hidden sm:inline">Rendimiento</span>
+                <span className="inline sm:hidden">Rend.</span>
+              </TabsTrigger>
+              <TabsTrigger value="qol" className="minecraft-style">
+                <span className="hidden sm:inline">Calidad de Vida</span>
+                <span className="inline sm:hidden">QoL</span>
+              </TabsTrigger>
             </TabsList>
 
             {Object.entries(optionalMods).map(([category, mods]) => (
@@ -527,7 +602,7 @@ export default function ModpackPage() {
                 <GameCard>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className={`font-minecraft text-lg font-semibold ${titleTextColor}`}>
-                      Mods de <span className="hidden sm:inline">{categoryNames[category]}</span>
+                      Mods de <span className="hidden sm:inline">{getCategoryName(category)}</span>
                       <span className="inline sm:hidden">
                         {category === "particles"
                           ? "Partíc."
@@ -540,7 +615,7 @@ export default function ModpackPage() {
                                 : "QoL"}
                       </span>
                     </h3>
-                    <a href={categoryDownloadLinks[category]}>
+                    <a href={getCategoryDownloadLink(category)}>
                       <GameButton variant="outline" size="sm" icon={<Download className="h-4 w-4" />}>
                         <span className="hidden sm:inline">Descargar Todos</span>
                         <span className="inline sm:hidden">Descargar</span>
@@ -549,7 +624,45 @@ export default function ModpackPage() {
                   </div>
 
                   <div className="grid grid-cols-1 divide-y divide-border">
-                    {isLoading ? renderPlaceholders(3) : renderMods(mods)}
+                    {isLoading ? (
+                      // Mostrar placeholders mientras carga
+                      [...Array(3)].map((_, index) => (
+                        <div key={index} className="p-4 flex justify-between items-center">
+                          <div>
+                            <div className="h-5 bg-secondary/30 rounded-md w-32 mb-2"></div>
+                            <div className="h-3 bg-secondary/30 rounded-md w-48"></div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="h-5 bg-secondary/30 rounded-md w-12"></div>
+                            <div className="h-8 bg-secondary/30 rounded-md w-24"></div>
+                          </div>
+                        </div>
+                      ))
+                    ) : mods.length === 0 ? (
+                      <div className="p-4 text-center">
+                        <p className="text-muted-foreground">No hay mods disponibles para esta categoría.</p>
+                      </div>
+                    ) : (
+                      mods.map((mod, index) => (
+                        <motion.div
+                          key={index}
+                          className="p-4 flex justify-between items-center hover:bg-secondary/80 transition-all duration-300"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: index * 0.05 }}
+                        >
+                          <div>
+                            <h4 className={`font-minecraft text-lg font-semibold ${titleTextColor} title-hover`}>
+                              {mod.name}
+                            </h4>
+                            <p className="text-sm text-muted-foreground">{mod.description}</p>
+                          </div>
+                          <span className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded">
+                            v{mod.version}
+                          </span>
+                        </motion.div>
+                      ))
+                    )}
                   </div>
                 </GameCard>
               </TabsContent>

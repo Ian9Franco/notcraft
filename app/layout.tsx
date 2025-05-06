@@ -29,7 +29,14 @@ export const metadata: Metadata = {
 
 /**
  * Layout principal de la aplicación
- * Estructura la aplicación con barra lateral, encabezado, contenido principal y pie de página
+ *
+ * Estructura la aplicación con:
+ * - Barra lateral para navegación en desktop
+ * - Encabezado con controles de tema y audio
+ * - Contenido principal
+ * - Pie de página
+ * - Navegación móvil
+ * - Video de fondo
  */
 export default function RootLayout({
   children,

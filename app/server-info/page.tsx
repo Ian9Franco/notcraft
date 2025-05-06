@@ -11,7 +11,8 @@ import { CopyButton } from "@/components/ui/form-elements"
 import DiscordWidget from "@/components/widgets/discord-widget"
 
 /**
- * Datos de temporadas
+ * Datos de temporadas del servidor
+ * Contiene información sobre cada temporada, su estado y descripción
  */
 const seasons = [
   {
@@ -20,7 +21,7 @@ const seasons = [
     date: "Mayo 2025 - Presente",
     description:
       "No sabés cómo llegaste acá. El portal escupió tu cuerpo como un trapo sucio y lo primero que sentiste fue el silencio... uno espeso, como si el mundo entero estuviera conteniendo la respiración. Las ruinas están frescas, como si el último grito todavía flotara en el aire. Las cuevas murmuran cosas que no entendés, pero igual te hielan la sangre. El cielo cambia de color cuando no lo estás mirando. Hay rastros de civilizaciones que cavaron profundo, volaron alto y jugaron a ser dioses... y ahora no queda ni uno. Criaturas que no existen en ningún libro caminan de noche. Los árboles te siguen con la mirada. La tierra entera está podrida por algo viejo, algo que odia tu presencia. Y lo peor es que ya te olió. Te está buscando. No hay tutorial. No hay paz. Solo un consejo: no te detengas. Porque acá, hasta el amanecer puede ser una trampa.",
-      playerCount: 3,
+    playerCount: 3,
   },
   {
     number: 2,
@@ -33,12 +34,19 @@ const seasons = [
 
 /**
  * Página de información del servidor
+ *
+ * Muestra detalles sobre el servidor de Minecraft:
+ * - Estado actual y dirección IP
+ * - Información sobre mantenimiento
+ * - Recursos y configuración
+ * - Temporadas disponibles
  */
 export default function ServerInfoPage() {
   const [showInstructions, setShowInstructions] = useState(false)
 
   return (
-    <div className="space-y-12 py-6">
+    <div className="space-y-12 py-6 px-4 sm:px-6">
+      {/* Encabezado con animación */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <SectionHeader
           title="Información del Servidor"
@@ -47,10 +55,10 @@ export default function ServerInfoPage() {
         />
       </motion.div>
 
-      {/* Aviso de servidor no dedicado */}
+      {/* Aviso de servidor no dedicado - Mejorado para responsividad */}
       <ScrollReveal>
         <GameCard className="border-2 border-accent/30 bg-accent/5 max-w-4xl mx-auto">
-          <div className="flex items-start gap-3">
+          <div className="flex flex-col sm:flex-row items-start gap-3">
             <AlertTriangle className="h-6 w-6 text-accent shrink-0 mt-1" />
             <div>
               <h3 className="font-minecraft text-xl text-accent mb-2">Servidor No Dedicado</h3>
@@ -75,17 +83,17 @@ export default function ServerInfoPage() {
         </GameCard>
       </ScrollReveal>
 
-      {/* Información del servidor - Rediseñada */}
+      {/* Información del servidor - Mejorado para responsividad */}
       <ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <GameCard hoverEffect borderGlow className="flex flex-col justify-between">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
+          <GameCard hoverEffect borderGlow className="flex flex-col justify-between h-full">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Server className="h-5 w-5 text-accent" />
                 <h3 className="font-title text-xl text-accent">IP del Servidor</h3>
               </div>
               <div className="bg-background/50 p-3 rounded-md font-minecraft text-center flex items-center justify-between mb-4">
-                <span>play.netherious.com</span>
+                <span className="break-all">play.netherious.com</span>
                 <CopyButton text="play.netherious.com" />
               </div>
             </div>
@@ -94,7 +102,7 @@ export default function ServerInfoPage() {
             </p>
           </GameCard>
 
-          <GameCard hoverEffect className="flex flex-col justify-between">
+          <GameCard hoverEffect className="flex flex-col justify-between h-full">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Download className="h-5 w-5 text-accent" />
@@ -121,7 +129,7 @@ export default function ServerInfoPage() {
             </a>
           </GameCard>
 
-          <GameCard hoverEffect className="flex flex-col justify-between">
+          <GameCard hoverEffect className="flex flex-col justify-between h-full sm:col-span-2 md:col-span-1">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Clock className="h-5 w-5 text-accent" />
@@ -139,8 +147,8 @@ export default function ServerInfoPage() {
         </div>
       </ScrollReveal>
 
-      {/* Sección de mantenimiento y Discord */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      {/* Sección de mantenimiento y Discord - Mejorado para responsividad */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
         <div className="md:col-span-2">
           <ScrollReveal direction="left">
             <GameCard borderGlow>
@@ -164,7 +172,7 @@ export default function ServerInfoPage() {
         </div>
       </div>
 
-      {/* Sección de recursos y configuración */}
+      {/* Sección de recursos y configuración - Mejorado para responsividad */}
       <ScrollReveal>
         <GameCard className="max-w-4xl mx-auto">
           <div className="flex items-center gap-2 mb-6">
@@ -220,7 +228,7 @@ export default function ServerInfoPage() {
         </GameCard>
       </ScrollReveal>
 
-      {/* Temporadas */}
+      {/* Temporadas - Mejorado para responsividad */}
       <ScrollReveal direction="up">
         <SectionHeader
           title="Temporadas de Netherious"
@@ -246,7 +254,7 @@ export default function ServerInfoPage() {
               <GameCard borderGlow={season.playerCount > 0}>
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                   <div>
-                    <h3 className="font-minecraft text-2xl text-accent">
+                    <h3 className="font-minecraft text-xl sm:text-2xl text-accent">
                       Temporada {season.number}: {season.title}
                     </h3>
                     <p className="text-sm text-muted-foreground">
@@ -261,7 +269,7 @@ export default function ServerInfoPage() {
                   )}
                 </div>
 
-                <p className="text-muted-foreground whitespace-pre-line">{season.description}</p>
+                <p className="text-muted-foreground whitespace-pre-line text-sm sm:text-base">{season.description}</p>
               </GameCard>
             </TabsContent>
           ))}

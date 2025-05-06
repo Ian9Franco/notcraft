@@ -1,5 +1,4 @@
 "use client"
-
 import type React from "react"
 
 import { useState, useEffect } from "react"
@@ -22,7 +21,10 @@ interface GalleryImage {
   uploaded_at: string
 }
 
-// Datos estáticos para la galería
+/**
+ * Datos estáticos para la galería
+ * En una implementación real, estos datos vendrían de una API o base de datos
+ */
 const staticGalleryImages: GalleryImage[] = [
   {
     id: "1",
@@ -70,9 +72,16 @@ const staticGalleryImages: GalleryImage[] = [
 
 /**
  * Página de galería
- * Muestra imágenes estáticas sin funcionalidad de carga
+ *
+ * Muestra una colección de imágenes del servidor de Minecraft
+ * Incluye:
+ * - Aviso de funcionalidad limitada
+ * - Información sobre la galería
+ * - Formulario de carga de imágenes (desactivado)
+ * - Grid de imágenes con vista modal
  */
 export default function GalleryPage() {
+  // Estados para manejar imágenes y carga
   const [images, setImages] = useState<GalleryImage[]>([])
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [description, setDescription] = useState("")
@@ -81,9 +90,9 @@ export default function GalleryPage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
 
-  // Cargar imágenes estáticas
+  // Cargar imágenes estáticas al montar el componente
   useEffect(() => {
-    // Simular carga de datos
+    // Simular carga de datos (en producción, esto sería una llamada a API)
     const timer = setTimeout(() => {
       setImages(staticGalleryImages)
       setIsLoading(false)
@@ -92,13 +101,13 @@ export default function GalleryPage() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Handle file selection
+  // Manejar selección de archivo
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
       setSelectedFile(file)
 
-      // Create preview
+      // Crear vista previa
       const reader = new FileReader()
       reader.onload = () => {
         setPreviewUrl(reader.result as string)
@@ -107,13 +116,13 @@ export default function GalleryPage() {
     }
   }
 
-  // Clear selected file
+  // Limpiar archivo seleccionado
   const clearSelectedFile = () => {
     setSelectedFile(null)
     setPreviewUrl(null)
   }
 
-  // Handle upload (ahora solo muestra un mensaje)
+  // Manejar carga (simulada)
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -141,7 +150,8 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="space-y-12 py-6">
+    <div className="space-y-12 py-6 px-4 sm:px-6">
+      {/* Encabezado con animación */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <SectionHeader
           title="Galería"
@@ -150,10 +160,10 @@ export default function GalleryPage() {
         />
       </motion.div>
 
-      {/* Aviso de funcionalidad limitada */}
+      {/* Aviso de funcionalidad limitada - Mejorado para responsividad */}
       <ScrollReveal>
         <GameCard className="border-2 border-accent/30 bg-accent/5 max-w-4xl mx-auto">
-          <div className="flex items-start gap-3">
+          <div className="flex flex-col sm:flex-row items-start gap-3">
             <AlertTriangle className="h-6 w-6 text-accent shrink-0 mt-1" />
             <div>
               <h3 className="font-minecraft text-xl text-accent mb-2">Funcionalidad Limitada</h3>
@@ -173,10 +183,10 @@ export default function GalleryPage() {
         </GameCard>
       </ScrollReveal>
 
-      {/* Información de la galería - Estilo Server Info */}
+      {/* Información de la galería - Mejorado para responsividad */}
       <ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <GameCard hoverEffect borderGlow className="flex flex-col justify-between">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
+          <GameCard hoverEffect borderGlow className="flex flex-col justify-between h-full">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Camera className="h-5 w-5 text-accent" />
@@ -191,7 +201,7 @@ export default function GalleryPage() {
             </p>
           </GameCard>
 
-          <GameCard hoverEffect className="flex flex-col justify-between md:col-span-2">
+          <GameCard hoverEffect className="flex flex-col justify-between h-full sm:col-span-2">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Info className="h-5 w-5 text-accent" />
@@ -224,7 +234,7 @@ export default function GalleryPage() {
         </div>
       </ScrollReveal>
 
-      {/* Upload Section */}
+      {/* Sección de carga de imágenes - Mejorado para responsividad */}
       <ScrollReveal>
         <GameCard className="max-w-4xl mx-auto" borderGlow>
           <h3 className="font-minecraft text-xl text-accent mb-4">Subir Imagen</h3>
@@ -284,7 +294,12 @@ export default function GalleryPage() {
                 {previewUrl ? (
                   <>
                     <div className="relative w-full h-full">
-                      <Image src={previewUrl || "/placeholder.svg"} alt="Preview" fill className="object-contain" />
+                      <Image
+                        src={previewUrl || "/placeholder.svg"}
+                        alt="Vista previa"
+                        fill
+                        className="object-contain"
+                      />
                     </div>
                     <button
                       type="button"
@@ -295,9 +310,7 @@ export default function GalleryPage() {
                     </button>
                   </>
                 ) : (
-                  <>
-                    <p className="text-sm text-muted-foreground">Vista previa de la imagen</p>
-                  </>
+                  <p className="text-sm text-muted-foreground">Vista previa de la imagen</p>
                 )}
               </div>
             </div>
@@ -305,7 +318,7 @@ export default function GalleryPage() {
         </GameCard>
       </ScrollReveal>
 
-      {/* Gallery Grid */}
+      {/* Grid de galería - Mejorado para responsividad */}
       <ScrollReveal direction="up">
         {isLoading ? (
           <div className="flex justify-center py-12">
@@ -316,7 +329,7 @@ export default function GalleryPage() {
             <p className="text-muted-foreground">No hay imágenes en la galería. ¡Sé el primero en subir una!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {images.map((image, index) => (
               <motion.div
                 key={image.id}
@@ -327,7 +340,7 @@ export default function GalleryPage() {
                 onClick={() => setSelectedImage(image)}
               >
                 <GameCard className="overflow-hidden cursor-pointer h-full">
-                  <div className="relative h-48 md:h-56 mb-2">
+                  <div className="relative h-40 sm:h-48 md:h-56 mb-2">
                     <Image
                       src={image.image_url || "/placeholder.svg"}
                       alt={image.description}
@@ -335,7 +348,9 @@ export default function GalleryPage() {
                       className="object-cover transition-transform duration-500 hover:scale-105"
                     />
                   </div>
-                  <p className="text-center font-minecraft text-sm">{image.description || "Sin descripción"}</p>
+                  <p className="text-center font-minecraft text-sm line-clamp-2">
+                    {image.description || "Sin descripción"}
+                  </p>
                 </GameCard>
               </motion.div>
             ))}
@@ -343,7 +358,7 @@ export default function GalleryPage() {
         )}
       </ScrollReveal>
 
-      {/* Image Modal */}
+      {/* Modal de imagen - Mejorado para responsividad */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
@@ -361,13 +376,14 @@ export default function GalleryPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                className="absolute top-4 right-4 z-10 bg-background/80 p-2 rounded-full"
+                className="absolute top-4 right-4 z-10 bg-background/80 p-2 rounded-full hover:bg-background"
                 onClick={() => setSelectedImage(null)}
+                aria-label="Cerrar"
               >
                 <X className="h-5 w-5" />
               </button>
 
-              <div className="relative h-[70vh]">
+              <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh]">
                 <Image
                   src={selectedImage.image_url || "/placeholder.svg"}
                   alt={selectedImage.description}
@@ -377,7 +393,12 @@ export default function GalleryPage() {
               </div>
 
               <div className="p-4 bg-background">
-                <p className="font-minecraft text-lg text-accent">{selectedImage.description || "Sin descripción"}</p>
+                <p className="font-minecraft text-base sm:text-lg text-accent">
+                  {selectedImage.description || "Sin descripción"}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Subido por {selectedImage.uploaded_by} • {new Date(selectedImage.uploaded_at).toLocaleDateString()}
+                </p>
               </div>
             </motion.div>
           </motion.div>

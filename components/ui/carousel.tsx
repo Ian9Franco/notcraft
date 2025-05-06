@@ -1,12 +1,12 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface CarouselProps {
-  children: React.ReactNode[]
+  children: React.ReactNode
   autoPlay?: boolean
   interval?: number
   showControls?: boolean
@@ -26,14 +26,16 @@ export function Carousel({
   pauseOnHover = true,
   transitionEffect = "slide",
 }: CarouselProps) {
+  // Convertir children a array para poder trabajar con ellos
+  const childrenArray = React.Children.toArray(children)
+  const totalItems = childrenArray.length
+
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [touchStart, setTouchStart] = useState(0)
   const [touchEnd, setTouchEnd] = useState(0)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
-
-  const totalItems = React.Children.count(children)
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % totalItems)
@@ -49,7 +51,7 @@ export function Carousel({
 
   // Gestión de autoplay
   useEffect(() => {
-    if (autoPlay && !isPaused) {
+    if (autoPlay && !isPaused && totalItems > 1) {
       timerRef.current = setInterval(() => {
         nextSlide()
       }, interval)
@@ -138,10 +140,15 @@ export function Carousel({
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [])
 
+  // Si no hay elementos, no renderizar nada
+  if (totalItems === 0) {
+    return null
+  }
+
   return (
     <div
       ref={carouselRef}
-      className={cn("carousel-container", className)}
+      className={cn("carousel-container relative", className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
@@ -151,19 +158,18 @@ export function Carousel({
       aria-label="Carrusel de contenido"
       aria-roledescription="carrusel"
     >
-      <div className="relative h-full">
-        <AnimatePresence mode="wait">
-          {React.Children.toArray(children).map((child, index) => (
-            <motion.div
-              key={index}
-              className={cn("carousel-slide absolute inset-0", index === currentIndex ? "z-10" : "z-0")}
-              {...getAnimationProps(index === currentIndex)}
-              style={{ display: index === currentIndex ? "block" : "none" }}
-            >
-              {child}
-            </motion.div>
-          ))}
-        </AnimatePresence>
+      <div className="relative h-full overflow-hidden rounded-lg">
+        {childrenArray.map((child, index) => (
+          <div
+            key={index}
+            className={cn(
+              "transition-opacity duration-300",
+              index === currentIndex ? "opacity-100 block" : "opacity-0 hidden",
+            )}
+          >
+            {child}
+          </div>
+        ))}
       </div>
 
       {showControls && totalItems > 1 && (

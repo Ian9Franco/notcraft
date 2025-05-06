@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { motion } from "framer-motion"
+import { motion, useAnimation } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { useTheme } from "next-themes"
 
@@ -29,6 +29,7 @@ export interface NetheriousLogoProps {
  * - Efecto hover que aumenta ligeramente el tamaño al pasar el cursor
  * - Tamaño personalizable mediante la prop 'size'
  * - Ubicaciones predefinidas (sidebar, header, footer) con comportamientos específicos
+ * - Animación de entrada suave y efecto de flotación constante
  */
 export function NetheriousLogo({
   className,
@@ -42,10 +43,27 @@ export function NetheriousLogo({
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const controls = useAnimation()
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+
+    // Iniciar la animación de entrada
+    controls
+      .start({
+        opacity: 1,
+        x: 0,
+        scale: 1,
+        transition: {
+          duration: 1.2, // Animación más lenta
+          ease: "easeOut",
+        },
+      })
+      .then(() => {
+        // Iniciar la animación de flotación después de completar la entrada
+        controls.start("float")
+      })
+  }, [controls])
 
   // Determina qué archivo de logo usar según el tema y la ubicación
   const getLogoFile = (): string => {
@@ -64,37 +82,41 @@ export function NetheriousLogo({
   const logoPath = `/images/logos/${getLogoFile()}`
 
   // Configuración de animación según la intensidad
-  const getAnimationProps = () => {
-    if (!animate) return {}
-
+  const getFloatVariants = () => {
     const intensityValues = {
-      low: { scale: 1.05, rotate: 3, duration: 3 },
-      medium: { scale: 1.1, rotate: 5, duration: 2.5 },
-      high: { scale: 1.15, rotate: 8, duration: 2 },
+      low: { y: [-3, 3], duration: 4 },
+      medium: { y: [-5, 5], duration: 3.5 },
+      high: { y: [-8, 8], duration: 3 },
     }
 
     const values = intensityValues[intensity] || intensityValues.medium
 
     return {
-      animate: {
-        scale: [1, values.scale, 1],
-        rotate: [0, values.rotate, 0],
+      initial: {
+        opacity: 0,
+        x: -20,
+        scale: 0.9,
       },
-      transition: {
-        duration: values.duration,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
+      animate: {
+        opacity: 1,
+        x: 0,
+        scale: isHovered ? 1.1 : 1,
+      },
+      float: {
+        y: values.y,
+        transition: {
+          y: {
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "reverse",
+            duration: values.duration,
+            ease: "easeInOut",
+          },
+        },
       },
     }
   }
 
-  const animationProps = getAnimationProps()
-
-  // Efecto hover para el logo
-  const hoverVariants = {
-    initial: { scale: 1 },
-    hover: { scale: 1.1, transition: { duration: 0.3 } },
-  }
+  const floatVariants = getFloatVariants()
 
   return (
     <div
@@ -104,18 +126,9 @@ export function NetheriousLogo({
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div
-        initial={{ opacity: 0, x: -20, scale: 0.9 }}
-        animate={{
-          opacity: 1,
-          x: 0,
-          scale: isHovered ? 1.1 : 1, // Efecto hover
-          ...animationProps.animate,
-        }}
-        transition={{
-          duration: 0.3,
-          ease: "easeOut",
-          ...animationProps.transition,
-        }}
+        initial="initial"
+        animate={controls}
+        variants={floatVariants}
         className="relative"
         style={{ width: size }}
       >
@@ -133,7 +146,7 @@ export function NetheriousLogo({
         <motion.span
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+          transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
           className="text-accent font-title ml-2"
           style={{ fontSize: size / 3 }}
         >

@@ -129,9 +129,10 @@
     --secondary-foreground: 39 77% 95%; /* Papaya Whip - Texto sobre elementos secundarios */
 
     --muted: 43 57% 95%; /* Fondo más claro para elementos atenuados */
-    --muted-foreground: 26 34% 25%; /* Texto más oscuro para elementos atenuados */
+    --muted-foreground: 26 34% 40%; /* Texto más oscuro para elementos atenuados, mejorado para contraste */
 
-    --accent: 240 5% 8%; /* Crow Black - Color de acento */
+    /* Cambiar el color de acento para que sea más claro (aumentar luminosidad de 34% a 50%) */
+    --accent: 14 59% 55%; /* Chestnut aún más claro - Color de acento para destacar elementos */
     --accent-foreground: 39 77% 95%; /* Papaya Whip - Texto sobre elementos con acento */
 
     --destructive: 0 70% 45%; /* Color para acciones destructivas más oscuro */
@@ -144,12 +145,12 @@
     --sidebar-bg: 26 34% 15%; /* Bistre más oscuro para mejor contraste en la sidebar */
     --sidebar-fg: 39 77% 95%; /* Papaya Whip más claro para texto en la sidebar */
 
-    --title-color: 26 34% 28%; /* Coffee - Color para títulos */
+    --title-color: 14 59% 34%; /* Chestnut - Color para títulos, cambiado para mejor contraste */
     --title-text-light: 26 34% 28%; /* Coffee - Color de texto para títulos en modo claro */
-    --title-hover-light: 14 59% 34%; /* Chestnut más claro para hover en títulos */
+    --title-hover-light: 14 59% 45%; /* Chestnut más claro para hover en títulos */
 
-    --title-text: hsl(39, 77%, 85%); /* Wheat - Color base para títulos */
-    --title-hover: hsl(39, 77%, 75%); /* Wheat más oscuro - Color de hover para títulos */
+    --title-text: hsl(14, 59%, 34%); /* Chestnut - Color base para títulos */
+    --title-hover: hsl(14, 59%, 45%); /* Chestnut más claro - Color de hover para títulos */
   }
 }
 
@@ -220,18 +221,18 @@
   }
 
   .light .high-contrast-text {
-    color: hsl(26, 34%, 33%); /* Coffee - texto de alto contraste en modo claro */
+    color: hsl(26, 34%, 25%); /* Coffee más oscuro - texto de alto contraste en modo claro */
   }
 
   .light h1.high-contrast-text,
   .light h2.high-contrast-text,
   .light h3.high-contrast-text {
-    color: hsl(var(--title-color)); /* Mantiene color de títulos en textos de alto contraste */
+    color: hsl(14, 59%, 34%); /* Mantiene color Chestnut para títulos en textos de alto contraste */
   }
 
   /* Mejoras específicas para modo claro */
   .light .text-muted-foreground {
-    color: hsl(26, 34%, 25%) !important; /* Texto atenuado más oscuro para mejor contraste */
+    color: hsl(26, 34%, 35%) !important; /* Texto atenuado más oscuro para mejor contraste */
   }
 
   .light .card p,
@@ -241,15 +242,21 @@
 
   /* Mejora de contraste para contenedores en modo claro - ajusta opacidad de fondos */
   .light .bg-background\/50 {
-    background-color: hsla(39, 77%, 90%, 0.95) !important; /* Fondo más opaco para contenedores */
+    background-color: hsla(39, 77%, 95%, 0.6) !important; /* Fondo más transparente para contenedores */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .light .bg-background\/30 {
-    background-color: hsla(39, 77%, 90%, 0.97) !important; /* Fondo más opaco para contenedores */
+    background-color: hsla(39, 77%, 95%, 0.6) !important; /* Fondo más transparente para contenedores */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .light .bg-background\/60 {
-    background-color: hsla(39, 77%, 90%, 0.98) !important; /* Fondo más opaco para contenedores */
+    background-color: hsla(39, 77%, 95%, 0.6) !important; /* Fondo más transparente para contenedores */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .light .bg-secondary\/30 {
@@ -264,34 +271,36 @@
     background-color: hsla(26, 34%, 28%, 0.45) !important; /* Fondo más visible para contenedores secundarios */
   }
 
-  .light .bg-card\/80 {
-    background-color: hsla(43, 57%, 90%, 0.98) !important; /* Fondo más opaco para tarjetas */
-  }
-
-  /* Efecto de fondo con blur para el contenido principal en modo claro */
+  /* Eliminar el efecto de fondo con blur para el contenido principal en modo claro */
   .light main {
-    position: relative;
+    position: relative; /* Asegura que ::before se posicione bien */
+    z-index: 0;
   }
-
+  
   .light main::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: hsla(39, 77%, 95%, 0.7);
-    backdrop-filter: blur(10px); /* Efecto de desenfoque */
-    -webkit-backdrop-filter: blur(10px); /* Para Safari */
+    inset: 0;
+    background-color: hsla(39, 77%, 95%, 0.6); /* Tinte claro suave */    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     z-index: -1;
     border-radius: 1rem;
+    pointer-events: none;
   }
-
+  
+  
+  /* Tarjetas sobre ese fondo */
+  .light .bg-card\/80 {
+    background-color: hsla(39, 70%, 95%, 0.96) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  
   /* Mejora de contraste para textos en modo claro */
   .light p,
   .light span,
   .light div {
-    color: hsl(26, 34%, 20%); /* Texto general más oscuro */
+    color: hsl(26, 33%, 9%); /* Texto general más oscuro */
   }
 
   .light h1,
@@ -305,13 +314,12 @@
 
   /* Estilos para la sidebar en modo claro */
   .light .sidebar {
-    background-color: hsla(39, 77%, 95%, 0.3); /* Tono claro, translúcido */
+    background-color: hsla(26, 34%, 15%, 0.9); /* Tono oscuro, más opaco para mejor contraste */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-right: 1px solid hsla(39, 60%, 70%, 0.3); /* Borde tenue */
     transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
   }
-  
 
   .light .sidebar a,
   .light .sidebar button,
@@ -320,11 +328,11 @@
   }
 
   .light .sidebar svg {
-    color: hsl(26, 34%, 15%, 0.7); /* Iconos semi-transparentes */
+    color: hsl(39, 77%, 95%, 0.9); /* Iconos más visibles */
   }
 
   .light .sidebar .hover\:bg-accent\/10:hover {
-    background-color: hsla(39, 77%, 95%, 0.2); /* Fondo de hover más visible */
+    background-color: hsla(14, 59%, 34%, 0.2); /* Fondo de hover más visible */
   }
 
   /* Estilos para el botón de expandir la sidebar en modo claro */
@@ -335,8 +343,8 @@
   }
 
   .light [data-sidebar="trigger"]:hover {
-    background-color: hsl(39, 77%, 95%); /* Fondo claro al hover */
-    color: hsl(26, 34%, 15%); /* Texto oscuro al hover */
+    background-color: hsl(14, 59%, 34%); /* Fondo Chestnut al hover */
+    color: hsl(39, 77%, 95%); /* Texto claro al hover */
   }
 
   .light [data-sidebar="rail"] {
@@ -344,7 +352,7 @@
   }
 
   .light [data-sidebar="rail"]:hover {
-    background-color: hsl(26, 34%, 20%); /* Fondo más oscuro al hover */
+    background-color: hsl(14, 59%, 34%); /* Fondo Chestnut al hover */
   }
 
   .light [data-sidebar="rail"]::after {
@@ -353,11 +361,88 @@
 
   /* Dark mode sidebar with blur effect */
   .dark .sidebar {
-    background-color: hsla(300, 4%, 5%, 0.2); /* Fondo más transparente */
+    background-color: hsla(300, 4%, 5%, 0.85); /* Fondo semi-transparente */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-right: 1px solid hsla(300, 4%, 18%, 0.5);
     transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+  }
+
+  /* Hacer visibles los iconos del header en modo claro */
+  .light .header svg,
+  .light header svg,
+  .light nav svg,
+  .light .navbar svg {
+    color: hsl(26, 34%, 28%) !important; /* Color marrón Coffee de la paleta */
+  }
+
+  /* Eliminar el contraste alto para los modpacks */
+  .modpack-item .modpack-name,
+  .modpack-item .modpack-version,
+  .modpack-item .modpack-description {
+    text-shadow: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Asegurar que el texto en botones transparentes sea visible en modo claro */
+  .light .btn-ghost,
+  .light .btn-link,
+  .light [class*="variant-ghost"],
+  .light [class*="variant-link"],
+  .light button[variant="ghost"],
+  .light button[variant="link"] {
+    color: hsl(26, 34%, 28%) !important; /* Color oscuro para mejor visibilidad */
+  }
+
+  /* Asegurar que el texto en botones transparentes sea visible sobre fondos oscuros */
+  .light .bg-card .btn-ghost,
+  .light .bg-card [class*="variant-ghost"],
+  .light .bg-card button[variant="ghost"],
+  .light .bg-background\/50 .btn-ghost,
+  .light .bg-background\/50 [class*="variant-ghost"],
+  .light .bg-background\/50 button[variant="ghost"],
+  .light .bg-background\/30 .btn-ghost,
+  .light .bg-background\/30 [class*="variant-ghost"],
+  .light .bg-background\/30 button[variant="ghost"],
+  .light .bg-background\/60 .btn-ghost,
+  .light .bg-background\/60 [class*="variant-ghost"],
+  .light .bg-background\/60 button[variant="ghost"] {
+    color: hsl(39, 77%, 95%) !important; /* Color claro para mejor visibilidad sobre fondos oscuros */
+  }
+
+  /* Asegurar que el icono del botón de la sidebar sea visible en modo claro */
+  .light button[aria-label="Expandir barra lateral"] svg,
+  .light button[aria-label="Colapsar barra lateral"] svg {
+    color: hsl(39, 77%, 95%) !important; /* Color claro para mejor visibilidad */
+  }
+
+  /* Estilos específicos para el botón de toggle de la sidebar */
+  .light .sidebar-toggle-button {
+    background-color: hsl(26, 34%, 28%); /* Fondo oscuro para el botón */
+    color: hsl(39, 77%, 95%) !important; /* Texto claro para mejor visibilidad */
+  }
+
+  .light .sidebar-toggle-button:hover {
+    background-color: hsl(14, 59%, 34%); /* Fondo Chestnut al hover */
+  }
+
+  .light .sidebar-toggle-button svg {
+    color: hsl(39, 77%, 95%) !important; /* Iconos más visibles */
+  }
+
+  /* Asegurar que los textos en botones ghost sobre fondos transparentes sean claros */
+  .light .bg-transparent .btn-ghost,
+  .light .bg-transparent [class*="variant-ghost"],
+  .light .bg-transparent button[variant="ghost"] {
+    color: hsl(39, 77%, 95%) !important; /* Color claro para mejor visibilidad */
+  }
+
+  /* Estilos específicos para el botón de descargar E4MC */
+  .light a[href*="e4mc"] button,
+  .light a[href*="e4mc"] .btn-ghost,
+  .light a[href*="e4mc"] [class*="variant-ghost"] {
+    color: hsl(39, 77%, 95%) !important; /* Color claro para mejor visibilidad */
   }
 }
 
@@ -394,11 +479,15 @@
 
   /* Efectos visuales para elementos */
   .border-glow {
-    box-shadow: 0 0 10px rgba(var(--accent), 0.3); /* Efecto de brillo en los bordes */
+    box-shadow: 0 0 10px rgba(180, 255, 58, 0.3); /* Efecto de brillo en los bordes */
+  }
+
+  .light .border-glow {
+    box-shadow: 0 0 10px rgba(149, 69, 53, 0.3); /* Efecto de brillo en tono Chestnut para modo claro */
   }
 
   .text-glow {
-    text-shadow: 0 0 8px rgba(var(--accent), 0.6); /* Efecto de brillo en texto */
+    text-shadow: 0 0 8px rgba(180, 255, 58, 0.6); /* Efecto de brillo en texto */
   }
 
   .light .text-glow {
@@ -505,6 +594,7 @@
   /* Estilos para el carrusel mejorado */
   .carousel-container {
     @apply relative overflow-hidden rounded-lg; /* Contenedor con esquinas redondeadas */
+    min-height: 300px; /* Altura mínima para evitar saltos */
   }
 
   .carousel-slide {
@@ -766,5 +856,23 @@
 
   h3 {
     @apply text-xl; /* Título de sección más pequeño */
+  }
+
+  .carousel-container {
+    min-height: 200px; /* Altura mínima reducida para móviles */
+  }
+
+  .carousel-controls {
+    @apply px-2; /* Controles más cercanos al borde en móviles */
+  }
+
+  .carousel-control-button {
+    @apply p-1; /* Botones más pequeños en móviles */
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .carousel-container {
+    min-height: 250px; /* Altura mínima para tablets */
   }
 }

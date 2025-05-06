@@ -146,19 +146,26 @@ const resourcePackOrder = [
 
 /**
  * Página de resource packs
+ *
+ * Esta página muestra:
+ * - Resource packs recomendados para el servidor
+ * - Shaders compatibles
+ * - Instrucciones de instalación y orden correcto
+ * - Enlaces de descarga
  */
 export default function ResourcePacksPage() {
+  // Estado y hooks
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [resourcePacks, setResourcePacks] = useState<ResourcePack[]>([])
   const [shaders, setShaders] = useState<Shader[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  // Cargar resource packs estáticos
+  // Efecto para cargar datos y marcar componente como montado
   useEffect(() => {
     setMounted(true)
 
-    // Simular carga de datos
+    // Simular carga de datos (en producción, esto podría ser una llamada API)
     const timer = setTimeout(() => {
       setResourcePacks(staticResourcePacks)
       setShaders(staticShaders)
@@ -172,7 +179,8 @@ export default function ResourcePacksPage() {
   const titleTextColor = mounted ? (theme === "dark" ? "text-white" : "text-black") : "text-primary"
 
   return (
-    <div className="space-y-12 py-6">
+    <div className="space-y-12 py-6 px-4 sm:px-6">
+      {/* Encabezado de la página con animación */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <SectionHeader
           title="Apariencia"
@@ -181,10 +189,10 @@ export default function ResourcePacksPage() {
         />
       </motion.div>
 
-      {/* Aviso de compatibilidad */}
+      {/* Aviso de compatibilidad - Mejorado para responsividad */}
       <ScrollReveal>
         <GameCard className="border-2 border-accent/30 bg-accent/5 max-w-4xl mx-auto">
-          <div className="flex items-start gap-3">
+          <div className="flex flex-col sm:flex-row items-start gap-3">
             <AlertTriangle className="h-6 w-6 text-accent shrink-0 mt-1" />
             <div>
               <h3 className="font-minecraft text-xl text-accent mb-2">Compatibilidad</h3>
@@ -209,10 +217,10 @@ export default function ResourcePacksPage() {
         </GameCard>
       </ScrollReveal>
 
-      {/* Información de Resource Packs - Estilo Server Info */}
+      {/* Información de Resource Packs - Mejorado para pantallas pequeñas */}
       <ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <GameCard hoverEffect borderGlow className="flex flex-col justify-between">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
+          <GameCard hoverEffect borderGlow className="flex flex-col justify-between h-full">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Palette className="h-5 w-5 text-accent" />
@@ -222,10 +230,12 @@ export default function ResourcePacksPage() {
                 <span>{resourcePacks.length} core packs</span>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground text-center">20 Packs de recursos en total.Actualizados para Minecraft 1.20.1</p>
+            <p className="text-xs text-muted-foreground text-center">
+              20 Packs de recursos en total. Actualizados para Minecraft 1.20.1
+            </p>
           </GameCard>
 
-          <GameCard hoverEffect className="flex flex-col justify-between">
+          <GameCard hoverEffect className="flex flex-col justify-between h-full">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Settings className="h-5 w-5 text-accent" />
@@ -252,7 +262,7 @@ export default function ResourcePacksPage() {
             </a>
           </GameCard>
 
-          <GameCard hoverEffect className="flex flex-col justify-between">
+          <GameCard hoverEffect className="flex flex-col justify-between h-full sm:col-span-2 md:col-span-1">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Download className="h-5 w-5 text-accent" />
@@ -278,12 +288,13 @@ export default function ResourcePacksPage() {
         </div>
       </ScrollReveal>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Grid de Resource Packs - Mejorado para responsividad */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {isLoading ? (
-          // Mostrar placeholders mientras carga
+          // Mostrar placeholders mientras carga - Adaptados para responsividad
           [...Array(3)].map((_, index) => (
-            <GameCard key={index} className="h-80 animate-pulse">
-              <div className="h-48 bg-secondary/30 rounded-md mb-4"></div>
+            <GameCard key={index} className="h-auto sm:h-80 animate-pulse">
+              <div className="h-36 sm:h-48 bg-secondary/30 rounded-md mb-4"></div>
               <div className="h-4 bg-secondary/30 rounded-md w-3/4 mb-2"></div>
               <div className="h-3 bg-secondary/30 rounded-md w-full mb-4"></div>
               <div className="h-10 bg-secondary/30 rounded-md w-full"></div>
@@ -311,7 +322,7 @@ export default function ResourcePacksPage() {
         )}
       </div>
 
-      {/* Nueva sección: Orden de Resource Packs */}
+      {/* Sección: Orden de Resource Packs - Mejorado para responsividad */}
       <ScrollReveal direction="up">
         <SectionHeader
           title="Orden Correcto de Resource Packs"
@@ -325,8 +336,8 @@ export default function ResourcePacksPage() {
           </div>
 
           <div className="resource-pack-order">
-            <div className="flex items-center gap-2 mb-4">
-              <AlertTriangle className="h-5 w-5 text-accent" />
+            <div className="flex items-start sm:items-center gap-2 mb-4">
+              <AlertTriangle className="h-5 w-5 text-accent shrink-0 mt-1 sm:mt-0" />
               <p className="text-sm font-medium">
                 El orden es importante: los packs en la parte superior tienen prioridad sobre los que están debajo.
               </p>
@@ -362,11 +373,11 @@ export default function ResourcePacksPage() {
             </div>
           </div>
 
-          {/* Imagen de ejemplo del orden correcto */}
+          {/* Imagen de ejemplo del orden correcto - Mejorado para responsividad */}
           <div className="mt-6">
             <h4 className="font-minecraft text-lg text-accent mb-3">Ejemplo Visual</h4>
-            <div className="flex flex-col md:flex-row justify-center gap-4">
-              <div className="relative w-full md:w-[377px] h-[400px] md:h-[765px] bg-background/30 rounded-md overflow-hidden border border-border">
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-background/30 rounded-md overflow-hidden border border-border">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img
                     src="/images/landscape/resource 1.png"
@@ -375,7 +386,7 @@ export default function ResourcePacksPage() {
                   />
                 </div>
               </div>
-              <div className="relative w-full md:w-[377px] h-[400px] md:h-[765px] bg-background/30 rounded-md overflow-hidden border border-border">
+              <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-background/30 rounded-md overflow-hidden border border-border">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img
                     src="/images/landscape/resource 2.png"
@@ -392,6 +403,7 @@ export default function ResourcePacksPage() {
         </GameCard>
       </ScrollReveal>
 
+      {/* Sección de Shaders - Mejorado para responsividad */}
       <div id="shaders">
         <ScrollReveal direction="up">
           <SectionHeader title="Shaders" subtitle="Mejora la iluminación y efectos visuales de tu juego" />
@@ -399,9 +411,9 @@ export default function ResourcePacksPage() {
           <GameCard className="border-glow">
             <h3 className={`font-minecraft text-xl text-accent mb-6`}>Shaders Recomendados</h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {isLoading ? (
-                // Mostrar placeholders mientras carga
+                // Mostrar placeholders mientras carga - Adaptados para responsividad
                 [...Array(3)].map((_, index) => (
                   <div key={index} className="p-4 flex justify-between items-center">
                     <div>
@@ -440,6 +452,7 @@ export default function ResourcePacksPage() {
         </ScrollReveal>
       </div>
 
+      {/* Instrucciones de instalación - Mejorado para responsividad */}
       <ScrollReveal direction="up">
         <GameCard borderGlow>
           <div className="flex items-center gap-2 mb-4">
@@ -454,7 +467,7 @@ export default function ResourcePacksPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: 0.1 }}
             >
-              <span className="font-minecraft text-accent">1.</span>
+              <span className="font-minecraft text-accent shrink-0">1.</span>
               <span>Descarga el resource pack que prefieras.</span>
             </motion.li>
             <motion.li
@@ -463,11 +476,11 @@ export default function ResourcePacksPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: 0.2 }}
             >
-              <span className="font-minecraft text-accent">2.</span>
-              <span>
-                Coloca el archivo .zip en la carpeta{" "}
-                <code className="bg-background/70 px-2 py-1 rounded">.minecraft/resourcepacks</code>.
-              </span>
+              <span className="font-minecraft text-accent shrink-0">2.</span>
+              <div>
+                <span>Coloca el archivo .zip en la carpeta </span>
+                <code className="bg-background/70 px-2 py-1 rounded break-words">.minecraft/resourcepacks</code>
+              </div>
             </motion.li>
             <motion.li
               className="flex gap-2"
@@ -475,7 +488,7 @@ export default function ResourcePacksPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: 0.3 }}
             >
-              <span className="font-minecraft text-accent">3.</span>
+              <span className="font-minecraft text-accent shrink-0">3.</span>
               <span>Inicia Minecraft, ve a Opciones → Resource Packs y activa el pack descargado.</span>
             </motion.li>
             <motion.li
@@ -484,7 +497,7 @@ export default function ResourcePacksPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: 0.4 }}
             >
-              <span className="font-minecraft text-accent">4.</span>
+              <span className="font-minecraft text-accent shrink-0">4.</span>
               <span>¡Disfruta de tu experiencia visual mejorada en nuestro servidor!</span>
             </motion.li>
           </ol>
@@ -504,3 +517,100 @@ export default function ResourcePacksPage() {
     </div>
   )
 }
+
+/**
+ * Estilos CSS adicionales para la página
+ *
+ * Estos estilos deben agregarse a tu archivo globals.css o a un módulo CSS
+ */
+/*
+.resource-pack-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  background-color: rgba(var(--background), 0.5);
+  border: 1px solid rgba(var(--border), 0.2);
+}
+
+.resource-pack-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: rgba(var(--accent), 0.2);
+  color: hsl(var(--accent));
+  font-family: 'Minecraft', sans-serif;
+  font-weight: bold;
+}
+
+.text-shader {
+  color: hsl(var(--foreground));
+  opacity: 0.8;
+}
+
+.title-hover:hover {
+  color: hsl(var(--accent));
+  transition: color 0.2s ease;
+}
+
+.button-with-particles {
+  position: relative;
+  overflow: hidden;
+}
+
+.button-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: hsl(var(--accent));
+  opacity: 0;
+  pointer-events: none;
+}
+
+.button-with-particles:hover .button-particle {
+  animation: particle-float 2s infinite ease-in-out;
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0;
+  }
+}
+
+.button-particle-1 {
+  bottom: 10%;
+  left: 10%;
+  animation-delay: 0s !important;
+}
+
+.button-particle-2 {
+  bottom: 20%;
+  left: 30%;
+  animation-delay: 0.5s !important;
+}
+
+.button-particle-3 {
+  bottom: 30%;
+  left: 50%;
+  animation-delay: 1s !important;
+}
+
+.button-particle-4 {
+  bottom: 10%;
+  left: 70%;
+  animation-delay: 1.5s !important;
+}
+*/

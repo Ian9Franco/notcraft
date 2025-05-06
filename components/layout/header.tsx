@@ -1,11 +1,10 @@
 "use client"
 
 import React from "react"
-
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import {
   CuboidIcon as Cube,
   Home,
@@ -187,69 +186,97 @@ export default function Header() {
   }, [])
 
   // Ajustar tamaño del logo según el tamaño de pantalla
-  // Aumentado el tamaño del logo en el header como solicitó el usuario
-  const logoSize = isMobile ? 50 : 80 // Aumentado de 40/60 a 50/80
+  const logoSize = isMobile ? 50 : 80
+
+  // Variantes de animación para los botones
+  const buttonVariants = {
+    initial: { scale: 1 },
+    hover: { scale: 1.1, transition: { duration: 0.2 } },
+    tap: { scale: 0.9, transition: { duration: 0.1 } },
+  }
+
+  // Variantes de animación para el título
+  const titleVariants = {
+    initial: { opacity: 0, y: -20 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  }
+
+  // Variantes de animación para el fondo del título
+  const titleBgVariants = {
+    initial: { opacity: 0, scale: 0.95 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 0.5, delay: 0.1, ease: "easeOut" } },
+  }
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
+      className={`sticky top-0 z-30 w-full transition-all duration-300 ${
         scrolled ? "bg-background/80 backdrop-blur-md shadow-md py-2" : "bg-transparent py-3"
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
-          {/* Logo para móvil - Usa la misma animación que la sidebar */}
+          {/* Logo para móvil con animación mejorada */}
           <Link href="/" className="md:hidden flex items-center space-x-2">
             <div className="relative flex items-center justify-center">
-              {isMounted && (
-                <motion.div
-                  key={`logo-header-${logoAnimationKey}`}
-                  initial={{ x: -20, opacity: 0, scale: 0.9 }}
-                  animate={{ x: 0, opacity: 1, scale: 1 }}
-                  transition={{
-                    duration: 0.5,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                >
-                  <NetheriousLogo size={logoSize} location="header" />
-                </motion.div>
-              )}
-              {!isMounted && (
-                <div className="w-10 h-10 flex items-center justify-center rounded-md">
-                  <Cube className="text-accent" />
-                </div>
-              )}
+              <AnimatePresence mode="wait">
+                {isMounted && (
+                  <motion.div
+                    key={`logo-header-${logoAnimationKey}`}
+                    initial={{ x: -20, opacity: 0, scale: 0.9, rotate: -5 }}
+                    animate={{ x: 0, opacity: 1, scale: 1, rotate: 0 }}
+                    exit={{ x: -20, opacity: 0, scale: 0.9, rotate: -5 }}
+                    transition={{
+                      duration: 0.6,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                  >
+                    <NetheriousLogo size={logoSize} location="header" />
+                  </motion.div>
+                )}
+                {!isMounted && (
+                  <div className="w-10 h-10 flex items-center justify-center rounded-md">
+                    <Cube className="text-accent" />
+                  </div>
+                )}
+              </AnimatePresence>
             </div>
           </Link>
 
-          {/* Título de la página actual (solo en desktop) */}
+          {/* Título de la página actual (solo en desktop) con animación mejorada */}
           <motion.div
             className="hidden md:flex items-center gap-2"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            variants={titleVariants}
+            initial="initial"
+            animate="animate"
           >
             <div className="relative">
-              {getPageIcon()}
+              <motion.div
+                className="absolute -left-7 top-1/2 -translate-y-1/2"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                {getPageIcon()}
+              </motion.div>
+
               <motion.h1
-                className="text-xl font-minecraft text-foreground bg-secondary/50 px-4 py-1 rounded border-2 border-border relative z-10"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
+                className="text-xl font-minecraft text-foreground bg-secondary/50 px-4 py-1 pl-8 rounded border-2 border-border relative z-10"
+                variants={titleVariants}
               >
                 {getPageTitle()}
               </motion.h1>
 
               <motion.div
                 className="absolute inset-0 bg-accent/10 rounded border-2 border-accent/20 translate-x-1 translate-y-1"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                variants={titleBgVariants}
+                initial="initial"
+                animate="animate"
               />
             </div>
           </motion.div>
 
-          {/* Botones de control de medios y tema */}
+          {/* Botones de control de medios y tema con animaciones mejoradas */}
           <div className="flex items-center gap-2">
             <TooltipProvider>
               {/* Botón de reproducción de video */}
@@ -257,92 +284,161 @@ export default function Header() {
                 <TooltipTrigger asChild>
                   <motion.button
                     onClick={togglePlayPause}
-                    className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent/10 transition-colors"
+                    variants={buttonVariants}
+                    initial="initial"
+                    whileHover="hover"
+                    whileTap="tap"
                     aria-label={isPlaying ? "Pausar video" : "Reproducir video"}
                   >
-                    {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+                    <AnimatePresence mode="wait">
+                      {isPlaying ? (
+                        <motion.div
+                          key="pause"
+                          initial={{ scale: 0, rotate: -30 }}
+                          animate={{ scale: 1, rotate: 0 }}
+                          exit={{ scale: 0, rotate: 30 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <Pause size={20} />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="play"
+                          initial={{ scale: 0, rotate: 30 }}
+                          animate={{ scale: 1, rotate: 0 }}
+                          exit={{ scale: 0, rotate: -30 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <Play size={20} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.button>
                 </TooltipTrigger>
                 <TooltipContent>{isPlaying ? "Pausar video de fondo" : "Reproducir video de fondo"}</TooltipContent>
               </Tooltip>
 
-              {/* Control de volumen con dropdown personalizado */}
+              {/* Control de volumen con dropdown personalizado y animaciones mejoradas */}
               <div className="relative" ref={volumeControlRef}>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <motion.button
                       onClick={() => setShowVolumeControl(!showVolumeControl)}
-                      className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
+                      className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent/10 transition-colors"
+                      variants={buttonVariants}
+                      initial="initial"
+                      whileHover="hover"
+                      whileTap="tap"
                       aria-label="Control de volumen"
                     >
-                      {getVolumeIcon()}
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={`volume-${isMuted ? "muted" : volume}`}
+                          initial={{ scale: 0, y: 10 }}
+                          animate={{ scale: 1, y: 0 }}
+                          exit={{ scale: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {getVolumeIcon()}
+                        </motion.div>
+                      </AnimatePresence>
                     </motion.button>
                   </TooltipTrigger>
                   <TooltipContent>Control de volumen</TooltipContent>
                 </Tooltip>
 
-                {/* Panel de control de volumen */}
-                {showVolumeControl && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-64 p-4 rounded-md border bg-popover shadow-md z-50"
-                  >
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-medium text-sm">Volumen</h4>
-                        <button onClick={toggleMute} className="p-1 rounded-full hover:bg-accent/10 transition-colors">
-                          {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                        </button>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <Volume className="h-4 w-4 text-muted-foreground" />
-                        <div
-                          className="relative flex-1 h-2 rounded-full overflow-hidden"
-                          style={{ backgroundColor: isDarkMode ? "#1f1f1f" : "#f5e9d5" }}
-                        >
-                          <div
-                            className="absolute h-full transition-all duration-200"
-                            style={{
-                              width: `${isMuted ? 0 : volume}%`,
-                              backgroundColor: isDarkMode ? "#B6EFBA" : "#3d2b1f",
-                            }}
-                          />
-                          <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            step="1"
-                            value={volume}
-                            onChange={(e) => handleVolumeChange(Number.parseInt(e.target.value))}
-                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                          />
+                {/* Panel de control de volumen con animaciones mejoradas */}
+                <AnimatePresence>
+                  {showVolumeControl && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute right-0 mt-2 w-64 p-4 rounded-md border bg-popover shadow-md z-50"
+                    >
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-medium text-sm">Volumen</h4>
+                          <motion.button
+                            onClick={toggleMute}
+                            className="p-1 rounded-full hover:bg-accent/10 transition-colors"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                          >
+                            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                          </motion.button>
                         </div>
-                        <span className="text-xs w-8 text-right">{volume}%</span>
+                        <div className="flex items-center gap-4">
+                          <Volume className="h-4 w-4 text-muted-foreground" />
+                          <div
+                            className="relative flex-1 h-2 rounded-full overflow-hidden"
+                            style={{ backgroundColor: isDarkMode ? "#1f1f1f" : "#f5e9d5" }}
+                          >
+                            <motion.div
+                              className="absolute h-full"
+                              style={{
+                                backgroundColor: isDarkMode ? "#B6EFBA" : "#3d2b1f",
+                              }}
+                              initial={{ width: 0 }}
+                              animate={{ width: `${isMuted ? 0 : volume}%` }}
+                              transition={{ duration: 0.3 }}
+                            />
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              step="1"
+                              value={volume}
+                              onChange={(e) => handleVolumeChange(Number.parseInt(e.target.value))}
+                              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                            />
+                          </div>
+                          <span className="text-xs w-8 text-right">{volume}%</span>
+                        </div>
                       </div>
-                    </div>
-                  </motion.div>
-                )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
-              {/* Botón de tema con iconos personalizados */}
+              {/* Botón de tema con iconos personalizados y animaciones mejoradas */}
               {isMounted && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <motion.button
                       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                      className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
-                      whileHover={{ scale: 1.1, rotate: theme === "dark" ? 180 : 180 }}
-                      whileTap={{ scale: 0.9 }}
+                      className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent/10 transition-colors"
+                      variants={buttonVariants}
+                      initial="initial"
+                      whileHover="hover"
+                      whileTap="tap"
                       aria-label={theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
                     >
-                      {theme === "dark" ? <CoffeeIcon size={20} /> : <CatIcon size={20} />}
+                      <AnimatePresence mode="wait">
+                        {theme === "dark" ? (
+                          <motion.div
+                            key="coffee"
+                            initial={{ rotate: 180, opacity: 0 }}
+                            animate={{ rotate: 0, opacity: 1 }}
+                            exit={{ rotate: -180, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <CoffeeIcon size={20} />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="cat"
+                            initial={{ rotate: -180, opacity: 0 }}
+                            animate={{ rotate: 0, opacity: 1 }}
+                            exit={{ rotate: 180, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <CatIcon size={20} />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </motion.button>
                   </TooltipTrigger>
                   <TooltipContent>

@@ -98,7 +98,7 @@ const NavItem = ({ href, icon, label, isActive, isCollapsed }: NavItemProps) => 
 /**
  * Componente principal de la barra lateral de navegación para escritorio
  *
- * Características:   
+ * Características:
  * - Barra lateral colapsable
  * - Logo con efecto hover
  * - Navegación con indicador de página activa
@@ -207,6 +207,7 @@ export function SidebarNavigation() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.2 }}
+            aria-label={isCollapsed ? "Expandir barra lateral" : "Colapsar barra lateral"}
           >
             <div className="text-xl">{isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}</div>
           </motion.button>
@@ -235,7 +236,7 @@ export function MobileNavigation() {
 
   return (
     <>
-      {/* Barra de navegación móvil */}
+      {/* Barra de navegación móvil - Corregida para no mostrar etiquetas */}
       <motion.nav
         className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-t border-border"
         initial={{ y: 100 }}
@@ -248,19 +249,18 @@ export function MobileNavigation() {
 
             return (
               <Link key={item.href} href={item.href} className="w-full">
-                <div className="flex flex-col items-center justify-center h-full relative">
-                  <div
-                    className={cn(
-                      "flex flex-col items-center justify-center",
-                      isActive ? "text-accent" : "text-foreground",
-                    )}
+                <div className="flex items-center justify-center h-full relative">
+                  <motion.div
+                    className={cn("flex items-center justify-center", isActive ? "text-accent" : "text-foreground")}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     {React.cloneElement(item.icon as React.ReactElement, { size: 24 })}
-                  </div>
+                  </motion.div>
 
                   {isActive && (
                     <motion.div
-                      className="absolute bottom-0 w-12 h-1 bg-accent rounded-t-md"
+                      className="absolute bottom-0 w-8 h-1 bg-accent rounded-t-md"
                       layoutId="mobileActiveIndicator"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -274,83 +274,5 @@ export function MobileNavigation() {
         </div>
       </motion.nav>
     </>
-  )
-}
-
-/**
- * Props para el componente ScrollReveal
- */
-interface ScrollRevealProps {
-  children: React.ReactNode
-  direction?: "up" | "down" | "left" | "right"
-  delay?: number
-  className?: string
-}
-
-/**
- * Componente de animaciones para revelar elementos al hacer scroll
- */
-export function ScrollReveal({ children, direction = "up", delay = 0, className = "" }: ScrollRevealProps) {
-  const getInitialProps = () => {
-    switch (direction) {
-      case "up":
-        return { y: 50, opacity: 0 }
-      case "down":
-        return { y: -50, opacity: 0 }
-      case "left":
-        return { x: 50, opacity: 0 }
-      case "right":
-        return { x: -50, opacity: 0 }
-      default:
-        return { y: 50, opacity: 0 }
-    }
-  }
-
-  return (
-    <motion.div
-      initial={getInitialProps()}
-      whileInView={{ x: 0, y: 0, opacity: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-/**
- * Props para el componente ParallaxSection
- */
-interface ParallaxSectionProps {
-  children: React.ReactNode
-  bgImage: string
-  overlayColor?: string
-  height?: string
-  className?: string
-}
-
-/**
- * Componente de sección con efecto parallax
- */
-export function ParallaxSection({
-  children,
-  bgImage,
-  overlayColor = "rgba(0, 0, 0, 0.5)",
-  height = "400px",
-  className = "",
-}: ParallaxSectionProps) {
-  return (
-    <div className={cn("relative overflow-hidden", className)} style={{ height }}>
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          transform: "translateZ(0)",
-        }}
-      />
-      <div className="absolute inset-0" style={{ backgroundColor: overlayColor }} />
-      <div className="relative z-10 h-full flex items-center justify-center">{children}</div>
-    </div>
   )
 }
