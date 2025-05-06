@@ -45,7 +45,7 @@ En Google Drive, estructuré los archivos en carpetas específicas para:
 - Modpack completo
 - Mods requeridos
 - Mods opcionales divididos en:
-  - Partículas
+  - Partícula
   - Sonidos
   - Shaders
   - Animaciones

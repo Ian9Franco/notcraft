@@ -5,10 +5,8 @@ import React from "react"
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import {
-  Menu,
-  X,
   CuboidIcon as Cube,
   Home,
   Package,
@@ -24,8 +22,6 @@ import {
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { NetheriousLogo } from "@/components/icons/netherious-logo"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
@@ -39,7 +35,7 @@ import { CatIcon } from "@/components/icons/cat-icon"
 const NAV_ITEMS = [
   { href: "/", icon: <Home />, label: "Inicio" },
   { href: "/modpack", icon: <Package />, label: "Modpack" },
-  { href: "/resource-packs", icon: <Palette />, label: "Apariencia" },
+  { href: "/appearance", icon: <Palette />, label: "Apariencia" },
   { href: "/server-info", icon: <Server />, label: "Server Info" },
   { href: "/gallery", icon: <ImageIcon />, label: "Galería" },
 ]
@@ -52,10 +48,8 @@ const NAV_ITEMS = [
  * - Logo con efecto hover
  * - Controles para video de fondo y audio
  * - Cambio de tema claro/oscuro
- * - Menú móvil desplegable
  */
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -81,11 +75,6 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
-
-  // Cerrar menú al cambiar de página
-  useEffect(() => {
-    setIsOpen(false)
-  }, [pathname])
 
   // Cerrar control de volumen al hacer clic fuera
   useEffect(() => {
@@ -297,54 +286,49 @@ export default function Header() {
                 </Tooltip>
 
                 {/* Panel de control de volumen */}
-                <AnimatePresence>
-                  {showVolumeControl && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-2 w-64 p-4 rounded-md border bg-popover shadow-md z-50"
-                    >
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <h4 className="font-medium text-sm">Volumen</h4>
-                          <button
-                            onClick={toggleMute}
-                            className="p-1 rounded-full hover:bg-accent/10 transition-colors"
-                          >
-                            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                          </button>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <Volume className="h-4 w-4 text-muted-foreground" />
-                          <div
-                            className="relative flex-1 h-2 rounded-full overflow-hidden"
-                            style={{ backgroundColor: isDarkMode ? "#1f1f1f" : "#f5e9d5" }}
-                          >
-                            <div
-                              className="absolute h-full transition-all duration-200"
-                              style={{
-                                width: `${isMuted ? 0 : volume}%`,
-                                backgroundColor: isDarkMode ? "#B6EFBA" : "#3d2b1f",
-                              }}
-                            />
-                            <input
-                              type="range"
-                              min="0"
-                              max="100"
-                              step="1"
-                              value={volume}
-                              onChange={(e) => handleVolumeChange(Number.parseInt(e.target.value))}
-                              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                            />
-                          </div>
-                          <span className="text-xs w-8 text-right">{volume}%</span>
-                        </div>
+                {showVolumeControl && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-2 w-64 p-4 rounded-md border bg-popover shadow-md z-50"
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-medium text-sm">Volumen</h4>
+                        <button onClick={toggleMute} className="p-1 rounded-full hover:bg-accent/10 transition-colors">
+                          {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                        </button>
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      <div className="flex items-center gap-4">
+                        <Volume className="h-4 w-4 text-muted-foreground" />
+                        <div
+                          className="relative flex-1 h-2 rounded-full overflow-hidden"
+                          style={{ backgroundColor: isDarkMode ? "#1f1f1f" : "#f5e9d5" }}
+                        >
+                          <div
+                            className="absolute h-full transition-all duration-200"
+                            style={{
+                              width: `${isMuted ? 0 : volume}%`,
+                              backgroundColor: isDarkMode ? "#B6EFBA" : "#3d2b1f",
+                            }}
+                          />
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            step="1"
+                            value={volume}
+                            onChange={(e) => handleVolumeChange(Number.parseInt(e.target.value))}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          />
+                        </div>
+                        <span className="text-xs w-8 text-right">{volume}%</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
               </div>
 
               {/* Botón de tema con iconos personalizados */}
@@ -367,63 +351,9 @@ export default function Header() {
                 </Tooltip>
               )}
             </TooltipProvider>
-
-            {/* Botón de menú móvil */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden"
-              aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={isOpen ? "close" : "menu"}
-                  initial={{ opacity: 0, rotate: -90 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0, rotate: 90 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {isOpen ? <X size={24} /> : <Menu size={24} />}
-                </motion.div>
-              </AnimatePresence>
-            </Button>
           </div>
         </div>
       </div>
-
-      {/* Menú desplegable para móvil con iconos */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="md:hidden bg-background/95 backdrop-blur-sm border-t border-border/30"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="container mx-auto px-4 py-4 space-y-2">
-              {NAV_ITEMS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "flex items-center gap-3 px-4 py-3 rounded-md font-minecraft transition-colors",
-                    pathname === link.href ? "bg-accent/20 text-accent" : "hover:bg-accent/10 hover:text-accent",
-                  )}
-                >
-                  <span className="text-xl">
-                    {React.cloneElement(link.icon, {
-                      className: cn("h-5 w-5", pathname === link.href ? "text-accent" : "text-foreground"),
-                    })}
-                  </span>
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   )
 }
