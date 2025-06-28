@@ -109,7 +109,7 @@ export default function ServerInfoPage() {
                 <h3 className="font-minecraft text-xl text-accent">Versión</h3>
               </div>
               <div className="text-center mb-4">
-                <span className="block text-lg font-bold">Minecraft 1.20.1</span>
+                <span className="block text-lg font-bold">Minecraft 1.21.1</span>
                 <span className="text-sm text-muted-foreground">Requiere el modpack oficial</span>
               </div>
             </div>

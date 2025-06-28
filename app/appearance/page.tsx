@@ -72,11 +72,11 @@ const staticResourcePacks: ResourcePack[] = [
   },
   {
     id: "4",
-    name: "Shrimp's Immersive Interfaces",
+    name: "GUI Revision",
     description:
-      "Una renovación gráfica completa de la interfaz gráfica de usuario de Minecraft, aporta variedad y encanto a las cajas anteriormente grises",
-    image_url: "/images/texturas/interface.png",
-    logo_url: "/images/texturas/interfacelogo.png",
+      "Aportando un diseño fresco manteniendo la simplicidad de la GUI predeterminada",
+    image_url: "/images/texturas/guirevision.png",
+    logo_url: "/images/texturas/guirevisionlogo.png",
     special_note: "Compatible con la mayoría de mods",
     files: [{ id: "file1", name: "ejemplo.zip" }],
   },

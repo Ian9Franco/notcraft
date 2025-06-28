@@ -2,18 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import {
-  Download,
-  ExternalLink,
-  HelpCircle,
-  Package,
-  Wrench,
-  Cog,
-  Zap,
-  Server,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react"
+import { Download, ExternalLink, HelpCircle, Package, Wrench, Cog, Zap, Server } from "lucide-react"
 import { ScrollReveal } from "@/components/animations"
 import { GameButton } from "@/components/ui/button"
 import { GameCard, SectionHeader } from "@/components/ui/card"
@@ -51,180 +40,188 @@ const staticModpacks: { [key: string]: Modpack[] } = {
     {
       id: "1",
       name: "Netherious Forge",
-      version: "1.0.5",
+      version: "1.20.1",
       description: "Modpack oficial con Forge",
       file_url: "#",
       logo_url: "/images/logos/forge-logo.png",
-      available: true,
+      available: false,
     },
   ],
   fabric: [
     {
       id: "2",
       name: "Netherious Fabric",
-      version: "1.0.0",
+      version: "Beta",
       description: "Versión con Fabric (próximamente)",
       file_url: "#",
       logo_url: "/images/logos/fabric-logo.png",
       available: false,
     },
   ],
-  neoforged: [
+  neoforge: [
     {
       id: "3",
-      name: "Netherious NeoForged",
-      version: "Beta",
-      description: "Versión experimental con NeoForged",
+      name: "Netherious NeoForge",
+      version: "1.21.1",
+      description: "Versión experimental con NeoForge",
       file_url: "#",
-      logo_url: "/images/logos/neoforged-logo.png",
-      available: false,
+      logo_url: "/images/logos/neoforge-logo.png",
+      available: true,
     },
   ],
 }
 
-// Datos estáticos para mods destacados
-const staticFeaturedMods: Mod[] = [
-  { name: "Create", version: "0.5.1", description: "Añade máquinas y mecanismos complejos para automatización" },
-  {
-    name: "Deeper and Darker",
-    version: "1.0.0",
-    description: "Expande el Deep Dark con nuevas estructuras y enemigos",
-  },
-  {
-    name: "Sweet Calamity",
-    version: "1.0.0",
-    description: "Explora las Sweetlands, una nueva dimensión llena de diversión y azúcar(mod argentino)",
-  },
-  { name: "Blue Skies", version: "1.1.3", description: "Dos nuevas dimensiones llenas de aventuras y jefes" },
-  { name: "The Bumblezone", version: "5.0.2", description: "Dimensión basada en abejas y colmenas gigantes" },
-  {
-    name: "Grim and Bleak",
-    version: "1.0.0",
-    description: "Añade una atmósfera oscura con enemigos y objetos sombríos",
-  },
-  { name: "Macabre", version: "1.0.0", description: "Terror y estética gótica en nuevas entidades y estructuras" },
-  { name: "Hamsters", version: "1.0.0", description: "Añade adorables hámsters domesticables" },
-  { name: "Naturalist", version: "2.1.1", description: "Nuevos animales salvajes y comportamientos realistas" },
-  { name: "Unusual Prehistory", version: "1.0.0", description: "Criaturas prehistóricas" },
-  { name: "Thalassophobia", version: "1.0.0", description: "Exploración acuática con criaturas marinas aterradoras" },
-  { name: "L_Ender's Cataclysm", version: "1.32", description: "Jefes poderosos y estructuras desafiantes en el End" },
-  { name: "Dweller Dweller", version: "1.0.0", description: "Presencias siniestras en cuevas profundas" },
-  {
-    name: "There is Something in the Caves",
-    version: "1.0.0",
-    description: "Misterios y horrores acechan en la oscuridad",
-  },
-  {
-    name: "Tacz",
-    version: "1.0.0",
-    description: "La experiencia FPS moderna más inmersiva y personalizable de Minecraft",
-  },
-  { name: "Ad Astra", version: "1.12.3", description: "Exploración espacial con planetas, cohetes y estaciones" },
-  { name: "Unusual End", version: "1.0.0", description: "Transforma el End en una dimensión extraña y peligrosa" },
-  { name: "Outher End", version: "1.0.0", description: "Expande el End con biomas y criaturas alienígenas" },
-  { name: "IDAS", version: "1.0.0", description: "Un mod que agrega estructuras muy detalladas usando bloques y mobs" },
-  { name: "Butcher", version: "1.0.0", description: "Sistema de caza, despiece y cocina sangrienta" },
-  {
-    name: "Cognition",
-    version: "1.0.0",
-    description:
-      "Cognition tiene como objetivo revisar la XP del jugador, proporcionando nuevas formas de almacenarla, transportarla y usarla de formas extrañas y maravillosas",
-  },
-  {
-    name: "Incapacited",
-    version: "1.0.0",
-    description: "Estado de incapacitación antes de morir, como en juegos cooperativos",
-  },
-  { name: "Parcool", version: "1.0.0", description: "Parkour fluido con animaciones y mejoras de movimiento" },
-  {
-    name: "Randomium",
-    version: "1.0.0",
-    description: "Un nuevo mineral que se comporta de forma aleatoria y puede soltar cualquier objeto",
-  },
-  {
-    name: "Overenchanted",
-    version: "1.0.0",
-    description: "Un mod simple que agrega más niveles a los encantamientos de vainilla",
-  },
-  {
-    name: "Passive Skill Tree",
-    version: "1.0.0",
-    description: "Árbol de habilidades pasivas para personalización de personajes",
-  },
-]
+// Datos estáticos para mods destacados por modloader
+const staticFeaturedMods: { [key: string]: Mod[] } = {
+  forge: [
+      { name: "Create", version: "0.5.1", description: "Añade máquinas y mecanismos complejos para automatización" },
+      { name: "Sweet Calamity", version: "0.5.1", description: "Explora las Sweetlands, una nueva dimensión llena de diversión y azúcar(mod argentino)" },
 
-// Datos estáticos para mods opcionales
-const staticOptionalMods: { [key: string]: Mod[] } = {
-  particles: [
-    { name: "Particular", version: "1.0.0", description: "Efectos de partículas mejorados" },
-    { name: "Explosive Enhancement", version: "2.1.5", description: "Mejora visual de efectos y explosiones" },
-    { name: "Pretty Rain", version: "1.3.2", description: "Partículas de lluvia mejoradas" },
-    { name: "Wakes", version: "1.0.0", description: "Efectos de agua mejorados" },
-    { name: "Perception", version: "1.1.0", description: "Efectos visuales ambientales" },
-    { name: "Visuality", version: "2.0.0", description: "Partículas visuales mejoradas" },
-    { name: "Cosy Critters", version: "1.0.0", description: "Partículas para criaturas" },
-    { name: "Biome Particle Weather", version: "1.2.0", description: "Partículas específicas por bioma" },
+    ],
+  fabric: [
+    // TODO: Add Fabric featured mods here
+    // Example: { name: "Sodium", version: "0.5.8", description: "Optimización de renderizado para mejor rendimiento" },
+    // Example: { name: "Iris", version: "1.6.17", description: "Soporte para shaders con compatibilidad Optifine" },
   ],
-  animations: [
-    { name: "Eating Animation", version: "2.0.0", description: "Animaciones mejoradas al comer" },
-    { name: "Entity Model & Texture Features", version: "1.5.3", description: "Mejoras en modelos y texturas" },
-    { name: "Weapon Master", version: "1.2.1", description: "Animaciones de armas mejoradas" },
-    { name: "Let Sleeping Dogs Lie", version: "1.0.0", description: "Animaciones para mascotas durmiendo" },
+  neoforge: [
+    { name: "Oritech", version: "1.21.1", description: "Agrega nuevos minerales y maquinaria para expandir la minería y la tecnología" },
+    { name: "Lender's Cataclysm", version: "1.21.1", description: "Introduce jefes desafiantes y estructuras gigantes para explorar" },
+    { name: "There Is Something In The Caves", version: "1.21.1", description: "Añade criaturas y misterios ocultos en las profundidades de las cuevas" },
+    { name: "Eternal Starlight", version: "1.21.1", description: "Incluye magia y elementos cósmicos con nuevas mecánicas de juego" },
+    { name: "Mythic Metals", version: "1.21.1", description: "Ofrece una gran variedad de metales míticos para armas y herramientas" },
+    { name: "Cold Sweat", version: "1.21.1", description: "Añade mecánicas de temperatura que afectan la supervivencia" },
+    { name: "Deeper And Darker", version: "1.21.1", description: "Expande el Deep Dark con biomas, mobs y desafíos adicionales" },
   ],
-  sounds: [
-    { name: "Sound Physics Remastered", version: "1.1.0", description: "Física de sonido realista" },
-    { name: "Presence Footsteps", version: "2.0.5", description: "Sonidos de pasos mejorados" },
-    { name: "Sounds of the Forest", version: "1.3.2", description: "Sonidos ambientales de bosque" },
+}
+
+// Datos estáticos para mods opcionales por modloader
+const staticOptionalMods: { [key: string]: { [category: string]: Mod[] } } = {
+  forge: {
+    sound: [
+      // TODO: Add Forge sound mods here
+      // Example: { name: "Sound Physics Remastered", version: "1.4.5", description: "Física de sonido realista con reverberación" },
+      // Example: { name: "Ambient Sounds", version: "5.3.9", description: "Sonidos ambientales inmersivos" },
+    ],
+    visual: [
+      // TODO: Add Forge visual mods here
+      // Example: { name: "Optifine", version: "HD_U_I5", description: "Mejoras visuales y optimización" },
+      // Example: { name: "Dynamic Lights", version: "1.8.1", description: "Iluminación dinámica en tiempo real" },
+    ],
+    performance: [
+      // TODO: Add Forge performance mods here
+      // Example: { name: "Rubidium", version: "0.7.1", description: "Optimización de renderizado" },
+      // Example: { name: "Canary", version: "0.3.3", description: "Optimizaciones generales del servidor" },
+    ],
+    utility: [
+      // TODO: Add Forge utility mods here
+      // Example: { name: "JEI", version: "15.2.0", description: "Información de items y recetas" },
+      // Example: { name: "WAILA", version: "1.15.0", description: "Información de bloques al apuntar" },
+    ],
+    maps: [
+      // TODO: Add Forge maps here
+      // Example: { name: "JourneyMap", version: "5.9.7", description: "Mapa en tiempo real con waypoints" },
+      // Example: { name: "Antique Atlas", version: "2.9.7", description: "Mapa estilo antiguo dibujado a mano" },
+    ],
+  },
+  fabric: {
+    sound: [
+      // TODO: Add Fabric sound mods here
+      // Example: { name: "Sound Physics Fabric", version: "1.1.2", description: "Física de sonido realista" },
+      // Example: { name: "Presence Footsteps", version: "1.9.1", description: "Sonidos de pasos mejorados" },
+    ],
+    visual: [
+      // TODO: Add Fabric visual mods here
+      // Example: { name: "Iris Shaders", version: "1.6.17", description: "Soporte completo para shaders" },
+      // Example: { name: "LambDynamicLights", version: "2.3.2", description: "Iluminación dinámica" },
+    ],
+    performance: [
+      // TODO: Add Fabric performance mods here
+      // Example: { name: "Sodium", version: "0.5.8", description: "Optimización de renderizado extrema" },
+      // Example: { name: "Lithium", version: "0.11.2", description: "Optimizaciones del servidor" },
+    ],
+    utility: [
+      // TODO: Add Fabric utility mods here
+      // Example: { name: "REI", version: "12.0.684", description: "Información de items y recetas" },
+      // Example: { name: "Mod Menu", version: "7.2.2", description: "Menú de configuración de mods" },
+    ],
+    maps: [
+      // TODO: Add Fabric maps here
+      // Example: { name: "Xaero's Minimap", version: "23.9.7", description: "Minimapa avanzado" },
+      // Example: { name: "VoxelMap", version: "1.12.13", description: "Mapa y minimapa completo" },
+    ],
+  },
+  neoforge: {
+  sound: [
+    { name: "Atmosfera", version: "1.21.1", description: "Sonidos ambientales dinámicos para mayor inmersión" },
+    { name: "Dynamic Surroundings", version: "1.21.1", description: "Mejora efectos climáticos y sonidos ambientales" },
+    { name: "Satisfying Buttons", version: "1.21.1", description: "Sonidos y animaciones al pulsar botones" },
+    { name: "Cool Rain", version: "1.21.1", description: "Efectos y sonidos de lluvia más realistas" },
+  ],
+  visual: [
+    { name: "Waves", version: "1.21.1", description: "Simulación de olas realistas en agua y líquidos" },
+    { name: "Wakes", version: "1.21.1", description: "Genera estelas en el agua al nadar o navegar" },
+    { name: "Auroras", version: "1.21.1", description: "Añade auroras boreales dinámicas al cielo" },
+    { name: "Perception", version: "1.21.1", description: "Mejoras visuales de profundidad y atmósfera" },
   ],
   performance: [
-    { name: "Farsight", version: "1.0.0", description: "Mejora la distancia de renderizado" },
-    { name: "Fog", version: "1.2.0", description: "Efectos de niebla optimizados" },
-    { name: "Embeddium", version: "0.2.5", description: "Optimización general del juego" },
-    { name: "Oculus", version: "1.5.0", description: "Mejoras de renderizado" },
+    { name: "Sodium", version: "1.21.1", description: "Optimización de renderizado para mayor rendimiento" },
+    { name: "Lithium", version: "1.21.1", description: "Optimizaciones de física y lógica del mundo" },
+    { name: "Iris", version: "1.21.1", description: "Soporte para shaders con compatibilidad moderna" },
+    { name: "Not Enough Recipe Book", version: "1.21.1", description: "Recetario mejorado y optimizado" },
   ],
-  qol: [
-    { name: "Keybind Bundles", version: "1.0.0", description: "Mejoras en atajos de teclado" },
-    { name: "Modern UI", version: "2.0.0", description: "Interfaz de usuario moderna" },
-    { name: "Enchantment Info", version: "1.1.0", description: "Información detallada de encantamientos" },
-    { name: "Hold My Items", version: "1.0.0", description: "Mejoras en el inventario" },
-    { name: "Immersive Armor HUD", version: "1.2.0", description: "HUD de armadura mejorado" },
-    { name: "Item Zoom", version: "1.0.0", description: "Zoom en items" },
-    { name: "Mouse Tweaks", version: "2.0.0", description: "Mejoras en el uso del ratón" },
-    { name: "Xaero Minimap", version: "1.5.0", description: "Minimapa avanzado" },
-    { name: "JEI/EMI/Jade", version: "2.0.0", description: "Información de items y bloques" },
-    { name: "Pickup Notifier", version: "1.0.0", description: "Notificaciones de recogida de items" },
-    { name: "Appleskin", version: "1.2.0", description: "Información de comida mejorada" },
-    { name: "Bridgin Mod", version: "1.0.0", description: "Mejoras para construir puentes" },
+  utility: [
+    { name: "Inventory Profiles Next", version: "1.21.1", description: "Organiza y gestiona tu inventario fácilmente" },
+    { name: "EMI", version: "1.21.1", description: "Muestra información de items y recetas en pantalla" },
+    { name: "Jade", version: "1.21.1", description: "Información contextual de bloques y entidades" },
+    { name: "Mouse Tweaks", version: "1.21.1", description: "Mejora la gestión de items con el ratón" },
   ],
+  maps: [
+    { name: "Antique Atlas 4", version: "1.21.1", description: "Mapa estilo libro antiguo para exploración" },
+    { name: "SurveyStones", version: "1.21.1", description: "Puntos de teletransporte y waypoints" },
+    { name: "AA4 Atlas", version: "1.21.1", description: "Mapa crafteable integrado con Antique Atlas 4" },
+    { name: "Antique Trains", version: "1.21.1", description: "Expande Antique Atlas con rutas ferroviarias de Create" },
+  ],
+},
+
 }
 
 /**
  * Pasos del tutorial de instalación
  */
-const tutorialSteps = [
+const getTutorialSteps = (selectedModloader: string) => [
   {
-    title: "Instalar Forge",
+    title: `Instalar ${selectedModloader.charAt(0).toUpperCase() + selectedModloader.slice(1)}`,
     icon: <Wrench className="h-5 w-5" />,
     content: (
       <div className="space-y-4">
         <p className="text-sm text-muted-foreground">
-          Primero necesitas instalar Forge 1.20.1 en tu Minecraft. Sigue estos pasos:
+          Primero necesitas instalar {selectedModloader.charAt(0).toUpperCase() + selectedModloader.slice(1)} en tu
+          Minecraft. Sigue estos pasos:
         </p>
         <ol className="space-y-2 text-sm text-muted-foreground list-decimal pl-5">
-          <li>Descarga el instalador de Forge 1.20.1 desde el sitio oficial</li>
+          <li>
+            Descarga el instalador de {selectedModloader.charAt(0).toUpperCase() + selectedModloader.slice(1)} desde el
+            sitio oficial
+          </li>
           <li>Ejecuta el instalador y selecciona "Install client"</li>
-          <li>Haz clic en "OK" para instalar Forge</li>
-          <li>Abre el launcher de Minecraft y asegúrate de seleccionar el perfil de Forge 1.20.1</li>
+          <li>Haz clic en "OK" para instalar</li>
+          <li>Abre el launcher de Minecraft y asegúrate de seleccionar el perfil correspondiente</li>
         </ol>
         <div className="flex justify-center mt-4">
           <a
-            href="https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.1.html"
+            href={
+              selectedModloader === "forge"
+                ? "https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.1.html"
+                : selectedModloader === "fabric"
+                  ? "https://fabricmc.net/use/installer/"
+                  : "https://neoforged.net/"
+            }
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex"
           >
             <GameButton variant="outline" size="sm" icon={<ExternalLink className="h-4 w-4" />}>
-              Descargar Forge
+              Descargar {selectedModloader.charAt(0).toUpperCase() + selectedModloader.slice(1)}
             </GameButton>
           </a>
         </div>
@@ -270,10 +267,10 @@ const tutorialSteps = [
                   )}
                 </div>
                 <p className="text-xs text-accent [text-shadow:_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]">
-                  Versión {modpack.version}
+                  Última versión disponible: {modpack.version}
                 </p>
                 <a
-                  href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
+                  href="#" // TODO: Add your Google Drive link here for main modpack
                   className={modpack.available ? "" : "pointer-events-none"}
                 >
                   <GameButton
@@ -316,8 +313,8 @@ const tutorialSteps = [
           <p className="text-sm flex items-start gap-2">
             <HelpCircle className="h-5 w-5 text-accent shrink-0 mt-0.5" />
             <span>
-              Si no sabes dónde está la carpeta .minecraft, puedes abrirla desde el launcher: Instalaciones → Perfil de
-              Forge → Ver carpeta del juego
+              Si no sabes dónde está la carpeta .minecraft, puedes abrirla desde el launcher: Instalaciones → Perfil
+              correspondiente → Ver carpeta del juego
             </span>
           </p>
         </div>
@@ -332,7 +329,7 @@ const tutorialSteps = [
         <p className="text-sm text-muted-foreground">Ya estás listo para jugar con nuestro modpack:</p>
         <ol className="space-y-2 text-sm text-muted-foreground list-decimal pl-5">
           <li>Abre el launcher de Minecraft</li>
-          <li>Selecciona el perfil de Forge 1.20.1</li>
+          <li>Selecciona el perfil de {selectedModloader.charAt(0).toUpperCase() + selectedModloader.slice(1)}</li>
           <li>Inicia el juego</li>
           <li>
             Conéctate a nuestro servidor:{" "}
@@ -360,14 +357,15 @@ export default function ModpackPage() {
   const [mounted, setMounted] = useState(false)
 
   // Estados para datos estáticos
+  const [selectedModloader, setSelectedModloader] = useState<string>("neoforge")
   const [modpacks, setModpacks] = useState<{ [key: string]: Modpack[] }>({})
   const [featuredMods, setFeaturedMods] = useState<Mod[]>([])
   const [optionalMods, setOptionalMods] = useState<{ [key: string]: Mod[] }>({
-    particles: [],
-    animations: [],
-    sounds: [],
+    sound: [],
+    visual: [],
     performance: [],
-    qol: [],
+    utility: [],
+    maps: [],
   })
   const [isLoading, setIsLoading] = useState(true)
   const [isModsExpanded, setIsModsExpanded] = useState(false)
@@ -379,30 +377,74 @@ export default function ModpackPage() {
     // Simular carga de datos
     const timer = setTimeout(() => {
       setModpacks(staticModpacks)
-      setFeaturedMods(staticFeaturedMods)
-      setOptionalMods(staticOptionalMods)
+      setFeaturedMods(staticFeaturedMods[selectedModloader] || [])
+      setOptionalMods(
+        staticOptionalMods[selectedModloader] || {
+          sound: [],
+          visual: [],
+          performance: [],
+          utility: [],
+          maps: [],
+        },
+      )
       setIsLoading(false)
     }, 1000)
 
     return () => clearTimeout(timer)
-  }, [])
+  }, [selectedModloader])
 
   // TITULOS: Determinamos el color del texto según el tema
   const titleTextColor = mounted ? (theme === "dark" ? "text-white" : "text-black") : "text-primary"
 
   // Función para obtener el enlace de descarga según la categoría
   const getCategoryDownloadLink = (category: string) => {
-    switch (category) {
-      case "particles":
-        return "https://drive.google.com/uc?export=download&id=1KuQL_oxuUdu4MTDzUVuiX1PmPMFcyoqi"
-      case "sounds":
-        return "https://drive.google.com/uc?export=download&id=1ZKtSam_uWcwPt3IRlmuu_vu1AtqOe8y1"
-      case "animations":
-        return "https://drive.google.com/uc?export=download&id=11npWwiUQZvc1bw3pk0qtun6XX8syxUGs"
-      case "performance":
-        return "https://drive.google.com/uc?export=download&id=1IEeH5m16jxClrMi16u33UKM-3NblPZtO"
-      case "qol":
-        return "https://drive.google.com/uc?export=download&id=1PsFWmXt3AkQGbW6mCAuXZH-8Vg9bejG7"
+    // TODO: Add modloader-specific download links for category packs
+    switch (selectedModloader) {
+      case "forge":
+        switch (category) {
+          case "sound":
+            return "https://drive.google.com/uc?export=download&id=FORGE_SOUND_PACK_ID" // TODO: Replace with actual Forge sound pack ID
+          case "visual":
+            return "https://drive.google.com/uc?export=download&id=FORGE_VISUAL_PACK_ID" // TODO: Replace with actual Forge visual pack ID
+          case "performance":
+            return "https://drive.google.com/uc?export=download&id=FORGE_PERFORMANCE_PACK_ID" // TODO: Replace with actual Forge performance pack ID
+          case "utility":
+            return "https://drive.google.com/uc?export=download&id=FORGE_UTILITY_PACK_ID" // TODO: Replace with actual Forge utility pack ID
+          case "maps":
+            return "https://drive.google.com/uc?export=download&id=FORGE_MAPS_PACK_ID" // TODO: Replace with actual Forge maps pack ID
+          default:
+            return "#"
+        }
+      case "fabric":
+        switch (category) {
+          case "sound":
+            return "https://drive.google.com/uc?export=download&id=FABRIC_SOUND_PACK_ID" // TODO: Replace with actual Fabric sound pack ID
+          case "visual":
+            return "https://drive.google.com/uc?export=download&id=FABRIC_VISUAL_PACK_ID" // TODO: Replace with actual Fabric visual pack ID
+          case "performance":
+            return "https://drive.google.com/uc?export=download&id=FABRIC_PERFORMANCE_PACK_ID" // TODO: Replace with actual Fabric performance pack ID
+          case "utility":
+            return "https://drive.google.com/uc?export=download&id=FABRIC_UTILITY_PACK_ID" // TODO: Replace with actual Fabric utility pack ID
+          case "maps":
+            return "https://drive.google.com/uc?export=download&id=FABRIC_MAPS_PACK_ID" // TODO: Replace with actual Fabric maps pack ID
+          default:
+            return "#"
+        }
+      case "neoforge":
+        switch (category) {
+          case "sound":
+            return "https://drive.google.com/drive/folders/1xxckBpbM0kcH-ZfI1AmnfC8P5CP8gKYn?usp=drive_link" 
+          case "visual":
+            return "https://drive.google.com/drive/folders/18PeBu1EPjgSuXWj12j94I24bP6EPIEoW?usp=drive_link" 
+          case "performance":
+            return "https://drive.google.com/drive/folders/1DzRAccsnz2Svi7UUwvVWJS0FUVujIVAT?usp=drive_link" 
+          case "utility":
+            return "https://drive.google.com/drive/folders/19cs5wky_tr1WDCiRtuj6yelJL57rzxvE?usp=drive_link" 
+          case "maps":
+            return "https://drive.google.com/drive/folders/1BNvS9ZwyNrMHos85XlGDm2ypbyRz5UE8?usp=drive_link" 
+          default:
+            return "#"
+        }
       default:
         return "#"
     }
@@ -411,16 +453,16 @@ export default function ModpackPage() {
   // Función para obtener el nombre de la categoría en español
   const getCategoryName = (category: string) => {
     switch (category) {
-      case "particles":
-        return "Partículas"
-      case "sounds":
-        return "Sonidos"
-      case "animations":
-        return "Animaciones"
+      case "sound":
+        return "Sonido"
+      case "visual":
+        return "Visual"
       case "performance":
         return "Rendimiento"
-      case "qol":
-        return "Calidad de Vida"
+      case "utility":
+        return "Utilidad"
+      case "maps":
+        return "Mapas"
       default:
         return category
     }
@@ -439,12 +481,12 @@ export default function ModpackPage() {
       <ScrollReveal>
         <GameCard className="border-glow" borderGlow>
           <h2 className="minecraft-style text-2xl text-accent mb-6">Tutorial de Instalación</h2>
-          <InteractiveAccordion items={tutorialSteps} />
+          <InteractiveAccordion items={getTutorialSteps(selectedModloader)} />
 
           <div className="mt-8">
             <h3 className="font-minecraft text-xl text-accent mb-4">Descargar por Modloader</h3>
 
-            <Tabs defaultValue="forge" className="w-full">
+            <Tabs defaultValue="neoforge" className="w-full" onValueChange={setSelectedModloader}>
               <TabsList className="grid grid-cols-3 mb-4">
                 <TabsTrigger value="forge" className="minecraft-style">
                   <div className="flex items-center gap-2">
@@ -453,16 +495,16 @@ export default function ModpackPage() {
                     Forge
                   </div>
                 </TabsTrigger>
-                <TabsTrigger value="fabric" className="minecraft-style" disabled>
+                <TabsTrigger value="fabric" className="minecraft-style">
                   <div className="flex items-center gap-2">
                     <ModloaderIcon type="fabric" size={20} />
                     Fabric
                   </div>
                 </TabsTrigger>
-                <TabsTrigger value="neoforged" className="minecraft-style" disabled>
+                <TabsTrigger value="neoforge" className="minecraft-style">
                   <div className="flex items-center gap-2">
                     <ModloaderIcon type="neoforged" size={20} />
-                    NeoForged
+                    NeoForge
                   </div>
                 </TabsTrigger>
               </TabsList>
@@ -473,18 +515,18 @@ export default function ModpackPage() {
                     {packs.map((modpack, index) => (
                       <GameCard key={index} className={`${modpack.available ? "border-glow" : "opacity-70"}`}>
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="relative w-12 h-12 bg-background/30 rounded-md p-1">
+                          <div className="relative w-12 h-12 bg-background/30 rounded-md p-1 flex items-center justify-center">
                             {/* Usamos el componente ModloaderIcon para el logo del modpack */}
                             <ModloaderIcon
-                              type={modloader as "forge" | "fabric" | "neoforged"}
-                              size={48}
-                              className="absolute inset-0 m-auto"
+                              type={modloader === "neoforge" ? "neoforged" : (modloader as "forge" | "fabric")}
+                              size={32}
+                              className="flex-shrink-0"
                             />
                           </div>
                           <div>
                             <h4 className="font-minecraft text-lg text-accent">{modpack.name}</h4>
                             <p className="text-xs text-accent [text-shadow:_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]">
-                              Versión {modpack.version}
+                              Última versión disponible: {modpack.version}
                             </p>
                           </div>
                         </div>
@@ -494,7 +536,7 @@ export default function ModpackPage() {
                         </p>
 
                         <a
-                          href="https://drive.google.com/uc?export=download&id=1sLVxzKPOczuSLT7bIYvpclpkF-_AG6la"
+                          href="https://drive.google.com/file/d/1NS5X2mtpd5lHv_2MH3L1Dcn1NdZ1XTB8/view?usp=drive_link" // TODO: Add your Google Drive link here for main modpack
                           className={modpack.available ? "" : "pointer-events-none"}
                         >
                           <GameButton
@@ -524,7 +566,7 @@ export default function ModpackPage() {
           <div id="featured-mods-season-1">
             <h3 className="font-minecraft text-xl text-accent mb-4 flex items-center">
               <span className="inline-block w-3 h-3 bg-accent rounded-full mr-2 animate-pulse"></span>
-              Mods Destacados
+              Mods Destacados - {selectedModloader.charAt(0).toUpperCase() + selectedModloader.slice(1)}
             </h3>
             <GameCard className="border-2 border-accent/30">
               <div className="grid grid-cols-1 divide-y divide-border">
@@ -572,28 +614,30 @@ export default function ModpackPage() {
 
       <ScrollReveal direction="up" delay={0.2}>
         <div className="max-w-4xl mx-auto">
-          <h3 className="font-minecraft text-xl text-accent mb-4">Mods Opcionales</h3>
-          <Tabs defaultValue="particles" className="w-full">
+          <h3 className="font-minecraft text-xl text-accent mb-4">
+            Mods Opcionales - {selectedModloader.charAt(0).toUpperCase() + selectedModloader.slice(1)}
+          </h3>
+          <Tabs defaultValue="sound" className="w-full">
             <TabsList className="grid grid-cols-5 mb-4">
-              <TabsTrigger value="particles" className="minecraft-style">
-                <span className="hidden sm:inline">Partículas</span>
-                <span className="inline sm:hidden">Partíc.</span>
+              <TabsTrigger value="sound" className="minecraft-style">
+                <span className="hidden sm:inline">Sonido</span>
+                <span className="inline sm:hidden">Sonido</span>
               </TabsTrigger>
-              <TabsTrigger value="animations" className="minecraft-style">
-                <span className="hidden sm:inline">Animaciones</span>
-                <span className="inline sm:hidden">Anim.</span>
-              </TabsTrigger>
-              <TabsTrigger value="sounds" className="minecraft-style">
-                <span className="hidden sm:inline">Sonidos</span>
-                <span className="inline sm:hidden">Sonidos</span>
+              <TabsTrigger value="visual" className="minecraft-style">
+                <span className="hidden sm:inline">Visual</span>
+                <span className="inline sm:hidden">Visual</span>
               </TabsTrigger>
               <TabsTrigger value="performance" className="minecraft-style">
                 <span className="hidden sm:inline">Rendimiento</span>
                 <span className="inline sm:hidden">Rend.</span>
               </TabsTrigger>
-              <TabsTrigger value="qol" className="minecraft-style">
-                <span className="hidden sm:inline">Calidad de Vida</span>
-                <span className="inline sm:hidden">QoL</span>
+              <TabsTrigger value="utility" className="minecraft-style">
+                <span className="hidden sm:inline">Utilidad</span>
+                <span className="inline sm:hidden">Util.</span>
+              </TabsTrigger>
+              <TabsTrigger value="maps" className="minecraft-style">
+                <span className="hidden sm:inline">Mapas</span>
+                <span className="inline sm:hidden">Mapas</span>
               </TabsTrigger>
             </TabsList>
 
@@ -604,15 +648,15 @@ export default function ModpackPage() {
                     <h3 className={`font-minecraft text-lg font-semibold ${titleTextColor}`}>
                       Mods de <span className="hidden sm:inline">{getCategoryName(category)}</span>
                       <span className="inline sm:hidden">
-                        {category === "particles"
-                          ? "Partíc."
-                          : category === "animations"
-                            ? "Anim."
-                            : category === "sounds"
-                              ? "Sonidos"
-                              : category === "performance"
-                                ? "Rend."
-                                : "QoL"}
+                        {category === "sound"
+                          ? "Sonido"
+                          : category === "visual"
+                            ? "Visual"
+                            : category === "performance"
+                              ? "Rend."
+                              : category === "utility"
+                                ? "Util."
+                                : "Mapas"}
                       </span>
                     </h3>
                     <a href={getCategoryDownloadLink(category)}>
