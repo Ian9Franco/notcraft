@@ -65,7 +65,7 @@ const staticModpacks: { [key: string]: Modpack[] } = {
       version: "1.21.1",
       description: "Versión experimental con NeoForge",
       file_url: "#",
-      logo_url: "/images/logos/neoforge-logo.png",
+      logo_url: "/images/logos/neoforge-logo11.png",
       available: true,
     },
   ],
