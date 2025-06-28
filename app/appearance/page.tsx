@@ -380,17 +380,8 @@ export default function ResourcePacksPage() {
               <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-background/30 rounded-md overflow-hidden border border-border">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="/images/landscape/resource 1.png"
+                    src="/images/landscape/resource.png"
                     alt="Imagen de ejemplo 1 del orden correcto de resource packs"
-                    className="object-contain w-full h-full"
-                  />
-                </div>
-              </div>
-              <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-background/30 rounded-md overflow-hidden border border-border">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <img
-                    src="/images/landscape/resource 2.png"
-                    alt="Imagen de ejemplo 2 del orden correcto de resource packs"
                     className="object-contain w-full h-full"
                   />
                 </div>

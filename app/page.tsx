@@ -14,31 +14,63 @@ import { DiscIcon as DiscordLogo } from "lucide-react"
  */
 const featuredMods = [
   {
-    title: "Create",
-    description: "Automatización estética con máquinas de procesamiento y trenes funcionales.",
-    imageSrc: "/images/mods/create-banner.png",
-    logoSrc: "/images/mods/createlogo.png",
+    title: "Eternal Starlight",
+    description: "Un mod de dimensión que agrega la dimensión mágica y misteriosa de la luz de las estrellas.",
+    imageSrc: "/images/mods/eternal-banner.png",
+    logoSrc: "/images/mods/eternal-logo.png",
   },
   {
-    title: "Blue Skies",
-    description:
-      "Blue Skies es un mod de supervivencia que añade aspectos como dimensiones, mazmorras y más en un escenario claro y oscuro.",
-    imageSrc: "/images/mods/blueskyes-banner.png",
-    logoSrc: "/images/mods/blueskyeslogo.png",
+    title: "Creeper Overhaul",
+    description: "¡Un mod que mejora los Creepers vainilla!",
+    imageSrc: "/images/mods/creeper-banner.png",
+    logoSrc: "/images/mods/creeper-logo.png",
   },
   {
     title: "L_Ender's Cataclysm",
     description:
       "Cataclysm es un mod que agrega mazmorras difíciles, peleas contra jefes desafiantes y elementos poderosos.",
     imageSrc: "/images/mods/cataclysm-banner.png",
-    logoSrc: "/images/mods/cataclysmlogo.png",
+    logoSrc: "/images/mods/cataclysm-logo.png",
   },
   {
-    title: "Grim & Bleak",
+    title: "Enderman Overhaul",
     description:
-      "Un mod de terror centrado en el ambiente que añade toda una dimensión al juego y mezcla el terror con la jugabilidad.",
-    imageSrc: "/images/mods/grim-banner.png",
-    logoSrc: "/images/mods/grimlogo.png",
+      "Enderman Overhaul agrega más de 20 nuevas variantes de Enderman, ¡cada una con sus propios sonidos, modelos y animaciones!",
+    imageSrc: "/images/mods/enderman-banner.png",
+    logoSrc: "/images/mods/enderman-logo.png",
+  },
+  {
+    title: "Immersive Aircraft",
+    description: "¡Un montón de aviones rústicos para viajar, transportar y explorar!",
+    imageSrc: "/images/mods/aircraft-banner.png",
+    logoSrc: "/images/mods/aircraft-logo.png",
+  },
+  {
+    title: "Oritech",
+    description:
+      "Un mod centrado en la tecnología, con maquinaria animada, diversas opciones de procesamiento y muchas mecánicas y equipos nuevos.",
+    imageSrc: "/images/mods/oritech-banner.png",
+    logoSrc: "/images/mods/oritech-logo.png",
+  },
+  {
+    title: "Supplementaries",
+    description:
+      "Complementos Vanilla+: Jarrones, señalizaciones, grifos, veletas, lanzadores de resortes, apliques, jardineras, luces, decoración y automatización.",
+    imageSrc: "/images/mods/supplementaries-banner.png",
+    logoSrc: "/images/mods/supplementaries-logo.png",
+  },
+  {
+    title: "Deeper and Darker",
+    description:
+      "Un mod de Minecraft que presenta más bloques, elementos, armaduras y misterios ocultos para complementar el bioma Deep Dark.",
+    imageSrc: "/images/mods/deeper-banner.png",
+    logoSrc: "/images/mods/deeper-logo.png",
+  },
+  {
+    title: "Golem Overhaul",
+    description: "¡Golem Overhaul agrega 9 nuevos tipos de gólem, todos con sus propias mecánicas únicas!",
+    imageSrc: "/images/mods/golem-banner.png",
+    logoSrc: "/images/mods/golem-logo.png",
   },
 ]
 
@@ -121,37 +153,32 @@ export default function Home() {
             <h1 className="font-title text-3xl sm:text-4xl lg:text-5xl mb-3 text-accent high-contrast-text">Unite</h1>
             {/* Mobile */}
             <p className="text-base sm:text-lg font-body font-light text-foreground high-contrast-text md:hidden">
-              Acá no te rompen el orto de entrada… salvo que lo vayas a buscar. Si te quedás en tu campito, podés vivir
-              bien. Pero pisá una cueva de noche, y te convertís en comida. ¿Explorás... o te quedás regando nabos?
+              Acá levantás tu base, expandís tus tierras y descubrís secretos bajo cada bloque. Desde cuevas vivas hasta ruinas
+              perdidas: si cavás, encontrás. Si explorás, sobrevivís. Si dormís... te comen.
             </p>
 
             {/* Desktop */}
             <p className="text-lg font-body font-light text-foreground high-contrast-text hidden md:block">
-              Este mundo tiene dos caras. Si te armás tu base, farmeás de día y no te metés donde no debés, podés tener
-              una vida tranqui. Pero si entrás al bosque de noche, bajás muy hondo, o cruzás portales raros... ahí
-              cambia todo. Te van a correr, te van a gritar, te van a romper. Hay bestias que no preguntan, lugares que
-              no quieren visitas, y cosas que no podés matar ni con diez pociones. No es injusto, es salvaje. Y el que
-              muere es porque fue a buscar quilombo.
+              Este mundo es para el que construye y para el que se anima. Podés fundar tu pueblo, automatizar con máquinas,
+              cultivar estaciones, criar animales raros y comerciar. Pero todo lo que hagas, lo vas a defender. Porque bajo tierra
+              hay pasajes que no quieren ser abiertos, biomas salvajes que no dan segundas chances, templos olvidados y artefactos
+              que no todos deberían tocar. Si buscás aventura, la vas a encontrar. Si querés paz, construíla.
             </p>
 
             {/* Mobile 2 */}
             <p className="text-sm sm:text-base text-foreground mt-4 high-contrast-text md:hidden">
-              Paz si la cuidás. Terror si la desafiás. Este mundo es una balanza, y vos decidís si la rompés o la
-              respetás. Pero no llores cuando venga la cuenta.
+              Granjas, máquinas, ruinas y criaturas que no viste. Vos elegís: crecer tranquilo o perderte buscando tesoros que tal
+              vez no quieras despertar.
             </p>
 
             {/* Desktop 2 */}
             <p className="text-base text-foreground mt-4 high-contrast-text hidden md:block">
-              Este server no es un infierno constante. Te podés armar tu granjita, automatizar, decorar, pasarla piola.
-              Pero no es un parque de diversiones: si te metés donde no te llaman, lo vas a pagar. El bosque no perdona.
-              Las profundidades no tienen reglas. Las dimensiones raras no conocen la lógica. Y si entrás pensando que
-              todo es Minecraft vanilla, te van a dejar en bolas más rápido que un creeper con lag.
-              <br />
-              <br />
-              Acá podés vivir como un rey… o morir como un boludo. Tu camino depende de cuán cerca querés mirar al
-              abismo. Porque en este mundo, si no provocás, tal vez vivís. Pero si provocás… más vale que estés listo
-              para bancártela.
+              Acá nadie te obliga a pelear, pero todo te invita a explorar. Con nuevos minerales, bosses, biomas extremos y un
+              clima que no perdona, cada paso es decisión tuya: expandís tu granja con Create y Oritech, domás la naturaleza o la
+              despertás. Hay civilizaciones bajo la piedra, secretos en la nieve, reliquias en la arena y monstruos que duermen en
+              cuevas que no figuran en mapas. Jugalo como vanilla... pero nunca creas que es solo vanilla.
             </p>
+
 
             <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mt-6 sm:mt-8">
               <Link href="/server-info">
@@ -186,17 +213,25 @@ export default function Home() {
                       src={mod.imageSrc || "/placeholder.svg"}
                       alt={`${mod.title} banner`}
                       fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover object-center transition-transform duration-500 hover:scale-105"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.src = "/placeholder.svg?height=256&width=400"
+                      }}
                     />
                   </div>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-4">
-                    <div className="relative h-12 w-12 sm:h-16 sm:w-16 rounded-full overflow-hidden border-2 border-accent flex items-center justify-center bg-card/50 mx-auto sm:mx-0">
+                    <div className="relative h-12 w-12 sm:h-16 sm:w-16 rounded-full overflow-hidden border-2 border-accent flex items-center justify-center bg-card/50 mx-auto sm:mx-0 flex-shrink-0">
                       <Image
                         src={mod.logoSrc || "/placeholder.svg"}
                         alt={`${mod.title} logo`}
                         fill
-                        className="object-cover"
+                        className="object-contain p-1"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.src = "/placeholder.svg?height=64&width=64"
+                        }}
                       />
                     </div>
                     <h3 className="font-title text-lg sm:text-xl text-accent high-contrast-text text-center sm:text-left">
@@ -207,7 +242,7 @@ export default function Home() {
                     <p className="text-xs sm:text-sm text-foreground high-contrast-text">{mod.description}</p>
                   </div>
                   <div className="mt-4 flex justify-end">
-                    <Link href={`/mods/${mod.title.toLowerCase().replace(/\s+/g, "-")}`}>
+                    <Link href={`/mods/${mod.title.toLowerCase().replace(/\s+/g, "-").replace(/'/g, "")}`}>
                       <GameButton variant="outline" size="sm">
                         Ver detalles
                       </GameButton>
