@@ -74,23 +74,54 @@ const staticModpacks: { [key: string]: Modpack[] } = {
 // Datos estáticos para mods destacados por modloader
 const staticFeaturedMods: { [key: string]: Mod[] } = {
   forge: [
-      { name: "Create", version: "0.5.1", description: "Añade máquinas y mecanismos complejos para automatización" },
-      { name: "Sweet Calamity", version: "0.5.1", description: "Explora las Sweetlands, una nueva dimensión llena de diversión y azúcar(mod argentino)" },
-
-    ],
+    { name: "Create", version: "0.5.1", description: "Añade máquinas y mecanismos complejos para automatización" },
+    {
+      name: "Sweet Calamity",
+      version: "0.5.1",
+      description: "Explora las Sweetlands, una nueva dimensión llena de diversión y azúcar(mod argentino)",
+    },
+  ],
   fabric: [
     // TODO: Add Fabric featured mods here
     // Example: { name: "Sodium", version: "0.5.8", description: "Optimización de renderizado para mejor rendimiento" },
     // Example: { name: "Iris", version: "1.6.17", description: "Soporte para shaders con compatibilidad Optifine" },
   ],
   neoforge: [
-    { name: "Oritech", version: "1.21.1", description: "Agrega nuevos minerales y maquinaria para expandir la minería y la tecnología" },
-    { name: "Lender's Cataclysm", version: "1.21.1", description: "Introduce jefes desafiantes y estructuras gigantes para explorar" },
-    { name: "There Is Something In The Caves", version: "1.21.1", description: "Añade criaturas y misterios ocultos en las profundidades de las cuevas" },
-    { name: "Eternal Starlight", version: "1.21.1", description: "Incluye magia y elementos cósmicos con nuevas mecánicas de juego" },
-    { name: "Mythic Metals", version: "1.21.1", description: "Ofrece una gran variedad de metales míticos para armas y herramientas" },
-    { name: "Cold Sweat", version: "1.21.1", description: "Añade mecánicas de temperatura que afectan la supervivencia" },
-    { name: "Deeper And Darker", version: "1.21.1", description: "Expande el Deep Dark con biomas, mobs y desafíos adicionales" },
+    {
+      name: "Oritech",
+      version: "1.21.1",
+      description: "Agrega nuevos minerales y maquinaria para expandir la minería y la tecnología",
+    },
+    {
+      name: "Lender's Cataclysm",
+      version: "1.21.1",
+      description: "Introduce jefes desafiantes y estructuras gigantes para explorar",
+    },
+    {
+      name: "There Is Something In The Caves",
+      version: "1.21.1",
+      description: "Añade criaturas y misterios ocultos en las profundidades de las cuevas",
+    },
+    {
+      name: "Eternal Starlight",
+      version: "1.21.1",
+      description: "Incluye magia y elementos cósmicos con nuevas mecánicas de juego",
+    },
+    {
+      name: "Mythic Metals",
+      version: "1.21.1",
+      description: "Ofrece una gran variedad de metales míticos para armas y herramientas",
+    },
+    {
+      name: "Cold Sweat",
+      version: "1.21.1",
+      description: "Añade mecánicas de temperatura que afectan la supervivencia",
+    },
+    {
+      name: "Deeper And Darker",
+      version: "1.21.1",
+      description: "Expande el Deep Dark con biomas, mobs y desafíos adicionales",
+    },
   ],
 }
 
@@ -151,38 +182,49 @@ const staticOptionalMods: { [key: string]: { [category: string]: Mod[] } } = {
     ],
   },
   neoforge: {
-  sound: [
-    { name: "Atmosfera", version: "1.21.1", description: "Sonidos ambientales dinámicos para mayor inmersión" },
-    { name: "Dynamic Surroundings", version: "1.21.1", description: "Mejora efectos climáticos y sonidos ambientales" },
-    { name: "Satisfying Buttons", version: "1.21.1", description: "Sonidos y animaciones al pulsar botones" },
-    { name: "Cool Rain", version: "1.21.1", description: "Efectos y sonidos de lluvia más realistas" },
-  ],
-  visual: [
-    { name: "Waves", version: "1.21.1", description: "Simulación de olas realistas en agua y líquidos" },
-    { name: "Wakes", version: "1.21.1", description: "Genera estelas en el agua al nadar o navegar" },
-    { name: "Auroras", version: "1.21.1", description: "Añade auroras boreales dinámicas al cielo" },
-    { name: "Perception", version: "1.21.1", description: "Mejoras visuales de profundidad y atmósfera" },
-  ],
-  performance: [
-    { name: "Sodium", version: "1.21.1", description: "Optimización de renderizado para mayor rendimiento" },
-    { name: "Lithium", version: "1.21.1", description: "Optimizaciones de física y lógica del mundo" },
-    { name: "Iris", version: "1.21.1", description: "Soporte para shaders con compatibilidad moderna" },
-    { name: "Not Enough Recipe Book", version: "1.21.1", description: "Recetario mejorado y optimizado" },
-  ],
-  utility: [
-    { name: "Inventory Profiles Next", version: "1.21.1", description: "Organiza y gestiona tu inventario fácilmente" },
-    { name: "EMI", version: "1.21.1", description: "Muestra información de items y recetas en pantalla" },
-    { name: "Jade", version: "1.21.1", description: "Información contextual de bloques y entidades" },
-    { name: "Mouse Tweaks", version: "1.21.1", description: "Mejora la gestión de items con el ratón" },
-  ],
-  maps: [
-    { name: "Antique Atlas 4", version: "1.21.1", description: "Mapa estilo libro antiguo para exploración" },
-    { name: "SurveyStones", version: "1.21.1", description: "Puntos de teletransporte y waypoints" },
-    { name: "AA4 Atlas", version: "1.21.1", description: "Mapa crafteable integrado con Antique Atlas 4" },
-    { name: "Antique Trains", version: "1.21.1", description: "Expande Antique Atlas con rutas ferroviarias de Create" },
-  ],
-},
-
+    sound: [
+      { name: "Atmosfera", version: "1.21.1", description: "Sonidos ambientales dinámicos para mayor inmersión" },
+      {
+        name: "Dynamic Surroundings",
+        version: "1.21.1",
+        description: "Mejora efectos climáticos y sonidos ambientales",
+      },
+      { name: "Satisfying Buttons", version: "1.21.1", description: "Sonidos y animaciones al pulsar botones" },
+      { name: "Cool Rain", version: "1.21.1", description: "Efectos y sonidos de lluvia más realistas" },
+    ],
+    visual: [
+      { name: "Waves", version: "1.21.1", description: "Simulación de olas realistas en agua y líquidos" },
+      { name: "Wakes", version: "1.21.1", description: "Genera estelas en el agua al nadar o navegar" },
+      { name: "Auroras", version: "1.21.1", description: "Añade auroras boreales dinámicas al cielo" },
+      { name: "Perception", version: "1.21.1", description: "Mejoras visuales de profundidad y atmósfera" },
+    ],
+    performance: [
+      { name: "Sodium", version: "1.21.1", description: "Optimización de renderizado para mayor rendimiento" },
+      { name: "Lithium", version: "1.21.1", description: "Optimizaciones de física y lógica del mundo" },
+      { name: "Iris", version: "1.21.1", description: "Soporte para shaders con compatibilidad moderna" },
+      { name: "Not Enough Recipe Book", version: "1.21.1", description: "Recetario mejorado y optimizado" },
+    ],
+    utility: [
+      {
+        name: "Inventory Profiles Next",
+        version: "1.21.1",
+        description: "Organiza y gestiona tu inventario fácilmente",
+      },
+      { name: "EMI", version: "1.21.1", description: "Muestra información de items y recetas en pantalla" },
+      { name: "Jade", version: "1.21.1", description: "Información contextual de bloques y entidades" },
+      { name: "Mouse Tweaks", version: "1.21.1", description: "Mejora la gestión de items con el ratón" },
+    ],
+    maps: [
+      { name: "Antique Atlas 4", version: "1.21.1", description: "Mapa estilo libro antiguo para exploración" },
+      { name: "SurveyStones", version: "1.21.1", description: "Puntos de teletransporte y waypoints" },
+      { name: "AA4 Atlas", version: "1.21.1", description: "Mapa crafteable integrado con Antique Atlas 4" },
+      {
+        name: "Antique Trains",
+        version: "1.21.1",
+        description: "Expande Antique Atlas con rutas ferroviarias de Create",
+      },
+    ],
+  },
 }
 
 /**
@@ -242,9 +284,9 @@ const getTutorialSteps = (selectedModloader: string) => [
               <div key={index} className={`${modpack.available ? "" : "opacity-60"}`}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="relative w-8 h-8">
+                    <div className="relative w-10 h-10">
                       <img
-                        src={modpack.logo_url || "/placeholder.svg?height=32&width=32"}
+                        src={modpack.logo_url || "/placeholder.svg?height=40&width=40"}
                         alt={modpack.name}
                         className="object-contain absolute inset-0"
                       />
@@ -491,19 +533,19 @@ export default function ModpackPage() {
                 <TabsTrigger value="forge" className="minecraft-style">
                   <div className="flex items-center gap-2">
                     {/* Usamos el componente ModloaderIcon en lugar de Image */}
-                    <ModloaderIcon type="forge" size={20} />
+                    <ModloaderIcon type="forge" size={24} />
                     Forge
                   </div>
                 </TabsTrigger>
                 <TabsTrigger value="fabric" className="minecraft-style">
                   <div className="flex items-center gap-2">
-                    <ModloaderIcon type="fabric" size={20} />
+                    <ModloaderIcon type="fabric" size={24} />
                     Fabric
                   </div>
                 </TabsTrigger>
                 <TabsTrigger value="neoforge" className="minecraft-style">
                   <div className="flex items-center gap-2">
-                    <ModloaderIcon type="neoforged" size={20} />
+                    <ModloaderIcon type="neoforged" size={24} />
                     NeoForge
                   </div>
                 </TabsTrigger>
@@ -515,11 +557,11 @@ export default function ModpackPage() {
                     {packs.map((modpack, index) => (
                       <GameCard key={index} className={`${modpack.available ? "border-glow" : "opacity-70"}`}>
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="relative w-12 h-12 bg-background/30 rounded-md p-1 flex items-center justify-center">
+                          <div className="relative w-16 h-16 bg-background/30 rounded-md p-2 flex items-center justify-center">
                             {/* Usamos el componente ModloaderIcon para el logo del modpack */}
                             <ModloaderIcon
                               type={modloader === "neoforge" ? "neoforged" : (modloader as "forge" | "fabric")}
-                              size={32}
+                              size={40}
                               className="flex-shrink-0"
                             />
                           </div>
@@ -536,7 +578,7 @@ export default function ModpackPage() {
                         </p>
 
                         <a
-                          href="https://drive.google.com/file/d/1NS5X2mtpd5lHv_2MH3L1Dcn1NdZ1XTB8/view?usp=drive_link" // TODO: Add your Google Drive link here for main modpack
+                          href="https://drive.google.com/drive/folders/18d8fgpPIPQ7NPhI3BO2rgvK-nFUAa2NO?usp=drive_link" // TODO: Add your Google Drive link here for main modpack
                           className={modpack.available ? "" : "pointer-events-none"}
                         >
                           <GameButton
