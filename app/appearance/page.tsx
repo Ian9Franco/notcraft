@@ -266,7 +266,7 @@ export default function ResourcePacksPage() {
               </div>
             </div>
             <a
-              href="https://drive.google.com/uc?export=download&id=1Evy3Lnka7Y_LNkkzvzewjtfEPZb0cQtJ"
+              href="https://drive.google.com/file/d/1_mNdl5IYapOHxVW-bDSxYlooLvXbHYIG/view?usp=drive_link"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full"
