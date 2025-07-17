@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
-import { motion } from "framer-motion"
+import React, { useState, useEffect, useRef, useCallback } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import "@/app/premium/carousel-premium.css" // ✅ Importar el nuevo archivo CSS para el carrusel
 
 interface CarouselProps {
   children: React.ReactNode
@@ -26,28 +27,34 @@ export function Carousel({
   pauseOnHover = true,
   transitionEffect = "slide",
 }: CarouselProps) {
-  // Convertir children a array para poder trabajar con ellos
   const childrenArray = React.Children.toArray(children)
   const totalItems = childrenArray.length
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [direction, setDirection] = useState(0) // 0: initial, 1: next, -1: prev
   const [touchStart, setTouchStart] = useState(0)
   const [touchEnd, setTouchEnd] = useState(0)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
+    setDirection(1)
     setCurrentIndex((prevIndex) => (prevIndex + 1) % totalItems)
-  }
+  }, [totalItems])
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
+    setDirection(-1)
     setCurrentIndex((prevIndex) => (prevIndex - 1 + totalItems) % totalItems)
-  }
+  }, [totalItems])
 
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index)
-  }
+  const goToSlide = useCallback(
+    (index: number) => {
+      setDirection(index > currentIndex ? 1 : -1)
+      setCurrentIndex(index)
+    },
+    [currentIndex],
+  )
 
   // Gestión de autoplay
   useEffect(() => {
@@ -62,7 +69,7 @@ export function Carousel({
         clearInterval(timerRef.current)
       }
     }
-  }, [autoPlay, interval, isPaused, totalItems])
+  }, [autoPlay, interval, isPaused, totalItems, nextSlide])
 
   // Gestión de eventos de ratón
   const handleMouseEnter = () => {
@@ -88,43 +95,46 @@ export function Carousel({
 
   const handleTouchEnd = () => {
     if (touchStart - touchEnd > 50) {
-      // Deslizar a la izquierda
       nextSlide()
     }
 
     if (touchStart - touchEnd < -50) {
-      // Deslizar a la derecha
       prevSlide()
     }
+    setTouchStart(0)
+    setTouchEnd(0)
   }
 
   // Animaciones según el efecto seleccionado
-  const getAnimationProps = (isCurrentSlide: boolean) => {
-    switch (transitionEffect) {
-      case "fade":
-        return {
-          initial: { opacity: 0 },
-          animate: { opacity: isCurrentSlide ? 1 : 0 },
-          exit: { opacity: 0 },
-          transition: { duration: 0.5 },
-        }
-      case "zoom":
-        return {
-          initial: { opacity: 0, scale: 0.85 },
-          animate: { opacity: isCurrentSlide ? 1 : 0, scale: isCurrentSlide ? 1 : 0.85 },
-          exit: { opacity: 0, scale: 0.85 },
-          transition: { duration: 0.5 },
-        }
-      case "slide":
-      default:
-        return {
-          initial: { opacity: 0, x: 100 },
-          animate: { opacity: isCurrentSlide ? 1 : 0, x: isCurrentSlide ? 0 : 100 },
-          exit: { opacity: 0, x: -100 },
-          transition: { duration: 0.5 },
-        }
-    }
-  }
+  const getVariants = useCallback(
+    (dir: number) => {
+      switch (transitionEffect) {
+        case "fade":
+          return {
+            enter: { opacity: 0 },
+            center: { opacity: 1 },
+            exit: { opacity: 0 },
+          }
+        case "zoom":
+          return {
+            enter: { opacity: 0, scale: 0.85 },
+            center: { opacity: 1, scale: 1 },
+            exit: { opacity: 0, scale: 0.85 },
+          }
+        case "slide":
+        default:
+          return {
+            // ✅ Animación de slide corregida:
+            // enter: el nuevo slide viene de la dirección del movimiento
+            // exit: el viejo slide sale en la dirección opuesta al movimiento
+            enter: { x: dir > 0 ? "100%" : "-100%", opacity: 0 },
+            center: { x: "0%", opacity: 1 },
+            exit: { x: dir > 0 ? "-100%" : "100%", opacity: 0 },
+          }
+      }
+    },
+    [transitionEffect],
+  )
 
   // Teclas de navegación
   useEffect(() => {
@@ -138,7 +148,7 @@ export function Carousel({
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
+  }, [prevSlide, nextSlide])
 
   // Si no hay elementos, no renderizar nada
   if (totalItems === 0) {
@@ -148,7 +158,10 @@ export function Carousel({
   return (
     <div
       ref={carouselRef}
-      className={cn("carousel-container relative", className)}
+      className={cn(
+        "carousel-container-wrapper", // ✅ Clase para el contenedor principal con estilos premium
+        className,
+      )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
@@ -158,25 +171,40 @@ export function Carousel({
       aria-label="Carrusel de contenido"
       aria-roledescription="carrusel"
     >
-      <div className="relative h-full overflow-hidden rounded-lg">
-        {childrenArray.map((child, index) => (
-          <div
-            key={index}
-            className={cn(
-              "transition-opacity duration-300",
-              index === currentIndex ? "opacity-100 block" : "opacity-0 hidden",
-            )}
-          >
-            {child}
-          </div>
-        ))}
+      {/* ✅ Capas de fondo para la estética del modal */}
+      <div className="carousel-bg"></div>
+      <div className="carousel-mesh"></div>
+      <div className="carousel-border"></div>
+      <div className="carousel-glow"></div>
+      <div className="carousel-premium-glow"></div>
+
+      <div className="relative w-full h-full z-10 overflow-hidden">
+        {" "}
+        {/* ✅ Asegurar overflow-hidden aquí también */}
+        <AnimatePresence initial={false} mode="wait">
+          {childrenArray.map((child, index) =>
+            index === currentIndex ? (
+              <motion.div
+                key={currentIndex} // La clave debe cambiar para que AnimatePresence detecte la salida/entrada
+                className="absolute top-0 left-0 w-full h-full"
+                variants={getVariants(direction)} // ✅ Usar variants con custom prop
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.5, ease: "easeOut" }} // ✅ Transición unificada
+              >
+                {child}
+              </motion.div>
+            ) : null,
+          )}
+        </AnimatePresence>
       </div>
 
       {showControls && totalItems > 1 && (
-        <div className="carousel-controls">
+        <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none z-20">
           <motion.button
             onClick={prevSlide}
-            className="carousel-control-button"
+            className="bg-black/50 p-2 rounded-full text-white pointer-events-auto"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             aria-label="Anterior"
@@ -185,7 +213,7 @@ export function Carousel({
           </motion.button>
           <motion.button
             onClick={nextSlide}
-            className="carousel-control-button"
+            className="bg-black/50 p-2 rounded-full text-white pointer-events-auto"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             aria-label="Siguiente"
@@ -196,15 +224,12 @@ export function Carousel({
       )}
 
       {showIndicators && totalItems > 1 && (
-        <div className="carousel-indicators">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
           {Array.from({ length: totalItems }).map((_, index) => (
             <motion.button
               key={index}
               onClick={() => goToSlide(index)}
-              className={cn(
-                "carousel-indicator",
-                index === currentIndex ? "carousel-indicator-active" : "carousel-indicator-inactive",
-              )}
+              className={cn("w-3 h-3 rounded-full", index === currentIndex ? "bg-white" : "bg-gray-400")}
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.8 }}
               aria-label={`Ir a la diapositiva ${index + 1}`}

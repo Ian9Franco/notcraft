@@ -17,7 +17,7 @@
   src: url("/fonts/MinecraftFont.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
-  font-display: swap; /* Mejora la carga de fuentes */
+  font-display: swap;
 }
 
 @font-face {
@@ -64,93 +64,85 @@
  * ========================================
  * VARIABLES Y TEMAS
  * ========================================
- * Definición de variables CSS para los temas claro y oscuro
- * - Colores base para el tema oscuro (default)
- * - Colores para el tema claro
- * - Variables específicas para sidebar, títulos, etc.
  */
 @layer base {
   :root {
-    /* 🌑 Dark mode (default) - Tema oscuro inspirado en Minecraft nocturno */
-    --background: 216 29% 19%; /* Crown Black - Color de fondo principal */
-    --foreground: 241 100% 92%; /* Pale Lavender Blue - Color de texto principal */
-    --card: 300 4% 13%; /* Raisin Black - Color de fondo para tarjetas */
-    --card-foreground: 241 100% 92%; /* Color de texto para tarjetas */
-    --popover: 300 4% 13%; /* Color de fondo para popovers */
-    --popover-foreground: 241 100% 92%; /* Color de texto para popovers */
+    /* 🌑 Dark mode (default) */
+    --background: 216 29% 19%;
+    --foreground: 241 100% 92%;
+    --card: 300 4% 13%;
+    --card-foreground: 241 100% 92%;
+    --popover: 300 4% 13%;
+    --popover-foreground: 241 100% 92%;
 
-    --primary: 241 27% 43%; /* Twilight Blue - Color primario para botones y elementos destacados */
-    --primary-foreground: 241 100% 92%; /* Color de texto sobre elementos primarios */
+    --primary: 241 27% 43%;
+    --primary-foreground: 241 100% 92%;
 
-    --secondary: 66 64% 56%; /* Rainforest Glow - Color secundario para elementos alternativos */
-    --secondary-foreground: 300 4% 13%; /* Color de texto sobre elementos secundarios */
+    --secondary: 66 64% 56%;
+    --secondary-foreground: 300 4% 13%;
 
-    --muted: 216 20% 25%; /* Color para elementos atenuados */
-    --muted-foreground: 241 50% 70%; /* Color de texto para elementos atenuados */
+    --muted: 216 20% 25%;
+    --muted-foreground: 241 50% 70%;
 
-    --accent: 66 64% 56%; /* Rainforest Glow - Color de acento para destacar elementos */
-    --accent-foreground: 300 4% 13%; /* Color de texto sobre elementos con acento */
+    --accent: 66 64% 56%;
+    --accent-foreground: 300 4% 13%;
 
-    --destructive: 0 70% 45%; /* Color para acciones destructivas o errores */
-    --destructive-foreground: 0 0% 100%; /* Color de texto sobre elementos destructivos */
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 300 4% 18%; /* Color para bordes */
-    --input: 300 4% 18%; /* Color para fondos de inputs */
-    --ring: 241 27% 43%; /* Color para anillos de focus */
-    --radius: 0.5rem; /* Radio de bordes redondeados */
+    --border: 300 4% 18%;
+    --input: 300 4% 18%;
+    --ring: 241 27% 43%;
+    --radius: 0.5rem;
 
-    /* Variables específicas para la barra lateral */
-    --sidebar-bg: hsla(300, 4%, 5%, 0.85); /* Fondo semi-transparente para la sidebar */
-    --sidebar-fg: 241 100% 92%; /* Color de texto para la sidebar */
+    --sidebar-bg: hsla(300, 4%, 5%, 0.85);
+    --sidebar-fg: 241 100% 92%;
 
-    /* Variables para títulos con mejor contraste */
-    --title-color: 66 64% 65%; /* Color para títulos */
-    --title-text-dark: 0 0% 100%; /* Color de texto para títulos en modo oscuro */
-    --title-hover-dark: 66 64% 65%; /* Color de hover para títulos en modo oscuro */
+    --title-color: 66 64% 65%;
+    --title-text-dark: 0 0% 100%;
+    --title-hover-dark: 66 64% 65%;
 
-    /* Variables generales para texto y hover de títulos */
-    --title-text: hsl(241, 27%, 43%); /* Color base para títulos */
-    --title-hover: hsla(241, 27%, 43%, 0.6); /* Color de hover para títulos */
+    --title-text: hsl(241, 27%, 43%);
+    --title-hover: hsla(241, 27%, 43%, 0.6);
   }
 
   .light {
-    /* ☀️ Light mode - Tema claro inspirado en café */
-    --background: 39 77% 95%; /* Papaya Whip - Fondo principal más claro */
-    --foreground: 26 34% 25%; /* Color de texto principal más oscuro para mejor contraste */
-    --card: 43 57% 90%; /* Fondo para tarjetas */
-    --card-foreground: 26 34% 25%; /* Texto para tarjetas más oscuro para mejor contraste */
-    --popover: 43 57% 90%; /* Fondo para popovers */
-    --popover-foreground: 26 34% 25%; /* Texto para popovers más oscuro para mejor contraste */
+    /* ☀️ Light mode */
+    --background: 39 77% 95%;
+    --foreground: 26 34% 25%;
+    --card: 43 57% 90%;
+    --card-foreground: 26 34% 25%;
+    --popover: 43 57% 90%;
+    --popover-foreground: 26 34% 25%;
 
-    --primary: 14 59% 34%; /* Chestnut - Color primario para botones */
-    --primary-foreground: 39 77% 95%; /* Papaya Whip - Texto sobre botones primarios */
+    --primary: 14 59% 34%;
+    --primary-foreground: 39 77% 95%;
 
-    --secondary: 26 34% 28%; /* Coffee - Color secundario */
-    --secondary-foreground: 39 77% 95%; /* Papaya Whip - Texto sobre elementos secundarios */
+    --secondary: 26 34% 28%;
+    --secondary-foreground: 39 77% 95%;
 
-    --muted: 43 57% 95%; /* Fondo más claro para elementos atenuados */
-    --muted-foreground: 26 34% 40%; /* Texto más oscuro para elementos atenuados, mejorado para contraste */
+    --muted: 43 57% 95%;
+    --muted-foreground: 26 34% 40%;
 
-    /* Cambiar el color de acento para que sea más claro (aumentar luminosidad de 34% a 50%) */
-    --accent: 14 59% 55%; /* Chestnut aún más claro - Color de acento para destacar elementos */
-    --accent-foreground: 39 77% 95%; /* Papaya Whip - Texto sobre elementos con acento */
+    --accent: 14 59% 55%;
+    --accent-foreground: 39 77% 95%;
 
-    --destructive: 0 70% 45%; /* Color para acciones destructivas más oscuro */
-    --destructive-foreground: 0 0% 100%; /* Texto sobre elementos destructivos */
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 26 34% 28%; /* Coffee - Color para bordes */
-    --input: 26 34% 22%; /* Color para fondos de inputs */
-    --ring: 14 59% 34%; /* Chestnut - Color para anillos de focus */
+    --border: 26 34% 28%;
+    --input: 26 34% 22%;
+    --ring: 14 59% 34%;
 
-    --sidebar-bg: 26 34% 15%; /* Bistre más oscuro para mejor contraste en la sidebar */
-    --sidebar-fg: 39 77% 95%; /* Papaya Whip más claro para texto en la sidebar */
+    --sidebar-bg: 26 34% 15%;
+    --sidebar-fg: 39 77% 95%;
 
-    --title-color: 14 59% 34%; /* Chestnut - Color para títulos, cambiado para mejor contraste */
-    --title-text-light: 26 34% 28%; /* Coffee - Color de texto para títulos en modo claro */
-    --title-hover-light: 14 59% 45%; /* Chestnut más claro para hover en títulos */
+    --title-color: 14 59% 34%;
+    --title-text-light: 26 34% 28%;
+    --title-hover-light: 14 59% 45%;
 
-    --title-text: hsl(14, 59%, 34%); /* Chestnut - Color base para títulos */
-    --title-hover: hsl(14, 59%, 45%); /* Chestnut más claro - Color de hover para títulos */
+    --title-text: hsl(14, 59%, 34%);
+    --title-hover: hsl(14, 59%, 45%);
   }
 }
 
@@ -158,30 +150,25 @@
  * ========================================
  * ESTILOS BASE
  * ========================================
- * Estilos fundamentales para elementos HTML
- * - Configuración de bordes, fondos, fuentes
- * - Estilos específicos para modo claro/oscuro
- * - Personalización de scrollbar y elementos de contraste
  */
 @layer base {
   * {
-    @apply border-border; /* Aplica el color de borde definido a todos los elementos */
+    @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground font-body; /* Aplica color de fondo, texto y fuente al body */
-    background-image: url("/images/dirt-background.png"); /* Fondo texturizado tipo tierra */
+    @apply bg-background text-foreground font-body;
+    background-image: url("/images/dirt-background.png");
     background-repeat: repeat;
     background-attachment: fixed;
     overflow-x: hidden;
-    font-feature-settings: "rlig" 1, "calt" 1; /* Mejoras tipográficas */
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   .light body {
-    background-image: url("/images/light-dirt-background.png"); /* Fondo texturizado más claro para modo light */
+    background-image: url("/images/light-dirt-background.png");
   }
 
-  /* Estilos base para títulos - aplica fuente y tracking a todos los niveles de títulos */
   h1,
   h2,
   h3,
@@ -192,7 +179,6 @@
     color: hsl(var(--title-color));
   }
 
-  /* Efecto hover para títulos - cambia color al pasar el mouse */
   .title-hover:hover {
     color: hsl(var(--title-hover-dark));
   }
@@ -201,106 +187,53 @@
     color: hsl(var(--title-hover-light));
   }
 
-  /* Personalización de la barra de desplazamiento */
+  /* Scrollbar personalizado */
   ::-webkit-scrollbar {
-    width: 8px; /* Ancho de la scrollbar */
-    height: 8px; /* Alto de la scrollbar horizontal */
+    width: 8px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-secondary/30; /* Fondo de la pista de la scrollbar */
+    @apply bg-secondary/30;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-accent/50 rounded-full hover:bg-accent/70 transition-colors; /* Estilo del "pulgar" de la scrollbar */
+    @apply bg-accent/50 rounded-full hover:bg-accent/70 transition-colors;
   }
 
-  /* Clase para mejorar contraste en textos */
-  .high-contrast-text {
-    text-shadow: none !important; /* Elimina sombras para mejor legibilidad */
-  }
-
-  .light .high-contrast-text {
-    color: hsl(26, 34%, 25%); /* Coffee más oscuro - texto de alto contraste en modo claro */
-  }
-
-  .light h1.high-contrast-text,
-  .light h2.high-contrast-text,
-  .light h3.high-contrast-text {
-    color: hsl(14, 59%, 34%); /* Mantiene color Chestnut para títulos en textos de alto contraste */
-  }
-
-  /* Mejoras específicas para modo claro */
+  /* Mejoras de contraste para modo claro */
   .light .text-muted-foreground {
-    color: hsl(26, 34%, 35%) !important; /* Texto atenuado más oscuro para mejor contraste */
+    color: hsl(26, 34%, 35%) !important;
   }
 
   .light .card p,
   .light .card span:not(.font-minecraft) {
-    color: hsl(26, 34%, 25%) !important; /* Texto en tarjetas más oscuro para mejor contraste */
+    color: hsl(26, 34%, 25%) !important;
   }
 
-  /* Mejora de contraste para contenedores en modo claro - ajusta opacidad de fondos */
-  .light .bg-background\/50 {
-    background-color: hsla(39, 77%, 95%, 0.6) !important; /* Fondo más transparente para contenedores */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  .light .bg-background\/30 {
-    background-color: hsla(39, 77%, 95%, 0.6) !important; /* Fondo más transparente para contenedores */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  .light .bg-background\/60 {
-    background-color: hsla(39, 77%, 95%, 0.6) !important; /* Fondo más transparente para contenedores */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  .light .bg-secondary\/30 {
-    background-color: hsla(26, 34%, 28%, 0.25) !important; /* Fondo más visible para contenedores secundarios */
-  }
-
-  .light .bg-secondary\/50 {
-    background-color: hsla(26, 34%, 28%, 0.35) !important; /* Fondo más visible para contenedores secundarios */
-  }
-
-  .light .bg-secondary\/80 {
-    background-color: hsla(26, 34%, 28%, 0.45) !important; /* Fondo más visible para contenedores secundarios */
-  }
-
-  /* Eliminar el efecto de fondo con blur para el contenido principal en modo claro */
+  /* Mejoras específicas para contenedores en modo claro */
   .light main {
-    position: relative; /* Asegura que ::before se posicione bien */
+    position: relative;
     z-index: 0;
   }
-  
+
   .light main::before {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: hsla(39, 77%, 95%, 0.6); /* Tinte claro suave */    backdrop-filter: blur(12px);
+    background-color: hsla(39, 77%, 95%, 0.6);
+    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     z-index: -1;
     border-radius: 1rem;
     pointer-events: none;
   }
-  
-  
-  /* Tarjetas sobre ese fondo */
-  .light .bg-card\/80 {
-    background-color: hsla(39, 70%, 95%, 0.96) !important;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-  
-  /* Mejora de contraste para textos en modo claro */
+
+  /* Mejoras para textos en modo claro */
   .light p,
   .light span,
   .light div {
-    color: hsl(26, 33%, 9%); /* Texto general más oscuro */
+    color: hsl(26, 33%, 9%);
   }
 
   .light h1,
@@ -309,140 +242,72 @@
   .light h4,
   .light h5,
   .light h6 {
-    color: hsl(14, 59%, 34%); /* Títulos en tono Chestnut para mejor visibilidad */
+    color: hsl(14, 59%, 34%);
   }
 
-  /* Estilos para la sidebar en modo claro */
+  /* Sidebar específico para modo claro */
   .light .sidebar {
-    background-color: hsla(26, 34%, 15%, 0.9); /* Tono oscuro, más opaco para mejor contraste */
+    background-color: hsla(26, 34%, 15%, 0.9);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-right: 1px solid hsla(39, 60%, 70%, 0.3); /* Borde tenue */
+    border-right: 1px solid hsla(39, 60%, 70%, 0.3);
     transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
   }
 
   .light .sidebar a,
   .light .sidebar button,
   .light .sidebar span {
-    color: hsl(39, 77%, 95%); /* Texto claro para mejor contraste */
+    color: hsl(39, 77%, 95%);
   }
 
   .light .sidebar svg {
-    color: hsl(39, 77%, 95%, 0.9); /* Iconos más visibles */
+    color: hsl(39, 77%, 95%, 0.9);
   }
 
-  .light .sidebar .hover\:bg-accent\/10:hover {
-    background-color: hsla(14, 59%, 34%, 0.2); /* Fondo de hover más visible */
-  }
-
-  /* Estilos para el botón de expandir la sidebar en modo claro */
-  .light [data-sidebar="trigger"] {
-    background-color: hsl(26, 34%, 15%); /* Fondo oscuro para el botón */
-    color: hsl(39, 77%, 95%); /* Texto claro */
-    border: 1px solid hsl(39, 77%, 95%, 0.3); /* Borde sutil */
-  }
-
-  .light [data-sidebar="trigger"]:hover {
-    background-color: hsl(14, 59%, 34%); /* Fondo Chestnut al hover */
-    color: hsl(39, 77%, 95%); /* Texto claro al hover */
-  }
-
-  .light [data-sidebar="rail"] {
-    background-color: hsl(26, 34%, 15%, 0.7); /* Fondo semi-transparente para el rail */
-  }
-
-  .light [data-sidebar="rail"]:hover {
-    background-color: hsl(14, 59%, 34%); /* Fondo Chestnut al hover */
-  }
-
-  .light [data-sidebar="rail"]::after {
-    background-color: hsl(39, 77%, 95%, 0.5); /* Línea decorativa semi-transparente */
-  }
-
-  /* Dark mode sidebar with blur effect */
+  /* Dark mode sidebar */
   .dark .sidebar {
-    background-color: hsla(300, 4%, 5%, 0.85); /* Fondo semi-transparente */
+    background-color: hsla(300, 4%, 5%, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-right: 1px solid hsla(300, 4%, 18%, 0.5);
     transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
   }
 
-  /* Hacer visibles los iconos del header en modo claro */
+  /* Iconos del header en modo claro */
   .light .header svg,
   .light header svg,
   .light nav svg,
   .light .navbar svg {
-    color: hsl(26, 34%, 28%) !important; /* Color marrón Coffee de la paleta */
+    color: hsl(26, 34%, 28%) !important;
   }
 
-  /* Eliminar el contraste alto para los modpacks */
-  .modpack-item .modpack-name,
-  .modpack-item .modpack-version,
-  .modpack-item .modpack-description {
-    text-shadow: none !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-
-  /* Asegurar que el texto en botones transparentes sea visible en modo claro */
+  /* Botones específicos */
   .light .btn-ghost,
   .light .btn-link,
   .light [class*="variant-ghost"],
   .light [class*="variant-link"],
   .light button[variant="ghost"],
   .light button[variant="link"] {
-    color: hsl(26, 34%, 28%) !important; /* Color oscuro para mejor visibilidad */
+    color: hsl(26, 34%, 28%) !important;
   }
 
-  /* Asegurar que el texto en botones transparentes sea visible sobre fondos oscuros */
-  .light .bg-card .btn-ghost,
-  .light .bg-card [class*="variant-ghost"],
-  .light .bg-card button[variant="ghost"],
-  .light .bg-background\/50 .btn-ghost,
-  .light .bg-background\/50 [class*="variant-ghost"],
-  .light .bg-background\/50 button[variant="ghost"],
-  .light .bg-background\/30 .btn-ghost,
-  .light .bg-background\/30 [class*="variant-ghost"],
-  .light .bg-background\/30 button[variant="ghost"],
-  .light .bg-background\/60 .btn-ghost,
-  .light .bg-background\/60 [class*="variant-ghost"],
-  .light .bg-background\/60 button[variant="ghost"] {
-    color: hsl(39, 77%, 95%) !important; /* Color claro para mejor visibilidad sobre fondos oscuros */
-  }
-
-  /* Asegurar que el icono del botón de la sidebar sea visible en modo claro */
+  /* Botones de la sidebar */
   .light button[aria-label="Expandir barra lateral"] svg,
   .light button[aria-label="Colapsar barra lateral"] svg {
-    color: hsl(39, 77%, 95%) !important; /* Color claro para mejor visibilidad */
+    color: hsl(39, 77%, 95%) !important;
   }
 
-  /* Estilos específicos para el botón de toggle de la sidebar */
   .light .sidebar-toggle-button {
-    background-color: hsl(26, 34%, 28%); /* Fondo oscuro para el botón */
-    color: hsl(39, 77%, 95%) !important; /* Texto claro para mejor visibilidad */
+    background-color: hsl(26, 34%, 28%);
+    color: hsl(39, 77%, 95%) !important;
   }
 
   .light .sidebar-toggle-button:hover {
-    background-color: hsl(14, 59%, 34%); /* Fondo Chestnut al hover */
+    background-color: hsl(14, 59%, 34%);
   }
 
   .light .sidebar-toggle-button svg {
-    color: hsl(39, 77%, 95%) !important; /* Iconos más visibles */
-  }
-
-  /* Asegurar que los textos en botones ghost sobre fondos transparentes sean claros */
-  .light .bg-transparent .btn-ghost,
-  .light .bg-transparent [class*="variant-ghost"],
-  .light .bg-transparent button[variant="ghost"] {
-    color: hsl(39, 77%, 95%) !important; /* Color claro para mejor visibilidad */
-  }
-
-  /* Estilos específicos para el botón de descargar E4MC */
-  .light a[href*="e4mc"] button,
-  .light a[href*="e4mc"] .btn-ghost,
-  .light a[href*="e4mc"] [class*="variant-ghost"] {
-    color: hsl(39, 77%, 95%) !important; /* Color claro para mejor visibilidad */
+    color: hsl(39, 77%, 95%) !important;
   }
 }
 
@@ -450,83 +315,71 @@
  * ========================================
  * COMPONENTES
  * ========================================
- * Estilos para componentes reutilizables
- * - Estilos para texto Minecraft
- * - Efectos visuales como bordes brillantes
- * - Animaciones para elementos interactivos
- * - Componentes específicos como sidebar, HUD, etc.
  */
 @layer components {
-  /* Estilos para texto con estilo Minecraft - aplica fuente pixelada y sombra */
   .minecraft-style,
   .font-minecraft {
     font-family: "MinecraftFont", monospace;
     letter-spacing: 0.05em;
-    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2); /* Sombra sutil para efecto 3D */
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
   }
 
   .light .minecraft-style,
   .light .font-minecraft {
-    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1); /* Sombra más sutil en modo claro */
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
   }
 
-  /* Estilos para imágenes pixeladas - mejora la renderización de imágenes de baja resolución */
   .pixelated {
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
   }
 
-  /* Efectos visuales para elementos */
   .border-glow {
-    box-shadow: 0 0 10px rgba(180, 255, 58, 0.3); /* Efecto de brillo en los bordes */
+    box-shadow: 0 0 10px rgba(180, 255, 58, 0.3);
   }
 
   .light .border-glow {
-    box-shadow: 0 0 10px rgba(149, 69, 53, 0.3); /* Efecto de brillo en tono Chestnut para modo claro */
+    box-shadow: 0 0 10px rgba(149, 69, 53, 0.3);
   }
 
   .text-glow {
-    text-shadow: 0 0 8px rgba(180, 255, 58, 0.6); /* Efecto de brillo en texto */
+    text-shadow: 0 0 8px rgba(180, 255, 58, 0.6);
   }
 
   .light .text-glow {
-    text-shadow: 0 0 5px rgba(149, 69, 53, 0.4); /* Brillo en tono Chestnut para modo claro */
+    text-shadow: 0 0 5px rgba(149, 69, 53, 0.4);
   }
 
-  /* Efecto de hover para títulos - escala y cambia color */
   .title-hover {
-    @apply transition-all duration-300; /* Transición suave */
+    @apply transition-all duration-300;
   }
 
   .title-hover:hover {
-    @apply text-accent transform scale-105; /* Aumenta tamaño y cambia color */
+    @apply text-accent transform scale-105;
   }
 
-  /* Estilos para la barra lateral */
   .sidebar {
-    @apply bg-[hsl(var(--sidebar-bg))] text-[hsl(var(--sidebar-fg))]; /* Aplica colores de tema */
-    transition: background-color 0.3s ease, backdrop-filter 0.3s ease; /* Transición suave */
+    background-color: hsl(var(--sidebar-bg));
+    color: hsl(var(--sidebar-fg));
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
   }
 
-  /* Animaciones para secciones - efecto de aparición al hacer scroll */
   .fade-in-section {
     @apply opacity-0 transition-all duration-700 ease-out;
-    transform: translateY(20px); /* Comienza desplazado hacia abajo */
+    transform: translateY(20px);
   }
 
   .fade-in-section.is-visible {
     @apply opacity-100;
-    transform: translateY(0); /* Se mueve a su posición original */
+    transform: translateY(0);
   }
 
-  /* Efectos visuales tipo vidrio */
   .glass-effect {
-    backdrop-filter: blur(8px); /* Efecto de desenfoque */
-    -webkit-backdrop-filter: blur(8px); /* Para Safari */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
-  /* Panel estilo HUD de videojuegos */
   .hud-panel {
     border: 2px solid hsl(var(--accent));
     box-shadow: 0 0 0 1px rgba(180, 255, 58, 0.3), inset 0 0 0 1px rgba(180, 255, 58, 0.3);
@@ -540,34 +393,9 @@
     box-shadow: 0 0 0 1px rgba(111, 78, 55, 0.3), inset 0 0 0 1px rgba(111, 78, 55, 0.3);
   }
 
-  /* Partículas para botones - efectos visuales al interactuar */
-  .button-particle {
-    @apply absolute w-1.5 h-1.5 rounded-full bg-accent pointer-events-none opacity-0;
-  }
-
-  .button-with-particles {
-    @apply relative overflow-visible;
-  }
-
-  .button-with-particles:hover .button-particle-1 {
-    @apply animate-particle-1; /* Anima partícula 1 al hover */
-  }
-
-  .button-with-particles:hover .button-particle-2 {
-    @apply animate-particle-2; /* Anima partícula 2 al hover */
-  }
-
-  .button-with-particles:hover .button-particle-3 {
-    @apply animate-particle-3; /* Anima partícula 3 al hover */
-  }
-
-  .button-with-particles:hover .button-particle-4 {
-    @apply animate-particle-4; /* Anima partícula 4 al hover */
-  }
-
-  /* Estilos para el orden de resource packs */
+  /* Resource pack styles */
   .resource-pack-order {
-    @apply space-y-4; /* Espaciado vertical entre packs */
+    @apply space-y-4;
   }
 
   .resource-pack-item {
@@ -578,27 +406,47 @@
     @apply flex items-center justify-center w-8 h-8 rounded-full bg-accent/20 text-accent font-minecraft;
   }
 
-  /* Mejora de contraste para textos en modo claro */
-  .light .text-shader {
-    color: hsl(26, 34%, 20%) !important; /* Texto más oscuro para shaders */
+  /* Gallery styles */
+  .gallery-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6;
   }
 
-  .light .modpack-text {
-    color: hsl(26, 34%, 25%) !important; /* Texto más oscuro para modpacks */
+  .gallery-item {
+    @apply overflow-hidden cursor-pointer h-full transition-all duration-300;
   }
 
-  .light .modpack-version {
-    color: hsl(26, 34%, 30%) !important; /* Texto más oscuro para versiones */
+  .gallery-image-container {
+    @apply relative h-48 md:h-56 mb-2 overflow-hidden;
   }
 
-  /* Estilos para el carrusel mejorado */
+  .gallery-image {
+    @apply object-cover transition-transform duration-500 hover:scale-105;
+  }
+
+  .gallery-modal {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4;
+  }
+
+  .gallery-modal-content {
+    @apply relative max-w-4xl max-h-[90vh] w-full bg-background rounded-lg overflow-hidden;
+  }
+
+  .gallery-modal-close {
+    @apply absolute top-4 right-4 z-10 bg-background/80 p-2 rounded-full hover:bg-background transition-all hover:scale-110;
+  }
+
+  .gallery-modal-image {
+    @apply relative h-[70vh];
+  }
+
+  /* Carousel styles */
   .carousel-container {
-    @apply relative overflow-hidden rounded-lg; /* Contenedor con esquinas redondeadas */
-    min-height: 300px; /* Altura mínima para evitar saltos */
+    @apply relative overflow-hidden rounded-lg;
+    min-height: 300px;
   }
 
   .carousel-slide {
-    @apply w-full transition-opacity duration-500; /* Transición suave entre slides */
+    @apply w-full transition-opacity duration-500;
   }
 
   .carousel-controls {
@@ -618,44 +466,11 @@
   }
 
   .carousel-indicator-active {
-    @apply bg-accent w-5; /* Indicador activo más ancho y con color de acento */
+    @apply bg-accent w-5;
   }
 
   .carousel-indicator-inactive {
-    @apply bg-foreground/30 hover:bg-foreground/50; /* Indicador inactivo semi-transparente */
-  }
-
-  /* Estilos para la galería */
-  .gallery-grid {
-    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6; /* Grid responsivo */
-  }
-
-  .gallery-item {
-    @apply overflow-hidden cursor-pointer h-full transition-all duration-300;
-  }
-
-  .gallery-image-container {
-    @apply relative h-48 md:h-56 mb-2 overflow-hidden;
-  }
-
-  .gallery-image {
-    @apply object-cover transition-transform duration-500 hover:scale-105; /* Zoom suave al hover */
-  }
-
-  .gallery-modal {
-    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4; /* Modal a pantalla completa */
-  }
-
-  .gallery-modal-content {
-    @apply relative max-w-4xl max-h-[90vh] w-full bg-background rounded-lg overflow-hidden;
-  }
-
-  .gallery-modal-close {
-    @apply absolute top-4 right-4 z-10 bg-background/80 p-2 rounded-full hover:bg-background transition-all hover:scale-110;
-  }
-
-  .gallery-modal-image {
-    @apply relative h-[70vh]; /* Altura fija para la imagen en el modal */
+    @apply bg-foreground/30 hover:bg-foreground/50;
   }
 }
 
@@ -663,216 +478,150 @@
  * ========================================
  * ANIMACIONES
  * ========================================
- * Definición de animaciones personalizadas
- * - Efectos de aparición, flotación, pulso
- * - Animaciones para partículas y elementos interactivos
  */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px); /* Comienza desplazado hacia abajo */
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0); /* Termina en su posición original */
+    transform: translateY(0);
   }
 }
 
 .fade-in {
-  animation: fadeIn 0.5s ease-in-out forwards; /* Aplica la animación una vez */
+  animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0); /* Posición inicial y final */
+    transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px); /* Punto medio elevado */
+    transform: translateY(-10px);
   }
 }
 
 .animate-float {
-  animation: float 5s ease-in-out infinite; /* Efecto de flotación continuo */
+  animation: float 5s ease-in-out infinite;
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(180, 255, 58, 0.4); /* Sombra inicial */
+    box-shadow: 0 0 0 0 rgba(180, 255, 58, 0.4);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(180, 255, 58, 0); /* Sombra expandida y transparente */
+    box-shadow: 0 0 0 10px rgba(180, 255, 58, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(180, 255, 58, 0); /* Vuelve al estado inicial */
+    box-shadow: 0 0 0 0 rgba(180, 255, 58, 0);
   }
 }
 
 .animate-pulse-glow {
-  animation: pulse 2s infinite; /* Efecto de pulso continuo */
+  animation: pulse 2s infinite;
 }
 
 .light .animate-pulse-glow {
-  animation: coffee-pulse 2s infinite; /* Pulso en tono café para modo claro */
+  animation: coffee-pulse 2s infinite;
 }
 
 @keyframes coffee-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(149, 69, 53, 0.4); /* Sombra inicial en tono Chestnut */
+    box-shadow: 0 0 0 0 rgba(149, 69, 53, 0.4);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(149, 69, 53, 0); /* Sombra expandida y transparente */
+    box-shadow: 0 0 0 10px rgba(149, 69, 53, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(149, 69, 53, 0); /* Vuelve al estado inicial */
+    box-shadow: 0 0 0 0 rgba(149, 69, 53, 0);
   }
-}
-
-@keyframes particle-1 {
-  0% {
-    transform: translate(0, 0); /* Posición inicial */
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(-100px, -50px); /* Desplazamiento diagonal */
-    opacity: 0; /* Desaparece */
-  }
-}
-
-@keyframes particle-2 {
-  0% {
-    transform: translate(0, 0);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(100px, -70px);
-    opacity: 0;
-  }
-}
-
-@keyframes particle-3 {
-  0% {
-    transform: translate(0, 0);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(-70px, 80px);
-    opacity: 0;
-  }
-}
-
-@keyframes particle-4 {
-  0% {
-    transform: translate(0, 0);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(80px, 60px);
-    opacity: 0;
-  }
-}
-
-.animate-particle-1 {
-  animation: particle-1 0.8s ease-out forwards; /* Animación de partícula 1 */
-}
-
-.animate-particle-2 {
-  animation: particle-2 0.8s ease-out forwards; /* Animación de partícula 2 */
-}
-
-.animate-particle-3 {
-  animation: particle-3 0.8s ease-out forwards; /* Animación de partícula 3 */
-}
-
-.animate-particle-4 {
-  animation: particle-4 0.8s ease-out forwards; /* Animación de partícula 4 */
 }
 
 @keyframes wiggle {
   0%,
   100% {
-    transform: rotate(0deg); /* Sin rotación */
+    transform: rotate(0deg);
   }
   25% {
-    transform: rotate(-5deg); /* Rotación a la izquierda */
+    transform: rotate(-5deg);
   }
   75% {
-    transform: rotate(5deg); /* Rotación a la derecha */
+    transform: rotate(5deg);
   }
 }
 
 .animate-wiggle {
-  animation: wiggle 1s ease-in-out infinite; /* Efecto de balanceo continuo */
+  animation: wiggle 1s ease-in-out infinite;
 }
 
 @keyframes float-text {
   0%,
   100% {
-    transform: translateY(0); /* Posición inicial y final */
+    transform: translateY(0);
   }
   50% {
-    transform: translateY(-2px); /* Elevación sutil */
+    transform: translateY(-2px);
   }
 }
 
 .animate-float-text {
-  animation: float-text 1s ease-in-out infinite; /* Flotación sutil para texto */
+  animation: float-text 1s ease-in-out infinite;
 }
 
 @keyframes shadow-pulse {
   0% {
-    box-shadow: 0 0 5px currentColor; /* Sombra inicial */
+    box-shadow: 0 0 5px currentColor;
   }
   100% {
-    box-shadow: 0 0 15px currentColor; /* Sombra expandida */
+    box-shadow: 0 0 15px currentColor;
   }
 }
 
 .shadow-glow {
-  animation: shadow-pulse 1.5s infinite alternate; /* Pulso de sombra alternante */
+  animation: shadow-pulse 1.5s infinite alternate;
 }
 
 /*
  * ========================================
- * MEDIA QUERIES
+ * RESPONSIVE
  * ========================================
- * Ajustes responsivos para diferentes tamaños de pantalla
- * - Reduce tamaños de fuente en móviles
- * - Ajusta tamaños de títulos
  */
 @media (max-width: 640px) {
   .minecraft-style,
   .font-minecraft {
-    font-size: 0.9em; /* Fuente más pequeña en móviles */
+    font-size: 0.9em;
   }
 
   h1 {
-    @apply text-3xl; /* Título principal más pequeño */
+    @apply text-3xl;
   }
 
   h2 {
-    @apply text-2xl; /* Subtítulo más pequeño */
+    @apply text-2xl;
   }
 
   h3 {
-    @apply text-xl; /* Título de sección más pequeño */
+    @apply text-xl;
   }
 
   .carousel-container {
-    min-height: 200px; /* Altura mínima reducida para móviles */
+    min-height: 200px;
   }
 
   .carousel-controls {
-    @apply px-2; /* Controles más cercanos al borde en móviles */
+    @apply px-2;
   }
 
   .carousel-control-button {
-    @apply p-1; /* Botones más pequeños en móviles */
+    @apply p-1;
   }
 }
 
 @media (min-width: 641px) and (max-width: 1024px) {
   .carousel-container {
-    min-height: 250px; /* Altura mínima para tablets */
+    min-height: 250px;
   }
 }

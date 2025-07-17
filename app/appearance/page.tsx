@@ -62,15 +62,6 @@ const staticResourcePacks: ResourcePack[] = [
     files: [{ id: "file2", name: "Fresh-Animations-1.2.zip" }],
   },
   {
-    id: "3",
-    name: "Enhanced Boss Bars",
-    description: "Nuevas barras de jefes mejoradas!",
-    image_url: "/images/texturas/bossbar.png",
-    logo_url: "/images/texturas/bossbarlogo.png",
-    special_note: "Compatible con la mayoría de mods",
-    files: [{ id: "file1", name: "ejemplo.zip" }],
-  },
-  {
     id: "4",
     name: "GUI Revision",
     description:

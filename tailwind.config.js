@@ -92,6 +92,13 @@ module.exports = {
           light: "#6f4e37",
         },
       },
+      // ✅ AGREGAMOS LAS ALTURAS PERSONALIZADAS
+      height: {
+        18: "4.5rem", // 72px - Para mobile nav
+        22: "5.5rem", // 88px - Para elementos más altos
+        26: "6.5rem", // 104px - Para headers grandes
+        30: "7.5rem", // 120px - Para elementos extra grandes
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

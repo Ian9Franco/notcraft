@@ -18,7 +18,7 @@ const seasons = [
   {
     number: 1,
     title: "Primera Ruptura",
-    date: "Mayo 2025 - Presente",
+    date: "Julio 2025 - Presente",
     description:
       "No sabés cómo llegaste acá. El portal escupió tu cuerpo como un trapo sucio y lo primero que sentiste fue el silencio... uno espeso, como si el mundo entero estuviera conteniendo la respiración. Las ruinas están frescas, como si el último grito todavía flotara en el aire. Las cuevas murmuran cosas que no entendés, pero igual te hielan la sangre. El cielo cambia de color cuando no lo estás mirando. Hay rastros de civilizaciones que cavaron profundo, volaron alto y jugaron a ser dioses... y ahora no queda ni uno. Criaturas que no existen en ningún libro caminan de noche. Los árboles te siguen con la mirada. La tierra entera está podrida por algo viejo, algo que odia tu presencia. Y lo peor es que ya te olió. Te está buscando. No hay tutorial. No hay paz. Solo un consejo: no te detengas. Porque acá, hasta el amanecer puede ser una trampa.",
     playerCount: 3,
@@ -156,7 +156,7 @@ export default function ServerInfoPage() {
                 <Calendar className="h-5 w-5 text-accent" />
                 <h3 className="font-minecraft text-xl text-accent">Mantenimiento Programado</h3>
               </div>
-              <p className="text-sm text-muted-foreground mb-2">3 de Mayo, 2025</p>
+              <p className="text-sm text-muted-foreground mb-2">19 de Julio, 2025</p>
               <p className="text-muted-foreground">
                 El servidor estará en mantenimiento el 21 de mayo de 10:00 a 14:00 (GMT-3) para realizar actualizaciones
                 importantes. Durante este período, el servidor no estará disponible.

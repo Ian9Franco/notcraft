@@ -1,0 +1,189 @@
+/* ========================================
+ * CAROUSEL PREMIUM STYLES
+ * ======================================== */
+
+.carousel-container-wrapper {
+  @apply relative overflow-hidden w-full rounded-2xl;
+  /* Eliminar padding y bordes que causan problemas */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  /* min-height se maneja ahora por la altura fija en page.tsx */
+}
+
+/* Simplificar las capas de fondo */
+.carousel-bg,
+.carousel-mesh,
+.carousel-border,
+.carousel-glow,
+.carousel-premium-glow {
+  display: none;
+}
+
+/* Asegurar que los controles e indicadores estén por encima de las nuevas capas de fondo */
+.carousel-container-wrapper .absolute.inset-0.flex.items-center.justify-between.px-4 {
+  z-index: 20;
+}
+
+.carousel-container-wrapper .absolute.bottom-4.left-1\/2 {
+  z-index: 20;
+}
+
+/* Mejorar los controles del carrusel */
+.carousel-container-wrapper button {
+  @apply bg-black/70 hover:bg-black/90 backdrop-blur-sm;
+  @apply border border-white/20 hover:border-accent/50;
+  @apply transition-all duration-300;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-container-wrapper button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(var(--accent), 0.3);
+}
+
+/* Mejorar los indicadores: */
+.carousel-container-wrapper .absolute.bottom-4 button {
+  @apply transition-all duration-300;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-container-wrapper .absolute.bottom-4 button:hover {
+  transform: scale(1.3);
+  box-shadow: 0 4px 12px rgba(var(--accent), 0.4);
+}
+
+/* Estilos para las category-card dentro del carrusel */
+.category-card {
+  @apply relative w-full h-full flex flex-col rounded-xl overflow-hidden; /* Asegurar que la card ocupe todo el espacio y maneje el overflow */
+  @apply bg-card text-card-foreground border border-border;
+  @apply shadow-lg shadow-black/30;
+}
+
+.category-card .category-bg {
+  @apply absolute inset-0 -z-20 rounded-xl; /* Coincidir con el rounded de la card */
+}
+
+.category-card .category-mesh {
+  @apply absolute inset-0 -z-20 rounded-xl;
+  background-image: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.03) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(255, 255, 255, 0.03) 75%,
+      rgba(255, 255, 255, 0.03)
+    ),
+    linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.03) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(255, 255, 255, 0.03) 75%,
+      rgba(255, 255, 255, 0.03)
+    );
+  background-size: 15px 15px;
+  background-position: 0 0, 7.5px 7.5px;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.category-card .category-border {
+  @apply absolute inset-0 -z-10 rounded-xl border-2;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.category-card .category-glow {
+  @apply absolute inset-0 -z-10 rounded-xl;
+  background: radial-gradient(circle at center, rgba(var(--accent-rgb), 0.08) 0%, transparent 70%);
+  filter: blur(30px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.category-card .category-premium-glow {
+  content: "";
+  @apply absolute inset-0 -z-10 rounded-xl;
+  background: radial-gradient(circle at center, rgba(var(--accent-rgb), 0.1) 0%, transparent 70%);
+  filter: blur(40px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.category-card .category-header {
+  @apply p-4 md:p-6 flex items-center gap-4 border-b border-border/50;
+  background-color: rgba(var(--background), 0.8);
+}
+
+.category-card .category-icon-section {
+  @apply relative flex items-center justify-center w-14 h-14 rounded-full flex-shrink-0;
+}
+
+.category-card .category-icon-bg {
+  @apply absolute inset-0 rounded-full bg-gradient-to-br from-gray-700/30 to-gray-900/30;
+  @apply border border-gray-600/50;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.category-card .category-icon {
+  @apply relative z-10;
+}
+
+.category-card .category-icon-pulse {
+  @apply absolute inset-0 rounded-full animate-pulse-slow;
+  background-color: rgba(var(--accent-rgb), 0.15);
+  filter: blur(8px);
+  opacity: 0.5;
+}
+
+.category-card .category-icon-ring {
+  @apply absolute inset-0 rounded-full border-2 border-dashed border-gray-500/20 animate-spin-slow;
+}
+
+.category-card .category-title {
+  @apply text-xl md:text-2xl font-bold tracking-tight;
+}
+
+.category-card .category-content {
+  @apply p-4 md:p-6 flex-grow overflow-y-auto; /* Permitir scroll si el contenido es largo */
+}
+
+.category-card .category-description {
+  @apply text-base text-gray-300 leading-relaxed;
+}
+
+.category-card .category-footer {
+  @apply p-4 md:p-6 border-t border-border/50 flex justify-end;
+  background-color: rgba(var(--background), 0.8);
+}
+
+/* Animaciones personalizadas (ya definidas en modal-premium.css, pero se repiten para claridad si se usan solo aquí) */
+@keyframes pulse-slow {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s infinite ease-in-out;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 10s linear infinite;
+}

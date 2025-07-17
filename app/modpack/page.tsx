@@ -103,11 +103,6 @@ const staticFeaturedMods: { [key: string]: Mod[] } = {
       description: "Añade criaturas y misterios ocultos en las profundidades de las cuevas",
     },
     {
-      name: "Eternal Starlight",
-      version: "1.21.1",
-      description: "Incluye magia y elementos cósmicos con nuevas mecánicas de juego",
-    },
-    {
       name: "Mythic Metals",
       version: "1.21.1",
       description: "Ofrece una gran variedad de metales míticos para armas y herramientas",

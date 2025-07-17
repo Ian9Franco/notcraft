@@ -102,10 +102,12 @@ export function GameButton({
   const [isHovered, setIsHovered] = React.useState(false)
   const [isMobile, setIsMobile] = React.useState(false)
   const [isClicked, setIsClicked] = React.useState(false)
+  const [isClient, setIsClient] = React.useState(false) // Nuevo estado para hidratación
   const buttonRef = React.useRef<HTMLDivElement>(null)
 
-  // Detectar si es un dispositivo móvil
+  // Detectar si es un dispositivo móvil y si el componente está montado en el cliente
   React.useEffect(() => {
+    setIsClient(true) // El componente se ha montado en el cliente
     setIsMobile(window.innerWidth < 768)
     const handleResize = () => setIsMobile(window.innerWidth < 768)
     window.addEventListener("resize", handleResize)
@@ -159,8 +161,8 @@ export function GameButton({
     // Si hay un manejador de clic personalizado, lo llamamos
     if (onClick) onClick(e)
 
-    // Efecto de explosión de partículas en el clic
-    if (animated && buttonRef.current && !isMobile) {
+    // Efecto de explosión de partículas en el clic (solo en cliente y si animado)
+    if (isClient && animated && buttonRef.current && !isMobile) {
       const button = buttonRef.current
       const rect = button.getBoundingClientRect()
       const centerX = rect.width / 2
@@ -186,7 +188,7 @@ export function GameButton({
             { transform: "translate(-50%, -50%) scale(1)", opacity: 0.8 },
             {
               transform: `translate(
-                calc(-50% + ${Math.cos(angle) * distance}px), 
+                calc(-50% + ${Math.cos(angle) * distance}px),
                 calc(-50% + ${Math.sin(angle) * distance}px)
               ) scale(0)`,
               opacity: 0,
@@ -206,7 +208,7 @@ export function GameButton({
       ref={buttonRef}
       className={cn("relative", fullWidth ? "w-full" : "", className)}
       style={{
-        transform: !disabled && isHovered ? `scale(${hoverScale})` : "scale(1)",
+        transform: !disabled && isHovered && isClient ? `scale(${hoverScale})` : "scale(1)", // Solo animar en cliente
         transition: "transform 0.2s ease",
       }}
     >
@@ -227,8 +229,8 @@ export function GameButton({
         onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
-        {/* Partículas animadas (solo visibles al hacer hover en desktop) */}
-        {isHovered && !disabled && !isMobile && animated && (
+        {/* Partículas animadas (solo visibles al hacer hover en desktop y en cliente) */}
+        {isClient && isHovered && !disabled && !isMobile && animated && (
           <>
             {[...Array(particleCount)].map((_, i) => (
               <span
@@ -247,54 +249,63 @@ export function GameButton({
           </>
         )}
 
-        {/* Efecto de resplandor interno */}
-        <span
-          className={cn(
-            "absolute inset-0 rounded-md opacity-0 pointer-events-none transition-opacity duration-300",
-            isHovered && !disabled ? "opacity-30" : "",
-          )}
-          style={{
-            background: `radial-gradient(circle, ${getEffectColor()}20 0%, transparent 70%)`,
-          }}
-        />
+        {/* Efecto de resplandor interno (solo en cliente) */}
+        {isClient && (
+          <span
+            className={cn(
+              "absolute inset-0 rounded-md opacity-0 pointer-events-none transition-opacity duration-300",
+              isHovered && !disabled ? "opacity-30" : "",
+            )}
+            style={{
+              background: `radial-gradient(circle, ${getEffectColor()}20 0%, transparent 70%)`,
+            }}
+          />
+        )}
 
-        {/* Efecto de borde pulsante */}
-        <span
-          className={cn(
-            "absolute inset-0 rounded-md border-2 pointer-events-none transition-all duration-300",
-            variant === "default"
-              ? "border-primary/50"
-              : variant === "accent"
-                ? "border-accent/50"
-                : variant === "secondary"
-                  ? "border-secondary/50"
-                  : "border-accent/30",
-            isHovered && !disabled && !isMobile && glowOnHover ? "shadow-glow" : "",
-          )}
-          style={{
-            boxShadow: isHovered && !disabled && !isMobile && glowOnHover ? `0 0 10px ${getEffectColor()}` : "none",
-          }}
-        />
+        {/* Efecto de borde pulsante (solo en cliente) */}
+        {isClient && (
+          <span
+            className={cn(
+              "absolute inset-0 rounded-md border-2 pointer-events-none transition-all duration-300",
+              variant === "default"
+                ? "border-primary/50"
+                : variant === "accent"
+                  ? "border-accent/50"
+                  : variant === "secondary"
+                    ? "border-secondary/50"
+                    : "border-accent/30",
+              isHovered && !disabled && !isMobile && glowOnHover ? "shadow-glow" : "",
+            )}
+            style={{
+              boxShadow: isHovered && !disabled && !isMobile && glowOnHover ? `0 0 10px ${getEffectColor()}` : "none",
+            }}
+          />
+        )}
 
         {/* Contenido del botón */}
         <span className="flex items-center justify-center gap-2 z-10 relative">
-          {icon && (
+          {icon &&
+            isClient && ( // Solo animar en cliente
+              <span
+                className="mr-1"
+                style={{
+                  animation: isHovered && !disabled && !isMobile && animated ? "wiggle 1.5s infinite" : "none",
+                }}
+              >
+                {icon}
+              </span>
+            )}
+          {isClient ? ( // Solo animar en cliente
             <span
-              className="mr-1"
               style={{
-                animation: isHovered && !disabled && !isMobile && animated ? "wiggle 1.5s infinite" : "none",
+                animation: isHovered && !disabled && !isMobile && animated ? "float-text 1.5s infinite" : "none",
               }}
             >
-              {icon}
+              {children}
             </span>
+          ) : (
+            <span>{children}</span> // Renderizar sin animación en el servidor
           )}
-          <span
-            style={{
-              animation: isHovered && !disabled && !isMobile && animated ? "float-text 1.5s infinite" : "none",
-            }}
-          >
-            {children}
-          </span>
         </span>
       </button>
     </div>
@@ -353,6 +364,11 @@ export function GlowButton({
   }
 
   const [isHovered, setIsHovered] = React.useState(false)
+  const [isClient, setIsClient] = React.useState(false) // Nuevo estado para hidratación
+
+  React.useEffect(() => {
+    setIsClient(true) // El componente se ha montado en el cliente
+  }, [])
 
   return (
     <button
@@ -363,24 +379,26 @@ export function GlowButton({
         className,
       )}
       style={{
-        boxShadow: isHovered ? `${intensityMap[glowIntensity]} ${getGlowColor()}` : "none",
+        boxShadow: isClient && isHovered ? `${intensityMap[glowIntensity]} ${getGlowColor()}` : "none", // Solo animar en cliente
         transition: "box-shadow 0.2s ease, transform 0.2s ease",
-        transform: isHovered ? "scale(1.03)" : "scale(1)",
+        transform: isClient && isHovered ? "scale(1.03)" : "scale(1)", // Solo animar en cliente
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       {...props}
     >
-      {/* Efecto de brillo */}
-      <span
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20"
-        style={{
-          animation: "shine 1.5s infinite linear",
-          backgroundSize: "200% 100%",
-          backgroundPosition: isHovered ? "right center" : "left center",
-          transition: "background-position 1.5s linear",
-        }}
-      />
+      {/* Efecto de brillo (solo en cliente) */}
+      {isClient && (
+        <span
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20"
+          style={{
+            animation: "shine 1.5s infinite linear",
+            backgroundSize: "200% 100%",
+            backgroundPosition: isHovered ? "right center" : "left center",
+            transition: "background-position 1.5s linear",
+          }}
+        />
+      )}
 
       {icon && <span className="mr-2">{icon}</span>}
       {children}

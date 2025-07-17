@@ -87,7 +87,7 @@ export default function Footer() {
             </p>
             <div className="mt-4 flex space-x-4">
               <motion.a
-                href="https://discord.gg/VgHGz5RJ"
+                href="https://discord.gg/KWMXbgvc"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-foreground hover:text-accent transition-colors"
