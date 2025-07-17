@@ -189,7 +189,7 @@ export default function ServerInfoPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
-                  href="https://drive.google.com/uc?export=download&id=1Alur-e5wsAEdE8h1hbwxyhqC_492Crhl"
+                  href="https://drive.google.com/file/d/15nH6yErGk5zJr_-mZYHvzlXq54nUv0_U/view?usp=drive_link"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1"
