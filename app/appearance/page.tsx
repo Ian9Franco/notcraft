@@ -64,8 +64,7 @@ const staticResourcePacks: ResourcePack[] = [
   {
     id: "4",
     name: "GUI Revision",
-    description:
-      "Aportando un diseño fresco manteniendo la simplicidad de la GUI predeterminada",
+    description: "Aportando un diseño fresco manteniendo la simplicidad de la GUI predeterminada",
     image_url: "/images/texturas/guirevision.png",
     logo_url: "/images/texturas/guirevisionlogo.png",
     special_note: "Compatible con la mayoría de mods",
@@ -108,7 +107,8 @@ const staticShaders: Shader[] = [
   {
     name: "Visual Vibrance",
     version: "v1.0",
-    description: "Visual Vibrance es un intento de recrear la próxima función Vibrant Visuals que actualmente solo está disponible en la edición Bedrock de Minecraft.",
+    description:
+      "Visual Vibrance es un intento de recrear la próxima función Vibrant Visuals que actualmente solo está disponible en la edición Bedrock de Minecraft.",
     link: "https://modrinth.com/shader/visual-vibrance",
   },
   {
@@ -137,6 +137,7 @@ const resourcePackOrder = [
  * - Shaders compatibles
  * - Instrucciones de instalación y orden correcto
  * - Enlaces de descarga
+ * - Información sobre el Physics Mod
  */
 export default function ResourcePacksPage() {
   // Estado y hooks
@@ -320,40 +321,38 @@ export default function ResourcePacksPage() {
             <h3 className="font-minecraft text-xl text-accent">Orden Recomendado</h3>
           </div>
 
-          <div className="resource-pack-order">
-            <div className="flex items-start sm:items-center gap-2 mb-4">
-              <AlertTriangle className="h-5 w-5 text-accent shrink-0 mt-1 sm:mt-0" />
-              <p className="text-sm font-medium">
-                El orden es importante: los packs en la parte superior tienen prioridad sobre los que están debajo.
-              </p>
-            </div>
+          <div className="flex items-start sm:items-center gap-2 mb-4">
+            <AlertTriangle className="h-5 w-5 text-accent shrink-0 mt-1 sm:mt-0" />
+            <p className="text-sm font-medium">
+              El orden es importante: los packs en la parte superior tienen prioridad sobre los que están debajo.
+            </p>
+          </div>
 
-            <div className="space-y-3 mb-6">
-              {resourcePackOrder.map((pack, index) => (
-                <div key={index} className="resource-pack-item">
-                  <div className="resource-pack-number">{index + 1}</div>
-                  <div>
-                    <h4 className="font-minecraft text-base">{pack.name}</h4>
-                    <p className="text-xs text-muted-foreground">{pack.description}</p>
-                  </div>
+          <div className="space-y-3 mb-6">
+            {resourcePackOrder.map((pack, index) => (
+              <div key={index} className="resource-pack-item">
+                <div className="resource-pack-number">{index + 1}</div>
+                <div>
+                  <h4 className="font-minecraft text-base">{pack.name}</h4>
+                  <p className="text-xs text-muted-foreground">{pack.description}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
 
-            <div className="p-4 bg-background/50 rounded-md border border-border/50">
-              <div className="flex items-start gap-2">
-                <Info className="h-5 w-5 text-accent shrink-0 mt-0.5" />
-                <div className="text-sm">
-                  <p className="mb-2">
-                    <span className="font-medium">Consejo:</span> Para cambiar el orden de los resource packs en
-                    Minecraft:
-                  </p>
-                  <ol className="list-decimal pl-5 space-y-1 text-muted-foreground">
-                    <li>Ve a Opciones → Resource Packs</li>
-                    <li>Arrastra los packs activados hacia arriba o abajo para cambiar su prioridad</li>
-                    <li>Los packs en la parte superior tienen prioridad sobre los que están debajo</li>
-                  </ol>
-                </div>
+          <div className="p-4 bg-background/50 rounded-md border border-border/50">
+            <div className="flex items-start gap-2">
+              <Info className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+              <div className="text-sm">
+                <p className="mb-2">
+                  <span className="font-medium">Consejo:</span> Para cambiar el orden de los resource packs en
+                  Minecraft:
+                </p>
+                <ol className="list-decimal pl-5 space-y-1 text-muted-foreground">
+                  <li>Ve a Opciones → Resource Packs</li>
+                  <li>Arrastra los packs activados hacia arriba o abajo para cambiar su prioridad</li>
+                  <li>Los packs en la parte superior tienen prioridad sobre los que están debajo</li>
+                </ol>
               </div>
             </div>
           </div>
@@ -427,6 +426,57 @@ export default function ResourcePacksPage() {
           </GameCard>
         </ScrollReveal>
       </div>
+
+      {/* Nuevo contenedor: Para Volvo (Physics Mod) */}
+      <ScrollReveal direction="up">
+        <SectionHeader title="Para Volvo" subtitle="Un mod que lleva la física de Minecraft a otro nivel." />
+
+        <GameCard borderGlow>
+          <div className="flex items-center gap-2 mb-6">
+            <Download className="h-5 w-5 text-accent" />
+            <h3 className="font-minecraft text-xl text-accent">Mod de Físicas: Physics Mod</h3>
+          </div>
+
+          <div className="space-y-4 text-muted-foreground mb-6">
+            <p className="text-base">
+              <span className="font-semibold text-accent">Una nueva experiencia inmersiva:</span> Sumérgete en un mundo
+              como nunca antes visto. ¡Cuevas que se derrumban, ragdolls interactivos, físicas de objetos y mucho más te
+              esperan!
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold text-accent">Plataformas Soportadas:</span> Windows, Linux y MacOS (las
+              CPUs M1/M2 solo funcionan con Minecraft 1.20 y superior, las otras versiones necesitan modo de
+              compatibilidad: ¡Tutorial!)
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold text-accent">Mobs:</span> La parte favorita de todo maníaco de la física.
+              ¡Cada mob de Minecraft Vanilla soporta ragdolls, fracturas y una versión en bloques!
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold text-accent">Bloques:</span> ¡Deja que los bloques del mundo de Minecraft
+              se desmoronen en pedazos!
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold text-accent">Otras características:</span> ¿Estás aburrido de los objetos
+              flotantes? ¡Prueba las físicas de objetos! ¿Gravedad? ¿Luna? ¿Marte? ¿Plutón? ¿Tierra? ¡Cámbiala a lo que
+              quieras! ¿Quieres llevar tu PC al límite? ¡Mira cuánto durará con estructuras que se derrumban!
+            </p>
+          </div>
+
+          <div className="text-center">
+            <a
+              href="YOUR_GOOGLE_DRIVE_LINK_HERE" // <-- ¡Pega aquí el enlace a tu Google Drive para el mod!
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-block"
+            >
+              <GameButton variant="accent" size="lg" icon={<Download className="h-5 w-5" />}>
+                Descargar Physics Mod
+              </GameButton>
+            </a>
+          </div>
+        </GameCard>
+      </ScrollReveal>
 
       {/* Instrucciones de instalación - Mejorado para responsividad */}
       <ScrollReveal direction="up">
