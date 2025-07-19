@@ -393,7 +393,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row justify-around items-center gap-4 text-foreground">
               <div className="flex flex-col items-center">
                 <span className="text-3xl md:text-4xl font-bold text-accent">
-                  <AnimatedCounter end={162} suffix=" " />
+                  <AnimatedCounter end={159} suffix=" " />
                 </span>
                 <span className="text-sm md:text-base text-muted-foreground">Mods Esenciales</span>
               </div>
