@@ -393,7 +393,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row justify-around items-center gap-4 text-foreground">
               <div className="flex flex-col items-center">
                 <span className="text-3xl md:text-4xl font-bold text-accent">
-                  <AnimatedCounter end={163} suffix="+" />
+                  <AnimatedCounter end={163} suffix="?" />
                 </span>
                 <span className="text-sm md:text-base text-muted-foreground">Mods Esenciales</span>
               </div>
@@ -402,7 +402,7 @@ export default function Home() {
 
               <div className="flex flex-col items-center">
                 <span className="text-3xl md:text-4xl font-bold text-accent">
-                  <AnimatedCounter end={61} suffix="+" />
+                  <AnimatedCounter end={61} suffix=" " />
                 </span>
                 <span className="text-sm md:text-base text-muted-foreground">Mods en Server</span>
               </div>
@@ -411,7 +411,7 @@ export default function Home() {
 
   <div className="flex flex-col items-center">
     <span className="text-3xl md:text-4xl font-bold text-accent">
-      <AnimatedCounter end={85} suffix="+" />
+      <AnimatedCounter end={85} suffix=" " />
     </span>
     <span className="text-sm md:text-base text-muted-foreground">Mods Locales</span>
   </div>
@@ -432,6 +432,7 @@ export default function Home() {
     <span className="text-sm md:text-base text-muted-foreground">Aventuras</span>
   </div>
 </div>
+
 
 
           </div>
