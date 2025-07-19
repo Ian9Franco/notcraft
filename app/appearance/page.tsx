@@ -434,7 +434,9 @@ export default function ResourcePacksPage() {
         <GameCard borderGlow>
           <div className="flex items-center gap-2 mb-6">
             <Download className="h-5 w-5 text-accent" />
-            <h3 className="font-minecraft text-xl text-accent">Mod de Físicas: Physics Mod</h3>
+            <h3 className="font-minecraft text-xl text-accent">
+            Mod de Físicas: Para Volvo ❤️
+          </h3>
           </div>
 
           <div className="space-y-4 text-muted-foreground mb-6">
@@ -446,7 +448,7 @@ export default function ResourcePacksPage() {
             <p className="text-sm">
               <span className="font-semibold text-accent">Plataformas Soportadas:</span> Windows, Linux y MacOS (las
               CPUs M1/M2 solo funcionan con Minecraft 1.20 y superior, las otras versiones necesitan modo de
-              compatibilidad: ¡Tutorial!)
+              compatibilidad
             </p>
             <p className="text-sm">
               <span className="font-semibold text-accent">Mobs:</span> La parte favorita de todo maníaco de la física.
@@ -465,7 +467,7 @@ export default function ResourcePacksPage() {
 
           <div className="text-center">
             <a
-              href="YOUR_GOOGLE_DRIVE_LINK_HERE" // <-- ¡Pega aquí el enlace a tu Google Drive para el mod!
+              href="https://drive.google.com/drive/folders/1PDLEigmj2pF3yP7oXGetx_dOU-qms3yX?usp=drive_link" // <-- ¡Pega aquí el enlace a tu Google Drive para el mod!
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-block"
