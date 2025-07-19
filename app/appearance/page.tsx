@@ -114,7 +114,7 @@ const staticShaders: Shader[] = [
   {
     name: "Rethinking Voxels",
     version: "v1.0",
-    description: "Iluminación suave y elegante, estilo voxel con rendimiento optimizado.",
+    description: "Iluminación suave y elegante, estilo voxel con rendimiento optimizado. (exigente)",
     link: "https://modrinth.com/shader/soft-voxels-lite/gallery",
   },
 ]
