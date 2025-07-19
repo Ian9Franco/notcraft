@@ -211,8 +211,9 @@ const staticOptionalMods: { [key: string]: { [category: string]: Mod[] } } = {
     ],
     maps: [
       { name: "Antique Atlas 4", version: "1.21.1", description: "Mapa estilo libro antiguo para exploración" },
+      
       { name: "SurveyStones", version: "1.21.1", description: "Puntos de teletransporte y waypoints" },
-      { name: "AA4 Atlas", version: "1.21.1", description: "Mapa crafteable integrado con Antique Atlas 4" },
+      { name: "XaeroMinimap", version: "1.21.1", description: "Minimapa" },
       {
         name: "Antique Trains",
         version: "1.21.1",
@@ -307,7 +308,7 @@ const getTutorialSteps = (selectedModloader: string) => [
                   Última versión disponible: {modpack.version}
                 </p>
                 <a
-                  href="#" // TODO: Add your Google Drive link here for main modpack
+                  href="https://drive.google.com/drive/folders/18d8fgpPIPQ7NPhI3BO2rgvK-nFUAa2NO" 
                   className={modpack.available ? "" : "pointer-events-none"}
                 >
                   <GameButton

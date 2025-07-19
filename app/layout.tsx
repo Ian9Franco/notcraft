@@ -3,11 +3,12 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { SidebarNavigation, MobileNavigation } from "@/components/navigation"
+import { SidebarNavigation, MobileNavigation } from "@/components/layout/navigation"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
 import BackgroundVideo from "@/components/layout/BackgroundVideo"
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -57,15 +58,24 @@ export default function RootLayout({
             {/* Background video, detrás de todo */}
             <BackgroundVideo audioEnabled={true} blurAmount={8} />
 
-            <div className="flex min-h-screen relative z-10">
-              <SidebarNavigation />
-              <div className="flex-1 flex flex-col min-h-screen">
-                <Header />
-                <main className="flex-1 container mx-auto p-4 md:p-6 pb-20 md:pb-6">{validChildren}</main>
-                <Footer />
-                <MobileNavigation />
+            <SidebarProvider>
+              {" "}
+              {/* Wrap the main content with SidebarProvider [^1] */}
+              <div className="flex min-h-screen relative z-10">
+                <SidebarNavigation />
+                {/* Use SidebarInset for the main content area [^1] */}
+                <SidebarInset className="flex-1 flex flex-col min-h-screen">
+                  <Header />
+                  {/* Removed 'bg-background/80' to make it fully transparent, keeping blur, rounded corners, and shadow */}
+                  <main className="flex-1 p-4 md:p-6 pb-20 md:pb-6 backdrop-blur-md rounded-lg shadow-lg">
+                    {validChildren}
+                  </main>
+                  <Footer />
+                  {/* Use MobileNavigation here */}
+                  <MobileNavigation />
+                </SidebarInset>
               </div>
-            </div>
+            </SidebarProvider>
           </TooltipProvider>
         </ThemeProvider>
       </body>

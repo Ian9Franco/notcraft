@@ -19,7 +19,7 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        accent: "bg-accent text-accent-foreground hover:bg-accent/90",
+        accent: "bg-accent text-accent-foreground hover:bg-accent/90", // Asegurado que la variante 'accent' esté presente
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -150,7 +150,7 @@ export function GameButton({
   }
 
   /**
-   * Maneja el clic en el botón con efecto de partículas
+   * Maneja el clic en el botón sin efecto de partículas
    */
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (disabled) return
@@ -161,46 +161,7 @@ export function GameButton({
     // Si hay un manejador de clic personalizado, lo llamamos
     if (onClick) onClick(e)
 
-    // Efecto de explosión de partículas en el clic (solo en cliente y si animado)
-    if (isClient && animated && buttonRef.current && !isMobile) {
-      const button = buttonRef.current
-      const rect = button.getBoundingClientRect()
-      const centerX = rect.width / 2
-      const centerY = rect.height / 2
-
-      // Crear partículas adicionales en el clic
-      for (let i = 0; i < 12; i++) {
-        const particle = document.createElement("span")
-        particle.className = `absolute w-1.5 h-1.5 rounded-full pointer-events-none`
-        particle.style.backgroundColor = getEffectColor()
-        particle.style.boxShadow = `0 0 6px ${getEffectColor()}`
-        particle.style.top = `${centerY}px`
-        particle.style.left = `${centerX}px`
-        particle.style.opacity = "0.8"
-
-        // Animación aleatoria
-        const angle = Math.random() * Math.PI * 2
-        const distance = 50 + Math.random() * 100
-        const duration = 0.5 + Math.random() * 0.5
-
-        particle.animate(
-          [
-            { transform: "translate(-50%, -50%) scale(1)", opacity: 0.8 },
-            {
-              transform: `translate(
-                calc(-50% + ${Math.cos(angle) * distance}px),
-                calc(-50% + ${Math.sin(angle) * distance}px)
-              ) scale(0)`,
-              opacity: 0,
-            },
-          ],
-          { duration: duration * 1000, easing: "cubic-bezier(0.1, 0.8, 0.2, 1)" },
-        )
-
-        button.appendChild(particle)
-        setTimeout(() => particle.remove(), duration * 1000)
-      }
-    }
+    // Eliminado: Efecto de explosión de partículas en el clic
   }
 
   return (
@@ -229,25 +190,7 @@ export function GameButton({
         onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
-        {/* Partículas animadas (solo visibles al hacer hover en desktop y en cliente) */}
-        {isClient && isHovered && !disabled && !isMobile && animated && (
-          <>
-            {[...Array(particleCount)].map((_, i) => (
-              <span
-                key={i}
-                className="absolute w-1.5 h-1.5 rounded-full pointer-events-none"
-                style={{
-                  background: getEffectColor(),
-                  boxShadow: `0 0 6px ${getEffectColor()}`,
-                  top: "50%",
-                  left: "50%",
-                  opacity: 0.8,
-                  animation: `particle-${(i % 4) + 1} 0.8s ease-out forwards`,
-                }}
-              />
-            ))}
-          </>
-        )}
+        {/* Eliminado: Partículas animadas (antes visibles al hacer hover) */}
 
         {/* Efecto de resplandor interno (solo en cliente) */}
         {isClient && (

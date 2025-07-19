@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 /*
- * ========================================
- * FUENTES
- * ========================================
- * Definición de fuentes personalizadas para el sitio
- * - MinecraftFont: Fuente principal estilo Minecraft
- * - Bytesized: Fuente para elementos pixelados
- * - Aboreto: Fuente para títulos
- * - Nunito: Fuente para texto general en diferentes pesos
- */
+* =============================================================================
+* FUENTES
+* =============================================================================
+* Definición de fuentes personalizadas para el sitio
+* - MinecraftFont: Fuente principal estilo Minecraft
+* - Bytesized: Fuente para elementos pixelados
+* - Aboreto: Fuente para títulos
+* - Nunito: Fuente para texto general en diferentes pesos
+*/
 @font-face {
   font-family: "MinecraftFont";
   src: url("/fonts/MinecraftFont.woff2") format("woff2");
@@ -61,14 +61,18 @@
 }
 
 /*
- * ========================================
- * VARIABLES Y TEMAS
- * ========================================
- */
+* =============================================================================
+* VARIABLES Y TEMAS
+* =============================================================================
+*/
 @layer base {
   :root {
-    /* 🌑 Dark mode (default) */
-    --background: 216 29% 19%;
+    /* Fondo transparente */
+    --background: transparent;
+
+
+    
+    /* Mantén el resto igual */
     --foreground: 241 100% 92%;
     --card: 300 4% 13%;
     --card-foreground: 241 100% 92%;
@@ -82,7 +86,7 @@
     --secondary-foreground: 300 4% 13%;
 
     --muted: 216 20% 25%;
-    --muted-foreground: 241 50% 70%;
+    --muted-foreground: 241 60% 80%;
 
     --accent: 66 64% 56%;
     --accent-foreground: 300 4% 13%;
@@ -105,68 +109,25 @@
     --title-text: hsl(241, 27%, 43%);
     --title-hover: hsla(241, 27%, 43%, 0.6);
   }
-
-  .light {
-    /* ☀️ Light mode */
-    --background: 39 77% 95%;
-    --foreground: 26 34% 25%;
-    --card: 43 57% 90%;
-    --card-foreground: 26 34% 25%;
-    --popover: 43 57% 90%;
-    --popover-foreground: 26 34% 25%;
-
-    --primary: 14 59% 34%;
-    --primary-foreground: 39 77% 95%;
-
-    --secondary: 26 34% 28%;
-    --secondary-foreground: 39 77% 95%;
-
-    --muted: 43 57% 95%;
-    --muted-foreground: 26 34% 40%;
-
-    --accent: 14 59% 55%;
-    --accent-foreground: 39 77% 95%;
-
-    --destructive: 0 70% 45%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 26 34% 28%;
-    --input: 26 34% 22%;
-    --ring: 14 59% 34%;
-
-    --sidebar-bg: 26 34% 15%;
-    --sidebar-fg: 39 77% 95%;
-
-    --title-color: 14 59% 34%;
-    --title-text-light: 26 34% 28%;
-    --title-hover-light: 14 59% 45%;
-
-    --title-text: hsl(14, 59%, 34%);
-    --title-hover: hsl(14, 59%, 45%);
-  }
 }
 
+
 /*
- * ========================================
- * ESTILOS BASE
- * ========================================
- */
+* =============================================================================
+* ESTILOS BASE
+* =============================================================================
+*/
 @layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground font-body;
-    background-image: url("/images/dirt-background.png");
-    background-repeat: repeat;
+    @apply text-foreground font-body; /* Removed bg-background */
+    /* Removed background-image and background-repeat for full transparency */
     background-attachment: fixed;
     overflow-x: hidden;
     font-feature-settings: "rlig" 1, "calt" 1;
-  }
-
-  .light body {
-    background-image: url("/images/light-dirt-background.png");
   }
 
   h1,
@@ -177,14 +138,6 @@
   h6 {
     @apply font-title tracking-wide;
     color: hsl(var(--title-color));
-  }
-
-  .title-hover:hover {
-    color: hsl(var(--title-hover-dark));
-  }
-
-  .light .title-hover:hover {
-    color: hsl(var(--title-hover-light));
   }
 
   /* Scrollbar personalizado */
@@ -200,133 +153,20 @@
   ::-webkit-scrollbar-thumb {
     @apply bg-accent/50 rounded-full hover:bg-accent/70 transition-colors;
   }
-
-  /* Mejoras de contraste para modo claro */
-  .light .text-muted-foreground {
-    color: hsl(26, 34%, 35%) !important;
-  }
-
-  .light .card p,
-  .light .card span:not(.font-minecraft) {
-    color: hsl(26, 34%, 25%) !important;
-  }
-
-  /* Mejoras específicas para contenedores en modo claro */
-  .light main {
-    position: relative;
-    z-index: 0;
-  }
-
-  .light main::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-color: hsla(39, 77%, 95%, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    z-index: -1;
-    border-radius: 1rem;
-    pointer-events: none;
-  }
-
-  /* Mejoras para textos en modo claro */
-  .light p,
-  .light span,
-  .light div {
-    color: hsl(26, 33%, 9%);
-  }
-
-  .light h1,
-  .light h2,
-  .light h3,
-  .light h4,
-  .light h5,
-  .light h6 {
-    color: hsl(14, 59%, 34%);
-  }
-
-  /* Sidebar específico para modo claro */
-  .light .sidebar {
-    background-color: hsla(26, 34%, 15%, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-right: 1px solid hsla(39, 60%, 70%, 0.3);
-    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
-  }
-
-  .light .sidebar a,
-  .light .sidebar button,
-  .light .sidebar span {
-    color: hsl(39, 77%, 95%);
-  }
-
-  .light .sidebar svg {
-    color: hsl(39, 77%, 95%, 0.9);
-  }
-
-  /* Dark mode sidebar */
-  .dark .sidebar {
-    background-color: hsla(300, 4%, 5%, 0.85);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-right: 1px solid hsla(300, 4%, 18%, 0.5);
-    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
-  }
-
-  /* Iconos del header en modo claro */
-  .light .header svg,
-  .light header svg,
-  .light nav svg,
-  .light .navbar svg {
-    color: hsl(26, 34%, 28%) !important;
-  }
-
-  /* Botones específicos */
-  .light .btn-ghost,
-  .light .btn-link,
-  .light [class*="variant-ghost"],
-  .light [class*="variant-link"],
-  .light button[variant="ghost"],
-  .light button[variant="link"] {
-    color: hsl(26, 34%, 28%) !important;
-  }
-
-  /* Botones de la sidebar */
-  .light button[aria-label="Expandir barra lateral"] svg,
-  .light button[aria-label="Colapsar barra lateral"] svg {
-    color: hsl(39, 77%, 95%) !important;
-  }
-
-  .light .sidebar-toggle-button {
-    background-color: hsl(26, 34%, 28%);
-    color: hsl(39, 77%, 95%) !important;
-  }
-
-  .light .sidebar-toggle-button:hover {
-    background-color: hsl(14, 59%, 34%);
-  }
-
-  .light .sidebar-toggle-button svg {
-    color: hsl(39, 77%, 95%) !important;
-  }
 }
 
 /*
- * ========================================
- * COMPONENTES
- * ========================================
- */
+* =============================================================================
+* COMPONENTES PERSONALIZADOS
+* =============================================================================
+*/
 @layer components {
+  /* Estilos de texto y efectos */
   .minecraft-style,
   .font-minecraft {
     font-family: "MinecraftFont", monospace;
     letter-spacing: 0.05em;
     text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
-  }
-
-  .light .minecraft-style,
-  .light .font-minecraft {
-    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
   }
 
   .pixelated {
@@ -335,36 +175,43 @@
     image-rendering: crisp-edges;
   }
 
-  .border-glow {
-    box-shadow: 0 0 10px rgba(180, 255, 58, 0.3);
-  }
-
-  .light .border-glow {
-    box-shadow: 0 0 10px rgba(149, 69, 53, 0.3);
-  }
-
   .text-glow {
     text-shadow: 0 0 8px rgba(180, 255, 58, 0.6);
   }
 
-  .light .text-glow {
-    text-shadow: 0 0 5px rgba(149, 69, 53, 0.4);
+  /* Efectos de borde y sombra */
+  .border-glow {
+    box-shadow: 0 0 10px rgba(180, 255, 58, 0.3);
   }
 
+  /* Estilos de título con hover */
   .title-hover {
     @apply transition-all duration-300;
+    color: hsl(var(--title-color)); /* Asegura que el color base se aplique */
   }
 
   .title-hover:hover {
     @apply text-accent transform scale-105;
+    color: hsl(var(--title-hover-dark)); /* Aplica el color de hover */
   }
 
+  /* Estilos de la barra lateral (sidebar) */
   .sidebar {
     background-color: hsl(var(--sidebar-bg));
     color: hsl(var(--sidebar-fg));
     transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
   }
 
+  /* Dark mode sidebar específico */
+  .dark .sidebar {
+    background-color: hsla(300, 4%, 5%, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid hsla(300, 4%, 18%, 0.5);
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+  }
+
+  /* Efectos de transición y visibilidad */
   .fade-in-section {
     @apply opacity-0 transition-all duration-700 ease-out;
     transform: translateY(20px);
@@ -375,11 +222,13 @@
     transform: translateY(0);
   }
 
+  /* Efecto de cristal (glassmorphism) */
   .glass-effect {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
 
+  /* Estilos de panel HUD */
   .hud-panel {
     border: 2px solid hsl(var(--accent));
     box-shadow: 0 0 0 1px rgba(180, 255, 58, 0.3), inset 0 0 0 1px rgba(180, 255, 58, 0.3);
@@ -388,12 +237,7 @@
     -webkit-backdrop-filter: blur(10px);
   }
 
-  .light .hud-panel {
-    background: linear-gradient(135deg, rgba(245, 222, 179, 0.7) 0%, rgba(239, 223, 187, 0.7) 100%);
-    box-shadow: 0 0 0 1px rgba(111, 78, 55, 0.3), inset 0 0 0 1px rgba(111, 78, 55, 0.3);
-  }
-
-  /* Resource pack styles */
+  /* Estilos de Resource Pack */
   .resource-pack-order {
     @apply space-y-4;
   }
@@ -406,7 +250,7 @@
     @apply flex items-center justify-center w-8 h-8 rounded-full bg-accent/20 text-accent font-minecraft;
   }
 
-  /* Gallery styles */
+  /* Estilos de Galería */
   .gallery-grid {
     @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6;
   }
@@ -439,7 +283,7 @@
     @apply relative h-[70vh];
   }
 
-  /* Carousel styles */
+  /* Estilos de Carrusel */
   .carousel-container {
     @apply relative overflow-hidden rounded-lg;
     min-height: 300px;
@@ -475,10 +319,10 @@
 }
 
 /*
- * ========================================
- * ANIMACIONES
- * ========================================
- */
+* =============================================================================
+* ANIMACIONES
+* =============================================================================
+*/
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -522,22 +366,6 @@
 
 .animate-pulse-glow {
   animation: pulse 2s infinite;
-}
-
-.light .animate-pulse-glow {
-  animation: coffee-pulse 2s infinite;
-}
-
-@keyframes coffee-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(149, 69, 53, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(149, 69, 53, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(149, 69, 53, 0);
-  }
 }
 
 @keyframes wiggle {
@@ -585,10 +413,10 @@
 }
 
 /*
- * ========================================
- * RESPONSIVE
- * ========================================
- */
+* =============================================================================
+* RESPONSIVE
+* =============================================================================
+*/
 @media (max-width: 640px) {
   .minecraft-style,
   .font-minecraft {

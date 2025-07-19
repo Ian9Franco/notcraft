@@ -106,19 +106,13 @@ const staticShaders: Shader[] = [
     link: "https://modrinth.com/shader/super-duper-vanilla/gallery",
   },
   {
-    name: "Hysteria Shaders",
+    name: "Visual Vibrance",
     version: "v1.0",
-    description: "Colores vibrantes y un toque surrealista para experiencias únicas.",
-    link: "https://modrinth.com/shader/hysteria-shaders/gallery",
+    description: "Visual Vibrance es un intento de recrear la próxima función Vibrant Visuals que actualmente solo está disponible en la edición Bedrock de Minecraft.",
+    link: "https://modrinth.com/shader/visual-vibrance",
   },
   {
-    name: "RedHat Shaders",
-    version: "v1.0",
-    description: "Ideal para aventuras oscuras, con contrastes profundos y niebla densa.",
-    link: "https://modrinth.com/shader/redhat-shaders/gallery",
-  },
-  {
-    name: "Soft Voxels Lite",
+    name: "Rethinking Voxels",
     version: "v1.0",
     description: "Iluminación suave y elegante, estilo voxel con rendimiento optimizado.",
     link: "https://modrinth.com/shader/soft-voxels-lite/gallery",
@@ -266,7 +260,7 @@ export default function ResourcePacksPage() {
               </div>
             </div>
             <a
-              href="https://drive.google.com/file/d/1_mNdl5IYapOHxVW-bDSxYlooLvXbHYIG/view?usp=drive_link"
+              href="https://drive.google.com/drive/folders/1jWZZO3aTM6dMoMTUnKr-5nl4nDWVpDQC?usp=drive_link"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full"

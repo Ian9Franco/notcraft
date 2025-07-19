@@ -20,7 +20,7 @@ const seasons = [
     title: "Primera Ruptura",
     date: "Julio 2025 - Presente",
     description:
-      "No sabés cómo llegaste acá. El portal escupió tu cuerpo como un trapo sucio y lo primero que sentiste fue el silencio... uno espeso, como si el mundo entero estuviera conteniendo la respiración. Las ruinas están frescas, como si el último grito todavía flotara en el aire. Las cuevas murmuran cosas que no entendés, pero igual te hielan la sangre. El cielo cambia de color cuando no lo estás mirando. Hay rastros de civilizaciones que cavaron profundo, volaron alto y jugaron a ser dioses... y ahora no queda ni uno. Criaturas que no existen en ningún libro caminan de noche. Los árboles te siguen con la mirada. La tierra entera está podrida por algo viejo, algo que odia tu presencia. Y lo peor es que ya te olió. Te está buscando. No hay tutorial. No hay paz. Solo un consejo: no te detengas. Porque acá, hasta el amanecer puede ser una trampa.",
+      "No recordás en qué momento pasaste el umbral. El portal te tiró acá sin aviso, y la primera respiración te raspó los pulmones como polvo viejo. Todo está roto: las torres mecánicas susurran engranajes oxidados, los rieles de fábricas abandonadas se pierden en túneles sin fin. Hay puertas selladas que prometen mundos lejanos, pero ningún acceso es gratis. Cada dimensión guarda su llave detrás de criaturas que no saben morir. A lo lejos, golems patrullan ruinas de imperios que intentaron controlar lo que no entendían. De noche, enjambres de zombis salen de la tierra, y si no escuchás bien, hasta los aldeanos pueden traicionarte: algunos protegen lo poco que les queda con dientes y garras. Si una mascota muere, tal vez puedas traerla de vuelta… pero nada regresa igual. Los árboles te observan. Las cuevas respiran. El cielo se retuerce cuando parpadeás. Si querés moverte, necesitás máquinas, aeronaves y portales prestados por dioses que ya se aburrieron de esperar. Cada paso adelante desbloquea otro infierno: más profundo, más alto, más imposible.No hay guía. No hay mapa que muestre el camino. Tenés herramientas, recetas, planos y un skill tree que marca lo que podés llegar a ser, pero no quién vas a ser cuando cruces cada portal. Cada dimensión te exige algo a cambio: tu tiempo, tu sangre o tu cordura. El End ya no es un final. Es apenas un descanso antes de la siguiente puerta. Y cuando creas que terminaste, la tierra podrida va a recordarte que todavía respira. Y que todavía tiene hambre. No confíes en nada. No te detengas. No vuelvas atrás. Porque acá, incluso el amanecer puede ser una mentira.",
     playerCount: 3,
   },
   {
@@ -37,7 +37,7 @@ const seasons = [
  *
  * Muestra detalles sobre el servidor de Minecraft:
  * - Estado actual y dirección IP
- * - Información sobre mantenimiento
+ * - Información sobre el host
  * - Recursos y configuración
  * - Temporadas disponibles
  */
@@ -55,16 +55,18 @@ export default function ServerInfoPage() {
         />
       </motion.div>
 
-      {/* Aviso de servidor no dedicado - Mejorado para responsividad */}
+      {/* Aviso de servidor ahora hosteado - Texto y funcionalidad actualizados */}
       <ScrollReveal>
         <GameCard className="border-2 border-accent/30 bg-accent/5 max-w-4xl mx-auto">
           <div className="flex flex-col sm:flex-row items-start gap-3">
             <AlertTriangle className="h-6 w-6 text-accent shrink-0 mt-1" />
             <div>
-              <h3 className="font-minecraft text-xl text-accent mb-2">Servidor No Dedicado</h3>
+              <h3 className="font-minecraft text-xl text-accent mb-2">¡Servidor Hosteado!</h3>{" "}
+              {/* Título actualizado */}
               <p className="text-muted-foreground mb-3">
-                Actualmente, el servidor se ejecuta de forma local (LAN) y genera una nueva IP cada vez que se inicia.
-                Para jugar, puedes usar el mod E4MC que permite crear salas locales y conectarte con amigos.
+                ¡Listo! El servidor funciona 24/7, solo entra y juega, sin andar bajando mods.
+                 La IP es:{" "}
+                <code className="bg-background/70 px-1 rounded">netherious.minehost.pro</code>. ¡Solo conéctate y juega!
               </p>
               <div className="flex flex-wrap gap-3">
                 <a href="https://discord.gg/NhpPc2C2" target="_blank" rel="noopener noreferrer">
@@ -72,11 +74,7 @@ export default function ServerInfoPage() {
                     Unirse a Discord
                   </GameButton>
                 </a>
-                <a href="https://modrinth.com/mod/e4mc" target="_blank" rel="noopener noreferrer">
-                  <GameButton variant="ghost" size="sm" icon={<Download className="h-4 w-4" />}>
-                    Descargar E4MC
-                  </GameButton>
-                </a>
+                {/* Se eliminó el botón de descarga de E4MC según la solicitud */}
               </div>
             </div>
           </div>
@@ -93,12 +91,12 @@ export default function ServerInfoPage() {
                 <h3 className="font-title text-xl text-accent">IP del Servidor</h3>
               </div>
               <div className="bg-background/50 p-3 rounded-md font-minecraft text-center flex items-center justify-between mb-4">
-                <span className="break-all">play.netherious.com</span>
-                <CopyButton text="play.netherious.com" />
+                <span className="break-all">netherious.minehost.pro</span> {/* IP actualizada */}
+                <CopyButton text="netherious.minehost.pro" /> {/* IP actualizada para copiar */}
               </div>
             </div>
             <p className="text-xs text-muted-foreground text-center">
-              La IP puede cambiar. Consulta Discord para obtener la IP actual.
+              Conéctate directamente a nuestro servidor hosteado.
             </p>
           </GameCard>
 
@@ -140,26 +138,24 @@ export default function ServerInfoPage() {
                 <span>Online - 1/10 jugadores</span>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground text-center">
-              Si la idea gusta, pasaremos a servidor dedicado (24/7)
-            </p>
+            <p className="text-xs text-muted-foreground text-center">Servidor dedicado 24/7 para tu diversión.</p>
           </GameCard>
         </div>
       </ScrollReveal>
 
-      {/* Sección de mantenimiento y Discord - Mejorado para responsividad */}
+      {/* Sección de información del host y Discord - Mejorado para responsividad */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
         <div className="md:col-span-2">
           <ScrollReveal direction="left">
             <GameCard borderGlow>
               <div className="flex items-center gap-2 mb-4">
                 <Calendar className="h-5 w-5 text-accent" />
-                <h3 className="font-minecraft text-xl text-accent">Mantenimiento Programado</h3>
+                <h3 className="font-minecraft text-xl text-accent">Info del Host</h3> {/* Título actualizado */}
               </div>
-              <p className="text-sm text-muted-foreground mb-2">19 de Julio, 2025</p>
+              <p className="text-sm text-muted-foreground mb-2">Día 1: 19 de Julio, 2025</p> {/* Fecha actualizada */}
               <p className="text-muted-foreground">
-                El servidor estará en mantenimiento el 21 de mayo de 10:00 a 14:00 (GMT-3) para realizar actualizaciones
-                importantes. Durante este período, el servidor no estará disponible.
+               Nuestro server tiene 5GB de RAM para que juegues sin tirones ni cortes.
+                La temporada arranca el 19 de julio. 
               </p>
             </GameCard>
           </ScrollReveal>
@@ -189,7 +185,7 @@ export default function ServerInfoPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
-                  href="https://drive.google.com/file/d/15nH6yErGk5zJr_-mZYHvzlXq54nUv0_U/view?usp=drive_link"
+                  href="https://drive.google.com/drive/folders/11UOoL6yHUWNwIJzRXLcUT3CmhIt0xxm4?usp=drive_link"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1"
