@@ -63,7 +63,7 @@ const staticModpacks: { [key: string]: Modpack[] } = {
       id: "3",
       name: "Netherious NeoForge",
       version: "1.21.1",
-      description: "Versión experimental con NeoForge",
+      description: "Versión con NeoForge",
       file_url: "#",
       logo_url: "/images/logos/neoforge-logo.png",
       available: true,
@@ -119,6 +119,9 @@ const staticFeaturedMods: { [key: string]: Mod[] } = {
     },
   ],
 }
+
+
+
 
 // Datos estáticos para mods opcionales por modloader
 const staticOptionalMods: { [key: string]: { [category: string]: Mod[] } } = {
@@ -541,7 +544,7 @@ export default function ModpackPage() {
                 </TabsTrigger>
                 <TabsTrigger value="neoforge" className="minecraft-style">
                   <div className="flex items-center gap-2">
-                    <ModloaderIcon type="neoforged" size={24} />
+                    <ModloaderIcon type="neoforge" size={24} />
                     NeoForge
                   </div>
                 </TabsTrigger>
@@ -556,7 +559,7 @@ export default function ModpackPage() {
                           <div className="relative w-16 h-16 bg-background/30 rounded-md p-2 flex items-center justify-center">
                             {/* Usamos el componente ModloaderIcon para el logo del modpack */}
                             <ModloaderIcon
-                              type={modloader === "neoforge" ? "neoforged" : (modloader as "forge" | "fabric")}
+                              type={modloader === "neoforge" ? "neoforge" : (modloader as "forge" | "fabric")}
                               size={40}
                               className="flex-shrink-0"
                             />
