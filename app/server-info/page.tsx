@@ -138,7 +138,7 @@ export default function ServerInfoPage() {
                 <span>Online</span>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground text-center">Servidor dedicado 24/7 para tu diversión.</p>
+            <p className="text-xs text-muted-foreground text-center">Servidor dedicado 24/7</p>
           </GameCard>
         </div>
       </ScrollReveal>
