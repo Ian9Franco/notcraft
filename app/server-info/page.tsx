@@ -135,7 +135,7 @@ export default function ServerInfoPage() {
               </div>
               <div className="flex items-center justify-center gap-2 mb-4">
                 <div className="h-3 w-3 rounded-full bg-green-500 animate-pulse"></div>
-                <span>Online - 1/10 jugadores</span>
+                <span>Online</span>
               </div>
             </div>
             <p className="text-xs text-muted-foreground text-center">Servidor dedicado 24/7 para tu diversión.</p>
