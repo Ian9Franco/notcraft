@@ -87,37 +87,107 @@ const staticFeaturedMods: { [key: string]: Mod[] } = {
     // Example: { name: "Iris", version: "1.6.17", description: "Soporte para shaders con compatibilidad Optifine" },
   ],
   neoforge: [
-    {
-      name: "Oritech",
-      version: "1.21.1",
-      description: "Agrega nuevos minerales y maquinaria para expandir la minería y la tecnología",
-    },
-    {
-      name: "Lender's Cataclysm",
-      version: "1.21.1",
-      description: "Introduce jefes desafiantes y estructuras gigantes para explorar",
-    },
-    {
-      name: "There Is Something In The Caves",
-      version: "1.21.1",
-      description: "Añade criaturas y misterios ocultos en las profundidades de las cuevas",
-    },
-    {
-      name: "Mythic Metals",
-      version: "1.21.1",
-      description: "Ofrece una gran variedad de metales míticos para armas y herramientas",
-    },
-    {
-      name: "Cold Sweat",
-      version: "1.21.1",
-      description: "Añade mecánicas de temperatura que afectan la supervivencia",
-    },
-    {
-      name: "Deeper And Darker",
-      version: "1.21.1",
-      description: "Expande el Deep Dark con biomas, mobs y desafíos adicionales",
-    },
-  ],
+  {
+    name: "Confluence",
+    version: "1.21.1",
+    description: "Mod de aventura a gran escala que fusiona Minecraft y Terraria, con nuevos biomas, armas, bloques y mecánicas clásicas como Shimmer y Secret Seeds.",
+  },
+  {
+    name: "Create",
+    version: "1.21.1",
+    description: "Sistema avanzado de ingeniería y automatización con máquinas, transportadores y procesos visuales impresionantes.",
+  },
+  {
+    name: "Farmers Delight",
+    version: "1.21.1",
+    description: "Expande la cocina, cultivo y decoración rural con nuevas recetas, bloques y mecánicas agrícolas.",
+  },
+  {
+    name: "Irons Spells & Spellbooks",
+    version: "1.21.1",
+    description: "Sistema de magia avanzado con hechizos, jefes y progresión por libros encantados.",
+  },
+  {
+    name: "Gobber",
+    version: "1.21.1",
+    description: "Introduce recursos y equipamiento de alto nivel con habilidades especiales y mejoras mágicas.",
+  },
+  {
+    name: "Enchanting Innovation",
+    version: "1.21.1",
+    description: "Mejora el sistema de encantamientos con nuevas mecánicas, personalización y eficiencia.",
+  },
+  {
+    name: "Supplementaries",
+    version: "1.21.1",
+    description: "Añade una amplia variedad de bloques decorativos y funcionales para construcciones inmersivas.",
+  },
+  {
+    name: "Even Better Nether",
+    version: "1.21.1",
+    description: "Renueva el Nether con biomas únicos, estructuras y nuevos materiales.",
+  },
+  {
+    name: "Eternal Nether",
+    version: "1.21.1",
+    description: "Expande el Nether con enemigos desafiantes, loot raro y eventos especiales.",
+  },
+  {
+    name: "Bosses Rise",
+    version: "1.21.1",
+    description: "Agrega nuevos jefes con mecánicas avanzadas y recompensas poderosas.",
+  },
+  {
+    name: "Weather 2",
+    version: "1.21.1",
+    description: "Sistema climático realista con tormentas, tornados y efectos atmosféricos.",
+  },
+  {
+    name: "Better Combat",
+    version: "1.21.1",
+    description: "Mejora el combate cuerpo a cuerpo con nuevas animaciones, combos y dinamismo.",
+  },
+  {
+    name: "Revamped Phantoms",
+    version: "1.21.1",
+    description: "Rework completo de los phantoms, haciéndolos más desafiantes e interesantes.",
+  },
+  {
+    name: "Wraith Waystones",
+    version: "1.21.1",
+    description: "Sistema de teletransporte rápido mediante waystones personalizables.",
+  },
+  {
+    name: "Sophisticated Backpacks",
+    version: "1.21.1",
+    description: "Mochilas modulares con gran capacidad y opciones de personalización.",
+  },
+  {
+    name: "Visual Workbench",
+    version: "1.21.1",
+    description: "Mesas de crafteo persistentes que muestran visualmente las recetas en progreso.",
+  },
+  {
+    name: "Tome’s Storage",
+    version: "1.21.1",
+    description: "Sistema de almacenamiento avanzado, rápido y ordenado.",
+  },
+  {
+    name: "Small Ships",
+    version: "1.21.1",
+    description: "Añade barcos grandes y funcionales para explorar océanos.",
+  },
+  {
+    name: "Immersive Aircraft",
+    version: "1.21.1",
+    description: "Introduce aviones y aeronaves para exploración aérea.",
+  },
+  {
+    name: "Underground Worlds",
+    version: "1.21.1",
+    description: "Genera cuevas y biomas subterráneos únicos con contenido para exploración profunda.",
+  },
+],
 }
 
 
@@ -188,7 +258,7 @@ const staticOptionalMods: { [key: string]: { [category: string]: Mod[] } } = {
         description: "Mejora efectos climáticos y sonidos ambientales",
       },
       { name: "Satisfying Buttons", version: "1.21.1", description: "Sonidos y animaciones al pulsar botones" },
-      { name: "Cool Rain", version: "1.21.1", description: "Efectos y sonidos de lluvia más realistas" },
+      { name: "Timm", version: "1.21.1", description: "¡118 canciones nuevas que dependen del bioma!" },
     ],
     visual: [
       { name: "Waves", version: "1.21.1", description: "Simulación de olas realistas en agua y líquidos" },
@@ -204,7 +274,7 @@ const staticOptionalMods: { [key: string]: { [category: string]: Mod[] } } = {
     ],
     utility: [
       {
-        name: "Inventory Profiles Next",
+        name: "Simple Sorter",
         version: "1.21.1",
         description: "Organiza y gestiona tu inventario fácilmente",
       },
@@ -213,15 +283,7 @@ const staticOptionalMods: { [key: string]: { [category: string]: Mod[] } } = {
       { name: "Mouse Tweaks", version: "1.21.1", description: "Mejora la gestión de items con el ratón" },
     ],
     maps: [
-      { name: "Antique Atlas 4", version: "1.21.1", description: "Mapa estilo libro antiguo para exploración" },
-      
-      { name: "SurveyStones", version: "1.21.1", description: "Puntos de teletransporte y waypoints" },
-      { name: "XaeroMinimap", version: "1.21.1", description: "Minimapa" },
-      {
-        name: "Antique Trains",
-        version: "1.21.1",
-        description: "Expande Antique Atlas con rutas ferroviarias de Create",
-      },
+      { name: "JourneyMap", version: "1.21.1", description: "Mapeo en tiempo real en el juego o en un navegador web mientras exploras." },
     ],
   },
 }
@@ -241,13 +303,14 @@ const getTutorialSteps = (selectedModloader: string) => [
         </p>
         <ol className="space-y-2 text-sm text-muted-foreground list-decimal pl-5">
           <li>
-            Descarga el instalador de {selectedModloader.charAt(0).toUpperCase() + selectedModloader.slice(1)} desde el
-            sitio oficial
+            Descarga el instalador de {selectedModloader.charAt(0).toUpperCase() + selectedModloader.slice(1)} desde el sitio oficial.  
+            Asegúrate de elegir una versión **superior a 21.1.195**, aunque **siempre se recomienda descargar la última versión disponible**.
           </li>
           <li>Ejecuta el instalador y selecciona "Install client"</li>
           <li>Haz clic en "OK" para instalar</li>
           <li>Abre el launcher de Minecraft y asegúrate de seleccionar el perfil correspondiente</li>
         </ol>
+
         <div className="flex justify-center mt-4">
           <a
             href={

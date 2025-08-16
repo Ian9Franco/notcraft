@@ -24,12 +24,14 @@ const seasons = [
     playerCount: 3,
   },
   {
-    number: 2,
-    title: "Próximamente",
-    date: "Por determinar",
-    description: "Detalles de la próxima temporada serán revelados pronto. ¡Mantente atento!",
-    playerCount: 0,
-  },
+  number: 2,
+  title: "Temporada 2 – La Reconquista",
+  date: "Agosto 2025 - Presente",
+  description: "Tras la derrota en la Temporada 1, un nuevo mundo surge: el mundo de Confluence. Esta tierra fusiona Minecraft y Terraria, creando biomas únicos, ruinas antiguas y secretos escondidos en cada esquina. Los Secret Seeds permiten descubrir regiones ocultas donde la aventura y el peligro van de la mano.\n\nConfluence no es solo un mundo: es un lienzo de desafíos. Cada bloque, criatura y ruina está diseñada para mantener a los jugadores en tensión. La música ambiental y los sonidos del entorno amplifican la sensación de inmersión, mientras los enemigos patrullan y las ruinas revelan tesoros y artefactos olvidados.\n\nEn los cielos y en la tierra, los jefes de Bosses Rise esperan a los valientes. Desde gigantes mecánicos hasta criaturas míticas, cada encuentro es una prueba de habilidad y estrategia. La magia de Irons Spells & Spellbooks permite a los jugadores aprender hechizos poderosos, combinarlos y enfrentarse a estas amenazas con nuevas tácticas, otorgando un sentido de progresión y poder real.\n\nEl Nether ha sido transformado por Even Better Nether y Eternal Nether. Biomas infernales, nuevas estructuras y enemigos mejorados crean un reto constante incluso para los exploradores más experimentados. Portales traicioneros conectan con regiones peligrosas y llenas de loot, donde la supervivencia depende de la planificación y la preparación.\n\nLas máquinas de Create giran sin descanso, automatizando recursos y construcciones complejas, mientras Weather 2 trae tormentas y tornados capaces de causar destrucción en biomas enteros, cambiando la geografía y las estrategias de combate. Con Small Ships e Immersive Aircraft, los horizontes marinos y aéreos se convierten en territorios de exploración y conquista.\n\nStellaris y su expansión de Star Wars agregan un toque intergaláctico, llevando la exploración más allá de lo terrestre y mezclando civilizaciones, naves y batallas épicas con la aventura clásica de este mundo.\n\nUnderground Worlds ofrece cuevas, minas y ciudades perdidas llenas de secretos, enemigos y loot especial, mientras Visual Workbench y Tome’s Storage permiten organizar recursos y planificar cada expedición con precisión. Y si buscás un secreto divertido, Fauna & Orchestra presenta un easter egg: cinco animales musicales que se sienten atraídos por la música. Para domesticarlos, necesitarás crear instrumentos y tocar melodías. Una vez domados, estos animales tocarán música para vos y podrán acompañarte en un maletín mágico, formando tu propia orquesta.\n\nCada decisión, cada combate y cada descubrimiento da forma a un universo totalmente nuevo. Solo los más valientes podrán dominar la magia, conquistar los jefes, explorar los biomas infernales y reclamar la gloria que aguarda en cada rincón de este mundo fusionado.",
+  playerCount: 3,
+},
+
+
 ]
 
 /**
@@ -231,7 +233,7 @@ export default function ServerInfoPage() {
           subtitle="Nuestro servidor está dividido en temporadas, cada una con su propia historia y temática."
         />
 
-        <Tabs defaultValue="season1" className="max-w-4xl mx-auto">
+        <Tabs defaultValue="season2" className="max-w-4xl mx-auto">
           <TabsList className="grid grid-cols-2 mb-6">
             {seasons.map((season) => (
               <TabsTrigger
@@ -259,10 +261,17 @@ export default function ServerInfoPage() {
                   </div>
 
                   {season.playerCount > 0 && (
-                    <GameButton variant="accent" icon={<Server className="h-5 w-5" />}>
-                      Unirse a Temporada {season.number}
-                    </GameButton>
+                    <a href="/modpack" className="w-full">
+                      <GameButton variant="accent" icon={<Server className="h-5 w-5" />}>
+                        Unirse a Temporada {season.number}
+                        <span className="button-particle button-particle-1"></span>
+                        <span className="button-particle button-particle-2"></span>
+                        <span className="button-particle button-particle-3"></span>
+                        <span className="button-particle button-particle-4"></span>
+                      </GameButton>
+                    </a>
                   )}
+
                 </div>
 
                 <p className="text-muted-foreground whitespace-pre-line text-sm sm:text-base">{season.description}</p>
