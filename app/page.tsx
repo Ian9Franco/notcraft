@@ -391,27 +391,29 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row justify-around items-center gap-4 text-foreground">
-              <div className="flex flex-col items-center">
-                <span className="text-3xl md:text-4xl font-bold text-accent">
-                  <AnimatedCounter end={159} suffix=" " />
-                </span>
-                <span className="text-sm md:text-base text-muted-foreground">Mods Esenciales</span>
-              </div>
 
-              <div className="h-10 w-px bg-border hidden sm:block"></div>
-
-              <div className="flex flex-col items-center">
-                <span className="text-3xl md:text-4xl font-bold text-accent">
-                  <AnimatedCounter end={56} suffix=" " />
-                </span>
-                <span className="text-sm md:text-base text-muted-foreground">en Server</span>
-              </div>
+  {/* Contador principal: Temporada 2 */}
+  <div className="flex flex-col items-center">
+    <span className="text-3xl md:text-4xl font-bold text-accent">
+      <AnimatedCounter end={177} suffix=" " />
+    </span>
+    <span className="text-sm md:text-base text-muted-foreground">Mods Esenciales</span>
+  </div>
 
   <div className="h-10 w-px bg-border hidden sm:block"></div>
 
   <div className="flex flex-col items-center">
     <span className="text-3xl md:text-4xl font-bold text-accent">
-      <AnimatedCounter end={85} suffix=" " />
+      <AnimatedCounter end={61} suffix=" " />
+    </span>
+    <span className="text-sm md:text-base text-muted-foreground">en Server</span>
+  </div>
+
+  <div className="h-10 w-px bg-border hidden sm:block"></div>
+
+  <div className="flex flex-col items-center">
+    <span className="text-3xl md:text-4xl font-bold text-accent">
+      <AnimatedCounter end={92} suffix=" " />
     </span>
     <span className="text-sm md:text-base text-muted-foreground">en Local</span>
   </div>
@@ -420,7 +422,7 @@ export default function Home() {
 
   <div className="flex flex-col items-center">
     <span className="text-3xl md:text-4xl font-bold text-accent">
-      <AnimatedCounter end={22} />
+      <AnimatedCounter end={15} />
     </span>
     <span className="text-sm md:text-base text-muted-foreground">Categorías</span>
   </div>
@@ -431,7 +433,14 @@ export default function Home() {
     <span className="text-3xl md:text-4xl font-bold text-accent">∞</span>
     <span className="text-sm md:text-base text-muted-foreground">Aventuras</span>
   </div>
+
+  {/* Pequeño contador al costado: Temporada 1 */}
+  <div className="flex flex-col items-center ml-6 text-xs text-muted-foreground">
+    <span>Temp 1: 159 esenciales, 56 server, 85 local, 22 categorías</span>
+  </div>
+
 </div>
+
 
 
 
